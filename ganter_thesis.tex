@@ -201,6 +201,31 @@ this is the introduction
 
 \chapter{Background}
 
+\iffalse
+
+\section{PUT ELSEWHERE}	
+	\subsection{types of audio}
+	speech, music, harmonic, inharmonic, voiced, unvoiced
+	tonal, non-tonal, consonant disonant..., transient, steady state
+
+	\subsection{audio signal models}
+	SUM [ A(t) * cos(wt + phi(t)) ]
+	etc...
+	TFS and envelope
+	
+	\subsection{cochlear implants}
+	what is important?
+		hearing for any general reason...safety, functionality
+		speech recognition
+	what is important and lacking?
+		music appreciation
+		tonal language
+		SiN
+		quality
+
+\fi
+
+
 \section{Acoustic Hearing}
 
 Before discussing how cochlear implants are able to restore hearing in people with profound hearing impairment, it is useful to talk about how acoustic hearing works in normal listeners.
@@ -223,6 +248,10 @@ vague envelope concepts without math
 
 
 "The HiRes120 strategy, used in the Advanced Bionics implant, is the first commercial stimulating strategy that uses the virtual channel technique. Virtual channels are created by adjusting the current level ratio of two neighboring electrodes."
+
+channel mapping
+	why only 8 at a time?
+	ACE vs CIS and benefits of each
 
 \section{signal models}
 
@@ -338,6 +367,7 @@ CIS - BPF -> rectification -> LPF
 	"Unlike ACE, all 16 frequency bands are then stimulated in sequence"
 
 
+MAKE FREQ DOMAIN FIGS
 
 
 \subsection{Coherent Methods}
@@ -419,6 +449,12 @@ Talk about filter bandwidth, what is optimal? F0/2? F0/4?
 With harmonic decomposition we are faced with a decision.  Our envelope is now complex, so if we need to use the envelope independent of carrier we must somehow convert it to a real signal.  The two natural options are two either take the real component or the magnitude.  Let me describe the advantages of each...
 
 
+fft 0-padding as harmonic envelope computation!
+
+		what does it mean to have a filter that changes
+		between frames?  does it cause artifacts?
+
+
 \subsection{Phase Vocoder}
 
 phase vocoder or other?
@@ -428,139 +464,17 @@ phase vocoder or other?
 incorporating multiple harmonic components VS eliminating transient characteristics
 
 
+LIT SEARCH!!!
+
+
 % ========== Chapter 3
 
 \chapter{CI DSP Strategies}
 
-\section{A General Framework}
-
-\section{F0 Estimation}
-
-\section{Envelope Extraction}
-tie the DSP theory into the pros and cons and limitations of CIs
-
-\section{Electrode Subset Selection}
-
-% ========== Chapter 4
-
-\chapter{HHE}
-come up with a better name!!!
-
-\section{Algorithm}
-
-1) Filter Center Frequency
-2) Filter BW
-3) Effective Channel Information BW
-
-\section{Freedom details}
-
-% ========== Chapter 5
-
-\chapter{Subject Tests}
-initial results are...
-
-% ========== Chapter 6
-
-\chapter{Conclusion}
-
-\section{Summary}
-
-\section{Future Work}
-
-
- 
- 
-% ========== Chapter ???
-\chapter{OOOOOOOOOOOOOOO}
-
-\chapter{The Goods}
-
-\section{the tools}	
-	\subsection{types of audio}
-	speech, music, harmonic, inharmonic, voiced, unvoiced
-	tonal, non-tonal, consonant disonant..., transient, steady state
-
-	\subsection{audio signal models}
-	SUM [ A(t) * cos(wt + phi(t)) ]
-	etc...
-	TFS and envelope
-	
-	\subsection{cochlear implants}
-	what is important?
-		hearing for any general reason...safety, functionality
-		speech recognition
-	what is important and lacking?
-		music appreciation
-		tonal language
-		SiN
-		quality
-
-\section{A General Framework for CI Processing}
-
-\section{F0 Estimation}
-	our (shared) technique
-	e-tone? harmonic sieve, etc.
-	latency, accuracy, octave errors and range restrictions,
-	quantization
-
-\section{Envelope Extraction}
-	\subsection{incoherent methods}
-		CIS...
-		fft
-		hilbert
-	\subsection{coherent methods}
-		spectral center of gravity
-		harmonic
-	\subsection{the relationships}
-		how different are they?
-		talk about interpolation, fft padding
-		what does this mean when considering hilbert envelope
-		or other method without identical filters
-		what does it mean to have a filter that changes
-		between frames?  does it cause artifacts?
-	\subsection{other factors from below}
-		phase preservation, etc.
-
-\section{channel mapping}
-	\subsection{background}
-	why only 8 at a time?
-	ACE vs CIS and benefits of each
-	\subsection{harmonic to channel allocation}
-	\subsection{channel selection}
-
-\section{alternative coherent envelope computation}	
-
-\section{less theoretical stuff}	
-	
-\section{test results}
-	\subsection{simulated real-time}
-	
-	\subsection{mandarin tones pitch tilt}
-	
-	\subsection{freedom processor}
-		speech recognition...
-		timbre recognition...
-		other...
-
-
-
-
-
-
-
-
-
- 
-% ========== Chapter ???
-
-
-\chapter{Getting Stuff Into This Document ASAP}
-
-These are things that I have done so far that I would like to start putting into written form.  The figures will probably need to be edited, so matlab scripts that can do just that may be found in appropriate folders.
 
 \section{A General Framework for CI Processing Strategies}
 
-There are numerous stages to processing in cochlear implants.  The main components are visualized in Fig. ?? below.  While at every stage adjustments can be made, for the purpose of comparing DSP algorithms, all other stages will be assumed constant throughout this work unless otherwise specified.
+The main stages to processing in cochlear implants are visualized in Fig. ?? below.  While at every stage adjustments can be made, for the purpose of comparing DSP algorithms, all other stages will be assumed constant throughout this work unless otherwise specified.
 
 In this section I will talk about the general differences between ACE, F0mod, HSSE
 
@@ -569,6 +483,15 @@ In this section I will talk about the general differences between ACE, F0mod, HS
     \includegraphics[width=1.0\textwidth]{CI_Signal_FlowTEMP}   
     \caption{Signal Flow in CI}
 \end{figure}
+
+In this document, the output of the DSP stage will be a strictly positive signal used to modulate a constant bipolar pulse train.
+
+Returning to our discussion of sum-of-products models, each strictly positive signal will be composed of an envelope and carrier:
+
+FIGURE
+[DSP carrier * envelope] * pulse train = ~~~
+
+In general we can think of the envelope as encoding the place information while the carrier encodes the temporal information
 
 \subsection{ACE}
 
@@ -584,13 +507,17 @@ While ACE does a sufficient job for many CI users in speech recognition tasks, a
 
 There is general consensus that place cues are not sufficient for encoding pitch.  Alternatively, temporal cues encoded as time-domain carrier modulations have shown to be promising.
 
-ACE does provide limited temporal modulations through the bandwidth of the STFT filters.  Further discussion of STFT filters may be found later in this document.
+ACE does provide limited temporal modulations through the bandwidth of the STFT filters.  This is a unique case of the filter bandwidth tradeoff in which wider bandwidth is desired to intentionally capture multiple harmonics in a band.  By doing this a beat-frequency will be induced at a rate of the difference between the two harmonic frequencies, i.e. $F_0$.  Typically these modulations are not full depth [ref?]
 
 \subsection{F0mod}
 
 To get at the problem of pitch discrimination, (Laneau et al 2006) developed a new research strategy, F0mod.  F0mod provides the same processing as ACE with one important change, explicit carrier modulation.  It achieves this by adding a pitch estimator into the processing.
 
-Once a fundamental frequency ($F_0$) is acquired, all output envelopes are modulated by a raised sinusoid at a rate of $F_0$.  This raised sinusoid is constant modulation depth, (full dynamic range), and same across channels, (phase aligned).  *maybe show a figure?  The details of modulator type are discussed later in section ?.?.  The important point here is that modulations are applied at a rate of $F_0$ and full depth.
+Once a fundamental frequency ($F_0$) is acquired, all output envelopes are modulated by a raised sinusoid at a rate of $F_0$.  
+
+$$c_{ch}(t) = 0.5 + 0.5cos(2\pi F_0t)$$
+
+This raised sinusoid is constant modulation depth, (full dynamic range), and same across channels, (phase aligned).  *maybe show a figure?  The details of modulator type are discussed later in section ?.?.  The important point here is that modulations are applied at a rate of $F_0$ and full depth.
 
 \begin{figure}[!ht]
   \centering
@@ -613,6 +540,8 @@ Looking for a novel approach to improved pitch perception and more broadly music
 Sparing details which we will soon investigate deeper, the differences between F0mod and HSSE can be summarized quite simply;  Every stage of typical ACE processing is now done coherently using F0 information.
 
 Because the envelopes are now harmonically related, they do not directly correspond to channels.  The number of envelopes will typically be different than the number of channels and more importantly the frequency ranges of the channels and the harmonic envelopes will never be a one-to-one mapping.  For these reasons an additional channel allocation stage must be added, mapping each harmonic envelope to a channel and potentially combining multiple harmonic envelopes into one channel.
+
+talk about HSSE real{} and why we aren't using it.
 
 \subsection{Other Strategies}
 
@@ -642,11 +571,18 @@ Although this processing block was only introduced with HSSE, it may be view som
 
 This is a key stage to N-of-M strategies.  There are a few different options considered for HSSE.  In the case that only N channels are non-zero after the Channel Allocation stage, this may be viewed as an identity operation.
 
-\section{F0 Estimation}
+\section{Pitch Estimation}
 
 talk about F0 estimator and alternatives...
 
-\section{Envelope Extraction Methods}
+	our (shared) technique
+	e-tone? harmonic sieve, etc.
+	latency, accuracy, octave errors and range restrictions,
+	quantization
+
+\section{Envelope Extraction}
+
+"tie the DSP theory into the pros and cons and limitations of CIs"
 
 This is about Coherent vs Incoherent Envelopes and the details of each Incoherent method
 
@@ -751,7 +687,7 @@ I really hope!!!  This is well handled by two factors.
  
  - HSSE may be viewed as a different way of combining FFT bin magnitudes.  I would argue that we do this using F0 for low frequencies, and fixed for high.  (critical bands!!!)
 
-\section{Channel Allocation}
+\section{Channel Selection 1}
 
 The key to HSSE here, is that we have isolated individual harmonics.  Harmonics are mapped to associated fixed channels due to the limitations of a fixed number of channels and fixed locations in the cochlea.  Because we have isolated individual harmonic envelopes there is no issue of signal energy falling in between channels.
 
@@ -785,7 +721,7 @@ High Frequencies: not really relevant if critical bands are used
 - gains?  maybe just use same as ACE since this should be pretty similar
  
 
-\section{Channel Selection}
+\section{Channel Selection 2}
 
 Two general solutions
 
@@ -809,7 +745,7 @@ What if we did F0mod with same channel selections as HSSE?  What would happen?
  
  - for maxima select heuristics can be used to choose same if energy and F0 have not changed significantly
 
-\section{Selection \& Mapping}
+\section{N-of-M Selection}
 
 ACE is Cochlear Ltd's instance of the auditory community's generalized category of $N$-of-$M$ strategies.  $M$ is the number of electrodes (or channels) that may be activated and $N$ is the number of electrodes active during any one stimulation frame, $N \leq M$.  In these strategies an incoming audio stream is fed into a filter bank which then computes $M$ modulator envelopes.  In each processing frame, $N$ maxima are chosen from the envelopes and are then mapped to their associated electrodes.  $M \leq$ the number of electrodes on the device, so envelope to electrode is a simple 1-1 map.
 
@@ -842,6 +778,55 @@ The added $M-N$ zero expansion give us a new way of interpreting HSSE where an i
 \end{figure}
 
 Keeping this in consideration, we can append harmonic selection to the envelope extraction block in HSSE with the benefit to analysis that all differences between F0mod and HSSE are contained in this envelope extraction stage.
+
+\section{Carrier Synthesis}
+
+talk about modulator types briefly
+
+
+
+
+% ========== Chapter 4
+
+\chapter{HHE}
+come up with a better name!!!
+
+MOTIVATION
+
+\subsection{HSSE vs F0mod Differences}
+
+harmonics are resolved
+
+ - how do we deal with should-be-unresolved harmonics?
+
+channel combination
+
+ - further considerations are needed
+
+ - what does sum of squares mean? is it constant energy within the channel?  does it cause a gain or just average the channels?  look further into the gain component to ACE
+ 	it's just a <1 gain for multiple bins in one channel
+
+ - can harmonics be combined? (higher harmonics) what does it mean to combine channel phase information?
+
+channel selection
+
+ - further considerations are needed
+
+ - What if we did F0mod with same channel selections as HSSE?  What would happen?
+
+\section{HSSE vs F0mod More Differences}
+
+recitified modulator (likely not too important)
+
+also, pitch tilts
+
+how can all of this be applied to soft decisions?
+
+how can this all be done in real-time?
+
+how are we accounting for non-linearities: AGC and sensitivity
+
+
 
 
 \section{Alternative Coherent Envelope Calculation using FFT bins}
@@ -893,8 +878,31 @@ Could channel selection concepts in HSSE be important?  Reflect on this in hinds
 
 Most everything so far has assumed the signal has an $F_0$, what if it doesn't?  What if it is well outside the boundaries of $F_0$?  What about polyphonic music?  What about SNRs below what is needed for accurate $F_0$ estimation.  What other flaws do these strategies have?  Mention eTone and other possible solutions, or why we justify not considering these problems.
 
+\section{Algorithm}
 
-% ========== Chapter 3
+1) Filter Center Frequency
+2) Filter BW
+3) Effective Channel Information BW
+
+\section{Freedom details}
+
+% ========== Chapter 5
+
+\chapter{Subject Tests}
+initial results are...
+
+
+	\subsection{simulated real-time}
+	
+	\subsection{mandarin tones pitch tilt}
+	
+	\subsection{freedom processor}
+		speech recognition...
+		timbre recognition...
+		other...
+
+
+% ========== Chapter ??
  
 \chapter{Less Theoretical Stuff}
 
@@ -912,93 +920,19 @@ this assumes we are dealing with musical instruments, speech is going to have ch
 
 mention the point that this was already done in Xing's paper, albeit $F_0/2$ without affine shift is more more likely to hit boundaries 
 
-\section{Modulation Types}
+\section{assembly implementation}
 
-% ========== Chapter 3
-
-\chapter{TODO}
+maybe show flow diagram or talk about 128-pt fft limitations
 
 
-\section{DONE}
 
-\subsection{ISDL}
+% ========== Chapter 6
 
-Brad
+\chapter{Conclusion}
 
-LPC (parametric modeling) FDLP
+\section{Summary}
 
-
-\subsection{Xing Dissertation}
-
-Ch 1-3
-
-\subsection{HSSE vs F0mod Differences}
-
-
-\subsection{HSSE vs F0mod More Differences}
-
-
-\section{TODO}
-
-\subsection{ISDL}
-
-Circularity:
-Asilomar
-Estimating Latent...
-Reverb
-VAD
-
-Homomorphic Modulation Spectra
-
-AAC+
-
-Least-Squares Harmonic Modeling
-
-Fan Chirp sec3-8
-Fan Chirp Music
-
-log-envelope (MFCCs?)
-
-\subsection{Xing Dissertation}
-
-Ch 4
-
-Ch 5
-
-Ch 6
-
-\subsection{HSSE vs F0mod Differences}
-
-harmonics are resolved
-
- - how do we deal with should-be-unresolved harmonics?
-
-channel combination
-
- - further considerations are needed
-
- - what does sum of squares mean? is it constant energy within the channel?  does it cause a gain or just average the channels?  look further into the gain component to ACE
- 	it's just a <1 gain for multiple bins in one channel
-
- - can harmonics be combined? (higher harmonics) what does it mean to combine channel phase information?
-
-channel selection
-
- - further considerations are needed
-
- - What if we did F0mod with same channel selections as HSSE?  What would happen?
-
-\subsection{HSSE vs F0mod More Differences}
-
-recitified modulator (likely not too important)
-
-also, pitch tilts
-
-how can all of this be applied to soft decisions?
-
-how can this all be done in real-time?
-
-how are we accounting for non-linearities: AGC and sensitivity
+\section{Future Work}
 
 
 
