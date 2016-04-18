@@ -13,57 +13,60 @@
 \contentsline {section}{\numberline {2.2}*cochlear implants}{2}
 \contentsline {section}{\numberline {2.3}*signal models}{3}
 \contentsline {subsection}{\numberline {2.3.1}Incoherent Methods - Short Time Fourier Transform (STFT)}{4}
-\contentsline {subsection}{\numberline {2.3.2}*Incoherent Methods - Hilbert Transform}{5}
-\contentsline {subsection}{\numberline {2.3.3}*Incoherent Methods - TODO}{7}
-\contentsline {subsection}{\numberline {2.3.4}Coherent Methods - Spectral Center-of-Gravity}{7}
-\contentsline {subsection}{\numberline {2.3.5}Coherent Methods - Harmonic}{8}
-\contentsline {subsection}{\numberline {2.3.6}Phase Vocoder}{11}
-\contentsline {subsection}{\numberline {2.3.7}Modulator Bandwidth Tradeoff}{11}
-\contentsline {chapter}{\numberline {\@textofChapter \ 3:}CI DSP Strategies}{12}
-\contentsline {section}{\numberline {3.1}A General Framework for CI Processing Strategies}{12}
-\contentsline {subsection}{\numberline {3.1.1}ACE}{12}
-\contentsline {subsection}{\numberline {3.1.2}F0mod}{14}
-\contentsline {subsection}{\numberline {3.1.3}HSSE}{15}
-\contentsline {subsection}{\numberline {3.1.4}*Other Strategies}{15}
-\contentsline {subsection}{\numberline {3.1.5}Summary}{16}
-\contentsline {section}{\numberline {3.2}Pitch Estimation}{16}
-\contentsline {section}{\numberline {3.3}*Envelope Extraction}{16}
-\contentsline {subsection}{\numberline {3.3.1}*Phase Preservation}{17}
-\contentsline {subsection}{\numberline {3.3.2}*Magnitude and Bin Alignment}{18}
-\contentsline {subsection}{\numberline {3.3.3}*Filter Design \& Bin Combination}{18}
-\contentsline {subsection}{\numberline {3.3.4}*Unvoiced Signals}{19}
-\contentsline {subsection}{\numberline {3.3.5}*Takeaway}{20}
-\contentsline {section}{\numberline {3.4}*N-of-M Selection 1}{20}
-\contentsline {subsection}{\numberline {3.4.1}*Regularizer Heuristic}{20}
-\contentsline {subsection}{\numberline {3.4.2}*Multiple Harmonics Per Channel}{20}
-\contentsline {subsection}{\numberline {3.4.3}*Takeaway}{21}
-\contentsline {section}{\numberline {3.5}*N-of-M Selection 2}{21}
-\contentsline {subsection}{\numberline {3.5.1}*N-of-M Selection HSSE}{21}
-\contentsline {subsection}{\numberline {3.5.2}*Takeaway}{21}
-\contentsline {section}{\numberline {3.6}*Carrier Synthesis}{22}
-\contentsline {section}{\numberline {3.7}*Alternative Real Method}{22}
-\contentsline {section}{\numberline {3.8}*Conclusion}{22}
-\contentsline {chapter}{\numberline {\@textofChapter \ 4:}*HHE}{23}
-\contentsline {subsection}{\numberline {4.0.1}*HSSE vs F0mod Differences}{23}
-\contentsline {section}{\numberline {4.1}*HSSE vs F0mod More Differences}{23}
-\contentsline {section}{\numberline {4.2}*Alternative Coherent Envelope Calculation using FFT bins}{24}
-\contentsline {section}{\numberline {4.3}*Critical Bands}{24}
-\contentsline {subsection}{\numberline {4.3.1}*HSSE vs ACE vs Human Ear}{24}
-\contentsline {subsection}{\numberline {4.3.2}*Resolution Simulated by Adaptive Envelopes}{24}
-\contentsline {subsection}{\numberline {4.3.3}*Channel Selection Analysis}{25}
-\contentsline {section}{\numberline {4.4}*Other Important Components}{25}
-\contentsline {section}{\numberline {4.5}*Algorithm}{25}
-\contentsline {section}{\numberline {4.6}*Freedom details}{25}
-\contentsline {chapter}{\numberline {\@textofChapter \ 5:}*Subject Tests}{26}
-\contentsline {subsection}{\numberline {5.0.1}*simulated real-time}{26}
-\contentsline {subsection}{\numberline {5.0.2}*mandarin tones pitch tilt}{26}
-\contentsline {subsection}{\numberline {5.0.3}*freedom processor}{26}
-\contentsline {chapter}{\numberline {\@textofChapter \ 6:}*Less Theoretical Stuff}{27}
-\contentsline {section}{\numberline {6.1}*Engineering Decisions for Real-time}{27}
-\contentsline {section}{\numberline {6.2}*$F_0$ tilt, exageration}{27}
-\contentsline {section}{\numberline {6.3}*assembly implementation}{27}
-\contentsline {chapter}{\numberline {\@textofChapter \ 7:}*Conclusion}{28}
-\contentsline {section}{\numberline {7.1}*Summary}{28}
-\contentsline {section}{\numberline {7.2}*Future Work}{28}
-\contentsline {chapter}{\@textofBIB }{29}
-\contentsline {chapter}{\numberline {\@textofAppendix \ A:}Where to find the files}{30}
+\contentsline {subsection}{\numberline {2.3.2}*Incoherent Methods - Hilbert Transform}{6}
+\contentsline {subsection}{\numberline {2.3.3}*Incoherent Methods - TODO}{8}
+\contentsline {subsection}{\numberline {2.3.4}Coherent Methods - Spectral Center-of-Gravity}{8}
+\contentsline {subsection}{\numberline {2.3.5}Coherent Methods - Harmonic}{9}
+\contentsline {subsection}{\numberline {2.3.6}Coherent Methods - Harmonic}{13}
+\contentsline {subsection}{\numberline {2.3.7}Phase Vocoder}{19}
+\contentsline {subsection}{\numberline {2.3.8}Modulator Bandwidth Tradeoff}{19}
+\contentsline {chapter}{\numberline {\@textofChapter \ 3:}CI DSP Strategies}{20}
+\contentsline {section}{\numberline {3.1}A General Framework for CI Processing Strategies}{20}
+\contentsline {subsection}{\numberline {3.1.1}ACE}{20}
+\contentsline {subsection}{\numberline {3.1.2}F0mod}{22}
+\contentsline {subsection}{\numberline {3.1.3}HSSE}{23}
+\contentsline {subsection}{\numberline {3.1.4}*Other Strategies}{23}
+\contentsline {subsection}{\numberline {3.1.5}Summary}{24}
+\contentsline {section}{\numberline {3.2}Pitch Estimation}{24}
+\contentsline {section}{\numberline {3.3}Envelope Extraction}{24}
+\contentsline {subsection}{\numberline {3.3.1}Phase Preservation}{24}
+\contentsline {subsection}{\numberline {3.3.2}NOTES}{25}
+\contentsline {subsection}{\numberline {3.3.3}*Magnitude and Bin Alignment}{26}
+\contentsline {subsection}{\numberline {3.3.4}*Filter Design \& Bin Combination}{26}
+\contentsline {subsection}{\numberline {3.3.5}*Unvoiced Signals}{27}
+\contentsline {subsection}{\numberline {3.3.6}*Takeaway}{28}
+\contentsline {section}{\numberline {3.4}Channel Combination}{28}
+\contentsline {section}{\numberline {3.5}*N-of-M Selection 1}{28}
+\contentsline {subsection}{\numberline {3.5.1}*Regularizer Heuristic}{28}
+\contentsline {subsection}{\numberline {3.5.2}*Multiple Harmonics Per Channel}{28}
+\contentsline {subsection}{\numberline {3.5.3}*Takeaway}{29}
+\contentsline {section}{\numberline {3.6}*N-of-M Selection 2}{29}
+\contentsline {subsection}{\numberline {3.6.1}*N-of-M Selection HSSE}{29}
+\contentsline {subsection}{\numberline {3.6.2}*Takeaway}{30}
+\contentsline {section}{\numberline {3.7}*Carrier Synthesis}{30}
+\contentsline {section}{\numberline {3.8}*Alternative Real Method}{30}
+\contentsline {section}{\numberline {3.9}*Conclusion}{30}
+\contentsline {chapter}{\numberline {\@textofChapter \ 4:}*HHE}{31}
+\contentsline {subsection}{\numberline {4.0.1}*HSSE vs F0mod Differences}{31}
+\contentsline {section}{\numberline {4.1}*HSSE vs F0mod More Differences}{31}
+\contentsline {section}{\numberline {4.2}*Alternative Coherent Envelope Calculation using FFT bins}{32}
+\contentsline {section}{\numberline {4.3}*Critical Bands}{32}
+\contentsline {subsection}{\numberline {4.3.1}*HSSE vs ACE vs Human Ear}{32}
+\contentsline {subsection}{\numberline {4.3.2}*Resolution Simulated by Adaptive Envelopes}{32}
+\contentsline {subsection}{\numberline {4.3.3}*Channel Selection Analysis}{33}
+\contentsline {section}{\numberline {4.4}*Other Important Components}{33}
+\contentsline {section}{\numberline {4.5}*Algorithm}{33}
+\contentsline {section}{\numberline {4.6}*Freedom details}{33}
+\contentsline {chapter}{\numberline {\@textofChapter \ 5:}*Subject Tests}{34}
+\contentsline {subsection}{\numberline {5.0.1}*simulated real-time}{34}
+\contentsline {subsection}{\numberline {5.0.2}*mandarin tones pitch tilt}{34}
+\contentsline {subsection}{\numberline {5.0.3}*freedom processor}{34}
+\contentsline {chapter}{\numberline {\@textofChapter \ 6:}*Less Theoretical Stuff}{35}
+\contentsline {section}{\numberline {6.1}*Engineering Decisions for Real-time}{35}
+\contentsline {section}{\numberline {6.2}*$F_0$ tilt, exageration}{35}
+\contentsline {section}{\numberline {6.3}*assembly implementation}{35}
+\contentsline {chapter}{\numberline {\@textofChapter \ 7:}*Conclusion}{36}
+\contentsline {section}{\numberline {7.1}*Summary}{36}
+\contentsline {section}{\numberline {7.2}*Future Work}{36}
+\contentsline {chapter}{\@textofBIB }{37}
+\contentsline {chapter}{\numberline {\@textofAppendix \ A:}Where to find the files}{38}
