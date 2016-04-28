@@ -131,15 +131,19 @@
 
 
 \setcounter{page}{-1}
-\abstract{
+\abstract{%
 
 This document is about extracting harmonic envelopes, what matters, what doesn't and how to design your system accordingly.  It is broken into three parts:
-
+ 
 \begin{itemize}
-\item envelope extraction techniques & their relationships
+\item envelope extraction techniques and their relationships
 \item phase preservation
 \item system design (filter and downshift)
 \end{itemize}
+
+Many strategies consider the effects of leaving modulations in the signal, but nothing really talks about what the envelope should be, independent of the modulations.  If we do this first, we can than think about how the modulations affect this envelope as a separate modulation component.
+
+If explicitly inducing modulations it is important to remove any other modulations, and this is how.
 
 }
  
@@ -201,6 +205,8 @@ Why harmonic encoding?  Help differentiate signals, (timbre), improve SIN perfor
 
 leakage into other channels is not natural, uniform bandwidth filters makes this leakage not behave the same as it would in the ear 
 
+clarinet as motivation for explicit modulation.  odd harmonics only, so odd harmonics aren't modulated in ACE simply because of harmonic characteristics
+
 \section{Overview}
 
 \section{Survey of Literature}
@@ -248,11 +254,15 @@ tonotopic, critical bands, ...
 
 \subsection{pitch}
 
+``frequencies in the range of 80–300 Hz encompassing F0 for nearly all adult males and many females and children.'' [pitch_ranking_strategy_compare]
+
 \subsection{other characteristics of sound}
 
 \section{cochlear implants}
 CI basics (CIS)
 vague envelope concepts without math
+
+mention CIS FWR = ABS()!!!
 
 "In spite of the fact that this analog signal itself preserves most of the original temporospectral in- formation, the signal transfers to the auditory nerve is handicapped by the limited maximal firing fre- quency of the auditory nerve in response to the electrical stimulation. High synchronization of nerve fibers and the neural refractory period only allow for frequency transmission up to 1 kHz via tempo- ral coding alone. For frequencies above 1 kHz, the spectral information cannot be sufficiently trans- ferred by temporal coding alone. Multichannel im- plants have been developed to make use of the tonotopic organization in the cochlea and thus transmit more spectral information to the auditory nerve." \cite{somek2006coding}
 
@@ -271,7 +281,23 @@ channel mapping
 
 There is general consensus that place cues are not sufficient for encoding pitch.  Alternatively, temporal cues encoded as time-domain carrier modulations have shown to be promising.
 
+
+``wideband vs feature extraction'' [F0F2-F0F1F2]
+not sure what wideband implies, alternatively use temporal envelope cues.
+
+``Another school of thought was based on speech production and perception, in which spec- tral peaks or formants, which reflect the reso- nance properties of the vocal tract, are extracted and delivered to different electrodes according to the presumed tonotopic relationship between the place of the electrode and its evoked pitch.'' [trends_in_CIs]
+F0F2, F0F1F2, MPEAK
+
+
+
+\subsection{modulation depth}
+
+``Previous CI psychophysical studies investigat- ing the pitch of sinusoidal amplitude-modulated pulse trains have shown considerable variation between subjects in terms of the modulation depths required for reliable discrimination of pitch 􏰄McKay et al., 1995; Geurts and Wouters, 2001􏰀. On average, modulation depths ranging from 10\% to 40\% of the electrical dynamic range were required, although some subjects required depths of almost 100\%. Converting these values to the acoustic dynamic range coded by the sound processor, which for the Nucleus 24 system is typically 30 dB, indicates that modulation depths in the acoustic signal of approximately 3 to 12 dB are required on average.'' [pitch_ranking_strategy_compare]
+
 \section{signal models}
+
+``In most existing clinical sound processors, fine structure in the input acoustic signal is discarded, and only envelope information is preserved. '' [pitch_ranking_strategy_compare]
+
 
 A classic way of analyzing audio signals is the sum-of-products model.  In this model a signal is represented as a sum of narrowband signals $x_k[n]$ at distributed center frequencies.  Each of the narrowband components is modeled as a product of a slow-time-varying envelope $m_k[n]$ and a fast-time-varying carrier $c_k[n]$.
 
@@ -592,6 +618,10 @@ With harmonic decomposition we are faced with a decision.  Our envelope is now c
 \subsection{Summary}
 
 To summarize, STFT decomposition is a subset of the Hilbert method where the filterbank is comprised of uniform-bandwidth linearly spaced filters.  Coherent Harmonic decomposition uses the fundamental frequency of a signal to adaptively track harmonic components.  This method may be approximated using the STFT method provided the correct considerations are taken into account.
+
+STFT vs Hilbert:
+``A CFIR filter bank was chosen because higher frequency temporal information is provided in the channel envelope signals compared to a FFT implementation where the temporal envelope information is limited by the low-pass frequency response of the FFT time window.'' [pitch_ranking_strategy_compare]
+This makes the claim that high frequency modulations are preserved however these modulations are unnatural and are formed from whatever signal information happens to be away from the arbitrary downshift frequency.
 
 \subsection{Phase Vocoder}
 
