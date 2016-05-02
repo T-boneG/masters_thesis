@@ -203,13 +203,29 @@ this is the introduction
 
 Why harmonic encoding?  Help differentiate signals, (timbre), improve SIN performance, free up channels for other information
 
-leakage into other channels is not natural, uniform bandwidth filters makes this leakage not behave the same as it would in the ear 
-
-clarinet as motivation for explicit modulation.  odd harmonics only, so odd harmonics aren't modulated in ACE simply because of harmonic characteristics
-
 \section{Overview}
 
+we are considering what is the ideal matched filter, and how close of an approximation do we need?
+
 \section{Survey of Literature}
+
+Equivalent noise bandwidth (ENBW) considers BW of noise if squished into a box of gain 1 around the downshift frequency.  [windows for harmonic analysis] This isn't entirely applicable since our harmonic has BW > epsilon, and since for any window most of the energy is close to 0, most of the so-called noise is actually desired harmonic signal.  If this were not the case, (I think) rectangular window would be the best, but since it distributes the noise more heavily to higher frequencies away from zero, it is actually worse (higher sidelobes)
+
+``some windows have a high rate of sidelobe decay that allows minimizing the error due to interference. However the steeper the sidelobe decay
+the wider the main lobe width and then the worse the minimum resolution bandwidth.'' [An Intelligent FFT-Analyzer with Harmonic Interference Effect Correction and Uncertainty Evaluation]
+
+``For NH listeners, the timbre space was best represented in three dimensions, one correlated with the temporal envelope (log-attack time) of the stimuli, one correlated with the spectral envelope (spectral centroid), and one correlated with the spectral fine structure (spectral irregularity) of the stimuli. The timbre space from CI listeners, however, was best represented by two dimensions, one correlated with temporal envelope features and the other weakly correlated with spectral envelope features of the stimuli.
+``temporal envelope is dominant cue for timbre perception in CI listeners''
+[Temporal and Spectral Cues for Musical Timbre
+Perception in Electric Hearing]
+
+Hypothesis:
+--temporal envelope (log-attack time)
+this is in some cases smeared in time (F0mod) and in other cases mixed across harmonics
+--one correlated with the spectral envelope (spectral centroid)
+this is not as clearly represented as it could be (are we talking about resonance or per-harmonic details such as clarinet?)
+--one correlated with the spectral fine structure (spectral irregularity)
+this manifests in the envelope for CI processing, the problem though is that it is blurred across harmonics so the noise-like characteristics will be smoothed.
 
 \section{Contents of Thesis}
 
@@ -217,30 +233,288 @@ clarinet as motivation for explicit modulation.  odd harmonics only, so odd harm
 
 \chapter{Background}
 
-\iffalse
+``By definition, timbre is the perceptual attribute that distinguishes two sounds that have the same pitch, loudness, and duration (American National Standards Institute, 1973).''
 
-\section{PUT ELSEWHERE}	
-	\subsection{types of audio}
-	speech, music, harmonic, inharmonic, voiced, unvoiced
-	tonal, non-tonal, consonant disonant..., transient, steady state
+%\chapter{Envelope Extraction Methods}
+%\section{STFT}
+%\section{Hilbert}
+%\section{CIS}
+%\section{Coherent}
+%\section{Summary}
 
-	\subsection{audio signal models}
-	SUM [ A(t) * cos(wt + phi(t)) ]
-	etc...
-	TFS and envelope
-	
-	\subsection{cochlear implants}
-	what is important?
-		hearing for any general reason...safety, functionality
-		speech recognition
-	what is important and lacking?
-		music appreciation
-		tonal language
-		SiN
-		quality
+\chapter{Harmonic Envelopes}
 
-\fi
+We model our harmonic signal with a sum-of-products model as:
 
+\begin{align}
+x[n] = \sum\limits_k x_k[n] = \sum\limits_k m_k[n] c_k[n]
+\end{align}
+
+our extracted envelope can be generally defined as:
+
+\begin{align}
+\label{eq:envelope_extraction}
+%\tilde{m}_k[n] =& \Big| x[n]e^{-j \omega_k\big[F_0[n]\big]n} * h_k\big[n,F_0[n]\big]  \Big| \\
+\tilde{m}_k[n] =& \Big| \widehat{x}[n]e^{-j \omega_k\big[F_0[n]\big]n} * h_k\big[n,F_0[n]\big]  \Big|
+\end{align}
+
+This is a good generalization of any envelope extraction (harmonic or not). The design can be summarized by two things
+
+\begin{itemize}
+\item downshift frequency, $\omega_k\big[F_0[n]\big]$
+\item filter, $h_k\big[n,F_0[n]\big]$
+\end{itemize}
+
+\subsection{harmonic signals}
+
+\begin{align}
+\theta_k[n] =& 2\pi(k+1)\frac{F_0}{F_s}n + \phi_k[n] \\
+x[n] =& \sum\limits_{k=0}^K m_k[n] cos(\theta_k[n]) \\
+\widehat{x}[n] =& \sum\limits_{k=0}^K m_k[n] e^{j\theta_k[n]}
+\end{align}
+
+
+\section{Steady-State}
+
+We start with the simplest scenario, where $x[n]$ is a steady-state signal.  The conditions we require for this are:
+
+\begin{itemize}
+\item constant pitch: $F_0[n] = F_0$
+\item narrowband modulator: $m_k[n] \approx constant$ over short periods of time
+\item constant phase term: $\phi_k[n] = \phi_k$, we choose $\phi_k[n] = 0$ for cleaner equations however this is not necessary
+\end{itemize}
+
+\subsection{3 Harmonic Example: True Envelope}
+
+We visualize this for a signal with three harmonics ($K = 2$) in figure~\ref{fig:harmonic_envelope}.  For this example we consider the 1st harmonic ($k = 1$), centered at $2F_0$.
+
+\begin{figure}[!ht]
+\label{fig:harmonic_envelope}
+  \centering
+    \includegraphics[width=.62\textwidth]{harmonic_envelope}   
+    \caption{$(a) | \widehat{X}[n,f) |$   
+    				$(b) | \widehat{X}_1[n,f) |$
+				$(c) | \widehat{X}_1^*[n,-f) |$
+				$(d) | \widehat{X}_1[n,f) * \widehat{X}_1^*[n,-f) |$}
+\end{figure}
+
+Figure~\ref{fig:harmonic_envelope}$(d)$ is the magnitude of the spectrum of the squared envelope, $| \mathcal{F} \{m_1^2[n] \}|$.  We see this relationship in equation~\ref{eq:harmonic_envelope_spectrum}
+
+\begin{align}
+\label{eq:square_root_relationship}
+m_1[n] = \Big|\widehat{x}_1[n]\Big| = \Big[ \widehat{x}_1[n] \widehat{x}_1^*[n] \Big]^\frac{1}{2} \\
+\label{eq:harmonic_envelope_spectrum}
+m_1^2[n] = \widehat{x}_1[n] \widehat{x}_1^*[n] \Longleftrightarrow \widehat{X}_1[n,f) * \widehat{X}_1^*[n,-f)
+\end{align}
+
+The envelope can always be acquired from the squared envelope by a final square root operation.  This operation introduces nonlinearities at multiples of $F_0$ that are difficult to analyze.  For mathematical convenience, during our analysis we can consider the squared envelope.  This final square root operation will remain constant across all examples which allows us to not consider it.
+
+\subsection{Estimated Envelope}
+
+Let's now evaluate our estimate, using equation~\ref{eq:envelope_extraction}.  As stated above, we consider the squared envelope.
+
+\begin{align}
+\tilde{m}_k^2[n] =& \Big| \widehat{x}[n]e^{-j \omega_kn} * h_k[n]]  \Big|^2 \nonumber \\
+%
+=& \Bigg|  \sum\limits_{l=0}^K m_l[n]e^{j(\theta_l[n] - \omega_k[n])}*h_k[n] \Bigg|^2 \nonumber \\
+%
+\approx& \Bigg|  \sum\limits_{l=0}^K m_l[n] \Big(e^{j(\theta_l[n] - \omega_k[n])}*h_k[n] \Big) \Bigg|^2 \nonumber \\
+%
+=& \Bigg|  \sum\limits_{l=0}^K m_l[n] e^{j(\omega_{k,l}n + \phi_k)} H_k\big(e^{j\omega_{k,l}}\big) \Bigg|^2 \\
+%
+\omega_{k,l} =& 2\pi\frac{(l+1)F_0 - F_{ds,k}}{F_s} \\
+%
+h_k[n] \Longleftrightarrow& H_k\big(e^{j\omega}\big)
+\end{align}
+
+$\omega_{k,l}$ is the downshift of the $l$'th harmonic for the estimate of the $k$'th envelope.  $H_k\big(e^{j\omega}\big)$ is the discrete Fourier transform (DFT) of $h_k[n]$.
+
+Expanding this equation we get:
+
+\begin{align}
+\tilde{m}_k^2[n] =& \sum\limits_{l=0}^K \sum\limits_{i=0}^K m_l[n] m_i^*[n] e^{j(l-i)F_0} H_k\big(e^{j\omega_{k,l}}\big)H_k^*\big(e^{j\omega_{k,i}}\big) \\
+%
+%
+%
+=& \sum\limits_{l=0}^K \Big|m_l[n]\Big|^2 \Big|H_k\big(e^{j\omega_{k,l}}\big)\Big|^2 \nonumber \\
+%
+%
++&  \sum\limits_{l=0}^{K-1} m_l[n] m_{l+1}^*[n] e^{-j2\pi \frac{F_0}{Fs}n} H_k\big(e^{j\omega_{k,l}}\big)H_k^*\big(e^{j\omega_{k,l+1}}\big) \nonumber \\
+%
++&  \sum\limits_{l=1}^{K} m_l[n] m_{l-1}^*[n] e^{j2\pi \frac{F_0}{Fs}n} H_k\big(e^{j\omega_{k,l}}\big)H_k^*\big(e^{j\omega_{k,l-1}}\big) \nonumber \\
+%
+%
++&  \sum\limits_{l=0}^{K-2} m_l[n] m_{l+2}^*[n] e^{-j2\pi \frac{2F_0}{Fs}n} H_k\big(e^{j\omega_{k,l}}\big)H_k^*\big(e^{j\omega_{k,l+2}}\big) \nonumber \\
+%
++&  \sum\limits_{l=2}^{K} m_l[n] m_{l-2}^*[n] e^{j2\pi \frac{2F_0}{Fs}n} H_k\big(e^{j\omega_{k,l}}\big)H_k^*\big(e^{j\omega_{k,l-2}}\big) \nonumber \\
+%
+%
++& ... \nonumber \\
+%
+%
++& m_0[n] m_K^*[n] e^{-j2\pi \frac{KF_0}{Fs}n} H_k\big(e^{j\omega_{k,0}}\big)H_k^*\big(e^{j\omega_{k,K}}\big) \nonumber \\
+%
++&  m_K[n] m_0^*[n] e^{j2\pi \frac{KF_0}{Fs}n} H_k\big(e^{j\omega_{k,K}}\big)H_k^*\big(e^{j\omega_{k,0}}\big)
+\end{align}
+
+We can now think of $\tilde{m}_k[n]$ as a combination of terms each centered at $iF_0$ where the magnitude of each term is:
+
+\begin{align}
+\Big| \tilde{m}_{k,iF_0}[n] \Big| =& \Bigg[ \sum\limits_{l=0}^{K-|i|} \Big| m_l[n]\Big| \Big|m_{l+i}[n]\Big| \Big|H_k\big(e^{j\omega_{k,i}}\big)\Big| \Big|H_k\big(e^{j\omega_{k,l+i}}\big)\Big|\Bigg]^\frac{1}{2}, \quad -K \leq i \leq K \\
+%
+\Big| \tilde{m}_{k,0F_0}[n] \Big| =& \Bigg[  \sum\limits_{l=0}^K \Big|m_l[n]\Big|^2 \Big|H_k\big(e^{j\omega_{k,l}}\big)\Big|^2 \Bigg]^\frac{1}{2}
+\end{align}
+
+\subsection{3 Harmonic Example: Estimated Envelope}
+
+Let's go back to our three harmonic example.  We are again trying to acquire the 1st harmonic, $m_1[n]$, and define $\omega_1 = 2F_0$.
+
+\begin{figure}[!ht]
+\label{fig:harmonic_envelope_estimate}
+  \centering
+    \includegraphics[width=.62\textwidth]{harmonic_envelope_estimate}   
+    \caption{$(a) | \widehat{X}[n,f) |$   
+    				$(b) | \widehat{X}[n,f - 2F_0) |$  
+				$(c) | \widehat{X}[n,f - 2F_0) | | H_1(f) |$
+				$(d) | \widehat{X}^*[n,-f + 2F_0) | | H_1(-f) |$
+				$(e) | \mathcal{F} \{ \tilde{m}_1^2[n] \} |$
+				$(f)$ contributions of separate components of $(e)$}
+\end{figure}
+
+We can see the relationships
+
+\begin{align}
+\widehat{x}[n] \Longleftrightarrow& \widehat{X}[n,f) \\
+\widehat{x}[n]e^{-j2\pi \frac{2F_0}{F_s}n} \Longleftrightarrow& \widehat{X}[n,f - 2F_0) \\
+\widehat{x}[n]e^{-j2\pi \frac{2F_0}{F_s}n} * h_2[n] \Longleftrightarrow& \widehat{X}[n,f - 2F_0) H_1(f) \\
+\tilde{m}_1^2[n] \Longleftrightarrow& \widehat{X}[n,f - 2F_0) H_1(f) * \widehat{X}^*[n,-f + 2F_0) H_1^*(-f)
+\end{align}
+
+The interesting part of figure~\ref{fig:harmonic_envelope_estimate} is $(f)$.  We see our green component that we were looking for, however there are a whole lot of other things that we didn't want.
+
+Figure~\ref{fig:harmonic_envelope}$(d)$ is equivalent to the green component of  figure~\ref{fig:harmonic_envelope_estimate}$(f)$ if our filter $|H_1(f)| = 1$ when $f \approx 0$.
+
+CONTINUE HERE!!!
+
+ENBW (accumulated noise)
+PL (gain at DC)
+PG (same as PL?)
+scalloping loss (downshift quantization worst case)
+worst case PL = PL*SL
+
+harmonic SIR
+harmonic gain (maybe not overly relevant due to AGC, etc)
+					(how is it affected in a relative sense? worst vs best)
+modulation depth (spectral leakage)
+transients
+changing F0 (scalloping loss dip only, and harmonic SIR)
+
+\subsection{scalloping loss}
+
+[windows for harmonic analysis]
+
+scalloping loss or picket-fence effect, ratio of coherent gain for tone located half a bin from DFT sample point to coherent gain for tone located exactly at sample point
+
+\begin{align}
+scalloping loss = \frac{| H(\frac{1}{2} \frac{F_s}{N}) |}{H(0)}
+\end{align}
+
+"althought scalloping loss is useful, it's not entirely informative.  if the scalloping loss if high, then this relates to a sharp cutoff which is actually good for increasing purity of the harmonic"
+
+worst case processing loss = scalloping loss * PL
+where PL is reduced gain of window (which i have been canceling out)
+**where does worst case processing loss fit in?**
+
+\subsection{Harmonic SIR}
+
+\begin{align}
+SIR_k =& \frac{\Big| H_k\big(e^{j\omega_{k,k}}\big) \Big|} {\Bigg[ \sum\limits_{l=0}^K \Big|H_k\big(e^{j\omega_{k,l}}\big)\Big|^2 \Bigg] ^ \frac{1}{2}}
+\end{align}
+
+\subsection{Harmonic Gain}
+
+depends on DSQ and F0 estimate accuracy
+\begin{align}
+G_k = \Big| H_k\big(e^{j\omega_{k,k}}\big) \Big|
+\end{align}
+
+"processing gain" We see that the noiseless measurement (the expected value of the noisy measurement) is proportional to the inputamplitude A . The proportionality factor is the sum of the window terms, which is infactthedc signalgain of the window. For a rectangular window, the gain is N, for any other the gain is reduced due to smoothly going to zero near the boundaries.
+Coherent power gain, the squk of coherent gain, is occasionally the parameter listed in the literature. Coherent gain normalized by N = sum(h[n])/N = 1(rectangular) 0.5(hanning) 
+processing gain (PG) is the ratio of output SNR to input SNR is reciprocal of ENBW
+[windows for harmonic analysis]
+
+\subsection{Modulation Depth}
+
+one measure of spectral leakage is peak sidelobe relative to mainlobe, another is asymptotic falloff (db/octave) of sidelobes [windows for harmonic analysis]
+
+\begin{align}
+D_{k,i} =& \frac{\Bigg[ \sum\limits_{l=0}^{K-i} \Big|H_k\big(e^{j\omega_{k,i}}\big)\Big| \Big|H_k\big(e^{j\omega_{k,l+i}}\big)\Big|\Bigg]^\frac{1}{2}}
+{\Bigg[ \sum\limits_{l=0}^K \Big|H_k\big(e^{j\omega_{k,l}}\big)\Big|^2 \Bigg] ^ \frac{1}{2}}, \quad 0 < i \leq K
+\end{align}
+
+
+\section{Explicit Temporal Modulation}
+
+clarinet as motivation for explicit modulation.  odd harmonics only, so odd harmonics aren't modulated in ACE simply because of harmonic characteristics
+
+leakage into other channels is not natural, uniform bandwidth filters makes this leakage not behave the same as it would in the ear 
+
+\subsection{Conclusion}
+
+induced modulations will be at a periodicity of $F_0$, but they are a function of both timbre and $F_0$ (in a unnatural way, as in low $F_0$ means modulations at many multiples of $F_0$ and who knows what mod depths they will be at)
+
+If we choose to use explicit modulations we can determine modulation depth as a function of harmonic probability [eTone] and we have control over the modulation independent of filter design (within reasonable conditions)
+
+\subsection{Followup Filter}
+
+(envelope follower)
+
+
+
+
+\section{evaluation}
+
+\subsection{design parameters}
+
+filter and downshift
+
+ideally: 
+BW = F0/2
+downshift = exp(kF0)
+
+downshift quantization, bandwidth as function of F, F0?
+
+modulation depth (kind of another SIR) as a function of downshift quantization and filter
+
+\subsection{figures}
+
+\section{Transients}
+
+quantify for best case and worst case where worst case is the fastest transient relevant to music (this should also hinge on CI limitations)
+
+maximum onset dynamic range "90ms - 10ms = 80ms"
+and ratio of filter smeared range to max range
+rinse and repeat for CI's
+
+\section{Changing F0}
+
+dips due to quantization
+
+
+\chapter{Efficient Interpolation Algorithm}
+
+FFT with changeable window, and interpolate
+
+Can this be done with different filter as function of F0?
+We probably need to design the filters such that they pass reconstruction requirements
+
+Is the actual equation just a sinc function times a phase shift?!
+
+READ THIS: [An Intelligent FFT-Analyzer with Harmonic Interference Effect Correction and Uncertainty Evaluation]
+
+\chapter{-----------------------------------}
+
+\chapter{Background}
 
 \section{Acoustic Hearing}
 
@@ -254,9 +528,15 @@ tonotopic, critical bands, ...
 
 \subsection{pitch}
 
-``frequencies in the range of 80–300 Hz encompassing F0 for nearly all adult males and many females and children.'' [pitch_ranking_strategy_compare]
+``frequencies in the range of 80-300 Hz encompassing F0 for nearly all adult males and many females and children.''
+% [pitch_ranking_strategy_compare]
 
 \subsection{other characteristics of sound}
+
+\subsection{types of audio}
+speech, music, harmonic, inharmonic, voiced, unvoiced
+tonal, non-tonal, consonant disonant..., transient, steady state
+
 
 \section{cochlear implants}
 CI basics (CIS)
@@ -285,18 +565,37 @@ There is general consensus that place cues are not sufficient for encoding pitch
 ``wideband vs feature extraction'' [F0F2-F0F1F2]
 not sure what wideband implies, alternatively use temporal envelope cues.
 
-``Another school of thought was based on speech production and perception, in which spec- tral peaks or formants, which reflect the reso- nance properties of the vocal tract, are extracted and delivered to different electrodes according to the presumed tonotopic relationship between the place of the electrode and its evoked pitch.'' [trends_in_CIs]
+``Another school of thought was based on speech production and perception, in which spec- tral peaks or formants, which reflect the reso- nance properties of the vocal tract, are extracted and delivered to different electrodes according to the presumed tonotopic relationship between the place of the electrode and its evoked pitch.'' %[trends_in_CIs]
 F0F2, F0F1F2, MPEAK
 
-
+	what is important?
+		hearing for any general reason...safety, functionality
+		speech recognition
+	what is important and lacking?
+		music appreciation
+		tonal language
+		SiN
+		quality
 
 \subsection{modulation depth}
 
-``Previous CI psychophysical studies investigat- ing the pitch of sinusoidal amplitude-modulated pulse trains have shown considerable variation between subjects in terms of the modulation depths required for reliable discrimination of pitch 􏰄McKay et al., 1995; Geurts and Wouters, 2001􏰀. On average, modulation depths ranging from 10\% to 40\% of the electrical dynamic range were required, although some subjects required depths of almost 100\%. Converting these values to the acoustic dynamic range coded by the sound processor, which for the Nucleus 24 system is typically 30 dB, indicates that modulation depths in the acoustic signal of approximately 3 to 12 dB are required on average.'' [pitch_ranking_strategy_compare]
+``Previous CI psychophysical studies investigat- ing the pitch of sinusoidal amplitude-modulated pulse trains have shown considerable variation between subjects in terms of the modulation depths required for reliable discrimination of pitch (McKay et al., 1995; Geurts and Wouters, 2001). On average, modulation depths ranging from 10\% to 40\% of the electrical dynamic range were required, although some subjects required depths of almost 100\%. Converting these values to the acoustic dynamic range coded by the sound processor, which for the Nucleus 24 system is typically 30 dB, indicates that modulation depths in the acoustic signal of approximately 3 to 12 dB are required on average.'' %[pitch_ranking_strategy_compare]
 
-\section{signal models}
+\section{temporal fine structure}
 
-``In most existing clinical sound processors, fine structure in the input acoustic signal is discarded, and only envelope information is preserved. '' [pitch_ranking_strategy_compare]
+explicit encoding vs ACE
+
+clarinet example
+
+
+% ========== Chapter 3
+
+\chapter{Harmonic Envelopes}
+
+
+\section{Envelope Extraction Methods}
+
+``In most existing clinical sound processors, fine structure in the input acoustic signal is discarded, and only envelope information is preserved. ''  %[pitch_ranking_strategy_compare]
 
 
 A classic way of analyzing audio signals is the sum-of-products model.  In this model a signal is represented as a sum of narrowband signals $x_k[n]$ at distributed center frequencies.  Each of the narrowband components is modeled as a product of a slow-time-varying envelope $m_k[n]$ and a fast-time-varying carrier $c_k[n]$.
@@ -620,7 +919,7 @@ With harmonic decomposition we are faced with a decision.  Our envelope is now c
 To summarize, STFT decomposition is a subset of the Hilbert method where the filterbank is comprised of uniform-bandwidth linearly spaced filters.  Coherent Harmonic decomposition uses the fundamental frequency of a signal to adaptively track harmonic components.  This method may be approximated using the STFT method provided the correct considerations are taken into account.
 
 STFT vs Hilbert:
-``A CFIR filter bank was chosen because higher frequency temporal information is provided in the channel envelope signals compared to a FFT implementation where the temporal envelope information is limited by the low-pass frequency response of the FFT time window.'' [pitch_ranking_strategy_compare]
+``A CFIR filter bank was chosen because higher frequency temporal information is provided in the channel envelope signals compared to a FFT implementation where the temporal envelope information is limited by the low-pass frequency response of the FFT time window.'' %[pitch_ranking_strategy_compare]
 This makes the claim that high frequency modulations are preserved however these modulations are unnatural and are formed from whatever signal information happens to be away from the arbitrary downshift frequency.
 
 \subsection{Phase Vocoder}
@@ -635,12 +934,18 @@ incorporating multiple harmonic components VS eliminating transient characterist
 LIT SEARCH!!!
 
 
-% ========== Chapter 3
+\section{Explicit Carrier Modulation}
 
-\chapter{CI DSP Strategies}
+reconsider clarinet example
+
+\section{system design filter and downshift}
 
 
 \section{A General Framework for CI Processing Strategies}
+
+
+
+
 
 The main stages to processing in cochlear implants are visualized in Fig. ?? below.  While at every stage adjustments can be made, for the purpose of comparing DSP algorithms, all other stages will be assumed constant throughout this work unless otherwise specified.
 
