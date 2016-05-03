@@ -247,6 +247,7 @@ this manifests in the envelope for CI processing, the problem though is that it 
 We model our harmonic signal with a sum-of-products model as:
 
 \begin{align}
+\label{eq:sum_of_products}
 x[n] = \sum\limits_k x_k[n] = \sum\limits_k m_k[n] c_k[n]
 \end{align}
 
@@ -255,17 +256,21 @@ our extracted envelope can be generally defined as:
 \begin{align}
 \label{eq:envelope_extraction}
 %\tilde{m}_k[n] =& \Big| x[n]e^{-j \omega_k\big[F_0[n]\big]n} * h_k\big[n,F_0[n]\big]  \Big| \\
-\tilde{m}_k[n] =& \Big| \widehat{x}[n]e^{-j \omega_k\big[F_0[n]\big]n} * h_k\big[n,F_0[n]\big]  \Big|
+\tilde{m}_k[n] =& \Big| \widehat{x}[n]e^{-j \omega_k[x]n} * h_k[n,x]  \Big|
 \end{align}
 
-This is a good generalization of any envelope extraction (harmonic or not). The design can be summarized by two things
+This is a good generalization of any envelope extraction (harmonic or not). The design can be summarized by two things:
 
 \begin{itemize}
-\item downshift frequency, $\omega_k\big[F_0[n]\big]$
-\item filter, $h_k\big[n,F_0[n]\big]$
+\item downshift frequency, $\omega_k[x]$
+\item lowpass filter, $h_k[n,x]$
 \end{itemize}
 
+If $w_k[\cdot]$ and $h_k[\cdot]$ are functions of $x[n]$ we have coherent envelope extraction.  If they are time-invariant, we have incoherent extraction.
+
 \subsection{harmonic signals}
+
+Since harmonic signals have a specific structure, we can define our carriers from equation~\ref{eq:sum-of-products} as centered at multiples of $F_0$. In this representation $x_0[n]$ is the fundamental centered at $F_0$, $x_1[n]$ is the 1st harmonic centered at $2F_0$, etc.
 
 \begin{align}
 \theta_k[n] =& 2\pi(k+1)\frac{F_0}{F_s}n + \phi_k[n] \\
@@ -286,17 +291,20 @@ We start with the simplest scenario, where $x[n]$ is a steady-state signal.  The
 
 \subsection{3 Harmonic Example: True Envelope}
 
-We visualize this for a signal with three harmonics ($K = 2$) in figure~\ref{fig:harmonic_envelope}.  For this example we consider the 1st harmonic ($k = 1$), centered at $2F_0$.
+We visualize the frequency domain for a signal with three harmonics ($K = 2$) in figure~\ref{fig:harmonic_envelope}.  For this example we consider the 1st harmonic ($k = 1$), centered at $2F_0$.
 
 \begin{figure}[!ht]
 \label{fig:harmonic_envelope}
   \centering
     \includegraphics[width=.62\textwidth]{harmonic_envelope}   
-    \caption{$(a) | \widehat{X}[n,f) |$   
-    				$(b) | \widehat{X}_1[n,f) |$
-				$(c) | \widehat{X}_1^*[n,-f) |$
-				$(d) | \widehat{X}_1[n,f) * \widehat{X}_1^*[n,-f) |$}
+    \caption{WHATTHEFUCK}
 \end{figure}
+
+%line 1 \\line 2 \\ line 3 Magnitude of spectrum of... $(a)$ analytic signal $| \widehat{X}[n,f) |$
+%    				$(b)$ 1st harmonic of $(a) | \widehat{X}_1[n,f) |$
+%				$(c)$ conjugate of $(b) | \widehat{X}_1^*[n,-f) |$
+%				$(d) | \widehat{X}_1[n,f) * \widehat{X}_1^*[n,-f) |$
+
 
 Figure~\ref{fig:harmonic_envelope}$(d)$ is the magnitude of the spectrum of the squared envelope, $| \mathcal{F} \{m_1^2[n] \}|$.  We see this relationship in equation~\ref{eq:harmonic_envelope_spectrum}
 
@@ -395,7 +403,28 @@ The interesting part of figure~\ref{fig:harmonic_envelope_estimate} is $(f)$.  W
 
 Figure~\ref{fig:harmonic_envelope}$(d)$ is equivalent to the green component of  figure~\ref{fig:harmonic_envelope_estimate}$(f)$ if our filter $|H_1(f)| = 1$ when $f \approx 0$.
 
-The other components come from interactions with the unwanted harmonics that we failed to completely filter out.  We have a magenta term at $\pm 2 F_0$ from the adjacent harmonics (blue and red) convolving with each other.  We have a cyan and yellow term at $\pm F_0$ from either adjacent harmonic interacting with the desired harmonic (green).  We then have a mixture at baseband due to each harmonic convolving with itself.
+The other components come from interactions with the unwanted harmonics that we failed to completely filter out.  For clarity the convolution is visualized in figures \ref{fig:harmonic_envelope_2F0}, \ref{fig:harmonic_envelope_F0}, \ref{fig:harmonic_envelope_0}.  Positive and negative components are mirror images so the positive components are not explicitly visualized.
+
+\begin{figure}[!ht]
+\label{fig:harmonic_envelope_2F0}
+  \centering
+    \includegraphics[width=.62\textwidth]{harmonic_envelope_2F0}   
+    \caption{Envelope Estimate $-2F_0$ Component}
+\end{figure}
+
+\begin{figure}[!ht]
+\label{fig:harmonic_envelope_F0}
+  \centering
+    \includegraphics[width=.62\textwidth]{harmonic_envelope_F0}
+    \caption{Envelope Estimate $-F_0$ Component}
+\end{figure}
+
+\begin{figure}[!ht]
+\label{fig:harmonic_envelope_0}
+  \centering
+    \includegraphics[width=.62\textwidth]{harmonic_envelope_0}
+    \caption{Envelope Estimate Baseband Component}
+\end{figure}
 
 \section{Steady-State Metrics}
 
@@ -409,13 +438,13 @@ Coherent gain is defined as the gain of the harmonic of interest, $k$.
 G_k = \Big| H_k\big(e^{j\omega_{k,k}}\big) \Big|
 \end{align}
 
-Recalling equation~\ref{eq:downshift_radian_frequency}, if $F_{ds,k} = (k+1)F_0$ then, $w_{k,k} = 0$ and the coherent gain is simply the DC signal gain of the filter.
+Recalling equation~\ref{eq:downshift_radian_frequency}, if $F_{ds,k} = (k+1)F_0$ then, $w_{k,k} = 0$ and the coherent gain is simply the DC gain of the filter.
 
 \begin{align}
 G_k = \Big| H_k(0) \Big| = \sum_n h_k[n]
 \end{align}
 
-We may further simplify this by designing our filter such that $\sum_n h_k[n] = 1$.  Of course, our downshift frequency won't be ideal in real systems.  Factors to consider include the quantization of downshift frequencies and the accuracy of $F_0$ estimation.
+We may further simplify this by normalizing our filter such that $\Big| H_k(0) \Big| = 1$.  Of course, our downshift frequency won't be ideal in real systems.  Factors to consider include the quantization of $F_{ds,k}$ and the accuracy of $F_0$ estimation.
 
 \subsection{Harmonic SIR}
 
