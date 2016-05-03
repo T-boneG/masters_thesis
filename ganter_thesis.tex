@@ -214,7 +214,7 @@ Equivalent noise bandwidth (ENBW) considers BW of noise if squished into a box o
 ``some windows have a high rate of sidelobe decay that allows minimizing the error due to interference. However the steeper the sidelobe decay
 the wider the main lobe width and then the worse the minimum resolution bandwidth.'' [An Intelligent FFT-Analyzer with Harmonic Interference Effect Correction and Uncertainty Evaluation]
 
-``For NH listeners, the timbre space was best represented in three dimensions, one correlated with the temporal envelope (log-attack time) of the stimuli, one correlated with the spectral envelope (spectral centroid), and one correlated with the spectral fine structure (spectral irregularity) of the stimuli. The timbre space from CI listeners, however, was best represented by two dimensions, one correlated with temporal envelope features and the other weakly correlated with spectral envelope features of the stimuli.
+``For NH listeners, the timbre space was best represented in three dimensions, one correlated with the temporal envelope (log-attack time) of the stimuli, one correlated with the spectral envelope (spectral centroid), and one correlated with the spectral fine structure (spectral irregularity) of the stimuli. The timbre space from CI listeners, however, was best represented by two dimensions, one correlated with temporal envelope features and the other weakly correlated with spectral envelope features of the stimuli. 
 ``temporal envelope is dominant cue for timbre perception in CI listeners''
 [Temporal and Spectral Cues for Musical Timbre
 Perception in Electric Hearing]
@@ -274,7 +274,7 @@ x[n] =& \sum\limits_{k=0}^K m_k[n] cos(\theta_k[n]) \\
 \end{align}
 
 
-\section{Steady-State}
+\section{Steady-State Analysis}
 
 We start with the simplest scenario, where $x[n]$ is a steady-state signal.  The conditions we require for this are:
 
@@ -322,6 +322,7 @@ Let's now evaluate our estimate, using equation~\ref{eq:envelope_extraction}.  A
 %
 =& \Bigg|  \sum\limits_{l=0}^K m_l[n] e^{j(\omega_{k,l}n + \phi_k)} H_k\big(e^{j\omega_{k,l}}\big) \Bigg|^2 \\
 %
+\label{eq:downshift_radian_frequency}
 \omega_{k,l} =& 2\pi\frac{(l+1)F_0 - F_{ds,k}}{F_s} \\
 %
 h_k[n] \Longleftrightarrow& H_k\big(e^{j\omega}\big)
@@ -367,7 +368,7 @@ We can now think of $\tilde{m}_k[n]$ as a combination of terms each centered at 
 
 \subsection{3 Harmonic Example: Estimated Envelope}
 
-Let's go back to our three harmonic example.  We are again trying to acquire the 1st harmonic, $m_1[n]$, and define $\omega_1 = 2F_0$.
+Let's go back to our three harmonic example.  We are again trying to acquire the 1st harmonic, $m_1[n]$ (green).  We define $\omega_1 = 2F_0$.
 
 \begin{figure}[!ht]
 \label{fig:harmonic_envelope_estimate}
@@ -394,20 +395,54 @@ The interesting part of figure~\ref{fig:harmonic_envelope_estimate} is $(f)$.  W
 
 Figure~\ref{fig:harmonic_envelope}$(d)$ is equivalent to the green component of  figure~\ref{fig:harmonic_envelope_estimate}$(f)$ if our filter $|H_1(f)| = 1$ when $f \approx 0$.
 
+The other components come from interactions with the unwanted harmonics that we failed to completely filter out.  We have a magenta term at $\pm 2 F_0$ from the adjacent harmonics (blue and red) convolving with each other.  We have a cyan and yellow term at $\pm F_0$ from either adjacent harmonic interacting with the desired harmonic (green).  We then have a mixture at baseband due to each harmonic convolving with itself.
+
+\section{Steady-State Metrics}
+
+In considering how well our envelope $\tilde{m}_k[n]$ estimates $m_k[n]$ there are three important metrics.  We will now discuss each in detail.
+
+\subsection{Coherent Gain}
+
+Coherent gain is defined as the gain of the harmonic of interest, $k$.
+
+\begin{align}
+G_k = \Big| H_k\big(e^{j\omega_{k,k}}\big) \Big|
+\end{align}
+
+Recalling equation~\ref{eq:downshift_radian_frequency}, if $F_{ds,k} = (k+1)F_0$ then, $w_{k,k} = 0$ and the coherent gain is simply the DC signal gain of the filter.
+
+\begin{align}
+G_k = \Big| H_k(0) \Big| = \sum_n h_k[n]
+\end{align}
+
+We may further simplify this by designing our filter such that $\sum_n h_k[n] = 1$.  Of course, our downshift frequency won't be ideal in real systems.  Factors to consider include the quantization of downshift frequencies and the accuracy of $F_0$ estimation.
+
+\subsection{Harmonic SIR}
+
+Continuing our focus on the baseband, another question is: what is the contribution of the target harmonic versus the others?  The baseband component is contributed to by spectral leakage due to non-ideal filters.  This is visualized as the red and blue in figure~\ref{fig:harmonic_envelope_estimate}$(f)$.  The harmonic signal-to-interference-ratio (SIR) quantifies the ratio of target harmonic to spectral leakage.
+
+\begin{align}
+SIR_k =& \frac{\Big| H_k\big(e^{j\omega_{k,k}}\big) \Big|} {\Bigg[ \sum\limits_{l=0}^K \Big|H_k\big(e^{j\omega_{k,l}}\big)\Big|^2 \Bigg] ^ \frac{1}{2}}
+\end{align}
+
+The terms will roll off as the harmonic center frequencies get further away from $F_{ds,k}$, so typically $SIR_k$ is sufficiently described by only one or two harmonics on either side of the $k$'th, i.e. $k-2 \leq l \leq k+2$.
+
+Harmonic SIR does not describe the true signal-dependent SIR, as varying envelope magnitudes across harmonics will change this, however it does provide an objective measure of the quality of our system to arbitrary harmonic inputs.
+
+% one measure of spectral leakage is asymptotic falloff (db/octave) of sidelobes [windows for harmonic analysis]
+
+\subsection{Modulation Depth}
+
+Finally, we consider the magnitude of each bandpass component relative to baseband.  These terms appear in our envelope estimate as modulations at rates that are multiples of $F_0$.  Because of the forced symmetry of the real envelope we only need to consider positive frequencies, $iF_0$.
+
+\begin{align}
+D_{k,i} =& \frac{\Bigg[ \sum\limits_{l=0}^{K-i} \Big|H_k\big(e^{j\omega_{k,l}}\big)\Big| \Big|H_k\big(e^{j\omega_{k,l+i}}\big)\Big|\Bigg]^\frac{1}{2}}
+{\Bigg[ \sum\limits_{l=0}^K \Big|H_k\big(e^{j\omega_{k,l}}\big)\Big|^2 \Bigg] ^ \frac{1}{2}}, \quad 1 \leq i \leq K
+\end{align}
+
+The largest value and, for that reason, most important value is $D_{k,1}$, the modulation depth at $F_0$.
+
 CONTINUE HERE!!!
-
-ENBW (accumulated noise)
-PL (gain at DC)
-PG (same as PL?)
-scalloping loss (downshift quantization worst case)
-worst case PL = PL*SL
-
-harmonic SIR
-harmonic gain (maybe not overly relevant due to AGC, etc)
-					(how is it affected in a relative sense? worst vs best)
-modulation depth (spectral leakage)
-transients
-changing F0 (scalloping loss dip only, and harmonic SIR)
 
 \subsection{scalloping loss}
 
@@ -425,32 +460,23 @@ worst case processing loss = scalloping loss * PL
 where PL is reduced gain of window (which i have been canceling out)
 **where does worst case processing loss fit in?**
 
-\subsection{Harmonic SIR}
 
-\begin{align}
-SIR_k =& \frac{\Big| H_k\big(e^{j\omega_{k,k}}\big) \Big|} {\Bigg[ \sum\limits_{l=0}^K \Big|H_k\big(e^{j\omega_{k,l}}\big)\Big|^2 \Bigg] ^ \frac{1}{2}}
-\end{align}
 
-\subsection{Harmonic Gain}
+ALL METRICS:
 
-depends on DSQ and F0 estimate accuracy
-\begin{align}
-G_k = \Big| H_k\big(e^{j\omega_{k,k}}\big) \Big|
-\end{align}
+ENBW (accumulated noise)
+PL (gain at DC)
+PG (same as PL?)
+scalloping loss (downshift quantization worst case)
+worst case PL = PL*SL
 
-"processing gain" We see that the noiseless measurement (the expected value of the noisy measurement) is proportional to the inputamplitude A . The proportionality factor is the sum of the window terms, which is infactthedc signalgain of the window. For a rectangular window, the gain is N, for any other the gain is reduced due to smoothly going to zero near the boundaries.
-Coherent power gain, the squk of coherent gain, is occasionally the parameter listed in the literature. Coherent gain normalized by N = sum(h[n])/N = 1(rectangular) 0.5(hanning) 
-processing gain (PG) is the ratio of output SNR to input SNR is reciprocal of ENBW
-[windows for harmonic analysis]
+harmonic SIR
+harmonic gain (maybe not overly relevant due to AGC, etc)
+					(how is it affected in a relative sense? worst vs best)
+modulation depth (spectral leakage)
+transients
+changing F0 (scalloping loss dip only, and harmonic SIR)
 
-\subsection{Modulation Depth}
-
-one measure of spectral leakage is peak sidelobe relative to mainlobe, another is asymptotic falloff (db/octave) of sidelobes [windows for harmonic analysis]
-
-\begin{align}
-D_{k,i} =& \frac{\Bigg[ \sum\limits_{l=0}^{K-i} \Big|H_k\big(e^{j\omega_{k,i}}\big)\Big| \Big|H_k\big(e^{j\omega_{k,l+i}}\big)\Big|\Bigg]^\frac{1}{2}}
-{\Bigg[ \sum\limits_{l=0}^K \Big|H_k\big(e^{j\omega_{k,l}}\big)\Big|^2 \Bigg] ^ \frac{1}{2}}, \quad 0 < i \leq K
-\end{align}
 
 
 \section{Explicit Temporal Modulation}
