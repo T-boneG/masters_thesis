@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  2 MAY 2016 22:15
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  3 MAY 2016 14:54
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -156,6 +156,43 @@ LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
 Package: mathrsfs 1996/01/01 Math RSFS package v1.0 (jk)
 \symrsfs=\mathgroup6
 )
+(/usr/local/texlive/2015/texmf-dist/tex/latex/subfigure/subfigure.sty
+Package: subfigure 2002/03/15 v2.1.5 subfigure package
+\subfigtopskip=\skip46
+\subfigcapskip=\skip47
+\subfigcaptopadj=\dimen115
+\subfigbottomskip=\skip48
+\subfigcapmargin=\dimen116
+\subfiglabelskip=\skip49
+\c@subfigure=\count103
+\c@lofdepth=\count104
+\c@subtable=\count105
+\c@lotdepth=\count106
+
+****************************************
+* Local config file subfigure.cfg used *
+****************************************
+(/usr/local/texlive/2015/texmf-dist/tex/latex/subfigure/subfigure.cfg)
+\subfig@top=\skip50
+\subfig@bottom=\skip51
+)
+(/usr/local/texlive/2015/texmf-dist/tex/latex/caption/caption.sty
+Package: caption 2013/05/02 v3.3-89 Customizing captions (AR)
+
+(/usr/local/texlive/2015/texmf-dist/tex/latex/caption/caption3.sty
+Package: caption3 2013/05/02 v1.6-88 caption3 kernel (AR)
+Package caption3 Info: TeX engine: e-TeX on input line 57.
+\captionmargin=\dimen117
+\captionmargin@=\dimen118
+\captionwidth=\dimen119
+\caption@tempdima=\dimen120
+\caption@indent=\dimen121
+\caption@parindent=\dimen122
+\caption@hangindent=\dimen123
+)
+\c@ContinuedFloat=\count107
+Package caption Info: subfigure package is loaded.
+)
 
 LaTeX Warning: Unused global option(s):
     [proquest].
@@ -163,31 +200,31 @@ LaTeX Warning: Unused global option(s):
 (./ganter_thesis.aux)
 \openout1 = `ganter_thesis.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 83.
-LaTeX Font Info:    ... okay on input line 83.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 83.
-LaTeX Font Info:    ... okay on input line 83.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 83.
-LaTeX Font Info:    ... okay on input line 83.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 83.
-LaTeX Font Info:    ... okay on input line 83.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 83.
-LaTeX Font Info:    ... okay on input line 83.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 83.
-LaTeX Font Info:    ... okay on input line 83.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 87.
+LaTeX Font Info:    ... okay on input line 87.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 87.
+LaTeX Font Info:    ... okay on input line 87.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 87.
+LaTeX Font Info:    ... okay on input line 87.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 87.
+LaTeX Font Info:    ... okay on input line 87.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 87.
+LaTeX Font Info:    ... okay on input line 87.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 87.
+LaTeX Font Info:    ... okay on input line 87.
 
 (/usr/local/texlive/2015/texmf-dist/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count103
-\scratchdimen=\dimen115
+\scratchcounter=\count108
+\scratchdimen=\dimen124
 \scratchbox=\box29
-\nofMPsegments=\count104
-\nofMParguments=\count105
+\nofMPsegments=\count109
+\nofMParguments=\count110
 \everyMPshowfont=\toks20
-\MPscratchCnt=\count106
-\MPscratchDim=\dimen116
-\MPnumerator=\count107
-\makeMPintoPDFobject=\count108
+\MPscratchCnt=\count111
+\MPscratchDim=\dimen125
+\MPnumerator=\count112
+\makeMPintoPDFobject=\count113
 \everyMPtoPDFconversion=\toks21
 ) (/usr/local/texlive/2015/texmf-dist/tex/generic/oberdiek/pdftexcmds.sty
 Package: pdftexcmds 2011/11/29 v0.20 Utility functions of pdfTeX for LuaTeX (HO
@@ -237,38 +274,49 @@ G,.JBIG2,.JB2,.eps]
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
-LaTeX Font Info:    Try loading font information for U+msa on input line 118.
+Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: Incompatible package detected (regarding \caption).
+(caption)             \caption = macro:->\@ifnextchar ({\@specialcaption }{\@no
+rmalcaption }.
 
+
+Package caption Warning: \caption will not be redefined since it's already
+(caption)                redefined by a document class or package which is
+(caption)                unknown to the caption package.
+See the caption package documentation for explanation.
+
+Package caption Info: End \AtBeginDocument code.
+LaTeX Font Info:    Try loading font information for U+msa on input line 122.
 (/usr/local/texlive/2015/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 118.
+LaTeX Font Info:    Try loading font information for U+msb on input line 122.
 
 (/usr/local/texlive/2015/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-LaTeX Font Info:    Try loading font information for U+rsfs on input line 118.
+LaTeX Font Info:    Try loading font information for U+rsfs on input line 122.
 
 (/usr/local/texlive/2015/texmf-dist/tex/latex/jknapltx/ursfs.fd
 File: ursfs.fd 1998/03/24 rsfs font definition file (jk)
 )
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 118.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 122.
 
 
 (/usr/local/texlive/2015/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <8> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 118.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 122.
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <6> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 118.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 122.
  [-1
 
 {/usr/local/texlive/2015/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] [0
 
 ]
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 148.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 152.
  [1] [2]
 (./ganter_thesis.toc [1
 
@@ -323,11 +371,28 @@ OML/cmm/m/it/10.95 H[]\OT1/cmr/m/n/10.95 (\OMS/cmsy/m/n/10.95 ^^@\OML/cmm/m/it/
 <<3>>
 [4
 
-] <figures/harmonic_envelope.png, id=62, 551.05875pt x 498.86375pt>
+]
+
+Package caption Warning: \label without proper \caption on input line 312.
+See the caption package documentation for explanation.
+
+
+LaTeX Warning: Reference `fig:harmonic_envelope' on page 5 undefined on input l
+ine 298.
+
+
+Package caption Warning: \label without proper \caption on input line 312.
+See the caption package documentation for explanation.
+
+
+LaTeX Warning: Reference `fig:harmonic_envelope' on page 5 undefined on input l
+ine 300.
+
+<figures/harmonic_envelope.png, id=62, 551.05875pt x 498.86375pt>
 File: figures/harmonic_envelope.png Graphic file (type png)
 
 <use figures/harmonic_envelope.png>
-Package pdftex.def Info: figures/harmonic_envelope.png used on input line 299.
+Package pdftex.def Info: figures/harmonic_envelope.png used on input line 314.
 (pdftex.def)             Requested size: 269.26077pt x 243.7679pt.
  [5]
 Underfull \vbox (badness 10000) has occurred while \output is active []
@@ -338,170 +403,147 @@ File: figures/harmonic_envelope_estimate.png Graphic file (type png)
 
 <use figures/harmonic_envelope_estimate.png>
 Package pdftex.def Info: figures/harmonic_envelope_estimate.png used on input l
-ine 384.
+ine 393.
 (pdftex.def)             Requested size: 269.26077pt x 374.54953pt.
+
+
+Package caption Warning: \label without proper \caption on input line 391.
+See the caption package documentation for explanation.
+
+
+LaTeX Warning: Reference `fig:harmonic_envelope_estimate' on page 8 undefined o
+n input line 411.
+
+
+Package caption Warning: \label without proper \caption on input line 312.
+See the caption package documentation for explanation.
+
+
+LaTeX Warning: Reference `fig:harmonic_envelope' on page 8 undefined on input l
+ine 413.
+
+
+Package caption Warning: \label without proper \caption on input line 391.
+See the caption package documentation for explanation.
+
+
+LaTeX Warning: Reference `fig:harmonic_envelope_estimate' on page 8 undefined o
+n input line 413.
+
+
+Package caption Warning: \label without proper \caption on input line 419.
+See the caption package documentation for explanation.
+
+
+LaTeX Warning: Reference `fig:harmonic_envelope_2F0' on page 8 undefined on inp
+ut line 415.
 
 <figures/harmonic_envelope_2F0.png, id=76, 436.63126pt x 252.945pt>
 File: figures/harmonic_envelope_2F0.png Graphic file (type png)
 
 <use figures/harmonic_envelope_2F0.png>
 Package pdftex.def Info: figures/harmonic_envelope_2F0.png used on input line 4
-11.
+20.
 (pdftex.def)             Requested size: 269.26077pt x 155.98674pt.
 
 <figures/harmonic_envelope_F0.png, id=77, 435.6275pt x 242.9075pt>
 File: figures/harmonic_envelope_F0.png Graphic file (type png)
 
 <use figures/harmonic_envelope_F0.png>
-Package pdftex.def Info: figures/harmonic_envelope_F0.png used on input line 41
-8.
+Package pdftex.def Info: figures/harmonic_envelope_F0.png used on input line 42
+3.
 (pdftex.def)             Requested size: 269.26077pt x 150.13777pt.
 
 <figures/harmonic_envelope_0.png, id=78, 440.64626pt x 235.88126pt>
 File: figures/harmonic_envelope_0.png Graphic file (type png)
 
 <use figures/harmonic_envelope_0.png>
-Package pdftex.def Info: figures/harmonic_envelope_0.png used on input line 425
+Package pdftex.def Info: figures/harmonic_envelope_0.png used on input line 426
 .
 (pdftex.def)             Requested size: 269.26077pt x 144.1429pt.
  [8] [9 <./figures/harmonic_envelope_estimate.png>]
+
+LaTeX Warning: Text page 10 contains only floats.
+
+
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [10 <./figures/harmonic_envelope_2F0.png> <./figures/harmonic_envelope_F0.png>
-]
-Underfull \vbox (badness 10000) has occurred while \output is active []
+ <./figures/harmonic_envelope_0.png>]
 
- [11 <./figures/harmonic_envelope_0.png>] [12] [13] [14]
+Package caption Warning: \label without proper \caption on input line 391.
+See the caption package documentation for explanation.
+
+
+LaTeX Warning: Reference `fig:harmonic_envelope_estimate' on page 11 undefined 
+on input line 452.
+
+[11]
+
+Package caption Warning: \label without proper \caption on input line 490.
+See the caption package documentation for explanation.
+
+
+LaTeX Warning: Reference `fig:clarinetVSsax_F' on page 12 undefined on input li
+ne 487.
+
+<figures/clarinetVSsax_F.png, id=96, 637.38126pt x 346.29375pt>
+File: figures/clarinetVSsax_F.png Graphic file (type png)
+
+<use figures/clarinetVSsax_F.png>
+Package pdftex.def Info: figures/clarinetVSsax_F.png used on input line 492.
+(pdftex.def)             Requested size: 434.295pt x 235.95218pt.
+
+
+Package caption Warning: \label without proper \caption on input line 501.
+See the caption package documentation for explanation.
+
+
+LaTeX Warning: Reference `fig:clarinetVSsax_T' on page 12 undefined on input li
+ne 496.
+
+[12] <figures/clarinetVSsax_T.png, id=100, 627.34375pt x 342.27875pt>
+File: figures/clarinetVSsax_T.png Graphic file (type png)
+
+<use figures/clarinetVSsax_T.png>
+Package pdftex.def Info: figures/clarinetVSsax_T.png used on input line 503.
+(pdftex.def)             Requested size: 434.295pt x 236.96121pt.
+ [13 <./figures/clarinetVSsax_F.png>]
+Underfull \vbox (badness 1394) has occurred while \output is active []
+
+ [14 <./figures/clarinetVSsax_T.png>] [15] [16]
 <<4>>
-[15
+[17
 
 ]
 <<5>>
-[16
+[18
 
 ]
 <<6>>
-[17
+(./ganter_thesis.bbl [19
 
-] [18]
-Overfull \hbox (13.80266pt too wide) in paragraph at lines 637--638
-\OT1/cmr/m/n/10.95 ``Previous CI psy-chophys-i-cal stud-ies investigat- ing the
- pitch of si-nu-soidal amplitude-modulated
- []
-
-[19]
-<<7>>
-[20
-
-] <figures/STFTvsHILBERTvsCIS.png, id=124, 748.7975pt x 402.50375pt>
-File: figures/STFTvsHILBERTvsCIS.png Graphic file (type png)
-
-<use figures/STFTvsHILBERTvsCIS.png>
-Package pdftex.def Info: figures/STFTvsHILBERTvsCIS.png used on input line 681.
-
-(pdftex.def)             Requested size: 434.295pt x 233.45233pt.
- [21 <./figures/STFTvsHILBERTvsCIS.png>]
-[22] [23] [24] [25]
-Missing character: There is no â in font cmr10!
-Missing character: There is no € in font cmr10!
-Missing character: There is no “ in font cmr10!
- [26] [27] [28]
-Overfull \hbox (11.61008pt too wide) in paragraph at lines 956--957
-[]\OT1/cmr/m/n/10.95 What this tells us is that in prac-tice, we may ap-prox-i-
-mate $\OML/cmm/m/it/10.95 m[]\OT1/cmr/m/n/10.95 [\OML/cmm/m/it/10.95 n\OT1/cmr/
-m/n/10.95 ]$ us-ing $\OML/cmm/m/it/10.95 c[]\OT1/cmr/m/n/10.95 [\OML/cmm/m/it/1
-0.95 n\OT1/cmr/m/n/10.95 ]$
- []
-
-[29] [30] <figures/CI_Signal_FlowTEMP.png, id=159, 734.745pt x 65.24374pt>
-File: figures/CI_Signal_FlowTEMP.png Graphic file (type png)
-
-<use figures/CI_Signal_FlowTEMP.png>
-Package pdftex.def Info: figures/CI_Signal_FlowTEMP.png used on input line 1011
-.
-(pdftex.def)             Requested size: 434.295pt x 38.56514pt.
- [31 <./figures/CI_Signal_FlowTEMP.png>]
-<figures/ACE_flow_diagram_explicitTEMP.png, id=164, 822.07124pt x 485.815pt>
-File: figures/ACE_flow_diagram_explicitTEMP.png Graphic file (type png)
-
-<use figures/ACE_flow_diagram_explicitTEMP.png>
-Package pdftex.def Info: figures/ACE_flow_diagram_explicitTEMP.png used on inpu
-t line 1038.
-(pdftex.def)             Requested size: 217.14749pt x 128.32523pt.
-
-<figures/ACE_flow_diagramTEMP.png, id=165, 733.74126pt x 132.495pt>
-File: figures/ACE_flow_diagramTEMP.png Graphic file (type png)
-
-<use figures/ACE_flow_diagramTEMP.png>
-Package pdftex.def Info: figures/ACE_flow_diagramTEMP.png used on input line 10
-50.
-(pdftex.def)             Requested size: 434.295pt x 78.42407pt.
- [32 <./figures/ACE_flow_diagram_explicitTEMP.png>]
-<figures/F0mod_flow_diagramTEMP.png, id=170, 897.3525pt x 198.7425pt>
-File: figures/F0mod_flow_diagramTEMP.png Graphic file (type png)
-
-<use figures/F0mod_flow_diagramTEMP.png>
-Package pdftex.def Info: figures/F0mod_flow_diagramTEMP.png used on input line 
-1066.
-(pdftex.def)             Requested size: 434.295pt x 96.1868pt.
- [33 <./figures/ACE_flow_diagramTEMP.png> <./figures/F0mod_flow_diagramTEMP.png
->]
-<figures/HSSE_flow_diagramTEMP.png, id=177, 911.405pt x 213.79875pt>
-File: figures/HSSE_flow_diagramTEMP.png Graphic file (type png)
-
-<use figures/HSSE_flow_diagramTEMP.png>
-Package pdftex.def Info: figures/HSSE_flow_diagramTEMP.png used on input line 1
-081.
-(pdftex.def)             Requested size: 434.295pt x 101.87842pt.
- [34 <./figures/HSSE_flow_diagramTEMP.png>] [35]
-<figures/real_vs_magnitude_example.png, id=185, 1170.3725pt x 751.80875pt>
-File: figures/real_vs_magnitude_example.png Graphic file (type png)
-
-<use figures/real_vs_magnitude_example.png>
-Package pdftex.def Info: figures/real_vs_magnitude_example.png used on input li
-ne 1161.
-(pdftex.def)             Requested size: 434.295pt x 278.97937pt.
- [36] [37 <./figures/real_vs_magnitude_example.png>] [38] [39] [40] [41] [42]
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [43]
-[44] [45] [46] [47]
-<<8>>
-[48
-
-] [49] [50] [51]
-<<9>>
-[52
-
-]
-<<10>>
-[53
-
-]
-<<11>>
-(./ganter_thesis.bbl [54
-
-]) [55
+]) [20
 
 ]
 <<A>>
-[56
+[21
 
-] [57
+] [22
 
 ] (./ganter_thesis.aux)
 
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+LaTeX Warning: There were undefined references.
 
  ) 
 Here is how much of TeX's memory you used:
- 2763 strings out of 493089
- 38313 string characters out of 6134842
- 107613 words of memory out of 5000000
- 6169 multiletter control sequences out of 15000+600000
+ 3916 strings out of 493089
+ 58330 string characters out of 6134842
+ 129164 words of memory out of 5000000
+ 7315 multiletter control sequences out of 15000+600000
  13738 words of font info for 54 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 38i,13n,26p,794b,320s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 38i,13n,38p,754b,318s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
 ></usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb>
 </usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmbxsl10.pfb
@@ -518,12 +560,11 @@ e/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive
 /2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/local/texlive/2
 015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/201
 5/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2015
-/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texlive/2015/
-texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb>
-Output written on ganter_thesis.pdf (67 pages, 971237 bytes).
+/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
+Output written on ganter_thesis.pdf (32 pages, 554267 bytes).
 PDF statistics:
- 319 PDF objects out of 1000 (max. 8388607)
- 205 compressed objects within 3 object streams
+ 191 PDF objects out of 1000 (max. 8388607)
+ 124 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
- 61 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 36 words of extra memory for PDF output out of 10000 (max. 10000000)
 
