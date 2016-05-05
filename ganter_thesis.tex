@@ -82,21 +82,25 @@
 \usepackage{subfigure}
 
 \usepackage{caption}
-\captionsetup{justification=justified}
+%\captionsetup{justification=justified}
 
 \begin{document}
- 
+
 % ==========   Preliminary pages
 %
 % ( revised 2012 for electronic submission )
 %
+
+%\textpages
+%\iffalse %BLOCKCOMMENT
 
 \prelimpages
  
 %
 % ----- copyright and title pages
 %
-\Title{Smart Things and Cochlear Implants}
+%\Title{Smart Things and Cochlear Implants}
+\Title{Gantensberg's Besmrichmency Principle: Applications to Coherent Harmonic Diffeomorophisms in the Submodular Cepstra Domain}
 \Author{Tyler Ganter}
 \Year{1985-2014}
 \Program{UW Information Technology}
@@ -157,7 +161,7 @@ If explicitly inducing modulations it is important to remove any other modulatio
 \tableofcontents
 \listoffigures
 %\listoftables  % I have no tables
- 
+
 %
 % ----- glossary 
 %
@@ -198,6 +202,7 @@ If explicitly inducing modulations it is important to remove any other modulatio
 %
 
 \textpages
+
  
 % ========== Chapter 1
  
@@ -231,6 +236,14 @@ this is not as clearly represented as it could be (are we talking about resonanc
 --one correlated with the spectral fine structure (spectral irregularity)
 this manifests in the envelope for CI processing, the problem though is that it is blurred across harmonics so the noise-like characteristics will be smoothed.
 
+Search this thing:
+modulation transfer function
+JH goldwyn
+a point process framework for modeling electrical stim of the auditory nerve
+encoding and decoding amplitude modulated cochlear implant stimuli
+
+``bowed string tones are inharmonic during both their attack and decay (Beauchamp, 1974)''
+
 \section{Contents of Thesis}
 
 % ========== Chapter 2
@@ -245,6 +258,8 @@ this manifests in the envelope for CI processing, the problem though is that it 
 %\section{CIS}
 %\section{Coherent}
 %\section{Summary}
+
+%\fi % BLOCK COMMENT
 
 \chapter{Harmonic Envelopes}
 
@@ -274,7 +289,7 @@ If $w_k[\cdot]$ and $h_k[\cdot]$ are functions of $x[n]$ we have coherent envelo
 
 \subsection{harmonic signals}
 
-Since harmonic signals have a specific structure, we can define our carriers from equation~\ref{eq:sum-of-products} as centered at multiples of $F_0$. In this representation $x_0[n]$ is the fundamental centered at $F_0$, $x_1[n]$ is the 1st harmonic centered at $2F_0$, etc.
+Since harmonic signals have a specific structure, we can define our carriers from equation~\ref{eq:sum_of_products} as centered at multiples of $F_0$. In this representation $x_0[n]$ is the fundamental centered at $F_0$, $x_1[n]$ is the 1st harmonic centered at $2F_0$, etc.
 
 \begin{align}
 \theta_k[n] =& 2\pi(k+1)\frac{F_0}{F_s}n + \phi_k[n] \\
@@ -309,10 +324,9 @@ Figure~\ref{fig:harmonic_envelope}$(d)$ is the spectrum of the squared envelope,
 \end{align}
 
 \begin{figure}[!ht]
-\label{fig:harmonic_envelope}
   \centering
-    \includegraphics[width=.62\textwidth]{harmonic_envelope}   
-        \caption{Magnitude of spectrum for equations \ref{eq:harmonic_envelope_spectrum_a} - \ref{eq:harmonic_envelope_spectrum_d}}
+    \includegraphics[width=.62\textwidth]{harmonic_envelope}
+        \caption{Magnitude of spectrum for equations \ref{eq:harmonic_envelope_spectrum_a} - \ref{eq:harmonic_envelope_spectrum_d}}\label{fig:harmonic_envelope}
 %        \caption{$(a) | \widehat{X}[n,f) |$
 %    				$(b) | \widehat{X}_1[n,f) |$
 %				$(c) | \widehat{X}_1^*[n,-f) |$
@@ -346,7 +360,7 @@ Let's now evaluate our estimate, using equation~\ref{eq:envelope_extraction}.  A
 h_k[n] \Longleftrightarrow& H_k\big(e^{j\omega}\big)
 \end{align}
 
-$\omega_{k,l}$ is the downshift of the $l$'th harmonic for the estimate of the $k$'th envelope.  $H_k\big(e^{j\omega}\big)$ is the discrete Fourier transform (DFT) of $h_k[n]$.
+$\omega_{k,l}$ is the downshifted center frequency of the $l$'th harmonic for the estimate of the $k$'th envelope.  $H_k\big(e^{j\omega}\big)$ is the discrete Fourier transform (DFT) of $h_k[n]$.
 
 Expanding equation~\ref{eq:estimated_envelope_squared} we get:
 
@@ -394,14 +408,13 @@ Let's go back to our three harmonic example.  We are again trying to acquire the
 
 \begin{figure}[!ht]
   \centering
-    \label{fig:harmonic_envelope_estimate}
     \includegraphics[width=.62\textwidth]{harmonic_envelope_estimate} 
     \caption{$(a) | \widehat{X}[n,f) |$   
     				$(b) | \widehat{X}[n,f - 2F_0) |$  
 				$(c) | \widehat{X}[n,f - 2F_0) | | H_1(f) |$
 				$(d) | \widehat{X}^*[n,-f + 2F_0) | | H_1(-f) |$
 				$(e) | \mathcal{F} \{ \tilde{m}_1^2[n] \} |$
-				$(f)$ contributions of separate components of $(e)$}
+				$(f)$ contributions of separate components of $(e)$}\label{fig:harmonic_envelope_estimate}
 \end{figure}
 
 We can see the relationships
@@ -423,15 +436,12 @@ The other components come from interactions with the unwanted harmonics that we 
 
 \begin{figure}[!ht]
    \centering
-   \label{fig:harmonic_envelope_2F0}
     \includegraphics[width=.62\textwidth]{harmonic_envelope_2F0}   
-    \caption{Envelope Estimate $-2F_0$ Component}
-    \label{fig:harmonic_envelope_F0}
+    \caption{Envelope Estimate $-2F_0$ Component}\label{fig:harmonic_envelope_2F0}
     \includegraphics[width=.62\textwidth]{harmonic_envelope_F0} 
-    \caption{Envelope Estimate $-F_0$ Component}
-    \label{fig:harmonic_envelope_0}
+    \caption{Envelope Estimate $-F_0$ Component}\label{fig:harmonic_envelope_F0}
     \includegraphics[width=.62\textwidth]{harmonic_envelope_0}
-    \caption{Envelope Estimate Baseband Component}
+    \caption{Envelope Estimate Baseband Component}\label{fig:harmonic_envelope_0}
 \end{figure}
 
 \section{Steady-State Metrics}
@@ -456,7 +466,7 @@ We may further simplify this by normalizing our filter such that $\Big| H_k(0) \
 
 \subsection{Harmonic SIR}
 
-Continuing our focus on the baseband, another question is: what is the contribution of the target harmonic versus the others?  The baseband component is contributed to by spectral leakage due to non-ideal filters.  This is visualized as the red and blue in figure~\ref{fig:harmonic_envelope_estimate}$(f)$.  The harmonic signal-to-interference-ratio (SIR) quantifies the ratio of target harmonic to spectral leakage.
+Continuing our focus on the baseband, another question is: what is the contribution of the target harmonic versus the others?  The baseband component is contributed to by spectral leakage due to non-ideal filters.  This is visualized as the red and blue in figure~\ref{fig:harmonic_envelope_0}$(f)$.  The harmonic signal-to-interference-ratio (SIR) quantifies the ratio of target harmonic to spectral leakage.
 
 \begin{align}
 SIR_k =& \frac{\Big| H_k\big(e^{j\omega_{k,k}}\big) \Big|} {\Bigg[ \sum\limits_{l=0}^K \Big|H_k\big(e^{j\omega_{k,l}}\big)\Big|^2 \Bigg] ^ \frac{1}{2}}
@@ -491,13 +501,12 @@ In this document we argue that the latter, explicit modulation option is better.
 
 Let's consider a single note played by two different instruments: clarinet and saxophone.  In this example $F_0 = 261Hz$.  The clarinet is interesting in that it only has energy at odd harmonics.
 
-We attempt to estimate the 3rd harmonic, $m_3[n]$.  We first downshift by $-3F_0$, then lowpass filter.  The spectrum of each signal at this stage is visualized in figure~\ref{fig:clarinetVSsax_F}.  The top panel shows the output of a sufficiently narrow filter where the 3rd harmonic is isolated.  The bottom panel shows a different filter design that intentionally allows the two adjacent harmonics to pass through.  Here we start to see the problem, that despite the wide bandwidth filter, there is no energy around $\pm F_0$ for the clarinet because of the harmonic structure.  (There is something present however it's down 30dB.)
+We attempt to estimate the 3rd harmonic, $m_3[n]$.  We first downshift by $-3F_0$, then lowpass filter.  The spectrum of each signal at this stage is visualized in figure~\ref{fig:clarinetVSsax_F}.  The top panel shows the output of a sufficiently narrow filter where the 3rd harmonic is isolated.  The bottom panel shows a different filter design that intentionally allows the two adjacent harmonics to pass through.  Here we start to see the problem, that despite the wide bandwidth filter, there is (almost) no energy around $\pm F_0$ for the clarinet because of the harmonic structure.  (There is something present however it's down 30dB.)
 
 \begin{figure}[!ht]
-\label{fig:clarinetVSsax_F}
   \centering
     \includegraphics[width=1\textwidth]{clarinetVSsax_F}
-    \caption{Clarinet vs Saxophone Harmonic Components}
+    \caption{Clarinet vs Saxophone Harmonic Components}\label{fig:clarinetVSsax_F}
 \end{figure}
 
 Figure~\ref{fig:clarinetVSsax_T} shows the time-domain envelopes resulting from this processing.  The input signals were normalized such that the top panel shows the same signal power for both instruments.
@@ -505,10 +514,9 @@ Figure~\ref{fig:clarinetVSsax_T} shows the time-domain envelopes resulting from 
 The problem is clearly represented in the bottom panel, were we have a very large $F_0$ modulation in the saxophone envelope but little to no change in the clarinet.  The result is that we have a much stronger temporal pitch cue as well as louder overall volume to the saxophone.
 
 \begin{figure}[!ht]
-\label{fig:clarinetVSsax_T}
   \centering
     \includegraphics[width=1\textwidth]{clarinetVSsax_T}   
-    \caption{Clarinet vs Saxophone Envelope Estimates}
+    \caption{Clarinet vs Saxophone Envelope Estimates}\label{fig:clarinetVSsax_T}
 \end{figure}
 
 Spectral leakage into other harmonic envelopes is not natural.  It forces the envelope to modulate as a function of the adjacent harmonics which, as we just saw, is signal dependent.  Furthermore, if we have uniform bandwidth filters, (as ACE does), the harmonic resolution will not behave as it does in the cochlea.
@@ -521,7 +529,7 @@ Another thing to note is that regardless of downshift frequency, our harmonic en
 
 There are a handful of research strategies [REF?] that have used this additional filter.  eTone's envelope follower is an example of this.
 
-The main improvement to this method is that we can guarantee to eliminate modulations.  This could also be achieved by designing a sufficiently narrow filter, $h_k[n]$ however this brings about a tradeoff, where the narrower our filter is the more susceptible we are to error in downshift frequency.
+The main improvement to a followup filter is that we can guarantee to eliminate modulations.  This could also be achieved by designing a sufficiently narrow filter, $h_k[n]$ however this brings about a tradeoff, where the narrower our filter is the more susceptible we are to error in downshift frequency.
 
 In terms of our three metrics, the followup filter will provide us with a robust coherent gain and guaranteed low modulation depth at the cost of lower harmonic SIR.
 
@@ -529,7 +537,22 @@ Another point to consider is the cost of adding an extra processing stage.  The 
 
 % Because of transient smearing, we will not be using this method
 
+\section{Transients}
+
+``almostall of the hearingaidstestedhaveattack timeslessthan or equalto 10 ms. A little more than half of the hearingaidshad releasetimesof 50 ms or less.The rangeof the attack times varied from 1 to 23 ms'' [attack and release times of AGC hearing aids]
+
+quantify for best case and worst case where worst case is the fastest transient relevant to music (this should also hinge on CI limitations)
+
+maximum onset dynamic range "90ms - 10ms = 80ms"
+and ratio of filter smeared range to max range
+rinse and repeat for CI's
+
 \section{Steady-State Evaluation of Strategies}
+
+chosen parameter values to compare:
+order 128, 256, 512
+quantize 1, 31, 62, 125
+cutoff, rectangular, hanning, adaptive butterworth
 
 \subsection{Design Parameters}
 
@@ -544,6 +567,14 @@ The filters can be different as a function of $k$.  This is a natural path to pu
 \subsection{Coherent Gain}
 
 Not overly interesting, just talk about scalloping loss and mention that number of dips is proportional to harmonic index k.
+
+The interesting part here is the relationship between harmonics.  Where the fundamental will be at a minimum, the 1st harmonic is at a maxima, example:
+
+$F_q = 125$
+
+$F_0 = 182.5 = 1.5 F_q$ (right in between bins)
+
+$2F_0 = 375 = 3 F_q$ (right on a bin)
 
 <CONTINUE HERE>
 
@@ -563,7 +594,11 @@ where PL is reduced gain of window (which i have been canceling out)
 
 \subsection{Harmonic SIR}
 
+Just note that major difference in filter order
+
 \subsection{Modulation Depth}
+
+Again...filter order
 
 BW = F0/2
 downshift = exp(kF0)
@@ -573,14 +608,6 @@ downshift quantization, bandwidth as function of F, F0?
 modulation depth (kind of another SIR) as a function of downshift quantization and filter
 
 \subsection{figures}
-
-\section{Transients}
-
-quantify for best case and worst case where worst case is the fastest transient relevant to music (this should also hinge on CI limitations)
-
-maximum onset dynamic range "90ms - 10ms = 80ms"
-and ratio of filter smeared range to max range
-rinse and repeat for CI's
 
 \section{Changing F0}
 
@@ -619,7 +646,13 @@ modulation depth (spectral leakage)
 transients
 changing F0 (scalloping loss dip only, and harmonic SIR)
 
+\subsection{Harmonic Bandwidth}
 
+what is it?  look at some waveforms and read some stuff.  maybe do this at the same time as transient times of instruments
+
+\section{Adaptive Filters}
+
+consider all metrics for adaptive filters, order 128, 256, 512
 
 
 \chapter{Efficient Interpolation Algorithm}
@@ -1795,6 +1828,5 @@ an avocation which he enjoys as time and circumstance allow.
 
 He welcomes your comments to {\tt fox@uw.edu}.
 }
-
 
 \end{document}
