@@ -216,6 +216,8 @@ Why harmonic encoding?  Help differentiate signals, (timbre), improve SIN perfor
 
 we are considering what is the ideal matched filter, and how close of an approximation do we need?
 
+``By definition, timbre is the perceptual attribute that distinguishes two sounds that have the same pitch, loudness, and duration (American National Standards Institute, 1973).''
+
 \section{Survey of Literature}
 
 Equivalent noise bandwidth (ENBW) considers BW of noise if squished into a box of gain 1 around the downshift frequency.  [windows for harmonic analysis] This isn't entirely applicable since our harmonic has BW > epsilon, and since for any window most of the energy is close to 0, most of the so-called noise is actually desired harmonic signal.  If this were not the case, (I think) rectangular window would be the best, but since it distributes the noise more heavily to higher frequencies away from zero, it is actually worse (higher sidelobes)
@@ -240,7 +242,7 @@ Search this thing:
 modulation transfer function
 JH goldwyn
 a point process framework for modeling electrical stim of the auditory nerve
-encoding and decoding amplitude modulated cochlear implant stimuli
+f
 
 ``bowed string tones are inharmonic during both their attack and decay (Beauchamp, 1974)''
 
@@ -248,18 +250,110 @@ encoding and decoding amplitude modulated cochlear implant stimuli
 
 % ========== Chapter 2
 
-\chapter{Background}
+\chapter{Envelope Extraction Methods}
 
-``By definition, timbre is the perceptual attribute that distinguishes two sounds that have the same pitch, loudness, and duration (American National Standards Institute, 1973).''
+\section{Cochlear Implants and DSP}
 
-%\chapter{Envelope Extraction Methods}
-%\section{STFT}
-%\section{Hilbert}
-%\section{CIS}
-%\section{Coherent}
-%\section{Summary}
+Human hearing is tonotopic, that is, starting in the cochlea and through the rest of processing in the brain, sounds far apart in frequency are processed separately.  The cochlea is spatially arranged; As a sound propagates through the basilar membrane the different frequencies are amplified or suppressed such that they stimulate locations physically far apart in the cochlea.
+
+In a cochlear implant an array of electrodes is inserted into the cochlea.  This array is intentionally designed to have a tonotopic organization.  When current is sent to the most deeply inserted (apical) electrodes, neurons associated with low frequency sounds are stimulated.  Conversely, when current is sent to the most basal electrodes, the stimulated neurons are those associated with high frequencies.
+
+Initial multielectrode cochlear implant strategies delivered band-specific analog signals to each electrode.  Due to the limited dynamic range of electric hearing the analog waveforms were amplitude-compressed, hence the name compressed-analog (CA).
+
+Current processing strategies use feature extraction to achieve much higher performance on speech recognition.  From each bandlimited signal a slow-time-varying envelope is extracted and the extra information is discarded.
+
+One of the motivations for this approach is the limited ability to perceive temporal modulations in electric hearing.  In acoustic hearing modulations up to a few kHz may be perceptible, however cochlear implant envelope extraction techniques are designed to limit modulations, typically to around 160 to 320 Hz, which is closer to the range perceptible in electric hearing.
+
+Another motivation comes from the robustness of speech to distortion.  As a closely related system, we can think about vocoder processing.  Vocoding is a method of signal analysis and synthesis initially designed for audio data compression in telecommunication.  As of the mid 70's the vocoder has gained widespread familiarity via the music industry as a funky effect.  It is likely most well known for the signature robot voice heard in hits such as Kraftwerk's ``The Robots'' or Styx's ``Mr. Robot''.  In its application to music, the vocoder extracts the bandlimited envelopes of one source (typically a vocal) and applies them to each bandlimited component of a second source.  This second source can be essentially any arbitrary broadband signal and yet we still understand speech from the first source.  This can be thought of as a form of lossy data compression.
+
+VOCODER FIGURE
+
+Connecting back, cochlear implants envelope extraction strategies do the same this as vocoders to analyze a source, however rather than using a second source to synthesize a new sound, the envelope is directly transmitted to the electrode array.
+
+We have now laid out enough background information to introduce a mathematical model for audio signals called the sum-of-products model.
+
+\begin{equation}
+\label{eq:sum-of-products}
+x[n] = \sum\limits_k x_k[n] = \sum\limits_k m_k[n] c_k[n]
+\end{equation}
+
+Our digitally sampled audio signal $x[n]$, ($n \epsilon Z$), is composed of bandpass components $x_k[n]$.  In each bandpass component a slow-time-varying envelope $m_k[n]$ multiplies a quickly-oscillating carrier $c_k[n]$
+
+CONTINUE HERE HERE HERE
+
+
+CIS
+
+electrode interaction, electric field
+
+cutoff frequencies
+
+..."continuous analog strategy"
+
+"Most cases with severe hearing loss involve damage to this conversion of a sound to an electric impulse in the cochlea. A cochlear implant bypasses this natural conversion process by directly stimulating the auditory nerve with electric pulses. Hence, the cochlear implant will have to mimic and replace auditory functions from the external ear to the inner ear." [trends inCI]
+
+anatomy of the ear
+
+vocoders
+
+sum-of-products model
+
+envelopes
+
+limitations of CI's
+
+\section{Background, History, Survey of Methods}
+
+start with general CI processing or with sum-of-products?
+maybe kinda both at the same time,
+
+CI's have "temporal pitch limited to several hundred Hertz" [trends inCIs]
+
+<How do we encode a signal?>
+
+talk about vocoders, how we can decompose a signal
+substitute carrier with electrodes!
+
+use framework figs, set up for math analysis
+
+fig: CI processing stages
+
+sum-of-products...
+``We begin by specifying the desired qualitative properties of the factors mk[n] and ck[n]. Generally, mk[n] is thought to represent the envelope, or slowly-varying temporal contour, of xk[n]. Conversely, ck[n] contains the quickly-oscillating fine structure of xk[n]. These designations lead to a convenient analogy with amplitude- and frequency- modulation systems in communications theory, which employ signal multipliers to convert low-frequency messages to high-frequency signals with better transmission characteristics. Along these lines, we assume xk[n] is of the form
+xk[n] = mk[n] · ck[n] = mk[n] · ejφk[n], (2.2)
+where ck[n] is the oscillating carrier and mk[n] is the low-frequency modulator, or message. Since the carrier is unimodular, all of the magnitude information about xk[n] resides in the envelope-like modulator.'' - clark thesis
+
+specify harmonic case of sum-of-products? this describes why coherent methods ... motivates coherent methods i guess
+
+talk about how sum-of-products relates to CIs.  modulators contain band specific energy (vocoders achieve speech recognition!) and carrier contains the "pitch"
+
+maybe search CI literature for why we choose to encode things the way we do, then make the connection to sum-of-products
+
+...
+
+okay sum-of-products is justified, let's consider coherent and incoherent
+
+Incoherent VS Coherent
+
+fig: incoherent processing
+
+fig: coherent processing
+
+\section{Incoherent}
+
+STFT, Hilbert, CIS
+
+\section{Coherent}
+
+Spectral COG, Harmonic
+
+\subsection{Phase Preservation Detour}
+
+\section{The Relationships}
 
 %\fi % BLOCK COMMENT
+
+% ========== Chapter 3
 
 \chapter{Harmonic Envelopes}
 
@@ -464,6 +558,26 @@ G_k = \Big| H_k(0) \Big| = \sum_n h_k[n]
 
 We may further simplify this by normalizing our filter such that $\Big| H_k(0) \Big| = 1$.  Of course, our downshift frequency won't be ideal in real systems.  Factors to consider include the quantization of $F_{ds,k}$ and the accuracy of $F_0$ estimation.
 
+A similar metric, brought up in [REF] is termed scalloping loss, or picket-fence effect.  This is the effect of the harmonic falling in between filter centers.
+
+\subsection{scalloping loss}
+
+CONTINUEHERE1
+
+[windows for harmonic analysis]
+
+scalloping loss or picket-fence effect, ratio of coherent gain for tone located half a bin from DFT sample point to coherent gain for tone located exactly at sample point
+
+\begin{align}
+scalloping loss = \frac{| H(\frac{1}{2} \frac{F_s}{N}) |}{H(0)}
+\end{align}
+
+"althought scalloping loss is useful, it's not entirely informative.  if the scalloping loss if high, then this relates to a sharp cutoff which is actually good for increasing purity of the harmonic"
+
+worst case processing loss = scalloping loss * PL
+where PL is reduced gain of window (which i have been canceling out)
+**where does worst case processing loss fit in?**
+
 \subsection{Harmonic SIR}
 
 Continuing our focus on the baseband, another question is: what is the contribution of the target harmonic versus the others?  The baseband component is contributed to by spectral leakage due to non-ideal filters.  This is visualized as the red and blue in figure~\ref{fig:harmonic_envelope_0}$(f)$.  The harmonic signal-to-interference-ratio (SIR) quantifies the ratio of target harmonic to spectral leakage.
@@ -490,6 +604,8 @@ D_{k,i} =& \frac{\Bigg[ \sum\limits_{l=0}^{K-i} \Big|H_k\big(e^{j\omega_{k,l}}\b
 The largest value and, for that reason, most important value is $D_{k,1}$, the modulation depth at $F_0$.
 
 \section{Explicit Temporal Modulation}
+
+PUT THE F0MOD FIG VS ACE FIG IN HERE!!!!!!
 
 So our three metrics are coherent gain, harmonic SIR and modulation depth.  We aim for a coherent gain of $G_k = 1$, maximum possible SIR and one would think minimum modulation depth.
 
@@ -536,6 +652,15 @@ In terms of our three metrics, the followup filter will provide us with a robust
 Another point to consider is the cost of adding an extra processing stage.  The additional stage means more memory, clock cycles and processing delay.
 
 % Because of transient smearing, we will not be using this method
+
+\section{Changing F0}
+
+dips due to quantization
+
+CONTINUEHERE2
+
+maybe move the plot here?
+
 
 \section{Transients}
 
@@ -609,29 +734,7 @@ modulation depth (kind of another SIR) as a function of downshift quantization a
 
 \subsection{figures}
 
-\section{Changing F0}
-
-dips due to quantization
-
-\subsection{scalloping loss}
-
-[windows for harmonic analysis]
-
-scalloping loss or picket-fence effect, ratio of coherent gain for tone located half a bin from DFT sample point to coherent gain for tone located exactly at sample point
-
-\begin{align}
-scalloping loss = \frac{| H(\frac{1}{2} \frac{F_s}{N}) |}{H(0)}
-\end{align}
-
-"althought scalloping loss is useful, it's not entirely informative.  if the scalloping loss if high, then this relates to a sharp cutoff which is actually good for increasing purity of the harmonic"
-
-worst case processing loss = scalloping loss * PL
-where PL is reduced gain of window (which i have been canceling out)
-**where does worst case processing loss fit in?**
-
-
-
-ALL METRICS:
+\section{ALL METRICS}
 
 ENBW (accumulated noise)
 PL (gain at DC)
@@ -655,7 +758,9 @@ what is it?  look at some waveforms and read some stuff.  maybe do this at the s
 consider all metrics for adaptive filters, order 128, 256, 512
 
 
-\chapter{Efficient Interpolation Algorithm}
+\chapter{Implementation Considerations}
+
+\section{Efficient Interpolation Algorithm}
 
 FFT with changeable window, and interpolate
 
@@ -665,6 +770,8 @@ We probably need to design the filters such that they pass reconstruction requir
 Is the actual equation just a sinc function times a phase shift?!
 
 READ THIS: [An Intelligent FFT-Analyzer with Harmonic Interference Effect Correction and Uncertainty Evaluation]
+
+\section{Mapping and Selection}
 
 \chapter{-----------------------------------}
 

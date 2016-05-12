@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  5 MAY 2016 12:02
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  12 MAY 2016 14:35
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -197,7 +197,11 @@ Package caption Info: subfigure package is loaded.
 LaTeX Warning: Unused global option(s):
     [proquest].
 
-(./ganter_thesis.aux)
+(./ganter_thesis.aux
+
+LaTeX Warning: Label `eq:sum-of-products' multiply defined.
+
+)
 \openout1 = `ganter_thesis.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 87.
@@ -212,8 +216,7 @@ LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 87.
 LaTeX Font Info:    ... okay on input line 87.
 LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 87.
 LaTeX Font Info:    ... okay on input line 87.
-
-(/usr/local/texlive/2015/texmf-dist/tex/context/base/supp-pdf.mkii
+ (/usr/local/texlive/2015/texmf-dist/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count108
 \scratchdimen=\dimen124
@@ -322,11 +325,11 @@ LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
 
 
 
-])
+] [2])
 \tf@toc=\write4
 \openout4 = `ganter_thesis.toc'.
 
- [2] (./ganter_thesis.lof
+ [3] (./ganter_thesis.lof
 Overfull \hbox (31.81967pt too wide) in paragraph at lines 5--5
  [][] []$\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.95 a\OT1/cmr/m/n/10.95 )\OMS/cmsy
 /m/n/10.95 j[]\OT1/cmr/m/n/10.95 [\OML/cmm/m/it/10.95 n; f\OT1/cmr/m/n/10.95 )\
@@ -349,250 +352,260 @@ OML/cmm/m/it/10.95 H[]\OT1/cmr/m/n/10.95 (\OMS/cmsy/m/n/10.95 ^^@\OML/cmm/m/it/
 \tf@lof=\write5
 \openout5 = `ganter_thesis.lof'.
 
- [3
-
-] [4
+ [4
 
 ] [5
 
 ] [6
 
+] [7
+
+] [8
+
+
 ]
 <<1>>
 [1
-
-
 
 ] [2]
 <<2>>
 [3
 
-]
+] [4]
+Missing character: There is no Â in font cmr10!
+Missing character: There is no · in font cmr10!
+Missing character: There is no Â in font cmr10!
+Missing character: There is no · in font cmr10!
+Missing character: There is no Ï in font cmr10!
+Missing character: There is no † in font cmr10!
+ [5] [6]
 <<3>>
-[4
+[7
 
-] <figures/harmonic_envelope.png, id=62, 551.05875pt x 498.86375pt>
+] <figures/harmonic_envelope.png, id=78, 551.05875pt x 498.86375pt>
 File: figures/harmonic_envelope.png Graphic file (type png)
 
 <use figures/harmonic_envelope.png>
-Package pdftex.def Info: figures/harmonic_envelope.png used on input line 328.
+Package pdftex.def Info: figures/harmonic_envelope.png used on input line 422.
 (pdftex.def)             Requested size: 269.26077pt x 243.7679pt.
- [5]
+ [8]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [6 <./figures/harmonic_envelope.png>] [7]
-<figures/harmonic_envelope_estimate.png, id=75, 446.66875pt x 621.32124pt>
+ [9 <./figures/harmonic_envelope.png>] [10]
+<figures/harmonic_envelope_estimate.png, id=91, 446.66875pt x 621.32124pt>
 File: figures/harmonic_envelope_estimate.png Graphic file (type png)
 
 <use figures/harmonic_envelope_estimate.png>
 Package pdftex.def Info: figures/harmonic_envelope_estimate.png used on input l
-ine 411.
+ine 505.
 (pdftex.def)             Requested size: 269.26077pt x 374.54953pt.
 
-<figures/harmonic_envelope_2F0.png, id=76, 436.63126pt x 252.945pt>
+<figures/harmonic_envelope_2F0.png, id=92, 436.63126pt x 252.945pt>
 File: figures/harmonic_envelope_2F0.png Graphic file (type png)
 
 <use figures/harmonic_envelope_2F0.png>
-Package pdftex.def Info: figures/harmonic_envelope_2F0.png used on input line 4
-39.
+Package pdftex.def Info: figures/harmonic_envelope_2F0.png used on input line 5
+33.
 (pdftex.def)             Requested size: 269.26077pt x 155.98674pt.
 
-<figures/harmonic_envelope_F0.png, id=77, 435.6275pt x 242.9075pt>
+<figures/harmonic_envelope_F0.png, id=93, 435.6275pt x 242.9075pt>
 File: figures/harmonic_envelope_F0.png Graphic file (type png)
 
 <use figures/harmonic_envelope_F0.png>
-Package pdftex.def Info: figures/harmonic_envelope_F0.png used on input line 44
-1.
+Package pdftex.def Info: figures/harmonic_envelope_F0.png used on input line 53
+5.
 (pdftex.def)             Requested size: 269.26077pt x 150.13777pt.
 
-<figures/harmonic_envelope_0.png, id=78, 440.64626pt x 235.88126pt>
+<figures/harmonic_envelope_0.png, id=94, 440.64626pt x 235.88126pt>
 File: figures/harmonic_envelope_0.png Graphic file (type png)
 
 <use figures/harmonic_envelope_0.png>
-Package pdftex.def Info: figures/harmonic_envelope_0.png used on input line 443
+Package pdftex.def Info: figures/harmonic_envelope_0.png used on input line 537
 .
 (pdftex.def)             Requested size: 269.26077pt x 144.1429pt.
- [8] [9 <./figures/harmonic_envelope_estimate.png>]
+ [11] [12 <./figures/harmonic_envelope_estimate.png>]
 
-LaTeX Warning: Text page 10 contains only floats.
+LaTeX Warning: Text page 13 contains only floats.
 
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [10 <./figures/harmonic_envelope_2F0.png> <./figures/harmonic_envelope_F0.png>
- <./figures/harmonic_envelope_0.png>] [11] [12]
-<figures/clarinetVSsax_F.png, id=99, 503.8825pt x 402.50375pt>
+ [13 <./figures/harmonic_envelope_2F0.png> <./figures/harmonic_envelope_F0.png>
+ <./figures/harmonic_envelope_0.png>] [14] [15]
+<figures/clarinetVSsax_F.png, id=115, 503.8825pt x 402.50375pt>
 File: figures/clarinetVSsax_F.png Graphic file (type png)
 
 <use figures/clarinetVSsax_F.png>
-Package pdftex.def Info: figures/clarinetVSsax_F.png used on input line 508.
+Package pdftex.def Info: figures/clarinetVSsax_F.png used on input line 624.
 (pdftex.def)             Requested size: 434.295pt x 346.92033pt.
- [13 <./figures/clarinetVSsax_F.png>]
-<figures/clarinetVSsax_T.png, id=104, 627.34375pt x 342.27875pt>
+
+<figures/clarinetVSsax_T.png, id=116, 627.34375pt x 342.27875pt>
 File: figures/clarinetVSsax_T.png Graphic file (type png)
 
 <use figures/clarinetVSsax_T.png>
-Package pdftex.def Info: figures/clarinetVSsax_T.png used on input line 518.
+Package pdftex.def Info: figures/clarinetVSsax_T.png used on input line 634.
 (pdftex.def)             Requested size: 434.295pt x 236.96121pt.
-
+ [16]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [14 <./figures/clarinetVSsax_T.png>]
-Underfull \vbox (badness 1264) has occurred while \output is active []
+ [17 <./figures/clarinetVSsax_F.png>]
+Underfull \vbox (badness 1394) has occurred while \output is active []
 
- [15]
-[16] [17] [18]
+ [18 <./figures/clarinetVSsax_T.png>] [19] [20] [21]
 <<4>>
-[19
+[22
 
 ]
 <<5>>
-[20
+[23
 
 ]
 <<6>>
-[21
+[24
 
-] [22]
-Overfull \hbox (13.80266pt too wide) in paragraph at lines 737--738
+] [25]
+Overfull \hbox (13.80266pt too wide) in paragraph at lines 844--845
 \OT1/cmr/m/n/10.95 ``Previous CI psy-chophys-i-cal stud-ies investigat- ing the
  pitch of si-nu-soidal amplitude-modulated
  []
 
-[23]
+[26]
 <<7>>
-[24
+[27
 
-] <figures/STFTvsHILBERTvsCIS.png, id=141, 748.7975pt x 402.50375pt>
+] <figures/STFTvsHILBERTvsCIS.png, id=157, 748.7975pt x 402.50375pt>
 File: figures/STFTvsHILBERTvsCIS.png Graphic file (type png)
 
 <use figures/STFTvsHILBERTvsCIS.png>
-Package pdftex.def Info: figures/STFTvsHILBERTvsCIS.png used on input line 781.
+Package pdftex.def Info: figures/STFTvsHILBERTvsCIS.png used on input line 888.
 
 (pdftex.def)             Requested size: 434.295pt x 233.45233pt.
 
 Underfull \vbox (badness 1005) has occurred while \output is active []
 
- [25 <./figures/STFTvsHILBERTvsCIS.png>] [26] [27] [28] [29]
+ [28 <./figures/STFTvsHILBERTvsCIS.png>] [29] [30] [31] [32]
 Missing character: There is no â in font cmr10!
 Missing character: There is no € in font cmr10!
 Missing character: There is no “ in font cmr10!
- [30] [31] [32]
-Overfull \hbox (11.61008pt too wide) in paragraph at lines 1056--1057
+ [33] [34] [35]
+Overfull \hbox (11.61008pt too wide) in paragraph at lines 1163--1164
 []\OT1/cmr/m/n/10.95 What this tells us is that in prac-tice, we may ap-prox-i-
 mate $\OML/cmm/m/it/10.95 m[]\OT1/cmr/m/n/10.95 [\OML/cmm/m/it/10.95 n\OT1/cmr/
 m/n/10.95 ]$ us-ing $\OML/cmm/m/it/10.95 c[]\OT1/cmr/m/n/10.95 [\OML/cmm/m/it/1
 0.95 n\OT1/cmr/m/n/10.95 ]$
  []
 
-[33] [34] <figures/CI_Signal_FlowTEMP.png, id=176, 734.745pt x 65.24374pt>
+[36] [37] <figures/CI_Signal_FlowTEMP.png, id=192, 734.745pt x 65.24374pt>
 File: figures/CI_Signal_FlowTEMP.png Graphic file (type png)
 
 <use figures/CI_Signal_FlowTEMP.png>
-Package pdftex.def Info: figures/CI_Signal_FlowTEMP.png used on input line 1111
+Package pdftex.def Info: figures/CI_Signal_FlowTEMP.png used on input line 1218
 .
 (pdftex.def)             Requested size: 434.295pt x 38.56514pt.
- [35 <./figures/CI_Signal_FlowTEMP.png>]
-<figures/ACE_flow_diagram_explicitTEMP.png, id=181, 822.07124pt x 485.815pt>
+ [38 <./figures/CI_Signal_FlowTEMP.png>]
+<figures/ACE_flow_diagram_explicitTEMP.png, id=198, 822.07124pt x 485.815pt>
 File: figures/ACE_flow_diagram_explicitTEMP.png Graphic file (type png)
 
 <use figures/ACE_flow_diagram_explicitTEMP.png>
 Package pdftex.def Info: figures/ACE_flow_diagram_explicitTEMP.png used on inpu
-t line 1138.
+t line 1245.
 (pdftex.def)             Requested size: 217.14749pt x 128.32523pt.
 
-<figures/ACE_flow_diagramTEMP.png, id=182, 733.74126pt x 132.495pt>
+<figures/ACE_flow_diagramTEMP.png, id=199, 733.74126pt x 132.495pt>
 File: figures/ACE_flow_diagramTEMP.png Graphic file (type png)
 
 <use figures/ACE_flow_diagramTEMP.png>
-Package pdftex.def Info: figures/ACE_flow_diagramTEMP.png used on input line 11
-50.
+Package pdftex.def Info: figures/ACE_flow_diagramTEMP.png used on input line 12
+57.
 (pdftex.def)             Requested size: 434.295pt x 78.42407pt.
- [36 <./figures/ACE_flow_diagram_explicitTEMP.png>]
-<figures/F0mod_flow_diagramTEMP.png, id=187, 897.3525pt x 198.7425pt>
+ [39 <./figures/ACE_flow_diagram_explicitTEMP.png>]
+<figures/F0mod_flow_diagramTEMP.png, id=204, 897.3525pt x 198.7425pt>
 File: figures/F0mod_flow_diagramTEMP.png Graphic file (type png)
 
 <use figures/F0mod_flow_diagramTEMP.png>
 Package pdftex.def Info: figures/F0mod_flow_diagramTEMP.png used on input line 
-1166.
+1273.
 (pdftex.def)             Requested size: 434.295pt x 96.1868pt.
- [37 <./figures/ACE_flow_diagramTEMP.png> <./figures/F0mod_flow_diagramTEMP.png
+ [40 <./figures/ACE_flow_diagramTEMP.png> <./figures/F0mod_flow_diagramTEMP.png
 >]
-<figures/HSSE_flow_diagramTEMP.png, id=193, 911.405pt x 213.79875pt>
+<figures/HSSE_flow_diagramTEMP.png, id=210, 911.405pt x 213.79875pt>
 File: figures/HSSE_flow_diagramTEMP.png Graphic file (type png)
 
 <use figures/HSSE_flow_diagramTEMP.png>
 Package pdftex.def Info: figures/HSSE_flow_diagramTEMP.png used on input line 1
-181.
+288.
 (pdftex.def)             Requested size: 434.295pt x 101.87842pt.
- [38 <./figures/HSSE_flow_diagramTEMP.png>] [39]
-<figures/real_vs_magnitude_example.png, id=202, 1170.3725pt x 751.80875pt>
+ [41 <./figures/HSSE_flow_diagramTEMP.png>] [42]
+<figures/real_vs_magnitude_example.png, id=218, 1170.3725pt x 751.80875pt>
 File: figures/real_vs_magnitude_example.png Graphic file (type png)
 
 <use figures/real_vs_magnitude_example.png>
 Package pdftex.def Info: figures/real_vs_magnitude_example.png used on input li
-ne 1261.
+ne 1368.
 (pdftex.def)             Requested size: 434.295pt x 278.97937pt.
- [40] [41 <./figures/real_vs_magnitude_example.png>] [42] [43] [44] [45] [46]
+ [43] [44 <./figures/real_vs_magnitude_example.png>] [45] [46] [47] [48] [49]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [47]
-[48] [49] [50] [51]
+ [50]
+[51] [52] [53] [54]
 <<8>>
-[52
+[55
 
-] [53] [54] [55]
+] [56] [57] [58]
 <<9>>
-[56
+[59
 
 ]
 <<10>>
-[57
+[60
 
 ]
 <<11>>
-(./ganter_thesis.bbl [58
+(./ganter_thesis.bbl [61
 
-]) [59
+]) [62
 
 ]
 <<A>>
-[60
+[63
 
-] [61
+] [64
 
-] (./ganter_thesis.aux) ) 
+] (./ganter_thesis.aux)
+
+LaTeX Warning: There were multiply-defined labels.
+
+ ) 
 Here is how much of TeX's memory you used:
  3968 strings out of 493089
  59791 string characters out of 6134842
- 129082 words of memory out of 5000000
+ 129126 words of memory out of 5000000
  7360 multiletter control sequences out of 15000+600000
  13738 words of font info for 54 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 38i,13n,38p,794b,318s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/local/texlive/2015/texmf-dist/fonts/type1/public
-/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/
-amsfonts/cm/cmbx12.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/a
-msfonts/cm/cmbxsl10.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/
-amsfonts/cm/cmex10.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/a
-msfonts/cm/cmmi10.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/am
-sfonts/cm/cmmi6.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsf
-onts/cm/cmmi8.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfon
-ts/cm/cmr10.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts
-/cm/cmr12.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/c
-m/cmr6.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/c
-mr8.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9
-.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.
-pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pf
-b></usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
-</usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb><
-/usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></
-usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pf
-b>
-Output written on ganter_thesis.pdf (71 pages, 1107479 bytes).
+ 38i,13n,38p,890b,318s stack positions out of 5000i,500n,10000p,200000b,80000s
+</usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
+></usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb>
+</usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmbxsl10.pfb
+></usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb>
+</usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><
+/usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></u
+sr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr
+/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/l
+ocal/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/loc
+al/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/
+texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/tex
+live/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/texliv
+e/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive
+/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/local/texlive/2
+015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/201
+5/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2015
+/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texlive/2015/
+texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb>
+Output written on ganter_thesis.pdf (76 pages, 1115270 bytes).
 PDF statistics:
- 335 PDF objects out of 1000 (max. 8388607)
- 213 compressed objects within 3 object streams
+ 352 PDF objects out of 1000 (max. 8388607)
+ 225 compressed objects within 3 object streams
  0 named destinations out of 1000 (max. 500000)
  71 words of extra memory for PDF output out of 10000 (max. 10000000)
 
