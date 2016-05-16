@@ -256,19 +256,39 @@ f
 
 Human hearing is tonotopic, that is, starting in the cochlea and through the rest of processing in the brain, sounds far apart in frequency are processed separately.  The cochlea is spatially arranged; As a sound propagates through the basilar membrane the different frequencies are amplified or suppressed such that they stimulate locations physically far apart in the cochlea.
 
-In a cochlear implant an array of electrodes is inserted into the cochlea.  This array is intentionally designed to have a tonotopic organization.  When current is sent to the most deeply inserted (apical) electrodes, neurons associated with low frequency sounds are stimulated.  Conversely, when current is sent to the most basal electrodes, the stimulated neurons are those associated with high frequencies.
+In a cochlear implant an array of electrodes is inserted into the cochlea.  This array is intentionally designed to have a tonotopic organization.  When current is sent to the most deeply inserted (apical) electrodes, neurons associated with low frequency sounds are stimulated.  Conversely, current at a basal electrode will stimulate neurons associated with high frequencies.
 
-Initial multielectrode cochlear implant strategies delivered band-specific analog signals to each electrode.  Due to the limited dynamic range of electric hearing the analog waveforms were amplitude-compressed, hence the name compressed-analog (CA).
+Early cochlear implant strategies, under the category compressed-analog (CA), delivered band-specific analog signals to each electrode.  By using bandpass filters and an electrode array the implant emulates the tonotopic organization of acoustic hearing.
 
 Current processing strategies use feature extraction to achieve much higher performance on speech recognition.  From each bandlimited signal a slow-time-varying envelope is extracted and the extra information is discarded.
 
 One of the motivations for this approach is the limited ability to perceive temporal modulations in electric hearing.  In acoustic hearing modulations up to a few kHz may be perceptible, however cochlear implant envelope extraction techniques are designed to limit modulations, typically to around 160 to 320 Hz, which is closer to the range perceptible in electric hearing.
 
-Another motivation comes from the robustness of speech to distortion.  As a closely related system, we can think about vocoder processing.  Vocoding is a method of signal analysis and synthesis initially designed for audio data compression in telecommunication.  As of the mid 70's the vocoder has gained widespread familiarity via the music industry as a funky effect.  It is likely most well known for the signature robot voice heard in hits such as Kraftwerk's ``The Robots'' or Styx's ``Mr. Robot''.  In its application to music, the vocoder extracts the bandlimited envelopes of one source (typically a vocal) and applies them to each bandlimited component of a second source.  This second source can be essentially any arbitrary broadband signal and yet we still understand speech from the first source.  This can be thought of as a form of lossy data compression.
+Another motivation comes from the robustness of speech to distortion.  This can be understood by considering a closely related system, the channel vocoder.  Vocoding is a method of signal analysis and synthesis initially designed for audio data compression in telecommunication.  As of the mid 70's the vocoder has gained widespread familiarity via the music industry as a funky voice effect.  It is most well known for the signature robot voice heard in hits such as Kraftwerk's song ``The Robots'' or Styx's ``Mr. Roboto''.  In its application to music, the vocoder extracts the bandlimited envelopes of one source (typically vocal) and applies them to each bandlimited components of a second source.  What's interesting is that this second source can be essentially any arbitrary broadband signal and yet we still understand speech from the first source.  In this way the vocoder acts as a form of lossy data compression; the low data-rate envelopes are extracted and they may be later applied to, for example, white-noise.
 
-VOCODER FIGURE
+\begin{figure}[!ht]
+  \centering
+    \includegraphics[width=.75\textwidth]{vocoder}   
+    \caption{Channel Vocoder Processing}\label{fig:vocoder}
+\end{figure}
 
-Connecting back, cochlear implants envelope extraction strategies do the same this as vocoders to analyze a source, however rather than using a second source to synthesize a new sound, the envelope is directly transmitted to the electrode array.
+Linking back, cochlear implant envelope extraction strategies do the same thing as vocoder signal analysis, as seen in figure~\ref{fig:vocoder}, however rather than using a second source to synthesize a new sound, the envelope is directly transmitted to the electrode array.
+
+\subsection{CI Block Diagrams}
+
+Let's consider the processing stages of a cochlear implant.
+
+Conclusion:
+- induced vs explicit modulation
+- coherent vs incoherent
+
+CONTINUE HERE!!!
+
+Problem: how to incorporate filterbank and envelope extraction as same block without confusion...could the math help with this?
+
+Could describe DSP, envelope extraction and channel selection, ACE, F0mod, etc
+
+\subsection{Envelope Math}
 
 We have now laid out enough background information to introduce a mathematical model for audio signals called the sum-of-products model.
 
@@ -277,9 +297,7 @@ We have now laid out enough background information to introduce a mathematical m
 x[n] = \sum\limits_k x_k[n] = \sum\limits_k m_k[n] c_k[n]
 \end{equation}
 
-Our digitally sampled audio signal $x[n]$, ($n \epsilon Z$), is composed of bandpass components $x_k[n]$.  In each bandpass component a slow-time-varying envelope $m_k[n]$ multiplies a quickly-oscillating carrier $c_k[n]$
-
-CONTINUE HERE HERE HERE
+Our digitally sampled audio signal $x[n]$, ($n \epsilon \mathbb{Z}$), is composed of bandpass components $x_k[n]$.  In each bandpass component a slow-time-varying envelope $m_k[n]$ multiplies a quickly-oscillating carrier $c_k[n]$.
 
 
 CIS

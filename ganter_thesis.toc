@@ -6,111 +6,113 @@
 \contentsline {section}{\numberline {1.3}Contents of Thesis}{2}
 \contentsline {chapter}{\numberline {\@textofChapter \ 2:}Envelope Extraction Methods}{3}
 \contentsline {section}{\numberline {2.1}Cochlear Implants and DSP}{3}
-\contentsline {section}{\numberline {2.2}Background, History, Survey of Methods}{5}
-\contentsline {section}{\numberline {2.3}Incoherent}{6}
-\contentsline {section}{\numberline {2.4}Coherent}{6}
-\contentsline {subsection}{\numberline {2.4.1}Phase Preservation Detour}{6}
-\contentsline {section}{\numberline {2.5}The Relationships}{6}
-\contentsline {chapter}{\numberline {\@textofChapter \ 3:}Harmonic Envelopes}{7}
-\contentsline {subsection}{\numberline {3.0.1}harmonic signals}{7}
-\contentsline {section}{\numberline {3.1}Steady-State Analysis}{8}
-\contentsline {subsection}{\numberline {3.1.1}3 Harmonic Example: Desired Envelope}{8}
-\contentsline {subsection}{\numberline {3.1.2}Estimated Envelope}{9}
-\contentsline {subsection}{\numberline {3.1.3}3 Harmonic Example: Estimated Envelope}{11}
-\contentsline {section}{\numberline {3.2}Steady-State Metrics}{12}
-\contentsline {subsection}{\numberline {3.2.1}Coherent Gain}{12}
-\contentsline {subsection}{\numberline {3.2.2}scalloping loss}{14}
-\contentsline {subsection}{\numberline {3.2.3}Harmonic SIR}{15}
-\contentsline {subsection}{\numberline {3.2.4}Modulation Depth}{15}
-\contentsline {section}{\numberline {3.3}Explicit Temporal Modulation}{16}
-\contentsline {subsection}{\numberline {3.3.1}Followup Filter}{18}
-\contentsline {section}{\numberline {3.4}Changing F0}{19}
-\contentsline {section}{\numberline {3.5}Transients}{19}
-\contentsline {section}{\numberline {3.6}Steady-State Evaluation of Strategies}{19}
-\contentsline {subsection}{\numberline {3.6.1}Design Parameters}{19}
-\contentsline {subsection}{\numberline {3.6.2}Coherent Gain}{20}
-\contentsline {subsection}{\numberline {3.6.3}Harmonic SIR}{20}
-\contentsline {subsection}{\numberline {3.6.4}Modulation Depth}{20}
-\contentsline {subsection}{\numberline {3.6.5}figures}{21}
-\contentsline {section}{\numberline {3.7}ALL METRICS}{21}
-\contentsline {subsection}{\numberline {3.7.1}Harmonic Bandwidth}{21}
-\contentsline {section}{\numberline {3.8}Adaptive Filters}{21}
-\contentsline {chapter}{\numberline {\@textofChapter \ 4:}Implementation Considerations}{22}
-\contentsline {section}{\numberline {4.1}Efficient Interpolation Algorithm}{22}
-\contentsline {section}{\numberline {4.2}Mapping and Selection}{22}
-\contentsline {chapter}{\numberline {\@textofChapter \ 5:}-----------------------------------}{23}
-\contentsline {chapter}{\numberline {\@textofChapter \ 6:}Background}{24}
-\contentsline {section}{\numberline {6.1}Acoustic Hearing}{24}
-\contentsline {subsection}{\numberline {6.1.1}Anatomy of the Ear}{24}
-\contentsline {subsection}{\numberline {6.1.2}speech}{24}
-\contentsline {subsection}{\numberline {6.1.3}pitch}{24}
-\contentsline {subsection}{\numberline {6.1.4}other characteristics of sound}{24}
-\contentsline {subsection}{\numberline {6.1.5}types of audio}{24}
-\contentsline {section}{\numberline {6.2}cochlear implants}{24}
-\contentsline {subsection}{\numberline {6.2.1}modulation depth}{26}
-\contentsline {section}{\numberline {6.3}temporal fine structure}{26}
-\contentsline {chapter}{\numberline {\@textofChapter \ 7:}Harmonic Envelopes}{27}
-\contentsline {section}{\numberline {7.1}Envelope Extraction Methods}{27}
-\contentsline {subsection}{\numberline {7.1.1}Incoherent Methods - Short Time Fourier Transform (STFT)}{28}
-\contentsline {subsection}{\numberline {7.1.2}Incoherent Methods - Hilbert Transform}{30}
-\contentsline {subsection}{\numberline {7.1.3}Incoherent Methods - TODO}{33}
-\contentsline {subsection}{\numberline {7.1.4}Coherent Methods - Spectral Center-of-Gravity}{33}
-\contentsline {subsection}{\numberline {7.1.5}Coherent Methods - Harmonic}{33}
-\contentsline {subsection}{\numberline {7.1.6}Summary}{37}
-\contentsline {subsection}{\numberline {7.1.7}Phase Vocoder}{37}
-\contentsline {subsection}{\numberline {7.1.8}Modulator Bandwidth Tradeoff}{37}
-\contentsline {section}{\numberline {7.2}Explicit Carrier Modulation}{38}
-\contentsline {section}{\numberline {7.3}system design filter and downshift}{38}
-\contentsline {section}{\numberline {7.4}A General Framework for CI Processing Strategies}{38}
-\contentsline {subsection}{\numberline {7.4.1}ACE}{38}
-\contentsline {subsection}{\numberline {7.4.2}F0mod}{40}
-\contentsline {subsection}{\numberline {7.4.3}HSSE}{41}
-\contentsline {subsection}{\numberline {7.4.4}Other Strategies}{41}
-\contentsline {subsection}{\numberline {7.4.5}Summary}{42}
-\contentsline {section}{\numberline {7.5}Pitch Estimation}{42}
-\contentsline {section}{\numberline {7.6}Coherent Angle Encoding}{42}
-\contentsline {subsection}{\numberline {7.6.1}Two Methods}{43}
-\contentsline {subsection}{\numberline {7.6.2}Appropriate Scaling}{44}
-\contentsline {subsection}{\numberline {7.6.3}Efficacy}{45}
-\contentsline {section}{\numberline {7.7}NOTE}{46}
-\contentsline {section}{\numberline {7.8}Envelope Extraction}{46}
-\contentsline {subsection}{\numberline {7.8.1}limbo}{46}
-\contentsline {subsection}{\numberline {7.8.2}Downshift Frequency}{47}
-\contentsline {subsection}{\numberline {7.8.3}Filter Design}{49}
-\contentsline {subsection}{\numberline {7.8.4}Unvoiced Signals}{51}
-\contentsline {subsection}{\numberline {7.8.5}Takeaway}{51}
-\contentsline {section}{\numberline {7.9}Channel Allocation}{51}
-\contentsline {subsection}{\numberline {7.9.1}Envelope Combination}{51}
-\contentsline {section}{\numberline {7.10}N-of-M Selection 1}{52}
-\contentsline {subsection}{\numberline {7.10.1}Regularizer Heuristic}{52}
-\contentsline {subsection}{\numberline {7.10.2}Multiple Harmonics Per Channel}{52}
-\contentsline {subsection}{\numberline {7.10.3}Takeaway}{52}
-\contentsline {section}{\numberline {7.11}N-of-M Selection 2}{53}
-\contentsline {subsection}{\numberline {7.11.1}N-of-M Selection HSSE}{53}
-\contentsline {subsection}{\numberline {7.11.2}Takeaway}{53}
-\contentsline {section}{\numberline {7.12}Carrier Synthesis}{54}
-\contentsline {section}{\numberline {7.13}Conclusion}{54}
-\contentsline {chapter}{\numberline {\@textofChapter \ 8:}HHE}{55}
-\contentsline {subsection}{\numberline {8.0.1}HSSE vs F0mod Differences}{55}
-\contentsline {section}{\numberline {8.1}HSSE vs F0mod More Differences}{55}
-\contentsline {section}{\numberline {8.2}Alternative Coherent Envelope Calculation using FFT bins}{56}
-\contentsline {section}{\numberline {8.3}Critical Bands}{56}
-\contentsline {subsection}{\numberline {8.3.1}HSSE vs ACE vs Human Ear}{57}
-\contentsline {subsection}{\numberline {8.3.2}Resolution Simulated by Adaptive Envelopes}{57}
-\contentsline {subsection}{\numberline {8.3.3}Channel Selection Analysis}{57}
-\contentsline {section}{\numberline {8.4}Other Important Components}{58}
-\contentsline {section}{\numberline {8.5}Algorithm}{58}
-\contentsline {section}{\numberline {8.6}Freedom details}{58}
-\contentsline {chapter}{\numberline {\@textofChapter \ 9:}Subject Tests}{59}
-\contentsline {subsection}{\numberline {9.0.1}simulated real-time}{59}
-\contentsline {subsection}{\numberline {9.0.2}mandarin tones pitch tilt}{59}
-\contentsline {subsection}{\numberline {9.0.3}freedom processor}{59}
-\contentsline {chapter}{\numberline {\@textofChapter \ 10:}Less Theoretical Stuff}{60}
-\contentsline {section}{\numberline {10.1}Engineering Decisions for Real-time}{60}
-\contentsline {section}{\numberline {10.2}$F_0$ tilt, exageration}{60}
-\contentsline {section}{\numberline {10.3}assembly implementation}{60}
-\contentsline {chapter}{\numberline {\@textofChapter \ 11:}Conclusion}{61}
-\contentsline {section}{\numberline {11.1}Summary}{61}
-\contentsline {section}{\numberline {11.2}Future Work}{61}
-\contentsline {chapter}{\@textofBIB }{62}
-\contentsline {chapter}{\numberline {\@textofAppendix \ A:}Where to find the files}{63}
+\contentsline {subsection}{\numberline {2.1.1}CI Block Diagrams}{4}
+\contentsline {subsection}{\numberline {2.1.2}Envelope Math}{5}
+\contentsline {section}{\numberline {2.2}Background, History, Survey of Methods}{6}
+\contentsline {section}{\numberline {2.3}Incoherent}{7}
+\contentsline {section}{\numberline {2.4}Coherent}{7}
+\contentsline {subsection}{\numberline {2.4.1}Phase Preservation Detour}{7}
+\contentsline {section}{\numberline {2.5}The Relationships}{7}
+\contentsline {chapter}{\numberline {\@textofChapter \ 3:}Harmonic Envelopes}{8}
+\contentsline {subsection}{\numberline {3.0.1}harmonic signals}{8}
+\contentsline {section}{\numberline {3.1}Steady-State Analysis}{9}
+\contentsline {subsection}{\numberline {3.1.1}3 Harmonic Example: Desired Envelope}{9}
+\contentsline {subsection}{\numberline {3.1.2}Estimated Envelope}{10}
+\contentsline {subsection}{\numberline {3.1.3}3 Harmonic Example: Estimated Envelope}{12}
+\contentsline {section}{\numberline {3.2}Steady-State Metrics}{13}
+\contentsline {subsection}{\numberline {3.2.1}Coherent Gain}{13}
+\contentsline {subsection}{\numberline {3.2.2}scalloping loss}{15}
+\contentsline {subsection}{\numberline {3.2.3}Harmonic SIR}{16}
+\contentsline {subsection}{\numberline {3.2.4}Modulation Depth}{16}
+\contentsline {section}{\numberline {3.3}Explicit Temporal Modulation}{17}
+\contentsline {subsection}{\numberline {3.3.1}Followup Filter}{19}
+\contentsline {section}{\numberline {3.4}Changing F0}{20}
+\contentsline {section}{\numberline {3.5}Transients}{20}
+\contentsline {section}{\numberline {3.6}Steady-State Evaluation of Strategies}{20}
+\contentsline {subsection}{\numberline {3.6.1}Design Parameters}{20}
+\contentsline {subsection}{\numberline {3.6.2}Coherent Gain}{21}
+\contentsline {subsection}{\numberline {3.6.3}Harmonic SIR}{21}
+\contentsline {subsection}{\numberline {3.6.4}Modulation Depth}{21}
+\contentsline {subsection}{\numberline {3.6.5}figures}{22}
+\contentsline {section}{\numberline {3.7}ALL METRICS}{22}
+\contentsline {subsection}{\numberline {3.7.1}Harmonic Bandwidth}{22}
+\contentsline {section}{\numberline {3.8}Adaptive Filters}{22}
+\contentsline {chapter}{\numberline {\@textofChapter \ 4:}Implementation Considerations}{23}
+\contentsline {section}{\numberline {4.1}Efficient Interpolation Algorithm}{23}
+\contentsline {section}{\numberline {4.2}Mapping and Selection}{23}
+\contentsline {chapter}{\numberline {\@textofChapter \ 5:}-----------------------------------}{24}
+\contentsline {chapter}{\numberline {\@textofChapter \ 6:}Background}{25}
+\contentsline {section}{\numberline {6.1}Acoustic Hearing}{25}
+\contentsline {subsection}{\numberline {6.1.1}Anatomy of the Ear}{25}
+\contentsline {subsection}{\numberline {6.1.2}speech}{25}
+\contentsline {subsection}{\numberline {6.1.3}pitch}{25}
+\contentsline {subsection}{\numberline {6.1.4}other characteristics of sound}{25}
+\contentsline {subsection}{\numberline {6.1.5}types of audio}{25}
+\contentsline {section}{\numberline {6.2}cochlear implants}{25}
+\contentsline {subsection}{\numberline {6.2.1}modulation depth}{27}
+\contentsline {section}{\numberline {6.3}temporal fine structure}{27}
+\contentsline {chapter}{\numberline {\@textofChapter \ 7:}Harmonic Envelopes}{28}
+\contentsline {section}{\numberline {7.1}Envelope Extraction Methods}{28}
+\contentsline {subsection}{\numberline {7.1.1}Incoherent Methods - Short Time Fourier Transform (STFT)}{29}
+\contentsline {subsection}{\numberline {7.1.2}Incoherent Methods - Hilbert Transform}{31}
+\contentsline {subsection}{\numberline {7.1.3}Incoherent Methods - TODO}{34}
+\contentsline {subsection}{\numberline {7.1.4}Coherent Methods - Spectral Center-of-Gravity}{34}
+\contentsline {subsection}{\numberline {7.1.5}Coherent Methods - Harmonic}{34}
+\contentsline {subsection}{\numberline {7.1.6}Summary}{38}
+\contentsline {subsection}{\numberline {7.1.7}Phase Vocoder}{38}
+\contentsline {subsection}{\numberline {7.1.8}Modulator Bandwidth Tradeoff}{38}
+\contentsline {section}{\numberline {7.2}Explicit Carrier Modulation}{39}
+\contentsline {section}{\numberline {7.3}system design filter and downshift}{39}
+\contentsline {section}{\numberline {7.4}A General Framework for CI Processing Strategies}{39}
+\contentsline {subsection}{\numberline {7.4.1}ACE}{39}
+\contentsline {subsection}{\numberline {7.4.2}F0mod}{41}
+\contentsline {subsection}{\numberline {7.4.3}HSSE}{42}
+\contentsline {subsection}{\numberline {7.4.4}Other Strategies}{42}
+\contentsline {subsection}{\numberline {7.4.5}Summary}{43}
+\contentsline {section}{\numberline {7.5}Pitch Estimation}{43}
+\contentsline {section}{\numberline {7.6}Coherent Angle Encoding}{43}
+\contentsline {subsection}{\numberline {7.6.1}Two Methods}{44}
+\contentsline {subsection}{\numberline {7.6.2}Appropriate Scaling}{45}
+\contentsline {subsection}{\numberline {7.6.3}Efficacy}{46}
+\contentsline {section}{\numberline {7.7}NOTE}{47}
+\contentsline {section}{\numberline {7.8}Envelope Extraction}{47}
+\contentsline {subsection}{\numberline {7.8.1}limbo}{47}
+\contentsline {subsection}{\numberline {7.8.2}Downshift Frequency}{48}
+\contentsline {subsection}{\numberline {7.8.3}Filter Design}{50}
+\contentsline {subsection}{\numberline {7.8.4}Unvoiced Signals}{52}
+\contentsline {subsection}{\numberline {7.8.5}Takeaway}{52}
+\contentsline {section}{\numberline {7.9}Channel Allocation}{52}
+\contentsline {subsection}{\numberline {7.9.1}Envelope Combination}{52}
+\contentsline {section}{\numberline {7.10}N-of-M Selection 1}{53}
+\contentsline {subsection}{\numberline {7.10.1}Regularizer Heuristic}{53}
+\contentsline {subsection}{\numberline {7.10.2}Multiple Harmonics Per Channel}{53}
+\contentsline {subsection}{\numberline {7.10.3}Takeaway}{53}
+\contentsline {section}{\numberline {7.11}N-of-M Selection 2}{54}
+\contentsline {subsection}{\numberline {7.11.1}N-of-M Selection HSSE}{54}
+\contentsline {subsection}{\numberline {7.11.2}Takeaway}{54}
+\contentsline {section}{\numberline {7.12}Carrier Synthesis}{55}
+\contentsline {section}{\numberline {7.13}Conclusion}{55}
+\contentsline {chapter}{\numberline {\@textofChapter \ 8:}HHE}{56}
+\contentsline {subsection}{\numberline {8.0.1}HSSE vs F0mod Differences}{56}
+\contentsline {section}{\numberline {8.1}HSSE vs F0mod More Differences}{56}
+\contentsline {section}{\numberline {8.2}Alternative Coherent Envelope Calculation using FFT bins}{57}
+\contentsline {section}{\numberline {8.3}Critical Bands}{57}
+\contentsline {subsection}{\numberline {8.3.1}HSSE vs ACE vs Human Ear}{58}
+\contentsline {subsection}{\numberline {8.3.2}Resolution Simulated by Adaptive Envelopes}{58}
+\contentsline {subsection}{\numberline {8.3.3}Channel Selection Analysis}{58}
+\contentsline {section}{\numberline {8.4}Other Important Components}{59}
+\contentsline {section}{\numberline {8.5}Algorithm}{59}
+\contentsline {section}{\numberline {8.6}Freedom details}{59}
+\contentsline {chapter}{\numberline {\@textofChapter \ 9:}Subject Tests}{60}
+\contentsline {subsection}{\numberline {9.0.1}simulated real-time}{60}
+\contentsline {subsection}{\numberline {9.0.2}mandarin tones pitch tilt}{60}
+\contentsline {subsection}{\numberline {9.0.3}freedom processor}{60}
+\contentsline {chapter}{\numberline {\@textofChapter \ 10:}Less Theoretical Stuff}{61}
+\contentsline {section}{\numberline {10.1}Engineering Decisions for Real-time}{61}
+\contentsline {section}{\numberline {10.2}$F_0$ tilt, exageration}{61}
+\contentsline {section}{\numberline {10.3}assembly implementation}{61}
+\contentsline {chapter}{\numberline {\@textofChapter \ 11:}Conclusion}{62}
+\contentsline {section}{\numberline {11.1}Summary}{62}
+\contentsline {section}{\numberline {11.2}Future Work}{62}
+\contentsline {chapter}{\@textofBIB }{63}
+\contentsline {chapter}{\numberline {\@textofAppendix \ A:}Where to find the files}{64}
