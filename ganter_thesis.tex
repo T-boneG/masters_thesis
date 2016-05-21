@@ -208,6 +208,8 @@ If explicitly inducing modulations it is important to remove any other modulatio
  
 \chapter{Introduction}
 
+Goal: How do we encode harmonics in CIs?
+
 this is the introduction
 
 Why harmonic encoding?  Help differentiate signals, (timbre), improve SIN performance, free up channels for other information
@@ -217,6 +219,12 @@ Why harmonic encoding?  Help differentiate signals, (timbre), improve SIN perfor
 we are considering what is the ideal matched filter, and how close of an approximation do we need?
 
 ``By definition, timbre is the perceptual attribute that distinguishes two sounds that have the same pitch, loudness, and duration (American National Standards Institute, 1973).''
+
+need motivation for why encoding harmonics:
+
+1) more truthful/natural/data-efficient representation with limited tools
+
+2) mitigate artifacts
 
 \section{Survey of Literature}
 
@@ -246,15 +254,42 @@ f
 
 ``bowed string tones are inharmonic during both their attack and decay (Beauchamp, 1974)''
 
+``frequencies in the range of 80-300 Hz encompassing F0 for nearly all adult males and many females and children.''
+% [pitch_ranking_strategy_compare]
+
+%"The HiRes120 strategy, used in the Advanced Bionics implant, is the first commercial stimulating strategy that uses the virtual channel technique. Virtual channels are created by adjusting the current level ratio of two neighboring electrodes."
+
+``wideband vs feature extraction'' [F0F2-F0F1F2]
+not sure what wideband implies, alternatively use temporal envelope cues.
+
+``Another school of thought was based on speech production and perception, in which spec- tral peaks or formants, which reflect the reso- nance properties of the vocal tract, are extracted and delivered to different electrodes according to the presumed tonotopic relationship between the place of the electrode and its evoked pitch.'' %[trends_in_CIs]
+F0F2, F0F1F2, MPEAK
+
+    what is important?
+        hearing for any general reason...safety, functionality
+        speech recognition
+    what is important and lacking?
+        music appreciation
+        tonal language
+        SiN
+        quality
+
+\subsection{Other Strategies}
+
+any hybrid considerations?  maybe hint at hsse ace hybrid
+
+talk about unmentioned methods (AB, MedEl)
+
+
 \section{Contents of Thesis}
 
 % ========== Chapter 2
 
-\chapter{Envelope Extraction Methods}
-
-\section{Cochlear Implants and DSP}
+\chapter{Cochlea Implant Processing}
 
 Human hearing is tonotopic, that is, starting in the cochlea and through the rest of processing in the brain, sounds far apart in frequency are processed separately.  The cochlea is spatially arranged; As a sound propagates through the basilar membrane the different frequencies are amplified or suppressed such that they stimulate locations physically far apart in the cochlea.
+
+%"In spite of the fact that this analog signal itself preserves most of the original temporospectral information, the signal transfers to the auditory nerve is handicapped by the limited maximal firing frequency of the auditory nerve in response to the electrical stimulation. High synchronization of nerve fibers and the neural refractory period only allow for frequency transmission up to 1 kHz via temporal coding alone. For frequencies above 1 kHz, the spectral information cannot be sufficiently transferred by temporal coding alone. Multichannel implants have been developed to make use of the tonotopic organization in the cochlea and thus transmit more spectral information to the auditory nerve." \cite{somek2006coding}
 
 In a cochlear implant an array of electrodes is inserted into the cochlea.  This array is intentionally designed to have a tonotopic organization.  When current is sent to the most deeply inserted (apical) electrodes, neurons associated with low frequency sounds are stimulated.  Conversely, current at a basal electrode will stimulate neurons associated with high frequencies.
 
@@ -262,9 +297,51 @@ Early cochlear implant strategies, under the category compressed-analog (CA), de
 
 Current processing strategies use feature extraction to achieve much higher performance on speech recognition.  From each bandlimited signal a slow-time-varying envelope is extracted and the extra information is discarded.
 
+These envelopes are amplitude compressed and then used to modulate continuous bipolar pulse trains on each electrode channel.
+
+These strategies all stem from an original parent, continuous-interleaved-sampling (CIS).  CIS is a solution to the problem of electric field interaction.  By interleaving pulse-trains there is minimal interaction between electrodes.
+
+
+\begin{figure}[!ht]
+  \centering
+    \includegraphics[width=.5\textwidth]{caVScis}   
+    \caption{CA vs CIS}
+\end{figure}
+
+\subsection{Sum-of-Products Model}
+
+We have now laid out enough background information to introduce a mathematical model for audio signals called the sum-of-products model.
+
+Our digitally sampled audio signal $x[n]$, ($n \epsilon \mathbb{Z}$), is composed of bandpass components $x_k[n]$.  In each bandpass component a slow-time-varying envelope $m_k[n]$ multiplies a quickly-oscillating carrier $c_k[n]$.
+
+\begin{align}
+\label{eq:sum-of-products}
+x[n] = \sum\limits_k x_k[n] = \sum\limits_k m_k[n] c_k[n]
+\end{align}
+
+Although there are infinite ways to decompose a signal into a sum-of-products, the model stems from real-word signals.  To gain some intuition consider, for example, a voiced vowel.  The vocal tract can be thought of as the carriers, $c_k[n]$.  Without changing the position of the mouth, one can change the pitch of a note.  The mouth then acts as the envelope, $m_k[n]$.  As the mouth changes shapes it changes the formant structure structure.  Equivalently, it changes the relative amplitude of each bandpass component $x_k[n]$.
+
+As another example we may consider musical instruments.  The pitch is characterized by the carriers but the timbre which is predominantly characterized by the attack time and spectral centroid [kong 2011] will be encoded by the rise time and relative amplitude of the envelopes.
+
+%``We begin by specifying the desired qualitative properties of the factors mk[n] and ck[n]. Generally, mk[n] is thought to represent the envelope, or slowly-varying temporal contour, of xk[n]. Conversely, ck[n] contains the quickly-oscillating fine structure of xk[n]. These designations lead to a convenient analogy with amplitude- and frequency- modulation systems in communications theory, which employ signal multipliers to convert low-frequency messages to high-frequency signals with better transmission characteristics. Along these lines, we assume xk[n] is of the form
+%xk[n] = mk[n] · ck[n] = mk[n] · ejφk[n], (2.2)
+%where ck[n] is the oscillating carrier and mk[n] is the low-frequency modulator, or message. Since the carrier is unimodular, all of the magnitude information about xk[n] resides in the envelope-like modulator.'' - clark thesis
+
+%specify harmonic case of sum-of-products? this describes why coherent methods ... motivates coherent methods i guess
+
+\subsection{Why Envelopes?}
+
 One of the motivations for this approach is the limited ability to perceive temporal modulations in electric hearing.  In acoustic hearing modulations up to a few kHz may be perceptible, however cochlear implant envelope extraction techniques are designed to limit modulations, typically to around 160 to 320 Hz, which is closer to the range perceptible in electric hearing.
 
-Another motivation comes from the robustness of speech to distortion.  This can be understood by considering a closely related system, the channel vocoder.  Vocoding is a method of signal analysis and synthesis initially designed for audio data compression in telecommunication.  As of the mid 70's the vocoder has gained widespread familiarity via the music industry as a funky voice effect.  It is most well known for the signature robot voice heard in hits such as Kraftwerk's song ``The Robots'' or Styx's ``Mr. Roboto''.  In its application to music, the vocoder extracts the bandlimited envelopes of one source (typically vocal) and applies them to each bandlimited components of a second source.  What's interesting is that this second source can be essentially any arbitrary broadband signal and yet we still understand speech from the first source.  In this way the vocoder acts as a form of lossy data compression; the low data-rate envelopes are extracted and they may be later applied to, for example, white-noise.
+Modulation rates are also limited by pulse rate.  Although there isn't a quantitative value analogous to Nyquist rate, modulations at rates higher than a certain percentage of the constant pulse rate will not be represented accurately by the modulated pulse train.  That being said, cochlear implants today support modulations typically upwards of 2000pps (pulses per second), which should be sufficient provided modulations limited to ~320Hz.
+
+\subsection{The Channel Vocoder}
+
+To gain some intuition as to how and why CIS processing works we consider a closely related system, the channel vocoder.  Vocoding is a method of signal analysis and synthesis initially designed for audio data compression in telecommunication.  As of the mid 70's the vocoder has gained widespread familiarity via the music industry as a funky voice effect.  It is most well known for the signature robot voice heard in hits such as Kraftwerk's song ``The Robots'' or Styx's ``Mr. Roboto''.  In its application to music, the vocoder extracts the bandlimited envelopes of one source (typically vocal) and applies them to each bandlimited components of a second source.
+
+What's interesting is that this second source can be essentially any arbitrary broadband signal and yet we still understand speech from the first source.  In this way the vocoder acts as a form of lossy data compression; the low data-rate envelopes are extracted and they may be later applied to, for example, white-noise.
+
+This tells us that speech information is predominantly contained in the bandlimited envelopes, and thanks to the incredible robustness of speech to distortion, an estimated envelope is sufficient for speech comprehension.
 
 \begin{figure}[!ht]
   \centering
@@ -272,108 +349,736 @@ Another motivation comes from the robustness of speech to distortion.  This can 
     \caption{Channel Vocoder Processing}\label{fig:vocoder}
 \end{figure}
 
-Linking back, cochlear implant envelope extraction strategies do the same thing as vocoder signal analysis, as seen in figure~\ref{fig:vocoder}, however rather than using a second source to synthesize a new sound, the envelope is directly transmitted to the electrode array.
+It should be noted that the second source is typically chosen to be a broadband stationary signal.  If the signal is non-stationary it will have time-varying envelopes of it's own which will interact with the envelopes of the first source. Referencing back to our sum-of-products model the second source acts as a combination of carriers, $c_k[n]$, and the first source's envelopes, $m_k[n]$, are applied.
 
-\subsection{CI Block Diagrams}
+\begin{align}
+\label{eq:sum-of-products}
+s^1[n] =& \sum\limits_k s_k^1[n] = \sum\limits_k m^1_k[n] c^1_k[n] \\
+s^2[n] =& \sum\limits_k s_k^2[n] = \sum\limits_k m^2_k c^2_k[n] \\
+y[n] =& \sum\limits_k m_k^1[n] m^2_k c^2_k[n]
+\end{align}
 
-Let's consider the processing stages of a cochlear implant.
+Linking back, cochlear implant envelope extraction strategies do the same thing as vocoder signal analysis, as seen in figure~\ref{fig:vocoder}, however rather than using a second source to synthesize a new sound, the envelopes directly modulate electrical pulse trains.
 
-Conclusion:
-- induced vs explicit modulation
-- coherent vs incoherent
+\subsection{Temporal Fine Structure}
 
-CONTINUE HERE!!!
+The major drawback to this method of encoding is the loss of temporal fine structure.  Referencing back to our sum-of-products model, we are extracting the envelopes and discarding carrier information.
 
-Problem: how to incorporate filterbank and envelope extraction as same block without confusion...could the math help with this?
+When using a vocoder, vocals sung at different pitches general roughly the same output, $y[n]$.  Similarly in cochlear implants temporal fine structure that encodes pitch, as well as other signal characteristics, is lost in processing.
 
-Could describe DSP, envelope extraction and channel selection, ACE, F0mod, etc
+``In most existing clinical sound processors, fine structure in the input acoustic signal is discarded, and only envelope information is preserved. ''  %[pitch_ranking_strategy_compare]
 
-\subsection{Envelope Math}
+% "Most cases with severe hearing loss involve damage to this conversion of a sound to an electric impulse in the cochlea. A cochlear implant bypasses this natural conversion process by directly stimulating the auditory nerve with electric pulses. Hence, the cochlear implant will have to mimic and replace auditory functions from the external ear to the inner ear." [trends inCI]
 
-We have now laid out enough background information to introduce a mathematical model for audio signals called the sum-of-products model.
+\subsection{Processing Blocks}
+
+Let's consider the processing blocks of a cochlear implant.  The main stages to processing in cochlear implants are visualized in figure~\ref{fig:CI_signal_flow} below.  While at every stage adjustments can be made, for the purpose of comparing DSP algorithms, all other stages will be assumed constant throughout this work unless otherwise specified.
+
+\begin{figure}[!ht]
+  \centering
+    \includegraphics[width=1.0\textwidth]{CI_Signal_Flow}   
+    \caption{Signal Flow in CI}\label{fig:CI_signal_flow}
+\end{figure}
+
+In this document, the output of the DSP stage will be a strictly positive signal used to amplitude modulate a constant bipolar pulse train.  T/C Level Mapping refers to a logarithmically-compressed mapping from amplitude to current level.
+
+\begin{figure}[!ht]
+  \centering
+    \includegraphics[width=1.0\textwidth]{output_of_dsp}   
+    \caption{Tranformation from DSP output to Electrical Signal}\label{fig:output_of_dsp}
+\end{figure}
+
+\subsection{Recap}
+
+To conclude up to this point, cochlear implants use an array of tonotopically orgranized electrodes.  On each electrode a electric pulse train is transmitted and that pulse train is modulated by an envelope corresponding to a bandpass signal component
+
+\section{DSP Algorithms}
+
+To gain insight into how we can encode harmonic signals, in this section we will look inside the "DSP Algorithm" box; we will compare three specific strategies, ACE, F0mod, and HSSE with the goals of evaluating the pros and cons of each and considering how to optimize performance for harmonic encoding.
+
+\subsection{ACE}
+
+The simplest of the considered strategies is the Advanced Combination Encoder (ACE).  ACE has become a clinical standard for CI processing and is used in a vast number of users.
+
+ACE is Cochlear Ltd's instance of the auditory community's generalized category of $N$-of-$M$ strategies.  In these strategies, $K$ envelopes are first extracted then allocated to $M$ channels corresponding uniquely to electrodes.  During each processing frame a subset $N$-of-$M$ channel envelopes is selected for stimulation on the internal implant.  In the case that more than one envelope is allocated to a channel, the allocation stage must make a decision to select or combine envelopes in some way.
+
+$K$ - number of envelopes per frame
+
+$M$ - number of electrode channels
+
+$N$ - number of electrodes stimulated per frame
+
+$$K \geq M \geq N$$
+
+\begin{figure}[!ht]
+  \centering
+    \includegraphics[width=0.5\textwidth]{ACE_flow_diagram_explicit}   
+    \caption{ACE Flow Diagram}
+\end{figure}
+
+The following figure is simply a condensed version of the previous flow diagram.  This condensed notation will be carried through to the other strategies analyzed.
+
+\begin{figure}[!ht]
+  \centering
+    \includegraphics[width=1\textwidth]{ACE_flow_diagram}   
+    \caption{condensed ACE Flow Diagram}\label{fig:ace_flow_diagram}
+\end{figure}
+
+While ACE does a sufficient job for many CI users in speech recognition tasks, a large gap remains between normal hearing and cochlear implants in many tasks such as pitch discrimination.  This is largely attributed to the lack of temporal fine structure information in this envelope encoding strategy.
+
+%ACE uses place cues as the primary source of encoding a sound's characteristics.  To this day it is still unclear as to what implications this has.  This is due to a combination of factors including the subjective nature of pitch and absence of a ground truth baseline in many CI users.  For example, high-pass filtering a sound may cause it to sound brighter.  In contrast low-pass filtering would cause a warm quality.  As stimulus change electrodes a CI user could claim to experience changes in the high-low quality of pitch when really they are experiencing changes in the bright-warm quality of spectral distribution, or more likely an ambiguous combination of both.
+
+%``Previous research had suggested that cochlear implant place pitch was more akin to brightness (an aspect of timbre) than to pitch. However, the Modified Melodies results supported the hypothesis that place pitch can support melody perception.'' [swanson thesis]
+
+%There is general consensus that place cues are not sufficient for encoding pitch.  Alternatively, temporal cues encoded as time-domain carrier modulations have shown to be promising.
+
+ACE does, however, provide limited temporal modulations via beat frequencies.  Through intentional processing artifacts, beat-frequencies will be induced in the processing of harmonic signals at a rate of the difference between the two harmonic frequencies, i.e. $F_0$.  Typically these modulations are not full depth [ref?] and are usually limited to under ~250Hz [ref?].
+
+In this document will will refer to these artifact based modulations as induced modulations.  Looking at the flow diagram of figure~\ref{fig:ace_flow_diagram} it is not apparent that temporal modulations are contained in the processing path, however these modulations are encoded in the envelope itself.  We can think of this as our extracted envelope containing some information about the carriers, $c_k[n]$.
+
+Induced modulations are complementary to explicit modulation, used in F0mod and HSSE.  Explicit modulations are those extracted from the signal separate from envelopes, and later applied to the final outputs.
+
+\subsection{F0mod}
+
+To get at the problem of pitch discrimination, (Laneau et al 2006) developed a new research strategy, F0mod.  F0mod provides the same processing as ACE with one important change, explicit carrier modulation.  It achieves this by adding a pitch estimator into the processing.
+
+Once a fundamental frequency ($F_0$) is acquired, all output envelopes are modulated by a raised sinusoid at a rate of $F_0$.  $F_0$ is used because high modulation rates (typically above 300Hz) are not noticeable with a CI.
+
+\begin{figure}[!ht]
+  \centering
+    \includegraphics[width=1\textwidth]{F0mod_flow_diagram}   
+    \caption{F0mod Flow Diagram}
+\end{figure}
+
+This raised sinusoid is constant modulation depth, (full dynamic range), and same across channels, (phase aligned).  An example comparing this to induced modulations is shown in figure~\ref{fig:induced_vs_explicit}.
+
+
+\begin{figure}[!ht]
+  \centering
+    \includegraphics[width=1\textwidth]{induced_vs_explicit}   
+    \caption{Induced vs Explicit Temporal Modulations}\label{fig:induced_vs_explicit}
+\end{figure}
+
+F0mod has shown promising results in acute tests for pitch discrimination.  It has also inspired other processing strategies such as eTone, which uses a more sophisticated harmonic sieve pitch estimator as well as soft decisions to overcome the problem of encoding both harmonic and inharmonic sounds as well as those that fall somewhere in between.
+
+\subsection{HSSE}
+
+Looking for a novel approach to improved pitch perception and more broadly music perception, (Li, Atlas, Nie) came up with Harmonic Single Sideband Encoder (HSSE).
+
+There are two different versions of HSSE.  We will start with the version most similar to F0mod.
+
+In this version, coherent demodulation extracts harmonic envelopes.  These harmonic envelopes are then combined into channels based on the harmonic index and $F_0$.  Just as in F0mod a subset is selected for stimulation and then these envelopes are combined with carrier modulators.
+
+$$K, M \geq N$$
+
+\begin{figure}[!ht]
+  \centering
+    \includegraphics[width=1\textwidth]{HSSE_flow_diagram_noPhase}   
+    \caption{HSSE Flow Diagram}\label{fig:HSSE_flow_1}
+\end{figure}
+
+The key differences between this and F0mod can be summarized quite simply: every stage of typical ACE processing is now done coherently using $F_0$ information.
+
+It should be noted that it is not necessarily true that $K \geq M$.  In the case that no envelopes are allocated to a channel we may simply rule out that channel during the selection stage.
+
+In the second version, more information about the carriers is retained.  This put's some restrictions on the type of carrier than can be used, however it encodes time varying phase information which is unique to each envelope.
+
+Because of the unique characteristics of each carrier, the carrier synthesis stage must be moved to an earlier point in the processing stage.  First, complex envelopes containing phase information are extracted.  These envelopes are then combined with a common carrier at a rate of $F_0$ however each output, which we will call a modulator, will be unique and time-varying in both magnitude and phase.
+
+\begin{figure}[!ht]
+  \centering
+    \includegraphics[width=1\textwidth]{HSSE_flow_diagram_Phase}   
+    \caption{HSSE (with phase) Flow Diagram}
+\end{figure}
+
+\subsection{Summary}
+
+Comparing these strategies, the differences may be summarized as:
+
+1) Envelope Extraction Method
+
+- not discussed yet
+
+2) Temporal Encoding Method
+
+a) induced vs explicit
+
+b) phase preservation (explicit only)
+
+c) modulation waveform (explicit only)
+
+3) Envelope-to-Channel Allocation and Channel Selection
+
+We will start by investigating 1 and 2(a,b).  Some considerations for 2(c) and 3 will be brought up upon concluding this document, however the primary focus will be on 1 and 2(a,b).
+
+The chapter~\ref{ch:envelope_extraction_chapter} we will discuss mathematical methods to envelope extraction as well as phase preservation since phase is extracted at the same time.  As a result we will generalize 1 and we will answer 2(b).
+
+In chapter~\ref{ch:harmonic_envelopes} we will evaluate design considerations for 1 and in doing so we will answer 2(a).
+
+When we conclude we will briefly discuss 2(c) and 3.
+
+
+\chapter{Envelope Extraction Methods}\label{ch:envelope_extraction_chapter}
+
+In this chapter we will define the specific mathematical operations used to extract bandlimited time-varying envelopes.  These methods fall under a general signal processing category of analysis-synthesis systems.  In these methods a signal is decomposed into it's envelopes and carriers.  Then the envelopes and/or carriers are manipulated individually before recombination. 
+
+One of the major focuses of research in this area is the evaluating the amount of distortion induced by the system.  For example, Ghitza's test is a way of measuring the out-of-band distortion of a modulation filtering system. [REF] %[Ghitza_Critical-Band-Envelope]
+
+Cochlear implant processing in unique in that the final output is not an audio signal.  What this means is we only do the first half of the processing, the analysis step.  This is critical to understand when considering methods, as all of the considerations related to synthesis or full-system distortion are no longer relevant.
+
+This chapter is organized as follows.  We will first introduce the envelope extraction methods to be considered.  These methods are broken into to categories: incoherent and coherent.  We will then take a quick detour to consider the efficacy of coherent angle encoding.  Finally we will compare the methods and for a generalization of envelope extraction.
+
+\section{Incoherent Methods}
+
+The difference between incoherent and coherent is actually quite simple.  Consider a system $H_k{\cdot}$.  If this system is time-invariant then it is incoherent.  If it is time-varying and the way in which it varies is a function of the input, we call this a coherent system.  This is visualized in figure~\ref{fig:incoherent_vs_coherent}.  In coherent methods the input not only passes through the system, it changes the system.
+
+\begin{figure}[!ht]
+  \centering
+    \includegraphics[width=1\textwidth]{incoherent_vs_coherent}   
+    \caption{Incoherent vs Coherent Processing}\label{fig:incoherent_vs_coherent}
+\end{figure}
+
+In all considered methods, the input is a real digitally sampled audio waveform, $x[n]$ bounded in the normalized range of $[-1, 1]$.  In the case of incoherent methods, the output will be $K$ real digital waveforms, $m_k[n]$, in the range $[0, 1]$.  All filters considered will be finite impulse response (FIR).
+
+\subsection{Continuous Interleaved Sampling (CIS)}
+
+This is method specifically implemented by the CIS strategy.  We first bandpass filter the signal, where $h_k$ is a bandpass filter and $k$ has arbitrary limits.  Then we full-wave rectify (take the magnitude) and finally lowpass filter that output.  $h_{lp}[n]$ is a lowpass filter, typically with a cutoff around 200-400Hz.
+
+\begin{align}
+m_{k,CIS}[n] =& \Big| x[n] * h_k[n] \Big| * h_{lp}[n]
+\end{align}
+
+
+\subsection{Hilbert Envelope}
+
+The Hilbert Envelope is method of decomposition applied far more broadly than the field of cochlear implants.  Despite only retaining the envelope, we look at the carrier just to gain insight into how the signal $x[n]$ is represented in the decomposition.  We first acquire the bandpass signal, $x_k[n]$.  We then define our envelope as the magnitude of the analytic signal, acquire via a Hilbert transform, denoted $\mathcal{H}\{\cdot\}$.
+
+\begin{align}
+x_k[n] =& x[n] * h_k[n] \\
+\widehat{x}_k[n] =& x_k[n] + j\mathcal{H}\{x_k[n]\} \\
+\label{eq:hilbert_envelope}
+m_{k,hilbert}[n] =& \Big| \widehat{x}_k[n] \Big| \\
+c_{k,hilbert}[n] =& cos(\angle\widehat{x}_k[n])
+\end{align}
+
+We can see intuitively that if the filterbank $[h_1[n], h_2[n], ...]$ has a flat total response, that all of the information of the original signal is contained in the envelopes and carriers, and thus we should be able to reconstruct the input from these components.
+
+\subsection{Short Time Fourier Transform (STFT)}
+
+The short-time Fourier transform (STFT) has many applications not associated with envelope extraction, however through analysis we will see that it fits the sum-of-products model we are looking for.
+
+The STFT has two classic interpretations: a series of windowed Fourier transforms (each at a different time instant) or a collection of uniform bandpass filters (each at a different center frequency).  For our purposes we will be using the later.
+
+An STFT bin at discrete time $n$ and discrete frequency $k$ is defined as
+
+\begin{align}
+\label{eq:STFTdefinition}
+X[n,k] = \sum\limits_{r=-\infty}^{\infty} x[r] w[r - n] e^{-j\frac{2\pi}{N}kr}, \qquad 0 \leq k < N
+\end{align}
+
+where $N$ is the FFT order.  Defining a new variable $r' = r - n$ and defining our window such that  $w[n] = 0$ for $n < 0$ or $N \leq n$,
+
+\begin{align}
+X[n,k] =& \sum\limits_{r'=0}^{N-1} x[n + r'] w[r'] e^{-j\frac{2\pi}{N}k(n + r')} \nonumber \\
+=& e^{-j\frac{2\pi}{N}kn} \sum\limits_{r'=0}^{N-1} x[n + r'] w[r'] e^{-j\frac{2\pi}{N}kr'}
+\end{align}
+
+Let $X[n,k]$ be represented in polar form as the following
 
 \begin{equation}
-\label{eq:sum-of-products}
-x[n] = \sum\limits_k x_k[n] = \sum\limits_k m_k[n] c_k[n]
+X[n,k] = \vert X[n,k]\vert e^{j\angle X[n,k]}
 \end{equation}
 
-Our digitally sampled audio signal $x[n]$, ($n \epsilon \mathbb{Z}$), is composed of bandpass components $x_k[n]$.  In each bandpass component a slow-time-varying envelope $m_k[n]$ multiplies a quickly-oscillating carrier $c_k[n]$.
+If we assume that the window $w[n] \neq 0$ for $0 \leq n \leq N-1$ then we have the inverse
+
+\begin{align}
+\label{eq:hop_factor}
+x[n + r'] =& \frac{1}{Nw[r']}  \sum\limits_{k=0}^{N-1} X[n,k] e^{j\frac{2\pi}{N}k(n+r')} \nonumber \\
+=& \frac{1}{Nw[r']}  \sum\limits_{k=0}^{N-1} \vert X[n,k]\vert e^{j(\frac{2\pi}{N}k(n+r') + \angle X[n,k])} \\
+x[n] =&\sum\limits_{k=0}^{N-1}  \frac{1}{Nw[0]}  \vert X[n,k]\vert e^{j(\frac{2\pi}{N}kn + \angle X[n,k])}
+\end{align}
+
+Without loss of generality we can use a STFT hop-factor of one sample.  In the case of a greater hop factor we would need to compute $x[n]$ from equation~\ref{eq:hop_factor} [REF?] for some samples.  Of course, if the hop factor is greater than $N$ we cannot fully reconstruct the signal.  This is especially noted because we will be recurrently the factor $w[0]$.
+
+We can now clearly see our sum-of-products model
+
+\begin{align}
+\label{eq:envelope_STFT}
+m_{k,STFT}[n] =  \frac{1}{Nw[0]}  \vert X[n,k]\vert \\
+c_{k,STFT}[n] = e^{j(\frac{2\pi}{N}kn + \angle X[n,k])}
+\end{align}
+
+We can think of the STFT as a series of $N$ LTI systems that each downshift the input signal, then lowpass filter.  This can be seen mathematically if we rewrite equation \ref{eq:STFTdefinition} as
+
+\begin{align}
+X[n,k] =& \sum\limits_{r=-\infty}^{\infty} x[r] e^{-j\frac{2\pi}{N}kr} w[-(n - r)] \nonumber \\
+=& x[n] e^{-j\frac{2\pi}{N}kn} * w[-n]
+\end{align}
+
+We can now look at the STFT envelope in a similar form to the other methods by plugging \ref{eq:STFTasFilter} into \ref{eq:envelope_STFT}.
+
+\begin{align}
+\label{eq:STFT_envelope}
+m_{k,STFT}[n] =  \frac{1}{Nw[0]}  \Big\vert x[n] e^{-j\frac{2\pi}{N}kn} * w[-n] \Big\vert, \qquad 0 \leq k \leq \frac{N}{2}
+\end{align}
+
+Also note that due to symmetry of the Fourier transform, envelopes are only valid for indicies between $0$ and $\frac{N}{2}$.
+
+\section{Coherent Methods}
+
+Due to their LTI nature, incoherent methods fail to explicitly represent time varying characteristics like fundamental frequency or formant structure. \cite{wilson1993design}  Alternatively, coherent methods will adapt to represent some specific characteristic.
+
+%Before going further we must be more explicit in the definition of our sum-of-products model, equation \ref{eq:sum-of-products}.  In incoherent methods it is assumed that the envelope is strictly real non-negative.  Coherent methods do not make this assumption and therefore we must add a $Re\{\cdot\}$ operation to our subband signals.
+
+%\begin{align}
+%x[n] = \sum\limits_k x_k[n] = Re\bigg\{ \sum\limits_k m_k[n] c_k[n] \bigg\}
+%\end{align}
+
+\subsection{Spectral Center-of-Gravity}
+
+One coherent method is the spectral center-of-gravity (COG).  Similar to the previously described incoherent methods, spectral COG uses a fixed number of filters.  The key difference lies in the center frequency of each of these filters which adapt over time as a function of the spectral distribution within predefined band limits.
+
+Spectral COG certainly has some advantages of better representation of the signal in comparison to incoherent methods, however it still doesn't escape the limitation of fixed and pre-determined band limits that each filter operates within.  We won't be investigating this method further.
+
+\subsection{Harmonic}
+
+To escape this, [Atlas and Others] proposed a harmonic method which uses knowledge of the structure of common audio signals to decompose the signal in a less arbitrary way.  The first step is to get a pitch estimate $F_0[n]$ of the signal.  We then define $k$ complex carriers where there is a hard limit as a function of Nyquist sampling rate, $k \leq  \lfloor \frac{F_s}{2F_0} \rfloor$
+
+\begin{align}
+c_{k,harmonic}[n] = e^{jk\phi_0 [n]}
+\end{align}
+
+where 
+
+\begin{align}
+\phi_0[n] =& \frac{2\pi}{F_s} \sum_{p=0}^{n} F_0[p] \nonumber \\
+=& \phi_0[n - 1] + 2\pi \frac{F_0[n]}{F_s} \\
+\phi_0[-1] =& 0 \nonumber
+\end{align}
+
+[modulation toolbox]
+
+As mentioned earlier there are two versions of HSSE, the first uses a real non-negative envelope, the other uses a complex envelope.
+
+we then define our first envelope
+
+\begin{align}
+m^1_{k,harmonic}[n] =& \Big| x[n] c_{k,harmonic}^*[n] * h\big[n, F_0[n] \big] \Big| \nonumber \\
+=& \Big| x[n] e^{-jk\phi_0 [n]} * h\big[n, F_0[n] \big] \Big|
+\end{align}
+
+where $h\big[n, F_0[n] \big]$ is a lowpass filter that may vary as a function of $F_0[n]$.  Note that we could have a different LPF for each $k$ however since our carriers are linearly spaced it is natural to keep $h\big[n, F_0[n] \big]$ consistent over $k$.
+
+Our second, complex envelope is the same as the first but without the final magnitude operation.
+
+\begin{align}
+m^2_{k,harmonic}[n] =& x[n] e^{-jk\phi_0 [n]} * h\big[n, F_0[n] \big]
+\end{align}
+
+\section{Coherent Angle Encoding}
+
+As mentioned earlier, the final DSP output is a set of real non-negative signals.  We take a short aside to compare the two coherent harmonic methods, one of which, due to it's complex output, cannot be considered in a envelope-only sense.
+
+The two alternative versions are visualized in figure~\ref{fig:coherent_angle}.  For the case of magnitude only, we can think of this as a restriction on our carrier.  Since the envelope is already real non-negative the $Re{\cdot}$ and half-wave rectification stages don't change anything.  We could pass complex exponential through these two operations before multiplying the envelope.  This is equivalent to saying our carrier is a half-wave rectified sinusoid and thus we have the same general processing blocks as a single envelope of \ref{fig:HSSE_flow_1}
+
+\begin{figure}[!ht]
+  \centering
+    \includegraphics[width=1\textwidth]{coherent_angle}   
+    \caption{Magnitude Only VS Coherent Angle Encoding Block Diagrams}
+    \label{fig:coherent_angle}
+\end{figure}
+
+Let's consider a signal where our $k$th bandpass component represents the $k$th harmonic and is of the form
+
+\begin{align}
+x_k[n] =& A_k[n]cos(2\pi kF_0n + \phi_k[n]) \\
+BW \leq& F_0 \nonumber
+\end{align}
+
+where $A_k[n]$ represents a real nonnegative amplitude.  And $BW$ is the bandpass signal's bandwidth.  We may assume $F_0[n] = F_0$ is constant without loss of generality so long as $F_0[n]$ is roughly constant within each processing frame.
+
+Let's assume our filter is an ideal brick-wall filter.
+
+\begin{align}
+h[n] \Longleftrightarrow& H(e^{j2\pi f}) \\
+H(e^{j2\pi f}) =& 1, \quad |f| < \frac{F_0}{2} \\
+=& 0, \quad else \nonumber
+\end{align}
+
+Our coherent harmonic envelopes for each method will be
+
+% maybe derive this? appendix?
+\begin{align}
+\label{eq:realVSmag1}
+m^1_{k,harmonic}[n] =& A_k[n] \\
+m^2_{k,harmonic}[n] =& A_k[n]e^{j\phi_k[n]}
+\end{align}
+
+Let us define $Rect\{y_k[n]\}$ as the half-wave rectified carrier-modulator signal which is our end goal.  Using our first harmonic method
+
+\begin{align}
+y_k^1[n] =& m^1_{k,harmonic}[n] cos(2\pi F_0 n) \\
+=& A_k[n] cos(2\pi F_0 n) \nonumber
+\end{align}
+
+Alternatively, with our second method we get
+
+\begin{align}
+y_k^2[n] =& Re\{ 2m^2_{k,harmonic}[n] e^{j2\pi F_0 n} \}  \\
+=& Re\{ 2A_k[n]e^{j(2\pi F_0 n + \phi_k[n])} \} \nonumber \\
+=& A_k[n]cos(2\pi F_0 n + \phi_k[n]) \nonumber
+\end{align}
+
+It is clear that the difference between $y_k^1[n]$ and $y_k^2[n]$ is simply the extra term, $\phi_k[n]$.  What this means may be best shown by example.
+
+In figure \ref{fig:real_vs_magnitude_example} we see that when taking the magnitude, we force symmetry about $0$.  We see that the green much better represents the blue than the red does by preserving the spectral asymmetries that manifest themselves in the angle, not magnitude.  It is unnatural and certainly won't happen in real world scenarios that a subband signal will be symmetric about the downshift frequency, however magnitude only methods force this to be true.
+
+\begin{figure}[!ht]
+  \centering
+    \includegraphics[width=1\textwidth]{real_vs_magnitude_example}   
+    \caption{Cello Example}
+    \label{fig:real_vs_magnitude_example}
+\end{figure}
+
+\subsection{Appropriate Scaling}
+
+Despite better representing the signal, there is still an issue with $y_k^2[n]$.  A more correct method is actually
+
+\begin{align}
+\label{eq:realVSmag3}
+m^3_{k,harmonic}[n] =& A_k[n]e^{j\frac{1}{k} unwrap(\phi_k[n])} \\
+y_k^3[n] =& Re\{ 2 m^3_{k,harmonic}[n] e^{j2\pi F_0 n} \}  \\
+=& A_k[n]cos\Big(2\pi F_0 n + \frac{1}{k}unwrap(\phi_k[n])\Big) \nonumber
+\end{align}
 
 
-CIS
+Why do we need the $\frac{1}{k}$ term?  Let's consider an example where our true pitch estimate is actually $F_{0,ground truth} = F_0 + F_{err}$.  So,
 
-electrode interaction, electric field
+\begin{align}
+x_k[n] = A_k[n]cos\Big(2\pi k(F_0 + F_{err})n + \phi_k[n]\Big)
+\end{align}
 
-cutoff frequencies
+In this case
 
-..."continuous analog strategy"
+\begin{align}
+y_k^2[n] =& A_k[n]cos\Big(2\pi (F_0 + kF_{err})n + \frac{1}{k}unwrap(\phi_k[n])\Big) \\
+y_k^3[n] =& A_k[n]cos\Big(2\pi (F_0 + F_{err})n + \frac{1}{k}unwrap(\phi_k[n])\Big)
+\end{align}
 
-"Most cases with severe hearing loss involve damage to this conversion of a sound to an electric impulse in the cochlea. A cochlear implant bypasses this natural conversion process by directly stimulating the auditory nerve with electric pulses. Hence, the cochlear implant will have to mimic and replace auditory functions from the external ear to the inner ear." [trends inCI]
+Essentially the term $\phi_k[n]$ may be thought of as the deviation from $kF_0$.  If we downshift the signal such that $kF_0$ is scaled to $F_0$ then it is appropriate that we scale $\phi_k[n]$ similarly.
 
-anatomy of the ear
+\subsection{Efficacy}
 
-vocoders
+Let us now consider the efficacy of \ref{eq:realVSmag1} versus  \ref{eq:realVSmag3}.
 
-sum-of-products model
+One hypothesis is that $\phi_k[n]$ may encode the noise-like characteristics of a signal, in which case it would remain constant for a pure sinusoid and fluctuate randomly for noise.  Put to test, the harmonic phase preservation did little to affect the signal and this was confirmed by testing varying filter bandwidths as well.  In comparison of a toy experiment, the choice of filter bandwidth dominated noise-like qualities, with wider bandwidth capturing more of the variations.
 
-envelopes
+Since the term $\phi_k[n]$ does not distinguish noise-like signals from narrowband sinusoidal signals, it is only really preserving phase alignment.  But this begs the question, what does it mean to preserve the phase of a harmonic when downshifted to $F_0$?  It is questionable as to whether this even has any logical meaning.
 
-limitations of CI's
+% It means every k'th peak will be lined up with the downshifted peak, that being said that probably doesn't mean a whole lot in terms of important information
+% perhaps show a figure of this?
 
-\section{Background, History, Survey of Methods}
+Furthermore, it has been suggested in [REF F0mod and kaibao??] that phase alignment is important for pitch perception in CIs.  By using a magnitude-only method we guarantee alignment across channels.
 
-start with general CI processing or with sum-of-products?
-maybe kinda both at the same time,
+%Is an example necessary? Noise vs Saw example...used "shh" vs "saw" test.  at least when listening to the simulations, the processing essentially sounds like narrowband resonant filters.  The noise-like sounds are completely dominated by the filter bandwidth and the phase-information is not noticeable at all.
 
-CI's have "temporal pitch limited to several hundred Hertz" [trends inCIs]
-
-<How do we encode a signal?>
-
-talk about vocoders, how we can decompose a signal
-substitute carrier with electrodes!
-
-use framework figs, set up for math analysis
-
-fig: CI processing stages
-
-sum-of-products...
-``We begin by specifying the desired qualitative properties of the factors mk[n] and ck[n]. Generally, mk[n] is thought to represent the envelope, or slowly-varying temporal contour, of xk[n]. Conversely, ck[n] contains the quickly-oscillating fine structure of xk[n]. These designations lead to a convenient analogy with amplitude- and frequency- modulation systems in communications theory, which employ signal multipliers to convert low-frequency messages to high-frequency signals with better transmission characteristics. Along these lines, we assume xk[n] is of the form
-xk[n] = mk[n] · ck[n] = mk[n] · ejφk[n], (2.2)
-where ck[n] is the oscillating carrier and mk[n] is the low-frequency modulator, or message. Since the carrier is unimodular, all of the magnitude information about xk[n] resides in the envelope-like modulator.'' - clark thesis
-
-specify harmonic case of sum-of-products? this describes why coherent methods ... motivates coherent methods i guess
-
-talk about how sum-of-products relates to CIs.  modulators contain band specific energy (vocoders achieve speech recognition!) and carrier contains the "pitch"
-
-maybe search CI literature for why we choose to encode things the way we do, then make the connection to sum-of-products
-
-...
-
-okay sum-of-products is justified, let's consider coherent and incoherent
-
-Incoherent VS Coherent
-
-fig: incoherent processing
-
-fig: coherent processing
-
-\section{Incoherent}
-
-STFT, Hilbert, CIS
-
-\section{Coherent}
-
-Spectral COG, Harmonic
-
-\subsection{Phase Preservation Detour}
+Having considered this option as not a path worth further investigating, for the rest of this document we will consider envelope and carrier separately with each being a real nonnegative signal at the final output.
 
 \section{The Relationships}
 
-%\fi % BLOCK COMMENT
+All of our methods are summarized in table~\ref{table:envelope_extraction_methods}.  We will now consider the relationships between each of these.
+
+\begin{table}
+\begin{center}
+\begin{tabular}{|r|l|}
+  \hline
+  \textbf{Method} & $m_k[n] = $ \\ \hline
+  CIS & $\Big| x[n] * h_k[n] \Big| * h_{lp}[n]$ \\ \hline
+  Hilbert & $\Big| \widehat{x}_k[n] \Big| = \Big| x[n] * h_k[n] + j\mathcal{H}\{x[n] * h_k[n]\} \Big|$ \\ \hline
+  STFT & $\frac{1}{Nw[0]}  \Big\vert x[n] e^{-j\frac{2\pi}{N}kn} * w[-n] \Big\vert$ \\ \hline
+  Harmonic Coherent & $\Big| x[n] e^{-jk\phi_0 [n]} * h\big[n, F_0[n] \big] \Big|, \qquad \phi_0[n] = \frac{2\pi}{F_s} \sum_{p=0}^{n} F_0[p]$ \\ \hline
+\end{tabular}
+\end{center}
+\caption{Envelope Extraction Methods}\label{table:envelope_extraction_methods}
+\end{table}
+
+\subsection{Hilbert VS STFT}
+
+Let us start by comparing the Hilbert and STFT methods.  Since "the Hilbert transform of a convolution is the convolution of the Hilbert transform on either factor" [wikipedia] we have 
+
+\begin{align}
+\label{eq:x_analytic}
+\widehat{x}_k[n] =& x_k[n] + jH\{x_k[n]\} \nonumber \\
+=& x[n] * h_k[n] + jH\{x[n] * h_k[n]\} \nonumber \\
+=& x[n] * h_k[n] + x[n] * jH\{h_k[n]\} \nonumber \\
+=& x[n] * [h_k[n]+  jH\{h_k[n]\}]
+\end{align}
+
+Now let us define our filter specifically as
+
+\begin{align}
+\label{eq:hilbert_constrained_filter}
+h_k[n] = \frac{1}{Nw[0]}w[-n]cos(\frac{2\pi}{N}kn)
+\end{align}
+
+If we assume the sidelobes of $w[n]$ roll-off sufficiently fast in relation to the center-frequency $\frac{2\pi k}{N}$, we may approximate
+
+\begin{align}
+\mathcal{H}\{h_k[n]\} \approx& \frac{1}{Nw[0]}w[-n] H\{cos(\frac{2\pi}{N}kn)\} \nonumber \\
+=& \frac{1}{Nw[0]}w[-n]sin(\frac{2\pi}{N}kn)
+\end{align}
+
+%To verify the previous equation, consider the extremes:
+%1) $w[n] = 1$
+%2) $w[n] = \delta[n]$
+%TODO: verify this approximation claim
+
+Plugging our filter \ref{eq:hilbert_constrained_filter} into \ref{eq:x_analytic}
+
+\begin{align}
+\widehat{x}_k[n] \approx& x[n] * \frac{1}{Nw[0]}w[-n]e^{j\frac{2\pi}{N}kn} \nonumber \\
+=& \frac{1}{Nw[0]}\sum\limits_{r=-\infty}^{\infty}x[n - r] w[-r] e^{j\frac{2\pi}{N}kr} \nonumber \\
+\textrm{Let} \quad r' = -r \nonumber \\
+=& \frac{1}{Nw[0]}\sum\limits_{r'=0}^{N-1} x[n + r'] w[r'] e^{-j\frac{2\pi}{N}kr'} \nonumber \\
+=& \frac{1}{Nw[0]}\bigg[e^{-j\frac{2\pi}{N}kn} \sum\limits_{r'=0}^{N-1} x[n + r'] w[r'] e^{-j\frac{2\pi}{N}kr'}\bigg]e^{j\frac{2\pi}{N}kn} \nonumber \\
+=& \frac{1}{Nw[0]}X[n,i]e^{j\frac{2\pi}{N}kn} \nonumber \\
+=& \Bigg( \frac{1}{Nw[0]}  x[n] e^{-j\frac{2\pi}{N}kn} * w[-n] \Bigg) e^{j\frac{2\pi}{N}kn} \\
+\end{align}
+
+When we take the magnitude the complex exponential term goes to 1 and we are left with the STFT envelope.  We come to the conclusion that under the assumption of fast sidelobe rolloff we may define a filter bank of $\frac{N}{2} + 1$ filters
+
+\begin{align}
+h_k[n] = w[-n]cos(\frac{2\pi}{N}kn), \qquad 0 \leq k \leq \frac{N}{2}
+\end{align}
+
+such that
+
+\begin{align}
+m_{k,hilbert}[n] \approx& m_{k,STFT}[n]
+\end{align}
+
+What this tells us is that the Hilbert decomposition may be viewed as a superset of the STFT method that is not constrained to uniform bandwidth linearly spaced filters.
+
+\subsection{STFT vs Harmonic}
+
+Let us now consider the relationship between STFT and harmonic coherent.  We may choose our filter to be time-invariant and define it as
+
+\begin{align}
+h\big[n, F_0[n] \big] = \frac{1}{Nw[0]} w[-n]
+\end{align}
+
+where $w[n]$ is a lowpass filter and 
+\begin{align}
+w[n] \neq& 0, \qquad 0 \leq n < N \nonumber \\
+=& 0, \qquad else
+\end{align}
+
+In this case,
+
+\begin{align}
+m_{k,harmonic}[n] =& \Big| x[n] e^{-jk\phi_0 [n]} *  \frac{1}{Nw[0]} w[-n] \Big|  \nonumber \\
+=& \frac{1}{Nw[0]} \Big| x[n] e^{-jk\phi_0 [n]} *  w[-n] \Big|
+\end{align}
+
+This bears striking resemblance to equation \ref{eq:STFT_envelope}.  We can see that in the case that $F_0[n] = \frac{F_s}{N}$,
+
+\begin{align}
+m_{k,harmonic}[n] = m_{k,STFT}[n]
+\end{align}
+
+More generally, for any window of time $n$ to $n + N - 1$ where $F_0[n]$ is constant
+
+%check appendix code 810982374981u23h for derivation
+\begin{align}
+m_{k,harmonic}[n] =& \frac{1}{Nw[0]} \Bigg| X\Big[n, \frac{N}{1} \frac{F_0[n]}{F_s} k \Big) \Bigg| \nonumber \\
+\label{eq:harmonic-to-stft}
+=& \frac{1}{Nw[0]} \Bigg| X\Big[n, \lambda[n]k\Big) \Bigg|
+\end{align}
+
+where $\lambda[n] = \frac{N}{1} \frac{F_0[n]}{F_s}$.  The ``$)$'' is to denote that the frequency term is not necessarily an integer.
+
+It is important to note that in practice $\lambda[n]$ is not a continuous variable.  It is constrained by the quantization of the implemented pitch tracker.  Provided this quantization we may compute any term $X[n, \lambda[n]k)$ by, leaving all else the same, zero-padding our FFT.
+
+What this tells us is that in practice, we may approximate $m_{k,harmonic}[n]$ using $F_0[n]$ and a zero-padded STFT under the assumptions:
+
+1) $F_0[n]$ is quantized
+
+2) $F_0[n]$ is roughly constant withing a time window of $\frac{N}{Fs}$ seconds
+
+and the restriction:
+
+3) $h\Big[n, F_0[n] \Big]$ is time-invariant, i.e. $h\Big[n, F_0[n] \Big] = h[n]$
+
+\subsection{CIS VS Hilbert}
+
+Provided our envelope definitions
+
+\begin{align}
+m_{k,CIS}[n] =& \Big| x_k[n] \Big| * h_{lp}[n] \nonumber \\
+m_{k,Hilbert}[n] =& \Big| \widehat{x}_k[n] \Big| \nonumber
+\end{align}
+
+We define an ideal brick-wall filter as
+
+\begin{align}
+H_k(f) =& \mathcal{F}\Big\{ h_k[n]  \Big\} \\
+H_k(f) =& 1, \quad f_k - \frac{1}{2} f_{bw} < |f| < f_k + \frac{1}{2} f_{bw} \\
+=& 0, \quad \mathrm{else}
+\end{align}
+
+\begin{align}
+X(f) =& \mathcal{F}\Big\{ x[n] \Big\} \\
+X_{k}(f) =& \mathcal{F}\Big\{ x_k[n] \Big\} \\
+\widehat{X}_{k}(f) =& \mathcal{F}\Big\{ \widehat{x}_k[n]  \Big\}
+\end{align}
+
+\begin{align}
+X_{k}(f) =& X(f), \quad f_k - \frac{1}{2} f_{bw} < |f| < f_k + \frac{1}{2} f_{bw} \\
+=& 0, \quad \mathrm{else} \\
+\widehat{X}_{k}(f) =& X(f), \quad f_k - \frac{1}{2} f_{bw} < f < f_k + \frac{1}{2} f_{bw} \\
+=& 0, \quad \mathrm{else}
+\end{align}
+
+\begin{align}
+Y_{k}^1(f) =& \mathcal{F}\Big\{ \Big| \widehat{x}_k[n] \Big|^2  \Big\} \\
+Y_{k}^2(f) =& \mathcal{F}\Big\{ \Big| x_k[n] \Big|^2  \Big\}
+\end{align}
+
+\begin{align}
+Y_{k}^1(f) =& \widehat{X}_{k}(f) * \widehat{X}_{k}^*(-f) \\
+=& \int\limits_{-\infty}^{\infty} \widehat{X}_{k}(f - r) \widehat{X}_{k}^*(-r)dr \\
+=& \int\limits_{-\infty}^{\infty} \widehat{X}_{k}(r + f) \widehat{X}_{k}^*(r)dr
+\end{align}
+
+We can narrow the integration bounds provided the restrictions
+
+\begin{align}
+\widehat{X}_{k}^*(r) \neq& 0 \Rightarrow  f_k - \frac{1}{2} f_{bw} < r < f_k + \frac{1}{2} f_{bw} \\
+\widehat{X}_{k}(r + f) \neq& 0 \Rightarrow  f_k - \frac{1}{2} f_{bw} - f < r < f_k + \frac{1}{2} f_{bw} - f \\
+a =& max\Big( f_k - \frac{1}{2} f_{bw},  f_k - \frac{1}{2} f_{bw} - f\Big) \\
+b =& min\Big( f_k + \frac{1}{2} f_{bw},  f_k + \frac{1}{2} f_{bw} - f\Big) \\
+Y_{k}^1(f) =& \int\limits_{a}^{b} \widehat{X}_{k}(r + f) \widehat{X}_{k}^*(r)dr, \quad -f_{bw} < f < f_{bw} \\
+=& 0, \quad \mathrm{else}
+\end{align}
+
+For $Y_k^2(f)$ there are actually three non-zero bands.
+
+\begin{align}
+Y_{k}^2(f) =& X_{k}(f) * X_{k}^*(-f) \\
+=& \int\limits_{-\infty}^{\infty} X_{k}(r + f) X_{k}^*(r)dr
+\end{align}
+
+Case 1: $-2f_k - f_{bw} < f < -2f_k + f_{bw}$
+
+\begin{align}
+Y_{k}^2(f) =& \int\limits_{a}^{b} X_{k}(r + f) X_{k}^*(r)dr \\
+a =& max\Big( f_k - \frac{1}{2} f_{bw},  f_k - \frac{1}{2} f_{bw} - f\Big) \\
+b =& min\Big( f_k + \frac{1}{2} f_{bw},  f_k + \frac{1}{2} f_{bw} - f\Big)
+\end{align}
+
+Case 2: $2f_k - f_{bw} < f < 2f_k + f_{bw}$
+
+\begin{align}
+Y_{k}^2(f) =& \int\limits_{a}^{b} X_{k}(r + f) X_{k}^*(r)dr \\
+a =& max\Big( -f_k - \frac{1}{2} f_{bw},  -f_k - \frac{1}{2} f_{bw} - f\Big) \\
+b =& min\Big( -f_k + \frac{1}{2} f_{bw},  -f_k + \frac{1}{2} f_{bw} - f\Big)
+\end{align}
+
+Case 3: $- f_{bw} < f < f_{bw}$
+
+This case is unique because there are two points of intersection.  We can break up the integral into a sum.  The first integral is exactly the same as in $Y^1_k(f)$.
+
+\begin{align}
+Y_{k}^2(f) =& \int\limits_{a_1}^{b_1} X_{k}(r + f) X_{k}^*(r)dr + \int\limits_{a_2}^{b_2} X_{k}(r + f) X_{k}^*(r)dr \\
+a_1 =& max\Big( f_k - \frac{1}{2} f_{bw},  f_k - \frac{1}{2} f_{bw} - f\Big) \\
+b_1 =& min\Big( f_k + \frac{1}{2} f_{bw},  f_k + \frac{1}{2} f_{bw} - f\Big) \\
+a_2 =& max\Big( -f_k - \frac{1}{2} f_{bw},  -f_k - \frac{1}{2} f_{bw} - f\Big) \\
+b_2 =& min\Big( -f_k + \frac{1}{2} f_{bw},  -f_k + \frac{1}{2} f_{bw} - f\Big)
+\end{align}
+
+Using the Hermitian symmetry of the real-valued $x[n]$,
+
+\begin{align}
+Y_{k}^2(f) =& \int\limits_{a_1}^{b_1} X_{k}(r + f) X_{k}^*(r)dr + \int\limits_{a_2}^{b_2} X_{k}^*(-r - f) X_{k}(-r)dr \\
+r' = -r - f \nonumber \\
+Y_{k}^2(f) =& \int\limits_{a_1}^{b_1} X_{k}(r + f) X_{k}^*(r)dr + \int\limits_{a_1}^{b_1} X_{k}^*(r') X_{k}(r' + f)dr' \\
+=& 2 \int\limits_{a_1}^{b_1} X_{k}(r + f) X_{k}^*(r)dr \\
+=& 2 Y_k^1(f)
+\end{align}
+
+If we lowpass filter $Y_k^2(f)$ with a filter defined
+
+\begin{align}
+H_{lp}(f) =& \frac{1}{2}, \quad |f| < f_{bw} \\
+=& 0, \quad 2f_k - f_{bw} < |f| < 2f_k + f_{bw}
+\end{align}
+
+then
+
+\begin{align}
+Y_{k}^2(f) =& Y_k^1(f) \quad \forall f
+\end{align}
+
+We conclude that 
+
+\begin{align}
+\label{eq:squared_cis_hilbert}
+\Big| x_k[n] \Big|^2 * h_{lp}[n] \approx \Big| \widehat{x}_k[n] \Big|^2
+\end{align}
+
+Things to consider are delay and non-deal filters, however provided the distance between baseband and the $\pm2f_k$ terms a sufficient filter is practical in practice.
+
+Now the relationship between $m_{k,CIS}[n]$ and $m_{k,Hilbert}[n]$ is muddled by the nonlinear square root operation, however the nonlinearities induced won't be noticeably distorted by $h_{lp}[n]$.  In practice, there only noticeable difference will be the added delay from the final lowpass filter in the CIS method.
+
+\subsection{Abstract Interpretation}
+
+One of the easier ways to interpret these methods is through a frequency domain analysis.  Figure~\ref{fig:all_the_same} shows an abstract view of the methods.  The input is a magnitude spectrum of a signal with two harmonics. For mathematical convenience the output is actually the squared envelope.  At each step a new operation is applied.  This abstract analysis ignores scale factors that can always be modified by scaling filter coefficients.
+
+\begin{figure}[!ht]
+  \centering
+    \includegraphics[width=1.0\textwidth]{STFTvsHILBERTvsCIS}   
+    \caption{Method Comparison: magnitude spectrum at each step}\label{fig:all_the_same}
+\end{figure}
+
+First note that there are two paths for STFT.  This is because there is an ambiguity in the order of operations.  This can be seen mathematically in \ref{eq:stft_2_intepretations}.
+
+\begin{align}
+\label{eq:stft_2_intepretations}
+e^{-j\frac{2\pi}{N}kn} \Bigg( x[n] * \Big( w[-n]e^{j\frac{2\pi}{N}kn} \Big) \Bigg) = \Big( x[n] e^{-j\frac{2\pi}{N}kn} \Big) * w[-n]
+\end{align}
+
+The left side of \ref{eq:stft_2_intepretations} corresponds to the STFT 1 path.  First an analytic bandpass filter centered at radian frequency $\frac{2\pi k}{N}$ is applied.  The output of that is then downshifted to baseband.
+
+The right side of \ref{eq:stft_2_intepretations} corresponds to the STFT 2 path.  We first downshift by radian frequency $\frac{2\pi k}{N}$, then lowpass filter.
+
+For both STFT 1 and STFT 2 the final operation is a magnitude.
+
+The harmonic coherent method is missing from figure~\ref{fig:all_the_same}.  This is because ignoring exact details of downshift frequency and filter coefficients, it is actually the same as the STFT method: downshift followed by lowpass filter.
+
+Let's move on the the Hilbert envelope.  In figure~\ref{fig:all_the_same} we first bandpass filter, then acquire the analytic signal, which is equivalent to setting the negative frequencies to zero.  The final operation is to take the magnitude squared, which is invariant to frequency shifts.  From this abstract view, we should expect the same result as the STFT method.
+
+In CIS, we see that taking the magnitude squared of the real bandpass signal causes double frequency terms, and the baseband term is scaled by a factor of 2.  The final filter operation rescales the baseband term and eliminates the double frequency terms.
+
+\section{Summary}
+
+So what are the differences?  To come to the conclusions made, some assumptions had to be made.  We found that the Hilbert and CIS methods are approximately the same.  STFT decomposition is a subset of the Hilbert method where the filterbank is comprised of uniform-bandwidth linearly spaced filters.  Coherent harmonic is a expansion of STFT decomposition using the fundamental frequency of a signal to adaptively change downshift frequency and filter bandwidth.
+
+In \ref{eq:envelope_extraction_general} we generalize the considered methods.  $h_k\Big[n,F_0[n]\Big]$ is a function of $k$ allowing for non-uniform bandwidths and a function of $F_0[n]$, allowing for coherent filter adaptation.  Similarly, $\omega_k\big[F_0[n]\big]$ is a function of $F_0[n]$, allowing for coherent downshift frequencies.
+
+\begin{align}
+\label{eq:envelope_extraction_general}
+m_k[n] =& \Big| x[n]e^{-j \omega_k\big[F_0[n]\big]n} * h_k\big[n,F_0[n]\big]  \Big|
+%m_k[n] =& \Big| \widehat{x}[n]e^{-j \omega_k[x]n} * h_k[n,x]  \Big|
+\end{align}
+
+In the next chapter we will investigate encoding harmonics in cochlear implants using our generalized envelope extraction equation.
+
 
 % ========== Chapter 3
 
-\chapter{Harmonic Envelopes}
+\chapter{Harmonic Envelopes}\label{ch:harmonic_envelopes}
+
+<our hypothesis is that coherent envelopes are the best representation of harmonic signals, that being said what is important for harmonic envelopes? what numbers matter?>
 
 We model our harmonic signal with a sum-of-products model as:
 
@@ -623,7 +1328,9 @@ The largest value and, for that reason, most important value is $D_{k,1}$, the m
 
 \section{Explicit Temporal Modulation}
 
-PUT THE F0MOD FIG VS ACE FIG IN HERE!!!!!!
+% PUT THE F0MOD FIG VS ACE FIG IN HERE!!!!!!
+
+%``Previous CI psychophysical studies investigating the pitch of sinusoidal amplitude-modulated pulse trains have shown considerable variation between subjects in terms of the modulation depths required for reliable discrimination of pitch (McKay et al., 1995; Geurts and Wouters, 2001). On average, modulation depths ranging from 10\% to 40\% of the electrical dynamic range were required, although some subjects required depths of almost 100\%. Converting these values to the acoustic dynamic range coded by the sound processor, which for the Nucleus 24 system is typically 30 dB, indicates that modulation depths in the acoustic signal of approximately 3 to 12 dB are required on average.'' %[pitch_ranking_strategy_compare]
 
 So our three metrics are coherent gain, harmonic SIR and modulation depth.  We aim for a coherent gain of $G_k = 1$, maximum possible SIR and one would think minimum modulation depth.
 
@@ -752,6 +1459,10 @@ modulation depth (kind of another SIR) as a function of downshift quantization a
 
 \subsection{figures}
 
+\subsection{Envelope Bandwidth Tradeoff}
+
+incorporating multiple harmonic components VS eliminating transient characteristics
+
 \section{ALL METRICS}
 
 ENBW (accumulated noise)
@@ -770,6 +1481,8 @@ changing F0 (scalloping loss dip only, and harmonic SIR)
 \subsection{Harmonic Bandwidth}
 
 what is it?  look at some waveforms and read some stuff.  maybe do this at the same time as transient times of instruments
+
+Talk about filter bandwidth, what is optimal? F0/2? F0/4?
 
 \section{Adaptive Filters}
 
@@ -794,532 +1507,7 @@ READ THIS: [An Intelligent FFT-Analyzer with Harmonic Interference Effect Correc
 \chapter{-----------------------------------}
 
 
-\chapter{Background}
-
-\section{Acoustic Hearing}
-
-Before discussing how cochlear implants are able to restore hearing in people with profound hearing impairment, it is useful to talk about how acoustic hearing works in normal listeners.
-
-\subsection{Anatomy of the Ear}
-
-tonotopic, critical bands, ...
-
-\subsection{speech}
-
-\subsection{pitch}
-
-``frequencies in the range of 80-300 Hz encompassing F0 for nearly all adult males and many females and children.''
-% [pitch_ranking_strategy_compare]
-
-\subsection{other characteristics of sound}
-
-\subsection{types of audio}
-speech, music, harmonic, inharmonic, voiced, unvoiced
-tonal, non-tonal, consonant disonant..., transient, steady state
-
-
-\section{cochlear implants}
-CI basics (CIS)
-vague envelope concepts without math
-
-mention CIS FWR = ABS()!!!
-
-"In spite of the fact that this analog signal itself preserves most of the original temporospectral in- formation, the signal transfers to the auditory nerve is handicapped by the limited maximal firing fre- quency of the auditory nerve in response to the electrical stimulation. High synchronization of nerve fibers and the neural refractory period only allow for frequency transmission up to 1 kHz via tempo- ral coding alone. For frequencies above 1 kHz, the spectral information cannot be sufficiently trans- ferred by temporal coding alone. Multichannel im- plants have been developed to make use of the tonotopic organization in the cochlea and thus transmit more spectral information to the auditory nerve." \cite{somek2006coding}
-
-
-"The HiRes120 strategy, used in the Advanced Bionics implant, is the first commercial stimulating strategy that uses the virtual channel technique. Virtual channels are created by adjusting the current level ratio of two neighboring electrodes."
-
-channel mapping
-    why only 8 at a time?
-    ACE vs CIS and benefits of each
-    
-    
-    
-    ACE uses place cues as the primary source of encoding a sound's characteristics.  To this day it is still unclear as to what implications this has.  This is due to a combination of factors including the subjective nature of pitch and absence of a ground truth baseline in many CI users.  For example, high-pass filtering a sound may cause it to sound brighter.  In contrast low-pass filtering would cause a warm quality.  As stimulus change electrodes a CI user could claim to experience changes in the high-low quality of pitch when really they are experiencing changes in the bright-warm quality of spectral distribution, or more likely an ambiguous combination of both.
-
-``Previous research had suggested that cochlear implant place pitch was more akin to brightness (an aspect of timbre) than to pitch. However, the Modified Melodies results supported the hypothesis that place pitch can support melody perception.'' [swanson thesis]
-
-There is general consensus that place cues are not sufficient for encoding pitch.  Alternatively, temporal cues encoded as time-domain carrier modulations have shown to be promising.
-
-
-``wideband vs feature extraction'' [F0F2-F0F1F2]
-not sure what wideband implies, alternatively use temporal envelope cues.
-
-``Another school of thought was based on speech production and perception, in which spec- tral peaks or formants, which reflect the reso- nance properties of the vocal tract, are extracted and delivered to different electrodes according to the presumed tonotopic relationship between the place of the electrode and its evoked pitch.'' %[trends_in_CIs]
-F0F2, F0F1F2, MPEAK
-
-    what is important?
-        hearing for any general reason...safety, functionality
-        speech recognition
-    what is important and lacking?
-        music appreciation
-        tonal language
-        SiN
-        quality
-
-\subsection{modulation depth}
-
-``Previous CI psychophysical studies investigat- ing the pitch of sinusoidal amplitude-modulated pulse trains have shown considerable variation between subjects in terms of the modulation depths required for reliable discrimination of pitch (McKay et al., 1995; Geurts and Wouters, 2001). On average, modulation depths ranging from 10\% to 40\% of the electrical dynamic range were required, although some subjects required depths of almost 100\%. Converting these values to the acoustic dynamic range coded by the sound processor, which for the Nucleus 24 system is typically 30 dB, indicates that modulation depths in the acoustic signal of approximately 3 to 12 dB are required on average.'' %[pitch_ranking_strategy_compare]
-
-\section{temporal fine structure}
-
-explicit encoding vs ACE
-
-clarinet example
-
-
-% ========== Chapter 3
-
 \chapter{Harmonic Envelopes}
-
-
-\section{Envelope Extraction Methods}
-
-``In most existing clinical sound processors, fine structure in the input acoustic signal is discarded, and only envelope information is preserved. ''  %[pitch_ranking_strategy_compare]
-
-
-A classic way of analyzing audio signals is the sum-of-products model.  In this model a signal is represented as a sum of narrowband signals $x_k[n]$ at distributed center frequencies.  Each of the narrowband components is modeled as a product of a slow-time-varying envelope $m_k[n]$ and a fast-time-varying carrier $c_k[n]$.
-
-%$$x[n] = \sum\limits_k x_k[n] = Re\bigg\{ \sum\limits_k m_k[n] c_k[n] \bigg\}$$
-
-\begin{equation}
-\label{eq:sum-of-products}
-x[n] = \sum\limits_k x_k[n] = \sum\limits_k m_k[n] c_k[n]
-\end{equation}
-
-
-We are assuming here that $x[n]$ is a strictly real-valued signal.
-
-This model works especially well for harmonic signals, where each individual harmonic is represented by a narrowband component.  In the case of speech, one could think of the collection of carriers as the harmonic signal generated by the vocal tract, while the modulators together represent the resonant structure that distinguishes separate vowels. <--figure?!  Continue...
-
-In this model information such as gender of talker, intonation or musical pitch would be dominantly characterized by the carriers.  The resonant information that distinguishes different vowels or the unique formant structure of a particular instrument would be encoded in the modulators.
-
-The sum-of-products model is particularly convenient for CIs for a few different reasons. For starters, this model is naturally similar to the way our ears work. "mechanical fourier transform" [chimeara] The initial goal of CI researchers was to achieve speech recognition.  Given the limitations of CIs, encoding only the modulation information acts as a form of lossy data compression.
-
-More reasons this model is good, musically?
-Why is it good for CIs?
-
-Provided the above motivation for sum-of-products signal modeling we come to the challenge of how exactly to decompose a signal.  There are many different ways of doing this but they broadly fall into one of two categories: incoherent methods and coherent methods.
-
-\begin{figure}[!ht]
-  \centering
-    \includegraphics[width=1.0\textwidth]{STFTvsHILBERTvsCIS}   
-    \caption{STFT vs Hilbert vs CIS}
-\end{figure}
-
-\subsection{Incoherent Methods - Short Time Fourier Transform (STFT)}
-
-With incoherent methods, an envelope is extracted independent of the carrier; no information about the carrier is taken into account prior to envelope extraction.
-
-One such method is the short-time Fourier transform (STFT), which has two classic interpretations: a series of windowed Fourier transforms (each at a different time instant) or a collection of uniform bandpass filters (each at a different center frequency).  For our purposes we will be using the later.
-
-An STFT bin at discrete time $n$ and discrete frequency $k$ is defined as:
-
-\begin{align}
-\label{eq:STFTdefinition}
-X[n,k] = \sum\limits_{r=-\infty}^{\infty} x[r] w[r - n] e^{-j\frac{2\pi}{N}kr}, \qquad 0 \leq k < N
-\end{align}
-
-Defining a new variable $r' = r - n$ and defining our window such that  $w[n] = 0$ for $n < 0$ or $N \leq n$,
-
-\begin{align}
-X[n,k] =& \sum\limits_{r'=0}^{N-1} x[n + r'] w[r'] e^{-j\frac{2\pi}{N}k(n + r')} \nonumber \\
-=& e^{-j\frac{2\pi}{N}kn} \sum\limits_{r'=0}^{N-1} x[n + r'] w[r'] e^{-j\frac{2\pi}{N}kr'}
-\end{align}
-
-Let $X[n,k]$ be represented in polar form as the following
-
-\begin{equation}
-X[n,k] = \vert X[n,k]\vert e^{j\angle X[n,k]}
-\end{equation}
-
-If we assume that the window $w[n] \neq 0$ for $0 \leq n \leq N-1$ then we have the inverse
-
-\begin{align}
-x[n + r'] =& \frac{1}{Nw[r']}  \sum\limits_{k=0}^{N-1} X[n,k] e^{j\frac{2\pi}{N}k(n+r')} \nonumber \\
-=& \frac{1}{Nw[r']}  \sum\limits_{k=0}^{N-1} \vert X[n,k]\vert e^{j(\frac{2\pi}{N}k(n+r') + \angle X[n,k])} \\
-x[n] =&\sum\limits_{k=0}^{N-1}  \frac{1}{Nw[0]}  \vert X[n,k]\vert e^{j(\frac{2\pi}{N}kn + \angle X[n,k])}
-\end{align}
-
-Without loss of generality we can use a STFT hop-factor of one sample.  In the case of a greater hop factor we would need to compute $x[n]$ from (2.5) [FILL IN THIS REF] for some samples.  Of course, if the hop factor is greater than $N$ we cannot fully reconstruct the signal.  (This is why we will recurringly see $w[0]$)
-
-We can now clearly see our sum-of-products model
-
-\begin{align}
-\label{eq:envelope_STFT}
-m_{k,STFT}[n] =  \frac{1}{Nw[0]}  \vert X[n,k]\vert \\
-c_{k,STFT}[n] = e^{j(\frac{2\pi}{N}kn + \angle X[n,k])}
-\end{align}
-
-We can think of the STFT as a series of $N$ LTI systems that each downshift the input signal, then lowpass filter.  This can be seen mathematically if we rewrite equation \ref{eq:STFTdefinition} as
-
-\begin{align}
-\label{eq:STFTasFilter}
-X[n,k] =& \sum\limits_{r=-\infty}^{\infty} x[r] e^{-j\frac{2\pi}{N}kr} w[-(n - r)] \nonumber \\
-=& x[n] e^{-j\frac{2\pi}{N}kn} * w[-n]
-\end{align}
-
-Then looking at our $N$ envelope-carrier pairs we see that the reconstruction of $x[n]$ will be real because with the exception of $k = 0$ and $k = \frac{N}{2}$ which correspond to a lowpass filter and highpass filter, the rest come in complementary pairs.
-
-\begin{align}
-pv \ \frac{2\pi (N-k)}{N} = \frac{-2\pi k}{N}, \qquad 0 < k < \frac{N}{2}
-\end{align}
-
-where $pv$ denotes principal value.  This directly relates to the property that for any real-valued $x[n]$,
-
-\begin{align}
-X[n,k] = X^*[n,N-k], \qquad 0 < k < \frac{N}{2}
-\end{align}
-
-FIG - reconstruction of STFT envelopes
-
-\subsection{Incoherent Methods - Hilbert Transform}
-
-Alternatively, a Hilbert transform uses the analytic signal to separate envelope from carrier.  We first acquire the bandpass signal
-
-\begin{align}
-x_k[n] = x[n] * h_k[n]
-\end{align}
-
-Where $h_k$ is a bandpass filter and $k$ has arbitrary limits.  Then using the analytic signal
-
-\begin{align}
-\widehat{x}_k[n] =& x_k[n] + jH\{x_k[n]\} \\
-\label{eq:hilbert_envelope}
-m_{k,hilbert}[n] =& \vert\widehat{x}_k[n]\vert \\
-c_{k,hilbert}[n] =& cos(\angle\widehat{x}_k[n])
-\end{align}
-
-For it to remain true that $x[n]$ may be reconstructed from our decomposition $h_k[n]$ must be constrained such that 
-
-\begin{align}
-\sum_k h_k[n] = \delta[n]
-\end{align}
-
-It is important to note that unlike the STFT case, $c_{k,hilbert}[n]$ is real.  This is due to the conversion to an analytic signal (?.?) which eliminates negative frequencies.  [This is confusing, explain better, talk about reconstruction and maybe show figures showing how STFT is asymmetric and Hilbert is symmetric]
-
-FIG - reconstruction of hilbert envelopes
-
-Let us now compare this method to the STFT method.  Since "the Hilbert transform of a convolution is the convolution of the Hilbert transform on either factor" [wikipedia] we have 
-
-\begin{align}
-\label{eq:x_analytic}
-\widehat{x}_k[n] =& x_k[n] + jH\{x_k[n]\} \nonumber \\
-=& x[n] * h_k[n] + jH\{x[n] * h_k[n]\} \nonumber \\
-=& x[n] * h_k[n] + x[n] * jH\{h_k[n]\} \nonumber \\
-=& x[n] * [h_k[n]+  jH\{h_k[n]\}]
-\end{align}
-
-Now let us define our filter specifically as
-
-\begin{align}
-\label{eq:hilbert_constrained_filter}
-h_k[n] = \frac{1}{Nw[0]}w[-n]cos(\frac{2\pi}{N}kn)
-\end{align}
-
-If we assume the sidelobes of $w[n]$ roll-off sufficiently fast in relation to the center-frequency $\frac{2\pi k}{N}$, we may approximate
-
-\begin{align}
-\mathcal{H}\{h_i[n]\} \approx& \frac{1}{Nw[0]}w[-n] H\{cos(\frac{2\pi}{N}in)\} \nonumber \\
-=& \frac{1}{Nw[0]}w[-n]sin(\frac{2\pi}{N}in)
-\end{align}
-
-To verify the previous equation, consider the extremes:
-
-1) $w[n] = 1$
-
-2) $w[n] = \delta[n]$
-
-TODO: verify this approximation claim
-
-Plugging our filter \ref{eq:hilbert_constrained_filter} into \ref{eq:x_analytic}
-
-\begin{align}
-\widehat{x}_k[n] \approx& x[n] * \frac{1}{Nw[0]}w[-n]e^{j\frac{2\pi}{N}in} \nonumber \\
-=& \frac{1}{Nw[0]}\sum\limits_{r=-\infty}^{\infty}x[n - r] w[-r] e^{j\frac{2\pi}{N}ir} \nonumber \\
-\textrm{Let} \quad r' = -r \nonumber \\
-=& \frac{1}{Nw[0]}\sum\limits_{r'=0}^{N-1} x[n + r'] w[r'] e^{-j\frac{2\pi}{N}kr'} \nonumber \\
-=& \frac{1}{Nw[0]}\bigg[e^{-j\frac{2\pi}{N}kn} \sum\limits_{r'=0}^{N-1} x[n + r'] w[r'] e^{-j\frac{2\pi}{N}kr'}\bigg]e^{j\frac{2\pi}{N}kn} \nonumber \\
-=& \frac{1}{Nw[0]}X[n,i]e^{j\frac{2\pi}{N}kn}
-\end{align}
-
-What this tells us is that under the assumption of fast sidelobe rolloff we may define a filter bank of $\frac{N}{2} + 1$ filters
-
-\begin{align}
-h_k[n] = w[-n]cos(\frac{2\pi}{N}kn), \qquad 0 \leq k \leq \frac{N}{2}
-\end{align}
-
-such that
-
-\begin{align}
-m_{k,hilbert}[n] \approx& m_{k,STFT}[n] \\
-c_{k,hilbert}[n] \approx& Re\{c_{k,STFT}[n]\}
-\end{align}
-
-What this tells us is that the hilbert decomposition may be viewed as a superset of the STFT method that is not constrained to uniform bandwidth filters or linearly spaced filters.
-
-\subsection{Incoherent Methods - TODO}
-
-Hilbert Envelope - where is this done in practice??
-    sounds like hires120 does this
-
-ACE - STFT as a bank of filters
-pitch modulation in ACE
-
-
-CIS - BPF -> rectification -> LPF   
-    typically 200–400Hz cutoff frequency
-    "Unlike ACE, all 16 frequency bands are then stimulated in sequence"
-
-
-MAKE FREQ DOMAIN FIGS
-
-
-\subsection{Coherent Methods - Spectral Center-of-Gravity}
-
-Due to their LTI nature, incoherent methods fail to explicitly represent time varying characteristics like fundamental frequency or formant structure. \cite{wilson1993design}
-
-Before going further we must be more explicit in the definition of our sum-of-products model, equation \ref{eq:sum-of-products}.  In incoherent methods it is assumed that the envelope is strictly real non-negative.  Coherent methods do not make this assumption and therefore we must add a $Re\{\cdot\}$ operation to our subband signals.
-
-\begin{align}
-x[n] = \sum\limits_k x_k[n] = Re\bigg\{ \sum\limits_k m_k[n] c_k[n] \bigg\}
-\end{align}
-
-One coherent method is the spectral center-of-gravity (COG).  Similar to the previously described incoherent methods, spectral COG uses a fixed number of filters.  The key difference lies in the center frequency of each of these filters which adapt over time as a function of the spectral distribution within predefined band limits.
-
-Spectral COG certainly has some advantages of better representation of the signal in comparison to incoherent methods, however it still doesn't escape the limitation of fixed and pre-determined band limits that each filter operates within.
-
-\subsection{Coherent Methods - Harmonic}
-
-To escape this, [Atlas and Others] proposed a harmonic method which uses knowledge of the structure of common audio signals to decompose the signal in a less arbitrary way.  The first step is to get a pitch estimate $F_0[n]$ of the signal.  We then define $k$ complex carriers where there is a hard limit as a function of Nyquist sampling rate, $k \leq  \lfloor \frac{F_s}{2F_0} \rfloor$
-
-\begin{align}
-c_{k,harmonic}[n] = e^{jk\phi_0 [n]}
-\end{align}
-
-where 
-
-\begin{align}
-\phi_0[n] =& \frac{2\pi}{F_s} \sum_{p=0}^{n} F_0[p] \nonumber \\
-=& \phi_0[n - 1] + 2\pi \frac{F_0[n]}{F_s} \\
-\phi_0[-1] =& 0 \nonumber
-\end{align}
-
-[modulation toolbox]
-
-we then define our envelope
-
-\begin{align}
-m_{k,harmonic}[n] =& x[n] c_{k,harmonic}^*[n] * h[n] \nonumber \\
-=& x[n] e^{-jk\phi_0 [n]} * h[n]
-\end{align}
-
-where $h[n]$ is a lowpass filter
-
-Note that unlike the incoherent methods, $m_{k,harmonic}[n]$ is not constrained to real values.  Also not that we could have a different LPF for each $k$ however since our carriers are linearly spaced it is natural to keep $h[n]$ consistent over $k$.
-
-PROBLEM TO ADDRESS: $h[n]$ constant over $k$ is true \textit{so long as $F_0$ is constant!!!}
-
-In terms of reconstruction, things get a bit more complicated.  Because our filters change as a function of $F_0$ we cannot guarantee that at all time frames the signal is represented from baseband up to $\frac{F_s}{2}$.  That being said, if we assume we have an audio signal where the spectrum is naturally bandpass, we can design our system such that we have perfect reconstruction with the exception of low and high frequencies outside of the band of interest.  It can also be seen that this reconstruction will generate the analytic signal $\widehat{x}[n]$ which is why we need to add a $Re\{\cdot\}$ operation.
-
-Let us now consider the relationship to incoherent methods.  We may choose to design our filter such that
-
-\begin{align}
-h[n] = \frac{1}{Nw[0]} w[-n]
-\end{align}
-
-where $w[n]$ is a lowpass filter and 
-\begin{align}
-w[n] \neq& 0, \qquad 0 \leq n < N \nonumber \\
-=& 0, \qquad else
-\end{align}
-
-In this case,
-
-\begin{align}
-m_{k,harmonic}[n] =& x[n] e^{-jk\phi_0 [n]} *  \frac{1}{Nw[0]} w[-n] \nonumber \\
-=& \frac{1}{Nw[0]} x[n] e^{-jk\phi_0 [n]} *  w[-n]
-\end{align}
-
-This bears striking resemblance to equation \ref{eq:STFTasFilter}
-
-We can see that in the case that $F_0[n] = \frac{F_s}{N}$,
-
-\begin{align}
-m_{k,harmonic}[n] =& \frac{1}{Nw[0]} X[n,k] \nonumber \\
-=& m_{k,STFT}[n] e^{j \angle X[n,k]} \\
-c_{k,harmonic}[n] =& c_{k,STFT}[n] e^{-j \angle X[n,k]} \\
-\textrm{and} \nonumber \\
-m_{k,STFT}[n] =& \vert m_{k,harmonic}[n] \vert \\
-c_{k,STFT}[n] =& c_{k,harmonic}[n] e^{j \angle m_{k,harmonic}[n]}
-\end{align}
-
-More generally, for any window of time $n$ to $n + N - 1$ where $F_0[n]$ is constant
-
-\begin{align}
-\phi_0[n + r] =& \phi_0[n] + 2\pi \frac{F_0[n]}{F_s}r, 0 \leq r < N \\
-m_{k,harmonic}[n] =& x[n] e^{-jk\phi_0 [n]} *  \frac{1}{Nw[0]} w[-n] \nonumber \\
-=& \frac{1}{Nw[0]} \sum_{r = -\infty}^\infty x[n - r] e^{-jk\phi_0 [n-r]} w[-r] \nonumber \\
-\textrm{Let} \quad r' = -r \nonumber \\
-=& \frac{1}{Nw[0]} \sum_{r' = 0}^{N-1} x[n + r'] e^{-jk\phi_0 [n + r']} w[r'] \nonumber \\
-=& \frac{1}{Nw[0]} e^{-jk \phi_0[n]} \sum_{r' = 0}^{N-1} x[n + r'] e^{-j \frac{2\pi F_0[n]}{F_s}kr'} w[r'] \nonumber \\
-=& \frac{1}{Nw[0]} e^{-jk \Big(\phi_0[n] - \frac{2\pi F_0[n]}{F_s}n \Big)} \Bigg[ e^{-j \frac{2\pi F_0[n]}{F_s}kn} \sum_{r' = 0}^{N-1} x[n + r'] w[r'] e^{-j \frac{2\pi F_0[n]}{F_s}kr'} \Bigg] \nonumber \\
-=& \frac{1}{Nw[0]} e^{-jk \Big(\phi_0[n] - \frac{2\pi F_0[n]}{F_s}n \Big)} X[n, \frac{N}{1} \frac{F_0[n]}{F_s} k) \nonumber \\
-\label{eq:harmonic-to-stft}
-=& \frac{1}{Nw[0]} e^{-jk \Big(\phi_0[n] - \frac{2\pi F_0[n]}{F_s}n \Big)} X[n, \lambda[n]k)
-\end{align}
-
-Maybe make this claim and refer to appendix for derivation.
-
-
-where $\lambda[n] = \frac{N}{1} \frac{F_0[n]}{F_s}$.
-
-The "$)$" is to denote that the frequency term is not necessarily an integer.
-
-It is important to note that in practice $\lambda[n]$ is not a continuous variable.  It is constrained by the quantization of the implemented pitch tracker.  Provided this quantization we may compute any term $X[n, \lambda[n]k)$ by leaving all else the same zero-padding our FFT.
-
-What this tells us is that in practice, we may approximate $m_{k,harmonic}[n]$ using $c_{k,harmonic}[n]$ and a zero-padded STFT under the assumptions that
-
-1) $F_0[n]$ is quantized
-
-2) $F_0[n]$ is roughly constant withing a time window of $\frac{N}{Fs}$ seconds
-
-Comparing carriers between the two methods, note that in the coherent harmonic method the phase information is split into two components, one of which is part of the envelope.  We can think of this component as the fast variations unaccounted for by the smooth $F_0$ estimate as well as any drifting from $kF_0$.  This drifting may occur because the relationship is often not a perfect integer multiple or because the estimate of $F_0$ is off.
-
-Talk about filter bandwidth, what is optimal? F0/2? F0/4?
-
-I haven't been talking about filters that change in bandwidth over time...does this need to be discussed?  (It should at least be mentioned)
-
-Making the envelope real non-negative:
-
-With harmonic decomposition we are faced with a decision.  Our envelope is now complex, so if we need to use the envelope independent of carrier we must somehow convert it to a real signal.  The two natural options are two either take the real component or the magnitude.  Let me describe the advantages of each...
-
-\subsection{Summary}
-
-To summarize, STFT decomposition is a subset of the Hilbert method where the filterbank is comprised of uniform-bandwidth linearly spaced filters.  Coherent Harmonic decomposition uses the fundamental frequency of a signal to adaptively track harmonic components.  This method may be approximated using the STFT method provided the correct considerations are taken into account.
-
-STFT vs Hilbert:
-``A CFIR filter bank was chosen because higher frequency temporal information is provided in the channel envelope signals compared to a FFT implementation where the temporal envelope information is limited by the low-pass frequency response of the FFT time window.'' %[pitch_ranking_strategy_compare]
-This makes the claim that high frequency modulations are preserved however these modulations are unnatural and are formed from whatever signal information happens to be away from the arbitrary downshift frequency.
-
-\subsection{Phase Vocoder}
-
-phase vocoder or other?
-
-\subsection{Modulator Bandwidth Tradeoff}
-
-incorporating multiple harmonic components VS eliminating transient characteristics
-
-
-LIT SEARCH!!!
-
-
-\section{Explicit Carrier Modulation}
-
-reconsider clarinet example
-
-\section{system design filter and downshift}
-
-
-\section{A General Framework for CI Processing Strategies}
-
-
-
-
-
-The main stages to processing in cochlear implants are visualized in Fig. ?? below.  While at every stage adjustments can be made, for the purpose of comparing DSP algorithms, all other stages will be assumed constant throughout this work unless otherwise specified.
-
-In this section I will talk about the general differences between ACE, F0mod, HSSE
-
-\begin{figure}[!ht]
-  \centering
-    \includegraphics[width=1.0\textwidth]{CI_Signal_FlowTEMP}   
-    \caption{Signal Flow in CI}
-\end{figure}
-
-In this document, the output of the DSP stage will be a strictly positive signal used to modulate a constant bipolar pulse train.
-
-Returning to our discussion of sum-of-products models, each strictly positive signal will be composed of an envelope and carrier:
-
-FIGURE
-[DSP carrier * envelope] * pulse train = ~~~
-
-In general we can think of the envelope as encoding the place information while the carrier encodes the temporal information
-
-\subsection{ACE}
-
-The simplest of the considered strategies is the Advanced Combination Encoder (ACE).  ACE has become a clinical standard for CI processing and is used in a vast number of users.  ACE is Cochlear Ltd's instance of the auditory community's generalized category of $N$-of-$M$ strategies.  In these strategies the magnitudes of the $L$ STFT envelopes are first extracted using the STFT extraction method.  These envelopes are then combined into $M$ channels corresponding uniquely to electrodes.  During each processing frame a subset $N$-of-$M$ channel envelopes is selected for stimulation on the internal implant.
-
-$L$ - number of envelopes per frame
-
-$M$ - number of electrode channels
-
-$N$ - number of electrodes stimulated per frame
-
-$$L \geq M \geq N$$
-
-\begin{figure}[!ht]
-  \centering
-    \includegraphics[width=0.5\textwidth]{ACE_flow_diagram_explicitTEMP}   
-    \caption{ACE Flow Diagram}
-\end{figure}
-
-While ACE does a sufficient job for many CI users in speech recognition tasks, a large gap remains between NH and CI in pitch discrimination.  One important factor is that ACE uses place cues as the primary source of encoding a sound's characteristics.
-
-ACE does, however, provide limited temporal modulations via beat frequencies.  This is a unique case of the filter bandwidth tradeoff in which wider bandwidth is desired to intentionally capture multiple harmonics in a band.  By doing this a beat-frequency will be induced at a rate of the difference between the two harmonic frequencies, i.e. $F_0$.  Typically these modulations are not full depth [ref?] and the depth is a function of filter rolloff, pitch and filter center frequency.  Modulations are usually limited to under ~250Hz [ref?]
-
-The following figure is simply a condensed version of the previous flow diagram.  This condensed notation will be carried through to the other strategies analyzed.
-
-\begin{figure}[!ht]
-  \centering
-    \includegraphics[width=1\textwidth]{ACE_flow_diagramTEMP}   
-    \caption{condensed ACE Flow Diagram}
-\end{figure}
-
-\subsection{F0mod}
-
-To get at the problem of pitch discrimination, (Laneau et al 2006) developed a new research strategy, F0mod.  F0mod provides the same processing as ACE with one important change, explicit carrier modulation.  It achieves this by adding a pitch estimator into the processing.
-
-Once a fundamental frequency ($F_0$) is acquired, all output envelopes are modulated by a raised sinusoid at a rate of $F_0$.  
-
-($F_0$ is used because high modulation rates (typically above 300Hz) are not noticeable with a CI)
-
-This raised sinusoid is constant modulation depth, (full dynamic range), and same across channels, (phase aligned).  *maybe show a figure?  The details of modulator type are discussed later in section ?.?.  The important point here is that modulations are applied at a rate of $F_0$ and full depth.
-
-\begin{figure}[!ht]
-  \centering
-    \includegraphics[width=1\textwidth]{F0mod_flow_diagramTEMP}   
-    \caption{F0mod Flow Diagram}
-\end{figure}
-
-F0mod has shown promising results in acute tests for pitch discrimination.  It has also inspired other processing strategies such as eTone, which uses a more sophisticated harmonic sieve pitch estimator as well as soft decisions to overcome the problem of encoding both harmonic and inharmonic sounds as well as those that fall somewhere in between.
-
-\subsection{HSSE}
-
-Looking for a novel approach to improved pitch perception and more broadly music perception, (Li, Atlas, Nie) came up with Harmonic Single Sideband Encoder (HSSE).  HSSE uses coherent demodulation to extract $H$ harmonic envelopes.  These harmonic envelopes are then combined into channels based on the harmonic index and $F_0$.  Just as in F0mod a subset is selected for stimulation and then these envelopes are combined with carrier modulators.
-
-$H$ - number of harmonic envelopes
-$$H, M \geq N$$
-
-\begin{figure}[!ht]
-  \centering
-    \includegraphics[width=1\textwidth]{HSSE_flow_diagramTEMP}   
-    \caption{HSSE Flow Diagram}
-\end{figure}
-
-Sparing details which will soon be investigated deeper, the differences between F0mod and HSSE can be summarized quite simply;  Every stage of typical ACE processing is now done coherently using $F_0$ information.
-
-It should be noted that it is not necessarily true that $H \geq M$.  In the case that no envelopes are allocated to a channel we may simply rule out that channel during the selection stage.
-
-\subsection{Other Strategies}
-
-any hybrid considerations?  maybe hint at hsse ace hybrid
-
-talk about unmentioned methods (AB, MedEl)
-
-\subsection{Summary}
-
-The considered strategies can be described by five general processing blocks: Pitch Estimation, Envelope Extraction, Channel Combination, Channel Selection and Carrier Synthesis.  We will now go into detail of each of these blocks, evaluating key considerations and differences.
 
 \section{Pitch Estimation}
 
@@ -1338,99 +1526,6 @@ talk about F0 estimator and alternatives...
     e-tone? harmonic sieve, etc.
     latency, accuracy, octave errors and range restrictions,
     quantization
-
-\section{Coherent Angle Encoding}
-
-As mentioned earlier, envelope extraction results in a real nonnegative signal.  This envelope may then be modulated by a real nonnegative carrier signal.  We take a short aside to consider a method that instead generates a bandpass signal and achieves the nonnegative characteristic required for CI processing by halfwave rectifying.
-
-In polar form, coherent envelopes are composed of both magnitude and angle components, unlike incoherent envelopes which contain only magnitude information.  [ref?] actually makes the point that decomposing a signal into magnitude and angle is not appropriate because this decomposition takes a narrowband signal and separates it into two band-unlimited components.
-
-\subsection{Two Methods}
-
-Let us assume for now that our carrier is a rectified sinusoid and consider a signal where our $k$th harmonic is of the form
-
-\begin{align}
-x_k[n] = A_k[n]cos(2\pi kF_0n + \phi_k[n])
-\end{align}
-
-where $A[n]$ represents a real nonnegative amplitude.  We may assume $F_0[n] = F_0$ is constant without loss of generality so long as $F_0[n]$ is roughly constant within each processing frame.
-
-Computing a coherent harmonic envelope would result in
-
-\begin{align}
-m_{k,harmonic}[n] = A_k[n]e^{j\phi_k[n]}
-\end{align}
-
-Let us define $Rect\{y_k[n]\}$ as the rectified carrier-modulator signal which is our end goal.  One method of acquiring $y_k[n]$ is
-
-\begin{align}
-\label{eq:realVSmag1}
-y_k^1[n] =& \vert m_{k,harmonic}[n] \vert cos(2\pi F_0 n) \\
-=& A_k[n] cos(2\pi F_0 n) \nonumber
-\end{align}
-
-Alternatively, as proposed in [xing hsse]
-
-\begin{align}
-y_k^2[n] =& Re\{ 2m_{k,harmonic}[n] e^{j2\pi F_0 n} \}  \\
-=& Re\{ 2A_k[n]e^{j(2\pi F_0 n + \phi_k[n])} \} \nonumber \\
-=& A_k[n]cos(2\pi F_0 n + \phi_k[n]) \nonumber
-\end{align}
-
-It is clear that the difference between $y_k^1[n]$ and $y_k^2[n]$ is simply the extra term, $\phi_k[n]$.  What this means may be best shown by example.
-
-In figure \ref{fig:real_vs_magnitude_example} we see that when taking the magnitude, we force symmetry about $0$.  We see that the green much better represents the blue than the red does by preserving the spectral asymmetries that manifest themselves in the angle, not magnitude.  It is unnatural and certainly won't happen in real world scenarios that a subband signal will be symmetric about the downshift frequency, however magnitude only methods force this to be true.
-
-\begin{figure}[!ht]
-  \centering
-    \includegraphics[width=1\textwidth]{real_vs_magnitude_example}   
-    \caption{Cello Example}
-    \label{fig:real_vs_magnitude_example}
-\end{figure}
-
-\subsection{Appropriate Scaling}
-
-Despite better representing the signal, there is still an issue with $y_k^2[n]$.  The correct method is actually
-
-\begin{align}
-\label{eq:realVSmag3}
-y_k^3[n] =& Re\{ 2 \vert m_{k,harmonic}[n]  \vert e^{j \frac{1}{k} unwrap(\phi_k[n])} e^{j2\pi F_0 n} \}  \\
-=& A_k[n]cos\Big(2\pi F_0 n + \frac{1}{k}unwrap(\phi_k[n])\Big) \nonumber
-\end{align}
-
-
-Why do we need the $\frac{1}{k}$ term?  Let's consider an example where our true pitch estimate is actually $F_{0,ground truth} = F_0 + F_{err}$.  So,
-
-\begin{align}
-x_k[n] = A_k[n]cos\Big(2\pi k(F_0 + F_{err})n + \phi_k[n]\Big)
-\end{align}
-
-In this case
-
-\begin{align}
-y_k^2[n] =& A_k[n]cos\Big(2\pi (F_0 + kF_{err})n + \frac{1}{k}unwrap(\phi_k[n])\Big) \\
-y_k^3[n] =& A_k[n]cos\Big(2\pi (F_0 + F_{err})n + \frac{1}{k}unwrap(\phi_k[n])\Big)
-\end{align}
-
-Essentially the term $\phi_k[n]$ may be thought of as the deviation from $kF_0$.  If we downshift the signal such that $kF_0$ is scaled to $F_0$ then it is appropriate that we scale $\phi_k[n]$ similarly.
-
-\subsection{Efficacy}
-
-Let us now consider the efficacy of \ref{eq:realVSmag1} versus  \ref{eq:realVSmag3}.
-
-One hypothesis is that $\phi_k[n]$ may encode the noise-like characteristics of a signal, in which case it would remain constant for a pure sinusoid and fluctuate randomly for noise.  Put to test, the harmonic phase preservation did little to affect the signal and this was confirmed by testing varying filter bandwidths as well.  In comparison of a toy experiment, the choice of filter bandwidth dominated noise-like qualities, with wider bandwidth capturing more of the variations.
-
-Since the term $\phi_k[n]$ does not distinguish noise-like signals from narrowband sinusoidal signals, it is only really preserving phase alignment.  But this begs the question, what does it mean to preserve the phase of a harmonic when downshifted to $F_0$?  It is questionable as to whether this even has any logical meaning.
-
-% It means every k'th peak will be lined up with the downshifted peak, that being said that probably doesn't mean a whole lot in terms of important information
-% perhaps show a figure of this?
-
-Furthermore, it has been suggested in [REF F0mod and kaibao??] that phase alignment is important for pitch perception in CIs.  By using a magnitude-only method we guarantee alignment across channels.
-
-Is an example necessary? Noise vs Saw example...
-used "shh" vs "saw" test.  at least when listening to the simulations, the processing essentially sounds like narrowband resonant filters.  The noise-like sounds are completely dominated by the filter bandwidth and the phase-information is not noticeable at all.
-
-Having considered this option as not a path worth further investigating, for the rest of this document we will consider envelope and carrier separately with each being a real nonnegative signal at the final output.
 
 \section{NOTE}
 
@@ -1719,6 +1814,7 @@ Swanson thesis: ``A high-rate pulse train, modulated on and off at frequency F0,
 \section{Conclusion}
 
 
+
 % ========== Chapter 4
 
 \chapter{HHE}
@@ -1946,6 +2042,23 @@ You can find the latest of these files on:
 \end{description}
 
 \end{itemize}
+
+\chapter{Derivations}
+
+%check appendix code 810982374981u23h
+
+\begin{align}
+\phi_0[n + r] =& \phi_0[n] + 2\pi \frac{F_0[n]}{F_s}r, \quad 0 \leq r < N \\
+m_{k,harmonic}[n] =& \Bigg| x[n] e^{-jk\phi_0 [n]} *  \frac{1}{Nw[0]} w[-n] \Bigg| \nonumber \\
+=& \frac{1}{Nw[0]} \Bigg| \sum_{r = -\infty}^\infty x[n - r] e^{-jk\phi_0 [n-r]} w[-r] \Bigg| \nonumber \\
+\textrm{Let} \quad r' = -r \nonumber \\
+=& \frac{1}{Nw[0]} \Bigg| \sum_{r' = 0}^{N-1} x[n + r'] e^{-jk\phi_0 [n + r']} w[r'] \Bigg|  \nonumber \\
+=& \frac{1}{Nw[0]} \Bigg| e^{-jk \phi_0[n]} \sum_{r' = 0}^{N-1} x[n + r'] e^{-j \frac{2\pi F_0[n]}{F_s}kr'} w[r'] \Bigg| \nonumber \\
+=& \frac{1}{Nw[0]} \Bigg| e^{-jk \Big(\phi_0[n] - \frac{2\pi F_0[n]}{F_s}n \Big)} \Bigg[ e^{-j \frac{2\pi F_0[n]}{F_s}kn} \sum_{r' = 0}^{N-1} x[n + r'] w[r'] e^{-j \frac{2\pi F_0[n]}{F_s}kr'} \Bigg] \Bigg| \nonumber \\
+=& \frac{1}{Nw[0]} \Bigg| X\Big[n, \frac{N}{1} \frac{F_0[n]}{F_s} k \Big) \Bigg| \nonumber \\
+\label{eq:harmonic-to-stft}
+=& \frac{1}{Nw[0]} \Bigg| X\Big[n, \lambda[n]k\Big) \Bigg|
+\end{align}
 
 \vita{Jim Fox is a Software Engineer with UW Information Technology at the University of Washington.
 His duties do not include maintaining this package.  That is rather
