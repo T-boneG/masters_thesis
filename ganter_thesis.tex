@@ -396,7 +396,7 @@ To conclude up to this point, cochlear implants use an array of tonotopically or
 
 To gain insight into how we can encode harmonic signals, in this section we will look inside the "DSP Algorithm" box; we will compare three specific strategies, ACE, F0mod, and HSSE with the goals of evaluating the pros and cons of each and considering how to optimize performance for harmonic encoding.
 
-\subsection{ACE}
+\subsection{ACE}\label{ss:ACE}
 
 The simplest of the considered strategies is the Advanced Combination Encoder (ACE).  ACE has become a clinical standard for CI processing and is used in a vast number of users.
 
@@ -517,6 +517,7 @@ In chapter~\ref{ch:harmonic_envelopes} we will evaluate design considerations fo
 
 When we conclude we will briefly discuss 2(c) and 3.
 
+% ========== Chapter 3
 
 \chapter{Envelope Extraction Methods}\label{ch:envelope_extraction_chapter}
 
@@ -790,7 +791,7 @@ All of our methods are summarized in table~\ref{table:envelope_extraction_method
 
 \begin{table}
 \begin{center}
-\begin{tabular}{|r|l|}
+\begin{tabular}{| r | c |}
   \hline
   \textbf{Method} & $m_k[n] = $ \\ \hline
   CIS & $\Big| x[n] * h_k[n] \Big| * h_{lp}[n]$ \\ \hline
@@ -1074,50 +1075,41 @@ m_k[n] =& \Big| x[n]e^{-j \omega_k\big[F_0[n]\big]n} * h_k\big[n,F_0[n]\big]  \B
 In the next chapter we will investigate encoding harmonics in cochlear implants using our generalized envelope extraction equation.
 
 
-% ========== Chapter 3
+% ========== Chapter 4
 
 \chapter{Harmonic Envelopes}\label{ch:harmonic_envelopes}
 
-<our hypothesis is that coherent envelopes are the best representation of harmonic signals, that being said what is important for harmonic envelopes? what numbers matter?>
-
-We model our harmonic signal with a sum-of-products model as:
+We want to come up with an envelope extraction system that best represents harmonic signals.  Since harmonic signals have a specific structure, we model our harmonic signal as a restricted sum-of-products model.  We can define our carriers from equation~\ref{eq:sum_of_products} as centered at multiples of $F_0$. In this representation $x_0[n]$ is the fundamental centered at $F_0$, $x_1[n]$ is the 1st harmonic centered at $2F_0$, etc.  Without loss of generality, we will consider the analytic signal, $\widehat{x}[n]$.
 
 \begin{align}
-\label{eq:sum_of_products}
-x[n] = \sum\limits_k x_k[n] = \sum\limits_k m_k[n] c_k[n]
-\end{align}
-
-our extracted envelope can be generally defined as:
-
-\begin{align}
-\label{eq:envelope_extraction}
-%\tilde{m}_k[n] =& \Big| x[n]e^{-j \omega_k\big[F_0[n]\big]n} * h_k\big[n,F_0[n]\big]  \Big| \\
-\tilde{m}_k[n] =& \Big| \widehat{x}[n]e^{-j \omega_k[x]n} * h_k[n,x]  \Big|
-\end{align}
-
-This is a good generalization of any envelope extraction (harmonic or not). The design can be summarized by two things:
-
-\begin{itemize}
-\item downshift frequency, $\omega_k[x]$
-\item lowpass filter, $h_k[n,x]$
-\end{itemize}
-
-If $w_k[\cdot]$ and $h_k[\cdot]$ are functions of $x[n]$ we have coherent envelope extraction.  If they are time-invariant, we have incoherent extraction.
-
-\subsection{harmonic signals}
-
-Since harmonic signals have a specific structure, we can define our carriers from equation~\ref{eq:sum_of_products} as centered at multiples of $F_0$. In this representation $x_0[n]$ is the fundamental centered at $F_0$, $x_1[n]$ is the 1st harmonic centered at $2F_0$, etc.
-
-\begin{align}
-\theta_k[n] =& 2\pi(k+1)\frac{F_0}{F_s}n + \phi_k[n] \\
+\theta_k[n] =& 2\pi(k+1)\frac{F_0[n]}{F_s}n + \phi_k[n] \\
+%\theta_k[n] =& \sum_{p=0}^{n} 2\pi(k+1)\frac{F_0[p]}{F_s} + \phi_k[p] \\
 x[n] =& \sum\limits_{k=0}^K m_k[n] cos(\theta_k[n]) \\
 \widehat{x}[n] =& \sum\limits_{k=0}^K m_k[n] e^{j\theta_k[n]}
 \end{align}
 
+We change our notation slightly from chapter~\ref{ch:envelope_extraction_chapter}.  In this chapter $m_k[n]$ is the unknown desired envelope, and $\tilde{m}_k[n]$ is our extracted envelope estimate.
+
+\begin{align}
+\label{eq:envelope_extraction}
+\tilde{m}_k[n] =& \Big| x[n]e^{-j \omega_k\big[F_0[n]\big]n} * h_k\big[n,F_0[n]\big]  \Big|
+%\tilde{m}_k[n] =& \Big| \widehat{x}[n]e^{-j \omega_k[x]n} * h_k[n,x]  \Big|
+\end{align}
+
+Provided our envelope extraction equation, \ref{eq:envelope_extraction}, our goal is to best represent the desired $m_k[n]$.
+
+The design can be summarized by two things:
+
+\begin{itemize}
+\item downshift frequency, $\omega_k\big[F_0[n]\big]$
+\item lowpass filter, $h_k\big[n,F_0[n]\big]$
+\end{itemize}
+
+If $w_k[\cdot]$ and $h_k[\cdot]$ are functions of $\widehat{x}[n]$ we have coherent envelope extraction.  If they are time-invariant, we have incoherent extraction.
 
 \section{Steady-State Analysis}
 
-We start with the simplest scenario, where $x[n]$ is a steady-state signal.  The conditions we require for this are:
+We start with the simplest scenario, where $\widehat{x}[n]$ is a steady-state signal.  The conditions we require for this are:
 
 \begin{itemize}
 \item constant pitch: $F_0[n] = F_0$
@@ -1281,25 +1273,19 @@ G_k = \Big| H_k(0) \Big| = \sum_n h_k[n]
 
 We may further simplify this by normalizing our filter such that $\Big| H_k(0) \Big| = 1$.  Of course, our downshift frequency won't be ideal in real systems.  Factors to consider include the quantization of $F_{ds,k}$ and the accuracy of $F_0$ estimation.
 
-A similar metric, brought up in [REF] is termed scalloping loss, or picket-fence effect.  This is the effect of the harmonic falling in between filter centers.
+A similar metric, brought up in [windows for harmonic analysis] is termed scalloping loss, or picket-fence effect.  This is the effect of the harmonic falling in between filter centers.  
 
-\subsection{scalloping loss}
+%scalloping loss or picket-fence effect, ratio of coherent gain for tone located half a bin from DFT sample point to coherent gain for tone located exactly at sample point
 
-CONTINUEHERE1
+%\begin{align}
+%scalloping loss = \frac{| H(\frac{1}{2} \frac{F_s}{N}) |}{H(0)}
+%\end{align}
 
-[windows for harmonic analysis]
+%"althought scalloping loss is useful, it's not entirely informative.  if the scalloping loss if high, then this relates to a sharp cutoff which is actually good for increasing purity of the harmonic"
 
-scalloping loss or picket-fence effect, ratio of coherent gain for tone located half a bin from DFT sample point to coherent gain for tone located exactly at sample point
-
-\begin{align}
-scalloping loss = \frac{| H(\frac{1}{2} \frac{F_s}{N}) |}{H(0)}
-\end{align}
-
-"althought scalloping loss is useful, it's not entirely informative.  if the scalloping loss if high, then this relates to a sharp cutoff which is actually good for increasing purity of the harmonic"
-
-worst case processing loss = scalloping loss * PL
-where PL is reduced gain of window (which i have been canceling out)
-**where does worst case processing loss fit in?**
+%worst case processing loss = scalloping loss * PL
+%where PL is reduced gain of window (which i have been canceling out)
+%**where does worst case processing loss fit in?**
 
 \subsection{Harmonic SIR}
 
@@ -1326,17 +1312,11 @@ D_{k,i} =& \frac{\Bigg[ \sum\limits_{l=0}^{K-i} \Big|H_k\big(e^{j\omega_{k,l}}\b
 
 The largest value and, for that reason, most important value is $D_{k,1}$, the modulation depth at $F_0$.
 
-\section{Explicit Temporal Modulation}
+\section{Induced VS Explicit Temporal Modulation}
 
-% PUT THE F0MOD FIG VS ACE FIG IN HERE!!!!!!
+So our three metrics are coherent gain, harmonic SIR and modulation depth.  We aim for a coherent gain of $G_k = 1$ and maximized harmonic SIR.
 
-%``Previous CI psychophysical studies investigating the pitch of sinusoidal amplitude-modulated pulse trains have shown considerable variation between subjects in terms of the modulation depths required for reliable discrimination of pitch (McKay et al., 1995; Geurts and Wouters, 2001). On average, modulation depths ranging from 10\% to 40\% of the electrical dynamic range were required, although some subjects required depths of almost 100\%. Converting these values to the acoustic dynamic range coded by the sound processor, which for the Nucleus 24 system is typically 30 dB, indicates that modulation depths in the acoustic signal of approximately 3 to 12 dB are required on average.'' %[pitch_ranking_strategy_compare]
-
-So our three metrics are coherent gain, harmonic SIR and modulation depth.  We aim for a coherent gain of $G_k = 1$, maximum possible SIR and one would think minimum modulation depth.
-
-Interestingly, some current CI processing strategies such as ACE intentionally allow for induced modulations from non-isolated harmonics.  This provides a temporal cue to the user which plays into pitch percept.
-
-The alternative is to use narrow enough filter cutoffs to eliminate these modulations, and then explicitly modulate the signal.  In this option we need further processing such as a pitch estimator to determine the modulation rate.
+We have mentioned in section~\ref{ss:ACE} that we can have either induced or explicit temporal modulations.  For explicit modulation systems our goal is minimum modulation depth.  For induced that is not as clear.
 
 In this document we argue that the latter, explicit modulation option is better.  The reasoning is best shown by a motivational example.
 
@@ -1370,7 +1350,7 @@ Another thing to note is that regardless of downshift frequency, our harmonic en
 
 There are a handful of research strategies [REF?] that have used this additional filter.  eTone's envelope follower is an example of this.
 
-The main improvement to a followup filter is that we can guarantee to eliminate modulations.  This could also be achieved by designing a sufficiently narrow filter, $h_k[n]$ however this brings about a tradeoff, where the narrower our filter is the more susceptible we are to error in downshift frequency.
+The main improvement to a followup filter is that we can guarantee to eliminate temporal modulations.  This could also be achieved by designing a sufficiently narrow filter, $h_k[n]$ however this brings about a tradeoff, where the narrower our filter is the more susceptible we are to error in downshift frequency.
 
 In terms of our three metrics, the followup filter will provide us with a robust coherent gain and guaranteed low modulation depth at the cost of lower harmonic SIR.
 
@@ -1378,118 +1358,412 @@ Another point to consider is the cost of adding an extra processing stage.  The 
 
 % Because of transient smearing, we will not be using this method
 
-\section{Changing F0}
+\section{Time-Varying F0}
 
-dips due to quantization
+We are only concerned with continuous changes in $F_0[n]$.  Jumps would imply different harmonic envelopes.
 
-CONTINUEHERE2
+$\tilde{m}_k[n]$ uses a window of samples of $\widehat{x}[n]$, equal to the length of $h_k\big[n,F_0[n]\big]$.  If $F_0[n]$ changes significantly within this window we will have problems with our estimate.  That being said, the longest windows considered in the document are 32ms long.  In terms of music, 32ms is equivalent to a sixty-forth note at 120BPM (beats per minute), i.e. very fast.  We will consider this sufficient for typical rates of change of $F_0[n]$.
 
-maybe move the plot here?
+The other problem that can arise is as $F_0[n]$, our steady-state metrics may change.  This can be evaluated by simply looking at the continuous metrics as a function of $F_0$.
 
+\section{Transients}\label{section:transients}
 
-\section{Transients}
+Nearly everything we have considered so far has suggested the narrower the filter the better.  The problem with this is the time-domain response of filters with fast rolloffs.  There is a tradeoff where the sharper a filter rolls off, the more transient smearing will incur.
 
-``almostall of the hearingaidstestedhaveattack timeslessthan or equalto 10 ms. A little more than half of the hearingaidshad releasetimesof 50 ms or less.The rangeof the attack times varied from 1 to 23 ms'' [attack and release times of AGC hearing aids]
+Studies on timbre perception [REF?] have suggested that humans hear changes in rise time in the log domain, i.e. the shorter a transient is, the more sensitive our perception is to smearing distortion.
 
-quantify for best case and worst case where worst case is the fastest transient relevant to music (this should also hinge on CI limitations)
+Of course if the pre-processing smears the transients, we can only do as well as that.  Most cochlear implants nowadays use pre-processor dynamic range compression.  We get some insight from a study performed on hearing aids, which would use a similar system.  ``Almost all of the hearing aids tested have attack times less than or equal to 10 ms. A little more than half of the hearing aids had release times of 50 ms or less.  The range of the attack times varied from 1 to 23 ms'' [attack and release times of AGC hearing aids]  1ms is faster than most typical sounds, so we should try to smear transients as little as possible in our processing.
 
-maximum onset dynamic range "90ms - 10ms = 80ms"
-and ratio of filter smeared range to max range
-rinse and repeat for CI's
+All of this suggests filter bandwidth be as wide as possible without encompassing the other harmonics, which results in a cutoff of $\frac{F_0}{2}$.
 
-\section{Steady-State Evaluation of Strategies}
+% $\frac{1}{5ms} = 200Hz$  Could this plus carrier bandwidth be equivalent to maximum harmonic bandwidth?
 
-chosen parameter values to compare:
-order 128, 256, 512
-quantize 1, 31, 62, 125
-cutoff, rectangular, hanning, adaptive butterworth
+%maximum onset dynamic range "90ms - 10ms = 80ms"
+%and ratio of filter smeared range to max range
+%rinse and repeat for CI's
 
-\subsection{Design Parameters}
+\section{Evaluation of Strategies}
 
 As stated above the design can be summarized by downshift frequency and lowpass filter.
 
-For our steady-state scenario the the ideal downshift frequency is simply $(k+1)F_0$.  The question is what degree of quantization is sufficient to estimate our signal.
+The ideal downshift frequency is simply $(k+1)F_0[n]$.  The question is what degree of quantization is sufficient to estimate our signal.
 
-For filter design we need to consider bandwidth as a function of filter order and filter/window type.  Ideally our cutoff is somewhere below $F_0$ but high enough to incorporate the narrow bandwidth of $m_k[n]$.
+For filter design we need to consider bandwidth as a function of filter order and filter/window type.  Ideally our cutoff is somewhere below $F_0$ but high enough to incorporate the bandwidth of $m_k[n]$.
 
 The filters can be different as a function of $k$.  This is a natural path to pursue if we consider the critical bands of the cochlea.  This will be discussed in more detail later in this document however for now we will assume $h_k[n] = h[n]$.  This is natural for harmonic envelopes as harmonics are linearly spaced.
 
+The designs considered are:
+
+downshift quantization - 1, 31, 63, 125Hz
+
+filter order - 128, 256, 512
+
+filter - rectangular, hanning, adaptive hamming
+
+k - which harmonic, how do they relate to each other
+
+Adaptive hamming is an adaptive bandwidth filter with a lowpass cutoff (-6dB point) of $\frac{F_0[n]}{2}$.
+
+For practical considerations, we will set a maximum quantization as $F_s$ /  filter order.
+
+$order = 256 \longleftrightarrow$ $f_q \leq 63Hz$
+
+$order = 512 \longleftrightarrow$ $f_q \leq 31Hz$
+
 \subsection{Coherent Gain}
 
-Not overly interesting, just talk about scalloping loss and mention that number of dips is proportional to harmonic index k.
+We first look at different downshift quantizations, all else constant.  This is visualized in figure~\ref{fig:g_k_1}.  When $F_0$ is exactly at a quantized value, $G_k = 0dB$, however the gain decreases as $F_0$ drifts away until the worse case where it is exactly in between quantization values.  Decreasing the quantization increases the number of dips and in turn improves the worst case $G_k$.
 
-The interesting part here is the relationship between harmonics.  Where the fundamental will be at a minimum, the 1st harmonic is at a maxima, example:
+\begin{figure}[!ht]
+  \centering
+    \includegraphics[width=1\textwidth]{g_k_1}   
+    \caption{$G_k$ Downshift Quatization}\label{fig:g_k_1}
+\end{figure}
 
-$F_q = 125$
+Figure~\ref{fig:g_k_2} compares the three different filter orders.  Using a hanning window, the lower order filters have slower rolloffs and better worst case $G_k$.  This doesn't necessarily hold true for adaptive filters.  Provided a high enough desired cutoff that the 128 order filter can achieve this reasonably well, the order become irrelevant.
 
-$F_0 = 182.5 = 1.5 F_q$ (right in between bins)
+\begin{figure}[!ht]
+  \centering
+    \includegraphics[width=1\textwidth]{g_k_2}   
+    \caption{$G_k$ filter order}\label{fig:g_k_2}
+\end{figure}
 
-$2F_0 = 375 = 3 F_q$ (right on a bin)
+Figure~\ref{fig:g_k_3} compares the different filter designs.  The wider bandwidth filters have smoother $G_k$ across $F_0$ and as a result the adaptive bandwidth becomes optimal at high $F_0$'s.
 
-<CONTINUE HERE>
+\begin{figure}[!ht]
+  \centering
+    \includegraphics[width=1\textwidth]{g_k_3}   
+    \caption{$G_k$ filter design}\label{fig:g_k_3}
+\end{figure}
 
-[windows for harmonic analysis]
+So lower quantization and wider bandwidth both improve $G_k$, but that's pretty intuitive.  The interesting part here is the relationship between harmonics.  If we consider the first three harmonics, figure~\ref{fig:g_k_4} shows that the number of dips is proportional to $k$.  As a result we get interactions at certain values of $F_0$.  For example, if $F_0 = 1.5f_q = 188$Hz, odd harmonics will be at a minimum and even harmonics will be at a maximum.  This results in a distortion between harmonics where some are attenuated more than others.
 
-scalloping loss or picket-fence effect, ratio of coherent gain for tone located half a bin from DFT sample point to coherent gain for tone located exactly at sample point
+It should be noted that pre-processing compression or automatic gain control (AGC) will cause harmonic distortions.  This could arguably be used to either make the case that it is important to minimize further distortions, or alternatively that these further distortions are minimal in comparison and thus shouldn't be over engineered.
 
-\begin{align}
-scalloping loss = \frac{| H(\frac{1}{2} \frac{F_s}{N}) |}{H(0)}
-\end{align}
+\begin{figure}[!ht]
+  \centering
+    \includegraphics[width=1\textwidth]{g_k_4}   
+    \caption{$G_k$ variation across harmonics}\label{fig:g_k_4}
+\end{figure}
 
-"althought scalloping loss is useful, it's not entirely informative.  if the scalloping loss if high, then this relates to a sharp cutoff which is actually good for increasing purity of the harmonic"
+Considering maximum quatization is $F_s$ / order and hanning filter as our baseline, worst case: $G_k \approx -1.5dB$.  Increasing the filter order and decreasing quantization proportionally increases the number of dips while keeping depth the same.  The relationship between harmonics and the case of $F_0[n]$ continuously changing over time put emphasis on minimizing the dynamic range of $G_k$.
 
-worst case processing loss = scalloping loss * PL
-where PL is reduced gain of window (which i have been canceling out)
-**where does worst case processing loss fit in?**
+%scalloping loss or picket-fence effect, ratio of coherent gain for tone located half a bin from DFT sample point to coherent gain for tone located exactly at sample point
+
+%\begin{align}
+%scalloping loss = \frac{| H(\frac{1}{2} \frac{F_s}{N}) |}{H(0)}
+%\end{align}
+
+%"althought scalloping loss is useful, it's not entirely informative.  if the scalloping loss if high, then this relates to a sharp cutoff which is actually good for increasing purity of the harmonic"
+
+%worst case processing loss = scalloping loss * PL
+%where PL is reduced gain of window (which i have been canceling out)
+%**where does worst case processing loss fit in?**
 
 \subsection{Harmonic SIR}
 
-Just note that major difference in filter order
+We first consider filter order and quantization.  In figure~\ref{fig:sir_k_1} we consider all filter orders with and without quantization.
+
+The downshift quandization doesn't actually affect performance significantly.  This can be seen in figure~\ref{fig:sir_k_1} by looking at the two lines corresponding to order = 128.  Above a $F_0 = 250$Hz the harmonics are spaced far enough apart that the quantization doesn't matter.  Below $F_0 = 130$Hz the filter cutoff is not sharp enough to isolate the harmonic, in which case downshift quantization is irrelevant.
+
+Also note that for order = 512 the cutoff is narrow enough that we get ideal harmonic SIR over all $F_0$.
+
+\begin{figure}[!ht]
+  \centering
+    \includegraphics[width=1\textwidth]{sir_k_1}   
+    \caption{$SIR_k$ filter order and quantization}\label{fig:sir_k_1}
+\end{figure}
+
+Figure~\ref{fig:sir_k_2} compares filter design methods.  Hanning and adaptive are essentially the same, showing that the limiting factor is still filter order.  Rectangular provides a better lower limit for what $F_0$ the SIR breaks down at, and it does this at the cost of dips at higher frequencies.  This agrees with the fact that rectangular windows have the sharpest rolloff at the expense of large sidelobes.
+
+\begin{figure}[!ht]
+  \centering
+    \includegraphics[width=1\textwidth]{sir_k_2}
+    \caption{$SIR_k$ filter design}\label{fig:sir_k_2}
+\end{figure}
+
+The higher order harmonics are compared in figures~\ref{fig:sir_k_3} and ~\ref{fig:sir_k_4}.  We see patterns similar to figure~\ref{fig:g_k_4} where the number of dips is proportional to $k$.  These figures reinforce that improvement from decreasing quantization, $f_q$, is bounded.
+
+For hanning the incremental 1dB of improvement is arguably not important.  For rectangular we actually see a significant improvement in the 80-130Hz region for $k > 3$.
+
+\begin{figure}[!ht]
+  \centering
+    \includegraphics[width=1\textwidth]{sir_k_3}
+    \caption{$SIR_k$ variation across harmonics with hanning filter}\label{fig:sir_k_3}
+\end{figure}
+
+\begin{figure}[!ht]
+  \centering
+    \includegraphics[width=1\textwidth]{sir_k_4}   
+    \caption{$SIR_k$ variation across harmonics with rectangular filter}\label{fig:sir_k_4}
+\end{figure}
+
+Filter order is certainly the dominant factor for harmonic SIR.  For order = 128, it starts to break down for $F_0 \approx 220$ Hz and degrades as $F_0$ decreases.  For order = 256, it starts to break down for $F_0 \approx 110$ Hz.  For order = 512 the harmonic SIR performs is essentially optimal across all values of $F_0$.
 
 \subsection{Modulation Depth}
 
-Again...filter order
+We discussed earlier that our goal is to provide explicit modulations, in which case we need minimal modulation in the extracted envelope.
 
-BW = F0/2
-downshift = exp(kF0)
+We first compare each filter design method at the different filter orders, as seen in figure~\ref{fig:d_ki_1}.  For all orders rectangular windows do a poor job of suppressing modulations due to high sidelobe amplitude.  Hanning and adaptive show similar responses with the dominant variation being the response to low $F_0$ as a function of filter order.
 
-downshift quantization, bandwidth as function of F, F0?
+\begin{figure}[!ht]
+  \centering
+    \includegraphics[width=1\textwidth]{d_ki_1}   
+    \caption{$D_{k,i}$ filter design and order}\label{fig:d_ki_1}
+\end{figure}
 
-modulation depth (kind of another SIR) as a function of downshift quantization and filter
+Downshift quantization shows little affect on modulation depth.  This is shown for both hanning and adaptive filter designs in figure`\ref{fig:d_ki_2}.
 
-\subsection{figures}
+\begin{figure}[!ht]
+  \centering
+    \includegraphics[width=1\textwidth]{d_ki_2}
+    \caption{$D_{k,i}$ downshift quantization}\label{fig:d_ki_2}
+\end{figure}
 
-\subsection{Envelope Bandwidth Tradeoff}
+Provided no downshift quantization, ,odulation depth won't change as a function of $k$.  Figure~\ref{fig:d_ki_4} shows this variation, however it has minimal impact.
 
-incorporating multiple harmonic components VS eliminating transient characteristics
+\begin{figure}[!ht]
+  \centering
+    \includegraphics[width=1\textwidth]{d_ki_4}
+    \caption{$D_{k,i}$ at rate of $iF_0$}\label{fig:d_ki_4}
+\end{figure}
 
-\section{ALL METRICS}
+Recall $D_{k,i}$ is the modulation depth of the estimate of the $k$th harmonic at a rate of $iF_0$.  We should expect that as $i$ increases we move further away from baseband and our filter does a better job of eliminating modulations.  This is verified in figure~\ref{fig:d_ki_3}.
 
-ENBW (accumulated noise)
-PL (gain at DC)
-PG (same as PL?)
-scalloping loss (downshift quantization worst case)
-worst case PL = PL*SL
+\begin{figure}[!ht]
+  \centering
+    \includegraphics[width=1\textwidth]{d_ki_3}
+    \caption{$D_{k,1}$ across harmonics}\label{fig:d_ki_3}
+\end{figure}
 
-harmonic SIR
-harmonic gain (maybe not overly relevant due to AGC, etc)
-					(how is it affected in a relative sense? worst vs best)
-modulation depth (spectral leakage)
-transients
-changing F0 (scalloping loss dip only, and harmonic SIR)
+This results suggest that $D_{k,1}$ is the most important measure, and that hanning and adaptive filter designs achieve approximately the same performance.  At low $F_0$ filter order plays a large roll in modulation depth.
 
-\subsection{Harmonic Bandwidth}
+Psychophysical studies have found that for reliable pitch discrimination amplitude-modulations of approximately 10\% to 40\% are required on average. [REF] %[pitch_ranking_strategy_compare].
 
-what is it?  look at some waveforms and read some stuff.  maybe do this at the same time as transient times of instruments
+\begin{align}
+10\% \rightarrow D_{k,1} = -20 \mathrm{dB} \nonumber \\
+40\% \rightarrow D_{k,1} = -8 \mathrm{dB} \nonumber
+\end{align}
 
-Talk about filter bandwidth, what is optimal? F0/2? F0/4?
 
-\section{Adaptive Filters}
+This implies that depending on the user:
 
-consider all metrics for adaptive filters, order 128, 256, 512
+- order 128 breaks down at $F_0\approx 240$ to $400$Hz
 
+- order 256 breaks down at $F_0\approx 120$ to $200$Hz
+
+- order 512 breaks down at $F_0\approx 60$ to $100$Hz
+
+In the best case, order 512 is sufficient for all $F_0$.  In the worst case, order 128 will have artifacts across almost the entire $F_0$ range.
+
+
+%``Previous CI psychophysical studies investigating the pitch of sinusoidal amplitude-modulated pulse trains have shown considerable variation between subjects in terms of the modulation depths required for reliable discrimination of pitch (McKay et al., 1995; Geurts and Wouters, 2001). On average, modulation depths ranging from 10\% to 40\% of the electrical dynamic range were required, although some subjects required depths of almost 100\%. Converting these values to the acoustic dynamic range coded by the sound processor, which for the Nucleus 24 system is typically 30 dB, indicates that modulation depths in the acoustic signal of approximately 3 to 12 dB are required on average.'' %[pitch_ranking_strategy_compare]
+
+\subsection{Transients}
+
+Time-responses are a bit more difficult to analyze, as we cannot use the standard dB measurements we are familiar with.  We will consider transient responses of the different filter designs and filter orders.
+
+We start with the unit step response, shown in figure~\ref{fig:transient_1}.  Latency on the order of 15ms isn't of much concern.  The more important difference in the rise time.  The 10-90\% rise times are displayed in table~\ref{table:rise_times}.
+
+The adaptive filters all have the same rise time at high enough $F_0$ however the lower order filters are fundamentally constrained on how slow the rise time can be.  The rectangular window is the worst of them all.
+
+\begin{figure}[!ht]
+  \centering
+    \includegraphics[width=1\textwidth]{transient_1}
+    \caption{Transient Step Response, order = 128, 256, 512 (increasing order corresponds to longer reponse time)}\label{fig:transient_1}
+\end{figure}
+
+\begin{table}
+\begin{center}
+\begin{tabular}{| r | r | r | r | r | r |}
+  \hline
+    & rectangular & hanning & adaptive 80 & adaptive 260 & adaptive 500 \\ \hline
+  \textbf{Order} & \multicolumn{5}{|c|}{\textbf{Rise Time (ms)}} \\ \hline
+  128 & 7 & 4 & 4 & 3 & 2 \\ \hline
+  256 & 13 & 8 & 8 & 4 & 2 \\ \hline
+  512 & 26 & 16 & 12 & 4 & 2 \\ \hline
+\end{tabular}
+\end{center}
+\caption{filter rise times}\label{table:rise_times}
+\end{table}
+
+An alternative view is shown in figure~\ref{fig:transient_2}.  For typical attack times in the range of 5-200ms and input to output change in attack time is plotted.
+
+As mentioned in section~\ref{section:transients} humans hear transient changes in the log domain, and thus the axes are log scaled.
+
+For the worse case, rectangular order 512, more than half the dynamic range is lost due to smearing.
+
+\begin{figure}[!ht]
+  \centering
+    \includegraphics[width=1\textwidth]{transient_2}
+    \caption{Transient Input/Output Change}\label{fig:transient_2}
+\end{figure}
+
+As a final perspective on transients, we consider typical instrument attack times.  Figure~\ref{fig:transient_3} shows the shifted attack times of twelve instruments typical attack times.  The vertical scale has no meaning, it is simply for visual clarity.
+
+What's interesting is that on a log scale, the instruments generally bunch into two groups.  The slow attack-time group seems robust to the distortions of any of these filters.  On the other hand the fast-attack time instruments change dramatically.  For the narrow bandwidth 512 order filters, the smeared guitar output is closer in attack-time to an English horn than itself!
+
+\begin{figure}[!ht]
+  \centering
+    \includegraphics[width=1.2\textwidth]{transient_3}
+    \caption{Transient Distortion for Common Instruments}\label{fig:transient_3}
+\end{figure}
+
+
+\subsection{Summary}
+
+For the most part the hanning and adaptive filters outperformed rectangular.  The rectangular window's performance on modulation depth makes it essentially unusable.
+
+For coherent gain we get a worst case of roughly -1.5dB.  It doesn't appear from our results to be an overly critical design consideration.
+
+For harmonic SIR and modulation depth the critical performance variable was filter order.  To very loosely summarize, order 128 fails for $F_0 < 240$Hz, order 256 fails for $F_0 < 120$Hz and 512 does sufficiently well for the full range considered.
+
+Downshift quantization also did not seem to play a prominent role.  This is in part affected by the restriction that quantization can't be worse than $F_s$ / filter order.
+
+There is clearly an envelope bandwidth tradeoff, where the wider a filter is the less transients are smeared but the more the other harmonics interfere in the estimated envelope.
+
+The sharp-cutoff order 512 filters smear the fast transients a significant amount, however the adaptive bandwidth filters seem to do well at smearing as little as possible while still achieving good performance on the other metrics.  This could be the best solution to the posed bandwidth tradeoff.
+
+%harmonic bandwidth: what is it?  look at some waveforms and read some stuff.  maybe do this at the same time as transient times of instruments
+
+\section{Non-ideal Pitch Estimators}
+
+The critical assumption thus far has been accurate pitch estimates.  One problem to consider is error in the pitch estimator.  The other that we will consider is pitch estimator quantization.
+
+We consider a specific pitch estimator that uses autocorrelation.  To summarize this method, an autocorrelation is performed on the windowed input.  A maxima is selected from this autocorrelation and the fundamental frequency is computed from the index of the maxima.
+
+\begin{align}
+R_{xx}[n,\tau] =& x_{windowed}[r] * x_{windowed}[-r] \\
+\tilde{F}_0[n] =& F_s \Bigg[ \arg\max_\tau R_{xx}[n,\tau] \Bigg]^{-1}
+\end{align}
+
+This can be implemented efficiently using the fast-autocorrelation method
+
+\begin{align}
+R_{xx}[n,\tau] = \mathcal{F}^{-1}\Big\{X[n,k]X^*[n,k]\Big\}
+\end{align}
+
+Defining the FFT order as $N$, for this method the possible values of $F_0$ are 
+
+\begin{align}
+F_0 = \frac{F_s}{\tau}, \quad 1 \leq \tau \leq \frac{N}{2}
+\end{align}
+
+By then bounding the considered $F_0$ values to roughly 50-550Hz we can get better resolution by resampling the signal such that more values of $F_0$ fall within these bounds.
+
+\begin{align}
+max\Big(\frac{2Fs}{N}, 50\Big) \leq F_0 \leq min\Big(\frac{Fs}{2}, 550\Big)
+\end{align}
+
+Choosing $F_s$ is important, since the quantization of $F_0$ is not linearly spaced and becomes worse at higher values of $F_0$.
+
+To be clear that this different sampling rate is only relevant to pitch estimation and not any of the other envelope extraction process, we define a new pitch estimator sampling rate, $F_{s,p}$.  Having $N$ as the filter orders we have previously considered we choose $F_{s,p}$ for maximal possibilities for $F_0$ within our region of interest.  The results are shown in table~\ref{table:f0_quantization}.
+
+\begin{table}
+\begin{center}
+\begin{tabular}{| r | r | r | r | r | r |}
+  \hline
+  \textbf{Order ($N$)} & \textbf{$F_{s,p}$} &  \textbf{min $F_0$} & \textbf{max $F_0$} &  \textbf{best quantization} &  \textbf{worst quantization} \\ \hline
+  128 & 4kHz & 63Hz & 500Hz & 1Hz & 56Hz \\ \hline
+  256 & 8kHz & 63Hz & 533Hz & 1Hz & 33Hz \\ \hline
+  512 & 16kHz & 63Hz & 533Hz & 1Hz & 17Hz \\ \hline
+\end{tabular}
+\end{center}
+\caption{$F_0$ estimate quantization}\label{table:f0_quantization}
+\end{table}
+
+With this design each $N$ covers approximately the same range, however the high orders have 2 or 4 times as many samples as $N = 128$.  This is especially important at high values of $F_0$ where the quantization is the worst.
+
+We revisit harmonic SIR and modulation depth with non-deal pitch estimates.  Downshift quantization is assumed: $f_q = \frac{F_s}{N}$.
+
+\subsection{Harmonic SIR}
+
+Harmonic SIR is visualized for two different filter design methods in figues~\ref{fig:pitch_sir_k_1} and ~\ref{fig:pitch_sir_k_2}.  The pitch quantization, which is worse for lower orders, causes harmonic SIR to degrade for higher harmonics.  This makes sense as the quantization error will be scaled by harmonic index $k$.
+
+The hanning filter performs slightly at high $F_0$s bettter due to narrower filter bandwidth.  Depending on the desired performance, harmonic indices above a certain threshold will no longer provide accurate harmonic envelopes.  This threshold is slightly lower for adaptive filters than hanning filters and it is significantly lower for lower order filters.
+
+\begin{figure}[!ht]
+  \centering
+    \includegraphics[width=1\textwidth]{pitch_sir_k_1}
+    \caption{$SIR_k$, hanning filter and pitch estimate quantization}\label{fig:pitch_sir_k_1}
+\end{figure}
+
+\begin{figure}[!ht]
+  \centering
+    \includegraphics[width=1\textwidth]{pitch_sir_k_2}
+    \caption{$SIR_k$, adaptive filter and pitch estimate quantization}\label{fig:pitch_sir_k_2}
+\end{figure}
+
+We now consider the same designs but with $\pm5$Hz pitch estimation error.  The worse case $SIR_k$ is shown for hanning filter in figure~\ref{fig:pitch_sir_k_1_error5} and for adaptive filter in figure~\ref{fig:pitch_sir_k_2_error5}.
+
+The error degrades performance in two dimensions.  Similar to quantization error, the perfomance degrades proportional to $k$.  The other problem is at low values of $F_0$, where harmonics are more closely spaced.
+
+We can take the right plot in figure~\ref{fig:pitch_sir_k_1_error5} as an example.  For the first 3 harmonics we get good harmonic SIRs for $F_0 > 80$Hz, however for $k = 3,4$ this increases to roughly $F_0 > 180$Hz and for even higher harmonics we never achieve satisfactory SIR.
+
+\begin{figure}[!ht]
+  \centering
+    \includegraphics[width=1\textwidth]{pitch_sir_k_1_error5}
+    \caption{$SIR_k$, hanning filter, pitch estimate quantization and $\pm5$Hz estimation error}\label{fig:pitch_sir_k_1_error5}
+\end{figure}
+
+\begin{figure}[!ht]
+  \centering
+    \includegraphics[width=1\textwidth]{pitch_sir_k_2_error5}
+    \caption{$SIR_k$, adaptive filter, pitch estimate quantization and $\pm5$Hz estimation error}\label{fig:pitch_sir_k_2_error5}
+\end{figure}
+
+\subsection{Modulation Depth}
+
+We repeat these same comparisons for modulation depth.  Looking at figure~\ref{fig:pitch_d_ki_1}, with hanning filter and pitch estimate quantization, high harmonics have very high modulations.  Around the 6th harmonic ($k = 5$) we start to see big spikes in modulation depth at high $F_0$.  Interestingly the same harmonics have poor performance regardless of $N$, however there is a far broader region of failure for lower $N$.
+
+In  figure~\ref{fig:pitch_d_ki_2} we see much better performance for $N = 512$ in comparison to the hanning filer.  This is because despite having wider bandwidth at high $F_0$, the sidelobes are much lower than the hanning filter.  The first hanning sidelobe has a gain of -31dB, whereas for $F_0 = 500$Hz the adaptive filter has a first sidelobe gain of -56dB.
+
+\begin{figure}[!ht]
+  \centering
+    \includegraphics[width=1\textwidth]{pitch_d_ki_1}
+    \caption{$D_{k,1}$, hanning filter and pitch estimate quantization}\label{fig:pitch_d_ki_1}
+\end{figure}
+
+\begin{figure}[!ht]
+  \centering
+    \includegraphics[width=1\textwidth]{pitch_d_ki_2}
+    \caption{$D_{k,1}$, hanning filter and pitch estimate quantizationr}\label{fig:pitch_d_ki_2}
+\end{figure}
+
+Now considering $\pm5$Hz estimation error, we see from figures~\ref{fig:pitch_d_ki_1_error5} and \ref{fig:pitch_d_ki_2_error5} the same shift right where higher harmonics at low $F_0$ perform worse.  The adaptive order 512 filter performs the best, being very robust error.
+
+\begin{figure}[!ht]
+  \centering
+    \includegraphics[width=1\textwidth]{pitch_d_ki_1_error5}
+    \caption{$D_{k,1}$, hanning filter, pitch estimate quantization and $\pm5$Hz estimation error}\label{fig:pitch_d_ki_1_error5}
+\end{figure}
+
+\begin{figure}[!ht]
+  \centering
+    \includegraphics[width=1\textwidth]{pitch_d_ki_2_error5}
+    \caption{$D_{k,1}$, hanning filter, pitch estimate quantization and $\pm5$Hz estimation error}\label{fig:pitch_d_ki_2_error5}
+\end{figure}
+
+Regardless of extraction method there will be a fundamental limit on performance as the pitch estimate becomes worse.  We see from all of the above example that performance degrades proportional to $k \times \mathrm{error} / F_0$.
+
+% ========== Chapter 5
 
 \chapter{Implementation Considerations}
+
+improving pitch estimator
+
+adaptive filters?
+
+improved filter quantization using interpolation
+
+explicit transient encoding [find a vocoder ref]
+
+hybrid considerations
+
+1) to achieve harmonic and inharmonic at same time
+
+2) to better model the critical bands in the cochlea
+
 
 \section{Efficient Interpolation Algorithm}
 
@@ -1503,6 +1777,10 @@ Is the actual equation just a sinc function times a phase shift?!
 READ THIS: [An Intelligent FFT-Analyzer with Harmonic Interference Effect Correction and Uncertainty Evaluation]
 
 \section{Mapping and Selection}
+
+\section{conclusions}
+
+maybe narrower filters could improve SiN, this was not investigated
 
 \chapter{-----------------------------------}
 

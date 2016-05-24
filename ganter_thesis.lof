@@ -16,13 +16,36 @@
 \contentsline {figure}{\numberline {3.3}{\ignorespaces Cello Example}}{24}
 \contentsline {figure}{\numberline {3.4}{\ignorespaces Method Comparison: magnitude spectrum at each step}}{33}
 \addvspace {5\p@ }
-\contentsline {figure}{\numberline {4.1}{\ignorespaces Magnitude of spectrum for equations 4.6\hbox {} - 4.9\hbox {}}}{37}
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Magnitude of spectrum for equations 4.5\hbox {} - 4.8\hbox {}}}{37}
 \contentsline {figure}{\numberline {4.2}{\ignorespaces $(a) | \setbox \z@ \hbox {\frozen@everymath \@emptytoks \mathsurround \z@ $\textstyle X$}\mathaccent "0362{X}[n,f) |$ $(b) | \setbox \z@ \hbox {\frozen@everymath \@emptytoks \mathsurround \z@ $\textstyle X$}\mathaccent "0362{X}[n,f - 2F_0) |$ $(c) | \setbox \z@ \hbox {\frozen@everymath \@emptytoks \mathsurround \z@ $\textstyle X$}\mathaccent "0362{X}[n,f - 2F_0) | | H_1(f) |$ $(d) | \setbox \z@ \hbox {\frozen@everymath \@emptytoks \mathsurround \z@ $\textstyle X$}\mathaccent "0362{X}^*[n,-f + 2F_0) | | H_1(-f) |$ $(e) | \mathcal {F} \{ \mathaccentV {tilde}07E{m}_1^2[n] \} |$ $(f)$ contributions of separate components of $(e)$}}{40}
 \contentsline {figure}{\numberline {4.3}{\ignorespaces Envelope Estimate $-2F_0$ Component}}{41}
 \contentsline {figure}{\numberline {4.4}{\ignorespaces Envelope Estimate $-F_0$ Component}}{41}
 \contentsline {figure}{\numberline {4.5}{\ignorespaces Envelope Estimate Baseband Component}}{41}
-\contentsline {figure}{\numberline {4.6}{\ignorespaces Clarinet vs Saxophone Harmonic Components}}{45}
-\contentsline {figure}{\numberline {4.7}{\ignorespaces Clarinet vs Saxophone Envelope Estimates}}{46}
+\contentsline {figure}{\numberline {4.6}{\ignorespaces Clarinet vs Saxophone Harmonic Components}}{44}
+\contentsline {figure}{\numberline {4.7}{\ignorespaces Clarinet vs Saxophone Envelope Estimates}}{45}
+\contentsline {figure}{\numberline {4.8}{\ignorespaces $G_k$ Downshift Quatization}}{48}
+\contentsline {figure}{\numberline {4.9}{\ignorespaces $G_k$ filter order}}{49}
+\contentsline {figure}{\numberline {4.10}{\ignorespaces $G_k$ filter design}}{50}
+\contentsline {figure}{\numberline {4.11}{\ignorespaces $G_k$ variation across harmonics}}{51}
+\contentsline {figure}{\numberline {4.12}{\ignorespaces $SIR_k$ filter order and quantization}}{52}
+\contentsline {figure}{\numberline {4.13}{\ignorespaces $SIR_k$ filter design}}{53}
+\contentsline {figure}{\numberline {4.14}{\ignorespaces $SIR_k$ variation across harmonics with hanning filter}}{54}
+\contentsline {figure}{\numberline {4.15}{\ignorespaces $SIR_k$ variation across harmonics with rectangular filter}}{55}
+\contentsline {figure}{\numberline {4.16}{\ignorespaces $D_{k,i}$ filter design and order}}{56}
+\contentsline {figure}{\numberline {4.17}{\ignorespaces $D_{k,i}$ downshift quantization}}{56}
+\contentsline {figure}{\numberline {4.18}{\ignorespaces $D_{k,i}$ at rate of $iF_0$}}{57}
+\contentsline {figure}{\numberline {4.19}{\ignorespaces $D_{k,1}$ across harmonics}}{57}
+\contentsline {figure}{\numberline {4.20}{\ignorespaces Transient Step Response, order = 128, 256, 512 (increasing order corresponds to longer reponse time)}}{58}
+\contentsline {figure}{\numberline {4.21}{\ignorespaces Transient Input/Output Change}}{59}
+\contentsline {figure}{\numberline {4.22}{\ignorespaces Transient Distortion for Common Instruments}}{59}
+\contentsline {figure}{\numberline {4.23}{\ignorespaces $SIR_k$, hanning filter and pitch estimate quantization}}{62}
+\contentsline {figure}{\numberline {4.24}{\ignorespaces $SIR_k$, adaptive filter and pitch estimate quantization}}{62}
+\contentsline {figure}{\numberline {4.25}{\ignorespaces $SIR_k$, hanning filter, pitch estimate quantization and $\pm 5$Hz estimation error}}{63}
+\contentsline {figure}{\numberline {4.26}{\ignorespaces $SIR_k$, adaptive filter, pitch estimate quantization and $\pm 5$Hz estimation error}}{63}
+\contentsline {figure}{\numberline {4.27}{\ignorespaces $D_{k,1}$, hanning filter and pitch estimate quantization}}{64}
+\contentsline {figure}{\numberline {4.28}{\ignorespaces $D_{k,1}$, hanning filter and pitch estimate quantizationr}}{65}
+\contentsline {figure}{\numberline {4.29}{\ignorespaces $D_{k,1}$, hanning filter, pitch estimate quantization and $\pm 5$Hz estimation error}}{65}
+\contentsline {figure}{\numberline {4.30}{\ignorespaces $D_{k,1}$, hanning filter, pitch estimate quantization and $\pm 5$Hz estimation error}}{66}
 \addvspace {5\p@ }
 \addvspace {5\p@ }
 \addvspace {5\p@ }
