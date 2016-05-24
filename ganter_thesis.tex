@@ -1,6 +1,4 @@
 %TODO
-% PhD to Masters (updating .cls)
-% reading comittee
 % a "THESIS" submitted in partial...
 
 
@@ -25,7 +23,7 @@
 %    Printed in twoside style now that that's allowed
 %
  
-\documentclass [11pt, proquest,oneside] {uwthesis}[2015/03/03]
+\documentclass [11pt, proquest,oneside] {ganter_thesis}[2015/03/03]
  
 %
 % The following line would print the thesis in a postscript font 
@@ -104,7 +102,7 @@
 % unusual footnote not found in a real thesis
 % You just use the \titlepage as commented out above
 
-{\Degreetext{A dissertation 
+{\Degreetext{A thesis 
   submitted in partial fulfillment of the\\ requirements for the degree of}
  \def\thefootnote{\fnsymbol{footnote}}
  \let\footnoterule\relax
@@ -1061,7 +1059,6 @@ m_k[n] =& \Big| x[n]e^{-j \omega_k\big[F_0[n]\big]n} * h_k\big[n,F_0[n]\big]  \B
 
 In the next chapter we will investigate encoding harmonics in cochlear implants using our generalized envelope extraction equation.
 
-
 % ========== Chapter 4
 
 \chapter{Harmonic Envelopes}\label{ch:harmonic_envelopes}
@@ -1239,6 +1236,8 @@ The other components come from interactions with the unwanted harmonics that we 
     \includegraphics[width=.62\textwidth]{harmonic_envelope_0}
     \caption{Envelope Estimate Baseband Component}\label{fig:harmonic_envelope_0}
 \end{figure}
+
+\clearpage
 
 \subsection{2 Harmonic Example: Effects of Downshift Frequency}
 
@@ -1465,6 +1464,8 @@ Considering maximum quatization is $F_s$ / order and hanning filter as our basel
 %where PL is reduced gain of window (which i have been canceling out)
 %**where does worst case processing loss fit in?**
 
+\clearpage
+
 \subsection{Harmonic SIR}
 
 We first consider filter order and quantization.  In figure~\ref{fig:sir_k_1} we consider all filter orders with and without quantization.
@@ -1493,17 +1494,19 @@ For hanning the incremental 1dB of improvement is arguably not important.  For r
 
 \begin{figure}[!ht]
   \centering
-    \includegraphics[width=1\textwidth]{sir_k_3}
+    \includegraphics[width=.8\textwidth]{sir_k_3}
     \caption{$SIR_k$ variation across harmonics with hanning filter}\label{fig:sir_k_3}
 \end{figure}
 
 \begin{figure}[!ht]
   \centering
-    \includegraphics[width=1\textwidth]{sir_k_4}   
+    \includegraphics[width=.8\textwidth]{sir_k_4}   
     \caption{$SIR_k$ variation across harmonics with rectangular filter}\label{fig:sir_k_4}
 \end{figure}
 
 Filter order is certainly the dominant factor for harmonic SIR.  For order = 128, it starts to break down for $F_0 \approx 220$ Hz and degrades as $F_0$ decreases.  For order = 256, it starts to break down for $F_0 \approx 110$ Hz.  For order = 512 the harmonic SIR performs is essentially optimal across all values of $F_0$.
+
+\clearpage
 
 \subsection{Modulation Depth}
 
@@ -1614,6 +1617,7 @@ What's interesting is that on a log scale, the instruments generally bunch into 
     \caption{Transient Distortion for Common Instruments}\label{fig:transient_3}
 \end{figure}
 
+\clearpage
 
 \subsection{Summary}
 
@@ -1716,6 +1720,8 @@ We can take the right plot in figure~\ref{fig:pitch_sir_k_1_error5} as an exampl
     \includegraphics[width=1\textwidth]{pitch_sir_k_2_error5}
     \caption{$SIR_k$, adaptive filter, pitch estimate quantization and $\pm5$Hz estimation error}\label{fig:pitch_sir_k_2_error5}
 \end{figure}
+
+\clearpage
 
 \subsection{Modulation Depth}
 

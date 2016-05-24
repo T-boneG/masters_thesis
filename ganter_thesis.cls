@@ -629,7 +629,7 @@
 \def\School#1{\gdef\@School{#1}} \School{University of Washington}
 \def\GSchool#1{\gdef\@GSchool{#1}} \GSchool{Graduate School}
 \def\Degreetext#1{\gdef\@Degreetext{#1}} 
-  \Degreetext{A jgasjhkdfgdissertation\\ submitted in partial fulfillment of the\\requirements for the degree of}
+  \Degreetext{A thesis submitted in partial fulfillment of the requirements for the degree of}
 \def\Programtext#1{\gdef\@Programtext{#1}}  
        \Programtext{Program Authorized to Offer Degree: }
 
@@ -648,7 +648,6 @@
   \ifnum\@Chair>0\textofChair{Co-Chairs of the Supervisory Committee:}\fi
   \global\advance\@Chair by1}
 
-%\MasterThesis % should I have done this??
 
 \newcount\@Sign\@Sign0
 \def\Signature#1{
