@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  23 MAY 2016 21:13
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  24 MAY 2016 12:59
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -30,12 +30,12 @@ File: bk11.clo 2014/09/29 v1.4h Standard LaTeX file (size option)
 \botmargin=\dimen103
 \@@wholepage=\box26
 
-Formatting for twoside printing.
+Formatting for oneside printing.
 \@Chair=\count88
 \@Sign=\count89
 )
 
-LaTeX Warning: You have requested, on input line 42, version
+LaTeX Warning: You have requested, on input line 28, version
                `2015/03/03' of document class uwthesis,
                but only version
                `2008/04/15'
@@ -207,18 +207,18 @@ LaTeX Warning: Label `eq:harmonic-to-stft' multiply defined.
 )
 \openout1 = `ganter_thesis.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 87.
-LaTeX Font Info:    ... okay on input line 87.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 87.
-LaTeX Font Info:    ... okay on input line 87.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 87.
-LaTeX Font Info:    ... okay on input line 87.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 87.
-LaTeX Font Info:    ... okay on input line 87.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 87.
-LaTeX Font Info:    ... okay on input line 87.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 87.
-LaTeX Font Info:    ... okay on input line 87.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 73.
+LaTeX Font Info:    ... okay on input line 73.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 73.
+LaTeX Font Info:    ... okay on input line 73.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 73.
+LaTeX Font Info:    ... okay on input line 73.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 73.
+LaTeX Font Info:    ... okay on input line 73.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 73.
+LaTeX Font Info:    ... okay on input line 73.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 73.
+LaTeX Font Info:    ... okay on input line 73.
  (/usr/local/texlive/2015/texmf-dist/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count108
@@ -292,39 +292,36 @@ Package caption Warning: \caption will not be redefined since it's already
 See the caption package documentation for explanation.
 
 Package caption Info: End \AtBeginDocument code.
-LaTeX Font Info:    Try loading font information for U+msa on input line 126.
-(/usr/local/texlive/2015/texmf-dist/tex/latex/amsfonts/umsa.fd
-File: umsa.fd 2013/01/14 v3.01 AMS symbols A
-)
-LaTeX Font Info:    Try loading font information for U+msb on input line 126.
+[-1
 
-(/usr/local/texlive/2015/texmf-dist/tex/latex/amsfonts/umsb.fd
-File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-)
-LaTeX Font Info:    Try loading font information for U+rsfs on input line 126.
-
-(/usr/local/texlive/2015/texmf-dist/tex/latex/jknapltx/ursfs.fd
-File: ursfs.fd 1998/03/24 rsfs font definition file (jk)
-)
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 126.
+{/usr/local/texlive/2015/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 141.
 
 
 (/usr/local/texlive/2015/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
-LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <8> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 126.
-LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <6> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 126.
- [-1
-
-{/usr/local/texlive/2015/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] [0
+LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 141.
+ [0
 
 ]
-LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 156.
- [1] [2]
-(./ganter_thesis.toc [1
+(./ganter_thesis.toc
+LaTeX Font Info:    Try loading font information for U+msa on input line 1.
+
+(/usr/local/texlive/2015/texmf-dist/tex/latex/amsfonts/umsa.fd
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+LaTeX Font Info:    Try loading font information for U+msb on input line 1.
+
+(/usr/local/texlive/2015/texmf-dist/tex/latex/amsfonts/umsb.fd
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+)
+LaTeX Font Info:    Try loading font information for U+rsfs on input line 1.
+
+(/usr/local/texlive/2015/texmf-dist/tex/latex/jknapltx/ursfs.fd
+File: ursfs.fd 1998/03/24 rsfs font definition file (jk)
+) [1
 
 
 
@@ -332,7 +329,8 @@ LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
 \tf@toc=\write4
 \openout4 = `ganter_thesis.toc'.
 
- [2] [3] (./ganter_thesis.lof
+ [2]
+(./ganter_thesis.lof
 Overfull \hbox (31.81967pt too wide) in paragraph at lines 20--20
  [][] []$\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.95 a\OT1/cmr/m/n/10.95 )\OMS/cmsy
 /m/n/10.95 j[]\OT1/cmr/m/n/10.95 [\OML/cmm/m/it/10.95 n; f\OT1/cmr/m/n/10.95 )\
@@ -351,17 +349,15 @@ OML/cmm/m/it/10.95 H[]\OT1/cmr/m/n/10.95 (\OMS/cmsy/m/n/10.95 ^^@\OML/cmm/m/it/
 10.95 f\OT1/cmr/m/n/10.95 )\OMS/cmsy/m/n/10.95 j$ 
  []
 
-[4
+[3
 
 ])
 \tf@lof=\write5
 \openout5 = `ganter_thesis.lof'.
 
- [5] [6
+ [4] [5
 
-] [7
-
-] [8
+] [6
 
 ]
 <<1>>
@@ -371,142 +367,126 @@ OML/cmm/m/it/10.95 H[]\OT1/cmr/m/n/10.95 (\OMS/cmsy/m/n/10.95 ^^@\OML/cmm/m/it/
 
 ] [2] [3]
 <<2>>
-<figures/caVScis.png, id=64, 382.42876pt x 537.00626pt>
+<figures/caVScis.png, id=49, 382.42876pt x 537.00626pt>
 File: figures/caVScis.png Graphic file (type png)
 
 <use figures/caVScis.png>
-Package pdftex.def Info: figures/caVScis.png used on input line 307.
+Package pdftex.def Info: figures/caVScis.png used on input line 288.
 (pdftex.def)             Requested size: 217.14749pt x 304.9168pt.
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
  [4
 
-]
-[5 <./figures/caVScis.png>] [6]
-<figures/vocoder.png, id=77, 1018.80624pt x 604.2575pt>
+] [5 <./figures/caVScis.png>] [6]
+<figures/vocoder.png, id=63, 1018.80624pt x 604.2575pt>
 File: figures/vocoder.png Graphic file (type png)
 
 <use figures/vocoder.png>
-Package pdftex.def Info: figures/vocoder.png used on input line 348.
+Package pdftex.def Info: figures/vocoder.png used on input line 329.
 (pdftex.def)             Requested size: 325.72124pt x 193.18195pt.
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [7 <./figures/vocoder.png>] <figures/CI_Signal_Flow.png, id=83, 734.745pt x 65
-.24374pt>
+ [7 <./figures/vocoder.png>]
+<figures/CI_Signal_Flow.png, id=68, 734.745pt x 65.24374pt>
 File: figures/CI_Signal_Flow.png Graphic file (type png)
 
 <use figures/CI_Signal_Flow.png>
-Package pdftex.def Info: figures/CI_Signal_Flow.png used on input line 379.
+Package pdftex.def Info: figures/CI_Signal_Flow.png used on input line 360.
 (pdftex.def)             Requested size: 434.295pt x 38.56514pt.
 
-<figures/output_of_dsp.png, id=84, 506.89375pt x 396.48125pt>
+<figures/output_of_dsp.png, id=69, 506.89375pt x 396.48125pt>
 File: figures/output_of_dsp.png Graphic file (type png)
 
 <use figures/output_of_dsp.png>
-Package pdftex.def Info: figures/output_of_dsp.png used on input line 387.
+Package pdftex.def Info: figures/output_of_dsp.png used on input line 368.
 (pdftex.def)             Requested size: 434.295pt x 339.7028pt.
- [8]
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [9 <./figures/CI_Signal_Flow.png> <./figures/output_of_dsp.png>]
-<figures/ACE_flow_diagram_explicit.png, id=93, 815.045pt x 408.52625pt>
+ [8] [9 <./figures/CI_Signal_Flow.png> <./figures/output_of_dsp.png>]
+<figures/ACE_flow_diagram_explicit.png, id=78, 815.045pt x 408.52625pt>
 File: figures/ACE_flow_diagram_explicit.png Graphic file (type png)
 
 <use figures/ACE_flow_diagram_explicit.png>
 Package pdftex.def Info: figures/ACE_flow_diagram_explicit.png used on input li
-ne 415.
+ne 396.
 (pdftex.def)             Requested size: 217.14749pt x 108.83865pt.
  [10 <./figures/ACE_flow_diagram_explicit.png>] <figures/ACE_flow_diagram.png, 
-id=98, 730.73pt x 141.52875pt>
+id=83, 730.73pt x 141.52875pt>
 File: figures/ACE_flow_diagram.png Graphic file (type png)
 
 <use figures/ACE_flow_diagram.png>
-Package pdftex.def Info: figures/ACE_flow_diagram.png used on input line 423.
+Package pdftex.def Info: figures/ACE_flow_diagram.png used on input line 404.
 (pdftex.def)             Requested size: 434.295pt x 84.11455pt.
 
-Overfull \hbox (0.31792pt too wide) in paragraph at lines 435--436
+Overfull \hbox (0.31792pt too wide) in paragraph at lines 416--417
 []\OT1/cmr/m/n/10.95 ACE does, how-ever, pro-vide lim-ited tem-po-ral mod-u-la-
 tions via beat fre-quen-cies. Through
  []
 
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [11 <./figures/ACE_flow_diagram.png>]
-<figures/F0mod_flow_diagram.png, id=103, 918.43124pt x 221.82875pt>
+[11 <./figures/ACE_flow_diagram.png>]
+<figures/F0mod_flow_diagram.png, id=89, 918.43124pt x 221.82875pt>
 File: figures/F0mod_flow_diagram.png Graphic file (type png)
 
 <use figures/F0mod_flow_diagram.png>
-Package pdftex.def Info: figures/F0mod_flow_diagram.png used on input line 449.
+Package pdftex.def Info: figures/F0mod_flow_diagram.png used on input line 435.
 
 (pdftex.def)             Requested size: 434.295pt x 104.89586pt.
 
-<figures/induced_vs_explicit.png, id=104, 713.66624pt x 406.51875pt>
+<figures/induced_vs_explicit.png, id=90, 713.66624pt x 406.51875pt>
 File: figures/induced_vs_explicit.png Graphic file (type png)
 
 <use figures/induced_vs_explicit.png>
-Package pdftex.def Info: figures/induced_vs_explicit.png used on input line 458
+Package pdftex.def Info: figures/induced_vs_explicit.png used on input line 444
 .
 (pdftex.def)             Requested size: 434.295pt x 247.38058pt.
  [12 <./figures/F0mod_flow_diagram.png>]
-<figures/HSSE_flow_diagram_noPhase.png, id=109, 903.375pt x 231.86626pt>
+<figures/HSSE_flow_diagram_noPhase.png, id=95, 903.375pt x 231.86626pt>
 File: figures/HSSE_flow_diagram_noPhase.png Graphic file (type png)
 
 <use figures/HSSE_flow_diagram_noPhase.png>
 Package pdftex.def Info: figures/HSSE_flow_diagram_noPhase.png used on input li
-ne 476.
+ne 462.
 (pdftex.def)             Requested size: 434.295pt x 111.47142pt.
- [13 <./figures/induced_vs_explicit.png> <./figures/HSSE_flow_diagram_noPhase.p
-ng>]
-<figures/HSSE_flow_diagram_Phase.png, id=116, 960.58875pt x 270.00874pt>
+ [13 <./figures/induced_vs_explicit.png>] <figures/HSSE_flow_diagram_Phase.png,
+ id=100, 960.58875pt x 270.00874pt>
 File: figures/HSSE_flow_diagram_Phase.png Graphic file (type png)
 
 <use figures/HSSE_flow_diagram_Phase.png>
 Package pdftex.def Info: figures/HSSE_flow_diagram_Phase.png used on input line
- 490.
+ 476.
 (pdftex.def)             Requested size: 434.295pt x 122.07549pt.
- [14 <./figures/HSSE_flow_diagram_Phase.png>] [15]
+ [14 <./figures/HSSE_flow_diagram_noPhase.png> <./figures/HSSE_flow_diagram_Pha
+se.png>] [15]
 <<3>>
-<figures/incoherent_vs_coherent.png, id=124, 977.6525pt x 347.2975pt>
+<figures/incoherent_vs_coherent.png, id=109, 977.6525pt x 347.2975pt>
 File: figures/incoherent_vs_coherent.png Graphic file (type png)
 
 <use figures/incoherent_vs_coherent.png>
 Package pdftex.def Info: figures/incoherent_vs_coherent.png used on input line 
-538.
+524.
 (pdftex.def)             Requested size: 434.295pt x 154.27928pt.
  [16
 
-] [17 <./figures/incoherent_vs_coherent.png>] [18]
+] [17 <./figures/incoherent_vs_coherent.png>] [18] [19]
 
-LaTeX Warning: Reference `eq:STFTasFilter' on page 19 undefined on input line 6
-19.
+LaTeX Warning: Reference `eq:STFTasFilter' on page 20 undefined on input line 6
+06.
 
-[19] [20] [21] <figures/coherent_angle.png, id=148, 819.06pt x 289.08pt>
+[20] [21] <figures/coherent_angle.png, id=134, 819.06pt x 289.08pt>
 File: figures/coherent_angle.png Graphic file (type png)
 
 <use figures/coherent_angle.png>
-Package pdftex.def Info: figures/coherent_angle.png used on input line 687.
+Package pdftex.def Info: figures/coherent_angle.png used on input line 674.
 (pdftex.def)             Requested size: 434.295pt x 153.28224pt.
  [22 <./figures/coherent_angle.png>]
-<figures/real_vs_magnitude_example.png, id=153, 1170.3725pt x 751.80875pt>
+<figures/real_vs_magnitude_example.png, id=139, 1170.3725pt x 751.80875pt>
 File: figures/real_vs_magnitude_example.png Graphic file (type png)
 
 <use figures/real_vs_magnitude_example.png>
 Package pdftex.def Info: figures/real_vs_magnitude_example.png used on input li
-ne 739.
+ne 726.
 (pdftex.def)             Requested size: 434.295pt x 278.97937pt.
  [23] [24 <./figures/real_vs_magnitude_example.png>] [25] [26] [27] [28] [29] [
-30]
-Underfull \vbox (badness 2600) has occurred while \output is active []
-
- [31]
-[32] <figures/STFTvsHILBERTvsCIS.png, id=187, 748.7975pt x 402.50375pt>
+30] [31] [32]
+<figures/STFTvsHILBERTvsCIS.png, id=173, 748.7975pt x 402.50375pt>
 File: figures/STFTvsHILBERTvsCIS.png Graphic file (type png)
 
 <use figures/STFTvsHILBERTvsCIS.png>
-Package pdftex.def Info: figures/STFTvsHILBERTvsCIS.png used on input line 1040
+Package pdftex.def Info: figures/STFTvsHILBERTvsCIS.png used on input line 1027
 .
 (pdftex.def)             Requested size: 434.295pt x 233.45233pt.
  [33 <./figures/STFTvsHILBERTvsCIS.png>]
@@ -514,310 +494,278 @@ Package pdftex.def Info: figures/STFTvsHILBERTvsCIS.png used on input line 1040
 <<4>>
 
 LaTeX Warning: Reference `eq:sum_of_products' on page 35 undefined on input lin
-e 1082.
+e 1069.
 
 [35
 
-] <figures/harmonic_envelope.png, id=198, 551.05875pt x 498.86375pt>
+] <figures/harmonic_envelope.png, id=185, 551.05875pt x 498.86375pt>
 File: figures/harmonic_envelope.png Graphic file (type png)
 
 <use figures/harmonic_envelope.png>
-Package pdftex.def Info: figures/harmonic_envelope.png used on input line 1137.
+Package pdftex.def Info: figures/harmonic_envelope.png used on input line 1124.
 
 (pdftex.def)             Requested size: 269.26077pt x 243.7679pt.
- [36]
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [37 <./figures/harmonic_envelope.png>] [38]
-<figures/harmonic_envelope_estimate.png, id=211, 446.66875pt x 621.32124pt>
+ [36] [37 <./figures/harmonic_envelope.png>] [38]
+<figures/harmonic_envelope_estimate.png, id=196, 446.66875pt x 621.32124pt>
 File: figures/harmonic_envelope_estimate.png Graphic file (type png)
 
 <use figures/harmonic_envelope_estimate.png>
 Package pdftex.def Info: figures/harmonic_envelope_estimate.png used on input l
-ine 1220.
+ine 1207.
 (pdftex.def)             Requested size: 269.26077pt x 374.54953pt.
 
-<figures/harmonic_envelope_2F0.png, id=212, 436.63126pt x 252.945pt>
+<figures/harmonic_envelope_2F0.png, id=197, 436.63126pt x 252.945pt>
 File: figures/harmonic_envelope_2F0.png Graphic file (type png)
 
 <use figures/harmonic_envelope_2F0.png>
 Package pdftex.def Info: figures/harmonic_envelope_2F0.png used on input line 1
-248.
+235.
 (pdftex.def)             Requested size: 269.26077pt x 155.98674pt.
 
-<figures/harmonic_envelope_F0.png, id=213, 435.6275pt x 242.9075pt>
+<figures/harmonic_envelope_F0.png, id=198, 435.6275pt x 242.9075pt>
 File: figures/harmonic_envelope_F0.png Graphic file (type png)
 
 <use figures/harmonic_envelope_F0.png>
 Package pdftex.def Info: figures/harmonic_envelope_F0.png used on input line 12
-50.
+37.
 (pdftex.def)             Requested size: 269.26077pt x 150.13777pt.
 
-<figures/harmonic_envelope_0.png, id=214, 440.64626pt x 235.88126pt>
+<figures/harmonic_envelope_0.png, id=199, 440.64626pt x 235.88126pt>
 File: figures/harmonic_envelope_0.png Graphic file (type png)
 
 <use figures/harmonic_envelope_0.png>
-Package pdftex.def Info: figures/harmonic_envelope_0.png used on input line 125
-2.
+Package pdftex.def Info: figures/harmonic_envelope_0.png used on input line 123
+9.
 (pdftex.def)             Requested size: 269.26077pt x 144.1429pt.
- [39] [40 <./figures/harmonic_envelope_estimate.png>]
+ [39]
+<figures/downshift_effects.png, id=203, 963.6pt x 695.59875pt>
+File: figures/downshift_effects.png Graphic file (type png)
+
+<use figures/downshift_effects.png>
+Package pdftex.def Info: figures/downshift_effects.png used on input line 1251.
+
+(pdftex.def)             Requested size: 434.295pt x 313.50479pt.
+ [40 <./figures/harmonic_envelope_estimate.png>]
 
 LaTeX Warning: Text page 41 contains only floats.
 
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [41 <./figures/harmonic_envelope_2F0.png> <./figures/harmonic_envelope_F0.png>
- <./figures/harmonic_envelope_0.png>] [42] [43]
-<figures/clarinetVSsax_F.png, id=235, 503.8825pt x 402.50375pt>
+[41 <./figures/harmonic_envelope_2F0.png> <./figures/harmonic_envelope_F0.png> 
+<./figures/harmonic_envelope_0.png>] [42 <./figures/downshift_effects.png>]
+[43] [44] <figures/clarinetVSsax_F.png, id=226, 503.8825pt x 402.50375pt>
 File: figures/clarinetVSsax_F.png Graphic file (type png)
 
 <use figures/clarinetVSsax_F.png>
-Package pdftex.def Info: figures/clarinetVSsax_F.png used on input line 1329.
+Package pdftex.def Info: figures/clarinetVSsax_F.png used on input line 1334.
 (pdftex.def)             Requested size: 434.295pt x 346.92033pt.
 
-<figures/clarinetVSsax_T.png, id=236, 627.34375pt x 342.27875pt>
+<figures/clarinetVSsax_T.png, id=227, 627.34375pt x 342.27875pt>
 File: figures/clarinetVSsax_T.png Graphic file (type png)
 
 <use figures/clarinetVSsax_T.png>
-Package pdftex.def Info: figures/clarinetVSsax_T.png used on input line 1339.
+Package pdftex.def Info: figures/clarinetVSsax_T.png used on input line 1344.
 (pdftex.def)             Requested size: 434.295pt x 236.96121pt.
- [44 <./figures/clarinetVSsax_F.png>] [45 <./figures/clarinetVSsax_T.png>] [46]
- [47]
-<figures/g_k_1.pdf, id=251, 687.56876pt x 406.51875pt>
+ [45 <./figures/clarinetVSsax_F.png>] [46 <./figures/clarinetVSsax_T.png>] [47]
+ [48]
+<figures/g_k_1.pdf, id=243, 687.56876pt x 406.51875pt>
 File: figures/g_k_1.pdf Graphic file (type pdf)
  <use figures/g_k_1.pdf>
-Package pdftex.def Info: figures/g_k_1.pdf used on input line 1419.
+Package pdftex.def Info: figures/g_k_1.pdf used on input line 1424.
 (pdftex.def)             Requested size: 434.295pt x 256.77188pt.
 
-<figures/g_k_2.pdf, id=252, 687.56876pt x 406.51875pt>
+<figures/g_k_2.pdf, id=244, 687.56876pt x 406.51875pt>
 File: figures/g_k_2.pdf Graphic file (type pdf)
  <use figures/g_k_2.pdf>
-Package pdftex.def Info: figures/g_k_2.pdf used on input line 1427.
+Package pdftex.def Info: figures/g_k_2.pdf used on input line 1432.
 (pdftex.def)             Requested size: 434.295pt x 256.77188pt.
 
-<figures/g_k_3.pdf, id=253, 687.56876pt x 406.51875pt>
+<figures/g_k_3.pdf, id=245, 687.56876pt x 406.51875pt>
 File: figures/g_k_3.pdf Graphic file (type pdf)
  <use figures/g_k_3.pdf>
-Package pdftex.def Info: figures/g_k_3.pdf used on input line 1435.
+Package pdftex.def Info: figures/g_k_3.pdf used on input line 1440.
 (pdftex.def)             Requested size: 434.295pt x 256.77188pt.
 
-[48 <./figures/g_k_1.pdf>]
-<figures/g_k_4.pdf, id=265, 687.56876pt x 406.51875pt>
+[49 <./figures/g_k_1.pdf>]
+<figures/g_k_4.pdf, id=257, 687.56876pt x 406.51875pt>
 File: figures/g_k_4.pdf Graphic file (type pdf)
  <use figures/g_k_4.pdf>
-Package pdftex.def Info: figures/g_k_4.pdf used on input line 1445.
+Package pdftex.def Info: figures/g_k_4.pdf used on input line 1450.
 (pdftex.def)             Requested size: 434.295pt x 256.77188pt.
 
-[49 <./figures/g_k_2.pdf>]
-<figures/sir_k_1.pdf, id=281, 687.56876pt x 406.51875pt>
+[50 <./figures/g_k_2.pdf>]
+<figures/sir_k_1.pdf, id=272, 687.56876pt x 406.51875pt>
 File: figures/sir_k_1.pdf Graphic file (type pdf)
 
 <use figures/sir_k_1.pdf>
-Package pdftex.def Info: figures/sir_k_1.pdf used on input line 1473.
+Package pdftex.def Info: figures/sir_k_1.pdf used on input line 1478.
 (pdftex.def)             Requested size: 434.295pt x 256.77188pt.
- [50 <./figures/g_k_3.pdf>]
-<figures/sir_k_2.pdf, id=293, 687.56876pt x 406.51875pt>
+ [51 <./figures/g_k_3.pdf>]
+<figures/sir_k_2.pdf, id=284, 687.56876pt x 406.51875pt>
 File: figures/sir_k_2.pdf Graphic file (type pdf)
 
 <use figures/sir_k_2.pdf>
-Package pdftex.def Info: figures/sir_k_2.pdf used on input line 1481.
+Package pdftex.def Info: figures/sir_k_2.pdf used on input line 1486.
 (pdftex.def)             Requested size: 434.295pt x 256.77188pt.
 
-<figures/sir_k_3.pdf, id=294, 687.56876pt x 492.84125pt>
+<figures/sir_k_3.pdf, id=285, 687.56876pt x 492.84125pt>
 File: figures/sir_k_3.pdf Graphic file (type pdf)
 
 <use figures/sir_k_3.pdf>
-Package pdftex.def Info: figures/sir_k_3.pdf used on input line 1491.
+Package pdftex.def Info: figures/sir_k_3.pdf used on input line 1496.
 (pdftex.def)             Requested size: 434.295pt x 311.29626pt.
 
-<figures/sir_k_4.pdf, id=295, 687.56876pt x 492.84125pt>
+<figures/sir_k_4.pdf, id=286, 687.56876pt x 492.84125pt>
 File: figures/sir_k_4.pdf Graphic file (type pdf)
 
 <use figures/sir_k_4.pdf>
-Package pdftex.def Info: figures/sir_k_4.pdf used on input line 1497.
+Package pdftex.def Info: figures/sir_k_4.pdf used on input line 1502.
 (pdftex.def)             Requested size: 434.295pt x 311.29626pt.
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [51 <./figures/g_k_4.pdf>] <figures/d_ki_1.pdf, id=307, 883.3pt x 400.49625pt>
+ [52 <./figures/g_k_4.pdf>]
+<figures/d_ki_1.pdf, id=298, 883.3pt x 400.49625pt>
 File: figures/d_ki_1.pdf Graphic file (type pdf)
-
-<use figures/d_ki_1.pdf>
-Package pdftex.def Info: figures/d_ki_1.pdf used on input line 1511.
+ <use figures/d_ki_1.pdf>
+Package pdftex.def Info: figures/d_ki_1.pdf used on input line 1516.
 (pdftex.def)             Requested size: 434.295pt x 196.91098pt.
- <figures/d_ki_2.pdf, id=308, 883.3pt x 400.49625pt>
+
+<figures/d_ki_2.pdf, id=299, 883.3pt x 400.49625pt>
 File: figures/d_ki_2.pdf Graphic file (type pdf)
-
-<use figures/d_ki_2.pdf>
-Package pdftex.def Info: figures/d_ki_2.pdf used on input line 1519.
+ <use figures/d_ki_2.pdf>
+Package pdftex.def Info: figures/d_ki_2.pdf used on input line 1524.
 (pdftex.def)             Requested size: 434.295pt x 196.91098pt.
- <figures/d_ki_4.pdf, id=309, 883.3pt x 400.49625pt>
+
+<figures/d_ki_4.pdf, id=300, 883.3pt x 400.49625pt>
 File: figures/d_ki_4.pdf Graphic file (type pdf)
-
-<use figures/d_ki_4.pdf>
-Package pdftex.def Info: figures/d_ki_4.pdf used on input line 1527.
+ <use figures/d_ki_4.pdf>
+Package pdftex.def Info: figures/d_ki_4.pdf used on input line 1532.
 (pdftex.def)             Requested size: 434.295pt x 196.91098pt.
- <figures/d_ki_3.pdf, id=310, 883.3pt x 400.49625pt>
+
+<figures/d_ki_3.pdf, id=301, 883.3pt x 400.49625pt>
 File: figures/d_ki_3.pdf Graphic file (type pdf)
-
-<use figures/d_ki_3.pdf>
-Package pdftex.def Info: figures/d_ki_3.pdf used on input line 1535.
+ <use figures/d_ki_3.pdf>
+Package pdftex.def Info: figures/d_ki_3.pdf used on input line 1540.
 (pdftex.def)             Requested size: 434.295pt x 196.91098pt.
 
-Underfull \vbox (badness 1527) has occurred while \output is active []
-
- [52 <./figures/sir_k_1.pdf>] [53 <./figures/sir_k_2.pdf>] [54 <./figures/sir_k
-_3.pdf>]
-<figures/transient_1.pdf, id=344, 883.3pt x 400.49625pt>
+[53 <./figures/sir_k_1.pdf>] [54 <./figures/sir_k_2.pdf>] [55 <./figures/sir_k_
+3.pdf>] <figures/transient_1.pdf, id=336, 883.3pt x 400.49625pt>
 File: figures/transient_1.pdf Graphic file (type pdf)
 
 <use figures/transient_1.pdf>
-Package pdftex.def Info: figures/transient_1.pdf used on input line 1572.
+Package pdftex.def Info: figures/transient_1.pdf used on input line 1577.
 (pdftex.def)             Requested size: 434.295pt x 196.91098pt.
 
-<figures/transient_2.pdf, id=345, 984.67876pt x 400.49625pt>
+
+LaTeX Warning: Reference `fig:transient_2' on page 56 undefined on input line 1
+595.
+
+<figures/transient_2.pdf, id=337, 984.67876pt x 400.49625pt>
 File: figures/transient_2.pdf Graphic file (type pdf)
 
 <use figures/transient_2.pdf>
-Package pdftex.def Info: figures/transient_2.pdf used on input line 1598.
+Package pdftex.def Info: figures/transient_2.pdf used on input line 1603.
 (pdftex.def)             Requested size: 434.295pt x 176.64055pt.
-
-Underfull \vbox (badness 1033) has occurred while \output is active []
-
- [55 <./figures/sir_k_4.pdf>] <figures/transient_3.pdf, id=358, 1392.20125pt x 
-507.8975pt>
+ [56 <./figures/sir_k_4.pdf>]
+<figures/transient_3.pdf, id=349, 1392.20125pt x 507.8975pt>
 File: figures/transient_3.pdf Graphic file (type pdf)
 
 <use figures/transient_3.pdf>
-Package pdftex.def Info: figures/transient_3.pdf used on input line 1608.
+Package pdftex.def Info: figures/transient_3.pdf used on input line 1613.
 (pdftex.def)             Requested size: 521.15266pt x 190.1201pt.
 
-Overfull \hbox (86.85767pt too wide) in paragraph at lines 1608--1609
+Overfull \hbox (86.85767pt too wide) in paragraph at lines 1613--1614
  [][] 
  []
 
-[56 <./figures/d_ki_1.pdf> <./figures/d_ki_2.pdf>] [57 <./figures/d_ki_4.pdf> <
-./figures/d_ki_3.pdf>] [58 <./figures/transient_1.pdf>]
-Underfull \vbox (badness 10000) has occurred while \output is active []
+[57 <./figures/d_ki_1.pdf> <./figures/d_ki_2.pdf>] [58 <./figures/d_ki_4.pdf> <
+./figures/d_ki_3.pdf>] [59 <./figures/transient_1.pdf>] [60 <./figures/transien
+t_2.pdf> <./figures/transient_3.pdf>] [61]
 
- [59 <./figures/transient_2.pdf> <./figures/transient_3.pdf>] [60]
-<figures/pitch_sir_k_1.pdf, id=431, 794.97pt x 414.54875pt>
+LaTeX Warning: Reference `fig:pitch_sir_k_2' on page 62 undefined on input line
+ 1686.
+
+<figures/pitch_sir_k_1.pdf, id=423, 794.97pt x 414.54875pt>
 File: figures/pitch_sir_k_1.pdf Graphic file (type pdf)
 
 <use figures/pitch_sir_k_1.pdf>
-Package pdftex.def Info: figures/pitch_sir_k_1.pdf used on input line 1687.
+Package pdftex.def Info: figures/pitch_sir_k_1.pdf used on input line 1692.
 (pdftex.def)             Requested size: 434.295pt x 226.47806pt.
 
-<figures/pitch_sir_k_2.pdf, id=432, 794.97pt x 414.54875pt>
+<figures/pitch_sir_k_2.pdf, id=424, 794.97pt x 414.54875pt>
 File: figures/pitch_sir_k_2.pdf Graphic file (type pdf)
 
 <use figures/pitch_sir_k_2.pdf>
-Package pdftex.def Info: figures/pitch_sir_k_2.pdf used on input line 1693.
+Package pdftex.def Info: figures/pitch_sir_k_2.pdf used on input line 1698.
 (pdftex.def)             Requested size: 434.295pt x 226.47806pt.
- [61]
-<figures/pitch_sir_k_1_error5.pdf, id=437, 794.97pt x 414.54875pt>
+
+
+LaTeX Warning: Reference `fig:pitch_sir_k_2_error5' on page 62 undefined on inp
+ut line 1702.
+
+[62] <figures/pitch_sir_k_1_error5.pdf, id=428, 794.97pt x 414.54875pt>
 File: figures/pitch_sir_k_1_error5.pdf Graphic file (type pdf)
 
 <use figures/pitch_sir_k_1_error5.pdf>
 Package pdftex.def Info: figures/pitch_sir_k_1_error5.pdf used on input line 17
-05.
+10.
 (pdftex.def)             Requested size: 434.295pt x 226.47806pt.
- [62 <./figures/pitch_sir_k_1.pdf> <./figures/pitch_sir_k_2.pdf>]
-<figures/pitch_sir_k_2_error5.pdf, id=463, 794.97pt x 414.54875pt>
+ [63 <./figures/pitch_sir_k_1.pdf> <./figures/pitch_sir_k_2.pdf>]
+<figures/pitch_sir_k_2_error5.pdf, id=454, 794.97pt x 414.54875pt>
 File: figures/pitch_sir_k_2_error5.pdf Graphic file (type pdf)
 
 <use figures/pitch_sir_k_2_error5.pdf>
 Package pdftex.def Info: figures/pitch_sir_k_2_error5.pdf used on input line 17
-11.
+16.
 (pdftex.def)             Requested size: 434.295pt x 226.47806pt.
- [63 <./figures/pitch_sir_k_1_error5.pdf> <./figures/pitch_sir_k_2_error5.pdf>]
+ [64 <./figures/pitch_sir_k_1_error5.pdf> <./figures/pitch_sir_k_2_error5.pdf>]
 
-<figures/pitch_d_ki_1.pdf, id=489, 794.97pt x 414.54875pt>
+
+LaTeX Warning: Reference `fig:pitch_d_ki_2' on page 65 undefined on input line 
+1724.
+
+<figures/pitch_d_ki_1.pdf, id=480, 794.97pt x 414.54875pt>
 File: figures/pitch_d_ki_1.pdf Graphic file (type pdf)
 
 <use figures/pitch_d_ki_1.pdf>
-Package pdftex.def Info: figures/pitch_d_ki_1.pdf used on input line 1723.
+Package pdftex.def Info: figures/pitch_d_ki_1.pdf used on input line 1728.
 (pdftex.def)             Requested size: 434.295pt x 226.47806pt.
 
-<figures/pitch_d_ki_2.pdf, id=490, 794.97pt x 414.54875pt>
+<figures/pitch_d_ki_2.pdf, id=481, 794.97pt x 414.54875pt>
 File: figures/pitch_d_ki_2.pdf Graphic file (type pdf)
 
 <use figures/pitch_d_ki_2.pdf>
-Package pdftex.def Info: figures/pitch_d_ki_2.pdf used on input line 1729.
+Package pdftex.def Info: figures/pitch_d_ki_2.pdf used on input line 1734.
 (pdftex.def)             Requested size: 434.295pt x 226.47806pt.
 
-<figures/pitch_d_ki_1_error5.pdf, id=491, 794.97pt x 305.14pt>
+
+LaTeX Warning: Reference `fig:pitch_d_ki_2_error5' on page 65 undefined on inpu
+t line 1738.
+
+<figures/pitch_d_ki_1_error5.pdf, id=482, 794.97pt x 305.14pt>
 File: figures/pitch_d_ki_1_error5.pdf Graphic file (type pdf)
 
 <use figures/pitch_d_ki_1_error5.pdf>
-Package pdftex.def Info: figures/pitch_d_ki_1_error5.pdf used on input line 173
-7.
+Package pdftex.def Info: figures/pitch_d_ki_1_error5.pdf used on input line 174
+2.
 (pdftex.def)             Requested size: 434.295pt x 166.7054pt.
 
-<figures/pitch_d_ki_2_error5.pdf, id=492, 794.97pt x 305.14pt>
+<figures/pitch_d_ki_2_error5.pdf, id=483, 794.97pt x 305.14pt>
 File: figures/pitch_d_ki_2_error5.pdf Graphic file (type pdf)
 
 <use figures/pitch_d_ki_2_error5.pdf>
 Package pdftex.def Info: figures/pitch_d_ki_2_error5.pdf used on input line 174
-3.
+8.
 (pdftex.def)             Requested size: 434.295pt x 166.7054pt.
- [64 <./figures/pitch_d_ki_1.pdf>]
-[65 <./figures/pitch_d_ki_2.pdf> <./figures/pitch_d_ki_1_error5.pdf>] [66 <./fi
+ [65 <./figures/pitch_d_ki_1.pdf>]
+[66 <./figures/pitch_d_ki_2.pdf> <./figures/pitch_d_ki_1_error5.pdf>] [67 <./fi
 gures/pitch_d_ki_2_error5.pdf>]
 <<5>>
-[67
-
-]
-<<6>>
 [68
 
-]
-<<7>>
-[69
-
-]
-Overfull \hbox (6.59758pt too wide) in paragraph at lines 1833--1834
-[]\OT1/cmr/m/n/10.95 We may gen-er-al-ize all three meth-ods to 7.1[] by stat-i
-ng $\OML/cmm/m/it/10.95 ^^U\OT1/cmr/m/n/10.95 [\OML/cmm/m/it/10.95 n\OT1/cmr/m/
-n/10.95 ] = 1$ for the case of ACE/F0mod. 
- []
-
-[70] [71] [72] [73]
-Underfull \vbox (badness 4254) has occurred while \output is active []
-
- [74]
-[75]
-Underfull \vbox (badness 2237) has occurred while \output is active []
-
- [76]
-[77]
-<<8>>
-[78
-
-] [79] [80] [81]
-<<9>>
-[82
-
-]
-<<10>>
-[83
-
-]
-<<11>>
-(./ganter_thesis.bbl [84
-
-]) [85
+] [69] [70] (./ganter_thesis.bbl [71]) [72
 
 ]
 <<A>>
-[86
+[73
 
-]
-<<B>>
-[87
-
-] [88
+] [74
 
 ] (./ganter_thesis.aux)
 
@@ -828,13 +776,13 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 4175 strings out of 493089
- 64491 string characters out of 6134842
- 129610 words of memory out of 5000000
- 7537 multiletter control sequences out of 15000+600000
- 13738 words of font info for 54 fonts, out of 8000000 for 9000
+ 4162 strings out of 493089
+ 64475 string characters out of 6134842
+ 129741 words of memory out of 5000000
+ 7530 multiletter control sequences out of 15000+600000
+ 11051 words of font info for 42 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 38i,14n,38p,794b,318s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 38i,14n,38p,806b,304s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
 ></usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb>
 </usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmbxsl10.pfb
@@ -846,18 +794,16 @@ sr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr
 ocal/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/loc
 al/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/
 texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/tex
-live/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/texliv
-e/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive
-/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/local/texlive/2
-015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/201
-5/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2015
-/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texlive/2015/
-texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb></usr/local/texlive/2
-015/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on ganter_thesis.pdf (100 pages, 3166655 bytes).
+live/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texl
+ive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/local/texliv
+e/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/
+2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2
+015/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb></usr/local/texli
+ve/2015/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
+Output written on ganter_thesis.pdf (82 pages, 3188133 bytes).
 PDF statistics:
- 670 PDF objects out of 1000 (max. 8388607)
- 428 compressed objects within 5 object streams
+ 606 PDF objects out of 1000 (max. 8388607)
+ 383 compressed objects within 4 object streams
  0 named destinations out of 1000 (max. 500000)
- 221 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 226 words of extra memory for PDF output out of 10000 (max. 10000000)
 
