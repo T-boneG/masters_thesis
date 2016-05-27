@@ -2,6 +2,9 @@
 %TODO 2 - not so important but quick
 %TODO 3 - not so important and tedious
 
+%TODO 3 - png's to pdfs
+%TODO 1/3 - analytic VS real signals...(maybe different per chapter?)
+
 % 		replace .lof file ========================================================================
 %  Copyright (c) 1985-2014 The University of Washington
 %
@@ -310,8 +313,6 @@ $X[n,w)$ - continuous-frequency short time Fourier transform (STFT) of $x[n]$
 
 $X[n,k]$ - short time Fourier transform (STFT) of $x[n]$
 
-$N$ - DFT or STFT order
-
 $h[n]$ - filter impulse response
 
 $\theta$ - angle
@@ -554,55 +555,56 @@ Chapter~\ref{ch:envelope_extraction} will discuss mathematical methods to envelo
 
 \chapter{Envelope Extraction Methods}\label{ch:envelope_extraction}
 
-In this chapter we will define the specific mathematical operations used to extract bandlimited time-varying envelopes.  These methods fall under a general signal processing category of analysis-synthesis systems.  In these methods a signal is decomposed into it's envelopes and carriers.  Then the envelopes and/or carriers are manipulated individually before recombination. 
+This chapter will define the methods used to extract bandlimited temporal envelopes.  These methods fall under a general signal processing category of analysis-synthesis systems.  A signal is decomposed into its envelopes and carriers.  Then the envelopes and/or carriers are manipulated individually before recombination. 
 
-One of the major focuses of research in this area is the evaluating the amount of distortion induced by the system.  For example, Ghitza's test is a way of measuring the out-of-band distortion of a modulation filtering system. [REF] %[Ghitza_Critical-Band-Envelope]
+One of the major focuses of research in this area is the evaluating the amount of distortion induced by the system.  For example, Ghitza's test is a way of measuring the out-of-band distortion of a modulation filtering system \cite{ghitza2001upper}.
 
-Cochlear implant processing in unique in that the final output is not an audio signal.  What this means is we only do the first half of the processing, the analysis step.  This is critical to understand when considering methods, as all of the considerations related to synthesis or full-system distortion are no longer relevant.
+Cochlear implant processing is a special case in that the final output is not an audio signal.  This means that only the first half, the analysis step, is applicable.  This is critical to understand when considering methods, as all of the considerations related to synthesis or full-system distortion are no longer relevant.
 
-This chapter is organized as follows.  We will first introduce the envelope extraction methods to be considered.  These methods are broken into to categories: incoherent and coherent.  We will then take a quick detour to consider the efficacy of coherent angle encoding.  Finally we will compare the methods and for a generalization of envelope extraction.
+This chapter is organized as follows.  First, the incoherent and coherent envelope extraction methods will be defined.  Then an aside will be taken to consider the efficacy of coherent phase encoding.  Finally the extraction methods will be compared and a generalization defined.
 
 \section{Incoherent Methods}
 
-The difference between incoherent and coherent is actually quite simple.  Consider a system $H_k{\cdot}$.  If this system is time-invariant then it is incoherent.  If it is time-varying and the way in which it varies is a function of the input, we call this a coherent system.  This is visualized in figure~\ref{fig:incoherent_vs_coherent}.  In coherent methods the input not only passes through the system, it changes the system.
+The difference between incoherent and coherent is actually quite simple.  Consider a system $T\{\cdot\}$.  If the system is time-invariant then it is incoherent.  If it is time-varying and the way in which it varies is a function of the input, it is called a coherent system.  This is visualized in figure~\ref{fig:incoherent_vs_coherent}.  In coherent methods the input not only passes through the system, it changes the system.
 
+%TODO 1 - change H to T
 \begin{figure}[!ht]
   \centering
     \includegraphics[width=1\textwidth]{incoherent_vs_coherent}   
-    \caption{Incoherent vs Coherent Processing}\label{fig:incoherent_vs_coherent}
+    \caption{Incoherent vs Coherent Envelope Extraction}\label{fig:incoherent_vs_coherent}
 \end{figure}
 
-In all considered methods, the input is a real digitally sampled audio waveform, $x[n]$ bounded in the normalized range of $[-1, 1]$.  In the case of incoherent methods, the output will be $K$ real digital waveforms, $m_k[n]$, in the range $[0, 1]$.  All filters considered will be finite impulse response (FIR).
+In all considered methods, the input is a real digitally sampled audio waveform, $x[n]$ bounded in the normalized range $[-1, 1]$.  For incoherent methods the output will be $\mathcal{K}$ real digital waveforms, $m_k[n]$, in the range $[0, 1]$.  All filters considered will be finite impulse response (FIR).
 
 \subsection{Continuous Interleaved Sampling (CIS)}
 
-This is method specifically implemented by the CIS strategy.  We first bandpass filter the signal, where $h_k$ is a bandpass filter and $k$ has arbitrary limits.  Then we full-wave rectify (take the magnitude) and finally lowpass filter that output.  $h_{lp}[n]$ is a lowpass filter, typically with a cutoff around 200-400Hz.
+This is method is specifically implemented by the CIS strategy.  The input is first bandpass filtered, where $h_k[n]$ is a bandpass filter and $k$ has arbitrary limits.  The subband is then full-wave rectified, (magnitude operation), and lowpass filtered.  $h_{lp}[n]$ is a lowpass filter, typically with a cutoff around 200-400Hz.
 
 \begin{align}
 m_{k,CIS}[n] =& \Big| x[n] * h_k[n] \Big| * h_{lp}[n]
 \end{align}
 
-In this method the number of filters is usually the same as the number of electrodes (~8-22).  These filters are thus non-uniform bandwidth and center frequency, with increasing bandwidth and wider spacing at higher frequencies.
+In this method the number of filters is usually the same as the number of electrodes, $\mathcal{M} \approx 8$ to $22$, making $\mathcal{K}$ to $\mathcal{M}$ a one-to-one mapping.  These filters are thus non-uniform bandwidth and center frequency, with increasing bandwidth and wider spacing at higher frequencies.
 
 \subsection{Hilbert Envelope}
 
-The Hilbert Envelope is method of decomposition applied far more broadly than the field of cochlear implants.  Despite only retaining the envelope, we look at the carrier just to gain insight into how the signal $x[n]$ is represented in the decomposition.  We first acquire the bandpass signal, $x_k[n]$.  We then define our envelope as the magnitude of the analytic signal, acquire via a Hilbert transform, denoted $\mathcal{H}\{\cdot\}$.
+The Hilbert envelope is a method of decomposition applied far more broadly than the field of cochlear implants.  Despite only retaining the envelope, we look at the carrier to gain insight as to how the signal $x[n]$ is represented in the decomposition.  The analytic bandpass signal, $x_k[n]$ is computed as \ref{eq:hilbert_transform}.  The envelope is defined as the magnitude, (\ref{eq:hilbert_envelope}).
 
 \begin{align}
-x_k[n] =& x[n] * h_k[n] \\
-\widehat{x}_k[n] =& x_k[n] + j\mathcal{H}\{x_k[n]\} \\
+\label{eq:hilbert_transform}
+x_k[n] =& x[n] * h_k[n] + j\mathcal{H}\{x[n] * h_k[n]\} \\
 \label{eq:hilbert_envelope}
 m_{k,hilbert}[n] =& \Big| \widehat{x}_k[n] \Big| \\
 c_{k,hilbert}[n] =& cos(\angle\widehat{x}_k[n])
 \end{align}
 
-We can see intuitively that if the filterbank $[h_1[n], h_2[n], ...]$ has a flat total response, that all of the information of the original signal is contained in the envelopes and carriers, and thus we should be able to reconstruct the input from these components.
+Intuitively, if the filterbank $\Big[h_1[n], h_2[n], ...,h_\mathcal{K}[n]\Big]$ has a flat total response, all of the information of the original signal is contained in the envelopes and carriers, and thus it is possible to reconstruct the input.
 
 \subsection{Short Time Fourier Transform (STFT)}
 
-The short-time Fourier transform (STFT) has many applications not associated with envelope extraction, however through analysis we will see that it fits the sum-of-products model we are looking for.
+The short-time Fourier transform (STFT) is not commonly associated with envelope extraction with respect to its prevalence in signal processing, however through analysis we will see that it fits the sum-of-products model.
 
-The STFT has two classic interpretations: a series of windowed Fourier transforms (each at a different time instant) or a collection of uniform bandpass filters (each at a different center frequency).  For our purposes we will be using the later.
+The STFT has two classic interpretations: a series of windowed Fourier transforms, each at a different time instant, or a collection of uniform bandpass filters, each at a different center frequency.  The latter is more directly applicable to envelope extraction.
 
 An STFT bin at discrete time $n$ and discrete frequency $k$ is defined as
 
@@ -611,31 +613,32 @@ An STFT bin at discrete time $n$ and discrete frequency $k$ is defined as
 X[n,k] = \sum\limits_{r=-\infty}^{\infty} x[r] w[r - n] e^{-j\frac{2\pi}{N}kr}, \qquad 0 \leq k < N
 \end{align}
 
-where $N$ is the FFT order.  Defining a new variable $r' = r - n$ and defining our window such that  $w[n] = 0$ for $n < 0$ or $N \leq n$,
+where $N$ is the DFT order, not to be confused with electrodes stimulated per frame, $\mathcal{N}$.  Defining a new variable $r' = r - n$ and defining the window such that  $w[n] = 0$ for $n < 0$ or $N \leq n$,
 
 \begin{align}
 X[n,k] =& \sum\limits_{r'=0}^{N-1} x[n + r'] w[r'] e^{-j\frac{2\pi}{N}k(n + r')} \nonumber \\
-=& e^{-j\frac{2\pi}{N}kn} \sum\limits_{r'=0}^{N-1} x[n + r'] w[r'] e^{-j\frac{2\pi}{N}kr'}
+=& e^{-j\frac{2\pi}{N}kn} \sum\limits_{r'=0}^{N-1} x[n + r'] w[r'] e^{-j\frac{2\pi}{N}kr'}.
 \end{align}
 
-Let $X[n,k]$ be represented in polar form as the following
+Let $X[n,k]$ be represented in polar form as
 
 \begin{equation}
-X[n,k] = \vert X[n,k]\vert e^{j\angle X[n,k]}
+X[n,k] = \vert X[n,k]\vert e^{j\angle X[n,k]}.
 \end{equation}
 
-If we assume that the window $w[n] \neq 0$ for $0 \leq n \leq N-1$ then we have the inverse
+Assuming the window $w[n] \neq 0$ for $0 \leq n \leq N-1$ the inverse may be solved as
 
 \begin{align}
 \label{eq:hop_factor}
 x[n + r'] =& \frac{1}{Nw[r']}  \sum\limits_{k=0}^{N-1} X[n,k] e^{j\frac{2\pi}{N}k(n+r')} \nonumber \\
 =& \frac{1}{Nw[r']}  \sum\limits_{k=0}^{N-1} \vert X[n,k]\vert e^{j(\frac{2\pi}{N}k(n+r') + \angle X[n,k])} \\
+\label{eq:hop_factor_1}
 x[n] =&\sum\limits_{k=0}^{N-1}  \frac{1}{Nw[0]}  \vert X[n,k]\vert e^{j(\frac{2\pi}{N}kn + \angle X[n,k])}
 \end{align}
 
-Without loss of generality we can use a STFT hop-factor of one sample.  In the case of a greater hop factor we would need to compute $x[n]$ from equation~\ref{eq:hop_factor} [REF?] for some samples.  Of course, if the hop factor is greater than $N$ we cannot fully reconstruct the signal.  This is especially noted because we will be recurrently the factor $w[0]$.
+(\ref{eq:hop_factor}) simplifies to (\ref{eq:hop_factor_1}) when the STFT hop-factor is one sample, which can be assumed without loss of generality.  For greater hop factors the inverse can always be computed from (\ref{eq:hop_factor}).  Of course, if the hop factor is greater than $N$ the original signal cannot be fully reconstructed.  This is especially noted because the factor $w[0]$ will be seen recurrently throughout this thesis.
 
-We can now clearly see our sum-of-products model
+The sum-of-products becomes clear in (\ref{eq:hop_factor_1}).
 
 \begin{align}
 \label{eq:envelope_STFT}
@@ -643,23 +646,26 @@ m_{k,STFT}[n] =  \frac{1}{Nw[0]}  \vert X[n,k]\vert \\
 c_{k,STFT}[n] = e^{j(\frac{2\pi}{N}kn + \angle X[n,k])}
 \end{align}
 
-We can think of the STFT as a series of $N$ LTI systems that each downshift the input signal, then lowpass filter.  This can be seen mathematically if we rewrite equation \ref{eq:STFTdefinition} as
+The STFT can be thought of as a series of $N$ linear time-invariant (LTI) systems that each downshift the input signal, then lowpass filter.  This can be seen mathematically by rewriting (\ref{eq:STFTdefinition}) as
 
 \begin{align}
 X[n,k] =& \sum\limits_{r=-\infty}^{\infty} x[r] e^{-j\frac{2\pi}{N}kr} w[-(n - r)] \nonumber \\
-=& x[n] e^{-j\frac{2\pi}{N}kn} * w[-n]
+\label{eq:STFTasFilter}
+=& x[n] e^{-j\frac{2\pi}{N}kn} * w[-n].
 \end{align}
 
-We can now look at the STFT envelope in a similar form to the other methods by plugging \ref{eq:STFTasFilter} into \ref{eq:envelope_STFT}.
+The STFT envelope has a similar form to the other methods after plugging (\ref{eq:STFTasFilter}) into (\ref{eq:envelope_STFT}).
 
 \begin{align}
 \label{eq:STFT_envelope}
 m_{k,STFT}[n] =  \frac{1}{Nw[0]}  \Big\vert x[n] e^{-j\frac{2\pi}{N}kn} * w[-n] \Big\vert, \qquad 0 \leq k \leq \frac{N}{2}
 \end{align}
 
-Also note that due to symmetry of the Fourier transform, envelopes are only valid for indicies between $0$ and $\frac{N}{2}$.
+Also note that, due to symmetry of the Fourier transform, envelopes are only valid for indices between $0$ and $\frac{N}{2}$.
 
 \section{Coherent Methods}
+
+%TODO 1 - <CONTINUE HERE>
 
 Due to their LTI nature, incoherent methods fail to explicitly represent time varying characteristics like fundamental frequency or formant structure. \cite{wilson1993design}  Alternatively, coherent methods will adapt to represent some specific characteristic.
 
