@@ -1,3 +1,7 @@
+%TODO 1 - why isn't this done?!
+%TODO 2 - not so important but quick
+%TODO 3 - not so important and tedious
+
 % 		replace .lof file ========================================================================
 %  Copyright (c) 1985-2014 The University of Washington
 %
@@ -140,8 +144,8 @@ This thesis is a guide to developing a coherent feature extraction strategy.  In
 %
 \acknowledgments{% \vskip2pc
   % {\narrower\noindent
- I to express sincere appreciation to
-  Les Atlas, Kaibao Nie and Jay Rubinstein for their guidance.  I would also like to thank Brad Ekin, Scott Wisdom, Tommy Powers, Eldridge Alcantara and Dave Dolengewicz for the insightful discussions.  I couldn't have accomplished any of this without the professors and staff at the University of Washington that have supported me all along}.
+ I want to express my sincere appreciation to
+  Les Atlas, Kaibao Nie and Jay Rubinstein for their guidance.  I would also like to thank Brad Ekin, Scott Wisdom, Tommy Powers, Eldridge Alcantara and Dave Dolengewicz for the insightful discussions.  I couldn't have accomplished any of this without the professors and staff at the University of Washington that have supported me all along.}.
   % \par}
 
 
@@ -170,9 +174,9 @@ This thesis is a guide to developing a coherent feature extraction strategy.  In
 
 Cochlear implant technology has come a long way.  From a rudimentary system where communication was little more than sound means ``yes'', no sound means ``no'', cochlear implant patients can now hold conversations over the phone.  That being said, there is still a large gap between cochlear implant (CI) and normal hearing subjects on a diverse set of auditory tasks.
 
-Fundamental to cochlear implant signal processing is acoustic feature extraction.  Early methods extracted explicit features characteristic to speech signals \cite{tye1990comparison} \cite{skinner1991performance} such as formants, (resonant peaks that differentiate vowels).  This was later phased in out in favor of implicit methods based on the channel vocoder.
+Fundamental to cochlear implant signal processing is acoustic feature extraction.  Early methods extracted explicit features characteristic to speech signals such as formants, (resonant peaks that differentiate vowels)\cite{tye1990comparison} \cite{skinner1991performance}.  This was later phased in out in favor of implicit methods based on the channel vocoder.
 
-These implicit methods split the audio input into bandpass components and extract temporal envelopes and fine structure for each component.  Since the introduction of the continued interleaved sampling strategy (CIS)\cite{wilson1993design}, implicit encoding was readily adopted over the explicit approach due to dramatic improvement in speech recognition.  Incremental improvements have been made since then; Cochlear Ltd's advance combination encoder (ACE) strategy \cite{zeng2004trends} has become a clinical standard commonly compared against.  However, the foundational signal processing has not changed in 23 years!
+These implicit methods split the audio input into bandpass components and extract temporal envelopes and fine structure for each component.  Since the introduction of the continued interleaved sampling strategy (CIS)\cite{wilson1993design}, implicit encoding was readily adopted over the explicit approach due to dramatic improvement in speech recognition.  Incremental improvements have been made since then; Cochlear Ltd's advance combination encoder (ACE) strategy \cite{zeng2004trends} has become a clinical standard commonly compared against.  However, the foundational signal processing has not changed in over 20 years!
 
 Strategies such as ACE have achieved high performance on speech recognition in quiet, however performance on more difficult tasks is fundamentally limited.  These strategies use incoherent processing, and as a result subjectively similar signals may produce radically different outputs depending on their interaction with the time-invariant filters.
 
@@ -180,19 +184,19 @@ Alternatively, coherent feature extraction acquires temporal cues using knowledg
 
 \begin{figure}[!ht]
   \centering
-    \includegraphics[width=.5\textwidth]{explicitVimplicit}   
+    \includegraphics[width=.8\textwidth]{explicitVimplicit}   
     \caption{Classification Scheme for CI Processing Strategies}\label{fig:explicitVimplicit}
 \end{figure}
 
 A natural application of coherent processing is harmonic signals.  Harmonic signals are structured such that energy is focused in narrowband components centered around integer multiples of a fundamental frequency, denoted $F_0$.
 
-Coherent processing has two, potentially independent, possible advantages.  The first is the quality of features extracted, where quality means the reliability of extracted features with changes in the input.  For example, if the same note is played on two different instruments, same duration and volume, only the timbre should change.  It could be argued that to some extent this is a subjective measure, (psychoacoustic studies have shown that for $F_0$ differences of over an octave, there is a dependence of timbre perception on pitch \cite{marozeau2003dependency}), however within reasonable conditions there is a clear difference between perceptual changes dues to psychoacoustics and changes due to signal processing distortions.
+Coherent processing has two possible advantages.  The first is the quality of features extracted, where quality means the reliability of extracted features with changes in the input.  For example, if the same note is played on two different instruments, same duration and volume, only the timbre should change.  It could be argued that to some extent this is a subjective measure, (psychoacoustic studies have shown that for $F_0$ differences of over an octave, there is a dependence of timbre perception on pitch \cite{marozeau2003dependency}), however within reasonable conditions there is a clear difference between perceptual changes dues to psychoacoustics and changes due to signal processing distortions.
 
-The second advantage coherent processing may hold is the way in which features are transmitted to the cochlea.  Electric hearing has a much lower data rate than acoustic.  As a naive but simple explanation of this, consider that the cochlea has approximately 1500 hair cells transmitting information to the brain.  In contrast a typical cochlear implant only has 8-22 electrodes!  This clearly demands a data compression scheme.  Coherent processing can be used to intelligently select features in advantageous ways.
+The second advantage coherent processing may hold is the way in which features are transmitted to the cochlea.  Electric hearing has a much lower data rate than acoustic.  As a naive but simple explanation of this, consider that the cochlea has approximately 1500 hair cells transmitting information to the brain.  In contrast a typical cochlear implant has only 8-22 electrodes!  This clearly demands a data compression scheme.  Coherent processing can be used to intelligently select features in advantageous ways.
 
-To reiterate, quality of feature extraction and feature selection are two potentially independent benefits of coherent processing.  An incoherent method could extract distortion free envelopes, but then select which envelopes to transmit suboptimally.  Alternatively the envelopes selected could be the same as in a coherent method, however distortions are induced in the envelopes.
+Quality of feature extraction and feature selection are two potentially independent benefits of coherent processing.  An incoherent method could extract distortion free envelopes, but then select which envelopes to transmit suboptimally.  Alternatively the envelopes selected could be the same as in a coherent method, however distortions are induced in the envelopes.
 
-In this thesis, incoherent and coherent feature extraction methods are evaluated for the application of encoding harmonic signals.  The primary focus is on quality of feature extraction, however some time is spent considering feature selection as well.
+In this thesis, incoherent and coherent feature extraction methods are evaluated for the application of encoding harmonic signals.  The primary focus is on quality of feature extraction, however, some time is spent considering feature selection as well.
 
 %\subsection{Why Harmonics?}
 
@@ -235,15 +239,15 @@ In this thesis, incoherent and coherent feature extraction methods are evaluated
 
 \section{Survey of Literature}
 
-Separately, there is a great deal of research in cochlear implant processing strategies and harmonic signal processing, however there is limited literature that investigates the two together.
+Separately, there is a great deal of research in cochlear implant processing strategies and harmonic signal processing, but there is limited literature that investigates the two together.
 
-Harris \cite{harris1978use} investigated effects of discrete Fourier transform (DFT) window design on isolating harmonics in the presence of nearby strong harmonic interference.  Liguori et al. \cite{liguori2004intelligent} designed an intelligent fast Fourier transform (FFT)-analyzer that interpolates bins to minimize harmonic interference.  Alternative to using a DFT, Li and Atlas \cite{li2003time} used an extended least-squares harmonic model to estimate harmonic features of a signal with time-varying $F_0$.
+Harris \cite{harris1978use} investigated effects of discrete Fourier transform (DFT) window design on isolating harmonics in the presence of nearby strong harmonic interference.  Liguori et al. \cite{liguori2004intelligent} designed an intelligent fast Fourier transform (FFT)-analyzer that interpolates bins to minimize harmonic interference.  Alternative to DFT analysis, Li and Atlas \cite{li2003time} used an extended least-squares harmonic model to estimate harmonic features of a signal with time-varying $F_0$.
 
 Nogueira et al. \cite{nogueira2005psychoacoustic} developed the MP3000 CI strategy which uses psycho-acoustic masking to more efficiently represent the same acoustic information.  Lai and Dillier \cite{lai2008investigating} investigated musical instrument discrimination with MP3000 and found no improvement over ACE.  This strategy can eliminate the redundant representation of a single harmonic, however the envelopes are extracted incoherently and suffer the same artifacts as ACE.
 
-Laneau et al. \cite{laneau2006improved} proposed F0mod which explicitly modulates envelopes at a rate of $F_0$.  Improved pitch discrimination was observed for some conditions.  Vandali and van Hoesel \cite{vandali2011development} developed an enchanced-envelope-encoder (eTone) strategy that temporally modulates envelopes at a depth proportional to the harmonic probability (probability the incoherent envelope is from a signal harmonic).  Furthermore, eTone attempts coherently improve signal representation by biasing channel selection toward channels with higher harmonic probabilities.  Neither F0mod nor eTone attempts to modify the incoherent envelope extraction method of ACE.
+Laneau et al. \cite{laneau2006improved} proposed F0mod which explicitly modulates envelopes at a rate of $F_0$.  Improved pitch discrimination was observed for some conditions.  Vandali and van Hoesel \cite{vandali2011development} developed an enchanced-envelope-encoder (eTone) strategy that temporally modulates envelopes at a depth proportional to the harmonic probability, (probability the incoherent envelope is from a signal harmonic).  Furthermore, eTone attempts to coherently improve signal representation by biasing channel selection toward channels with higher harmonic probabilities.  Neither F0mod nor eTone attempt to modify the incoherent envelope extraction method of ACE.
 
-Li et al. \cite{li2010harmonic} developed a harmonic single sideband encoder (HSSE) that uses a pitch estimator to coherently extract harmonic features.  Tests on music perception \cite{li2013improved} showed significant improvement on a timbre recognition task for CI users.
+Li et al. \cite{li2010harmonic} developed a harmonic single sideband encoder (HSSE) that uses a pitch estimator to coherently extract harmonic features.  Tests on music perception \cite{li2013improved} showed significant improvement on timbre recognition for CI users.
 
 
 %"The HiRes120 strategy, used in the Advanced Bionics implant, is the first commercial stimulating strategy that uses the virtual channel technique. Virtual channels are created by adjusting the current level ratio of two neighboring electrodes."
@@ -268,47 +272,53 @@ Li et al. \cite{li2010harmonic} developed a harmonic single sideband encoder (HS
 
 \section{Contents of Thesis}
 
-This thesis is organized as follows.  In chapter~\ref{ch:ci_processing} background information and a few relevant signal processing strategies are reviewed.  In chapter~\ref{ch:envelope_extraction} incoherent and coherent methods of signal analysis are compared.  In chapter~\ref{ch:harmonic_envelopes} a generalized coherent analysis method is applied to extraction of harmonic features.  Finally, chapter\ref{ch:conclusion} takes into account practical implementation considerations and concludes this thesis.
+This thesis is organized as follows.  In chapter~\ref{ch:ci_processing} background information and three relevant signal processing strategies are reviewed.  In chapter~\ref{ch:envelope_extraction} incoherent and coherent methods of signal analysis are compared.  In chapter~\ref{ch:harmonic_envelopes} a generalized coherent analysis method is applied to extraction of harmonic features.  Finally, chapter~\ref{ch:conclusion} takes into account practical implementation considerations and concludes this thesis.
 
 \section{Notational Conventions}
 
-F0 is fundamental, F1 is first harmonic = F0 X 2, Fk = (k+1) * F0
+In order to remain consistent throughout this document, the following notational conventions will be defined.  $F_0$ is fundamental frequency, $F_1$ is first harmonic, $F_1 = 2F_0$ and the $k$th harmonic is $F_k = (k+1)F_0$.
 
 Specific conventions are itemized in the following list:
 
-F0
+$j$ - the imaginary unit, $\sqrt{-1}$
+
+$\mathcal{K}$ - number of envelopes per frame
+
+$\mathcal{M}$ - number of electrode channels
+
+$\mathcal{N}$ - number of electrodes stimulated per frame
 
 $x[n]$ - a time series, (digitally sampled signal)
 
-$j$ - the imaginary unit, $\sqrt{-1}$
+$x_k[n]$ - $k$th analytic subband of $x[n]$
 
-$\mathbb{Z}$ - integers $[... -2, -1, 0, 1, 2, ...]$
+$m_k[n]$ - envelope of $x_k[n]$
 
-$K$ - number of envelopes per frame
+$c_k[n]$ - carrier of $x_k[n]$
 
-$M$ - number of electrode channels
+$\mathcal{H}\{\cdot\}$ - Hilbert Transform
 
-$N$ - number of electrodes stimulated per frame
+$\mathcal{F}\{\cdot\}$ - Fourier Transform
 
-mk
+$\widehat{x}[n]$ - the Hilbert Transform of $x[n]$
 
-ck
+$X(w)$ - discrete-time Fourier transform (DTFT) of $x[n]$
 
-$x_k$
+$X[k]$ - discrete Fourier transform (DFT) of $x[n]$
 
-N - fft
+$X[n,w)$ - continuous-frequency short time Fourier transform (STFT) of $x[n]$
 
-$\widehat{x}[n] = H\{x[n]\}$
+$X[n,k]$ - short time Fourier transform (STFT) of $x[n]$
 
-F{}
+$N$ - DFT or STFT order
 
-DTFT
+$h[n]$ - filter impulse response
 
-DFT
+$\theta$ - angle
 
-STFT
+$\phi$ - phase
 
-h - filter
+$f$ - frequency
 
 % ========== Chapter 2
 
@@ -322,9 +332,7 @@ In a cochlear implant an array of electrodes is inserted into the cochlea.  This
 
 Early cochlear implant strategies, under the category compressed-analog (CA), delivered band-specific analog signals to each electrode.  By using bandpass filters and an electrode array the implant emulates the tonotopic organization of acoustic hearing.
 
-Current processing strategies use feature extraction to achieve much higher performance on speech recognition.  From each bandlimited signal a slow-time-varying envelope is extracted and the extra information is discarded.
-
-These envelopes are amplitude compressed and then used to modulate continuous bipolar pulse trains on each electrode channel.
+Current processing strategies use feature extraction to achieve much higher performance on speech recognition.  From each bandlimited signal a slow-time-varying envelope is extracted and the extra information is discarded \cite{vandali2005pitch}.  The envelopes are amplitude compressed and then used to modulate continuous bipolar pulse trains on each electrode channel.
 
 These strategies all stem from an original parent, continuous-interleaved-sampling (CIS).  CIS is a solution to the problem of electric field interaction.  By interleaving pulse-trains there is minimal interaction between electrodes.
 
@@ -339,16 +347,16 @@ These strategies all stem from an original parent, continuous-interleaved-sampli
 
 We have now laid out enough background information to introduce a mathematical model for audio signals called the sum-of-products model.
 
-Our digitally sampled audio signal $x[n]$ is composed of bandpass components $x_k[n]$.  In each bandpass component a slow-time-varying envelope $m_k[n]$ multiplies a quickly-oscillating carrier $c_k[n]$.
+In this model, a digitally sampled audio signal $x[n]$ is composed of bandpass components $x_k[n]$.  In each bandpass component a slow-time-varying envelope $m_k[n]$ multiplies a quickly-oscillating carrier $c_k[n]$.
 
 \begin{align}
 \label{eq:sum-of-products}
 x[n] = \sum\limits_k x_k[n] = \sum\limits_k m_k[n] c_k[n]
 \end{align}
 
-Although there are infinite ways to decompose a signal into a sum-of-products, the model stems from real-word signals.  To gain some intuition consider, for example, a voiced vowel.  The vocal tract can be thought of as the carriers, $c_k[n]$.  Without changing the position of the mouth, one can change the pitch of a note.  The mouth then acts as the envelope, $m_k[n]$.  As the mouth changes shapes it changes the formant structure structure.  Equivalently, it changes the relative amplitude of each bandpass component $x_k[n]$.
+Although there are infinite ways to decompose a signal into a sum-of-products, the model stems from real-word signals.  To gain some intuition consider, for example, a voiced vowel.  The vocal tract can be thought of as generating the carriers, $c_k[n]$.  Without changing the position of the mouth, one can change the pitch of a note.  The mouth then changes the temporal envelopes, $m_k[n]$.  As the mouth changes shapes it changes the formant structure structure.  Equivalently, it adjusts the relative amplitude of each bandpass component $x_k[n]$.
 
-As another example we may consider musical instruments.  The pitch is characterized by the carriers but the timbre which is predominantly characterized by the attack time and spectral centroid [kong 2011] will be encoded by the rise time and relative amplitude of the envelopes.
+As another example, the pitch and timbre of musical instruments.  The pitch is characterized by the carriers but the timbre which is predominantly characterized by the attack time and spectral centroid \cite{kong2011temporal} will be encoded in the rise time and relative amplitude of the envelopes.
 
 %``We begin by specifying the desired qualitative properties of the factors mk[n] and ck[n]. Generally, mk[n] is thought to represent the envelope, or slowly-varying temporal contour, of xk[n]. Conversely, ck[n] contains the quickly-oscillating fine structure of xk[n]. These designations lead to a convenient analogy with amplitude- and frequency- modulation systems in communications theory, which employ signal multipliers to convert low-frequency messages to high-frequency signals with better transmission characteristics. Along these lines, we assume xk[n] is of the form
 %xk[n] = mk[n] · ck[n] = mk[n] · ejφk[n], (2.2)
@@ -360,48 +368,47 @@ As another example we may consider musical instruments.  The pitch is characteri
 
 One of the motivations for this approach is the limited ability to perceive temporal modulations in electric hearing.  In acoustic hearing modulations up to a few kHz may be perceptible, however cochlear implant envelope extraction techniques are designed to limit modulations, typically to around 160 to 320 Hz, which is closer to the range perceptible in electric hearing.
 
-Modulation rates are also limited by pulse rate.  Although there isn't a quantitative value analogous to Nyquist rate, modulations at rates higher than a certain percentage of the constant pulse rate will not be represented accurately by the modulated pulse train.  That being said, cochlear implants today support modulations typically upwards of 2000pps (pulses per second), which should be sufficient provided modulations limited to ~320Hz.
+Modulation rates are also limited by pulse rate.  Although there isn't a quantitative value analogous to Nyquist rate, modulations at rates higher than a certain percentage of the constant pulse rate will not be represented accurately by the modulated pulse train.  That being said, cochlear implants today support modulations typically upwards of 2000pps (pulses per second), which should be sufficient provided modulations limited to about 320Hz.
 
 \subsection{The Channel Vocoder}
 
-To gain some intuition as to how and why CIS processing works we consider a closely related system, the channel vocoder.  Vocoding is a method of signal analysis and synthesis initially designed for audio data compression in telecommunication.  As of the mid 70's the vocoder has gained widespread familiarity via the music industry as a funky voice effect.  It is most well known for the signature robot voice heard in hits such as Kraftwerk's song ``The Robots'' or Styx's ``Mr. Roboto''.  In its application to music, the vocoder extracts the bandlimited envelopes of one source (typically vocal) and applies them to each bandlimited components of a second source.
+To gain some intuition as to how and why CIS processing works, consider a closely related system, the channel vocoder.  Vocoding is a method of signal analysis and synthesis initially designed for audio data compression in telecommunication.  As of the mid 70's the vocoder has gained widespread familiarity via the music industry as a funky voice effect.  It is most well known for the signature robot voice heard in hits such as Kraftwerk's song ``The Robots'' or Styx's ``Mr. Roboto''.  In its application to music, the vocoder extracts the bandlimited envelopes of one source, (typically vocal), and applies them to each subband component of a second source.
 
 What's interesting is that this second source can be essentially any arbitrary broadband signal and yet we still understand speech from the first source.  In this way the vocoder acts as a form of lossy data compression; the low data-rate envelopes are extracted and they may be later applied to, for example, white-noise.
 
 This tells us that speech information is predominantly contained in the bandlimited envelopes, and thanks to the incredible robustness of speech to distortion, an estimated envelope is sufficient for speech comprehension.
 
+%TODO 2 - make this pretty and add math
 \begin{figure}[!ht]
   \centering
     \includegraphics[width=.75\textwidth]{vocoder}   
     \caption{Channel Vocoder Processing}\label{fig:vocoder}
 \end{figure}
 
-It should be noted that the second source is typically chosen to be a broadband stationary signal.  If the signal is non-stationary it will have time-varying envelopes of it's own which will interact with the envelopes of the first source. Referencing back to our sum-of-products model the second source acts as a combination of carriers, $c_k[n]$, and the first source's envelopes, $m_k[n]$, are applied.
-
-%TODO maybe drop m and c for s2?
+It should be noted that the second source is typically chosen to be a broadband stationary signal.  If the signal is non-stationary it will have time-varying envelopes of its own which will interact with the envelopes of the first source. In terms of the sum-of-products model, the second source, $x^{(2)}[n]$, is a sum of time-invariant subbands and envelopes from the first source, $x^{(1)}[n]$ are applied.
 
 \begin{align}
 \label{eq:sum-of-products}
-s^{(1)}[n] =& \sum\limits_k s_k^{(1)}[n] = \sum\limits_k m^{(1)}_k[n] c^{(1)}_k[n] \\
-s^{(2)}[n] =& \sum\limits_k s_k^{(2)}[n] = \sum\limits_k m^{(2)}_k[n] c^{(2)}_k[n] \\
-y[n] =& \sum\limits_k m_k^{(1)}[n] m^{(2)}_k[n] c^{(2)}_k[n]
+x^{(1)}[n] =& \sum\limits_k x_k^{(1)}[n] = \sum\limits_k m^{(1)}_k[n] c^{(1)}_k[n] \\
+x^{(2)}[n] =& \sum\limits_k x_k^{(2)}[n] \\
+y[n] =& \sum\limits_k m_k^{(1)}[n] x_k^{(2)}[n] 
 \end{align}
 
 Linking back, cochlear implant envelope extraction strategies do the same thing as vocoder signal analysis, as seen in figure~\ref{fig:vocoder}, however rather than using a second source to synthesize a new sound, the envelopes directly modulate electrical pulse trains.
 
 \subsection{Temporal Fine Structure}
 
-The major drawback to this method of encoding is the loss of temporal fine structure.  Referencing back to our sum-of-products model, we are extracting the envelopes and discarding carrier information.
+A major drawback to this method of encoding is the loss of temporal fine structure.  Recall that the extracted envelopes are transmitted and carrier information is discarded.
 
-When using a vocoder, vocals sung at different pitches general roughly the same output, $y[n]$.  Similarly in cochlear implants temporal fine structure that encodes pitch, as well as other signal characteristics, is lost in processing.
+When using a vocoder, vocals sung at different pitches generate roughly the same output, $y[n]$.  Similarly in cochlear implants temporal fine structure that encodes pitch, as well as other signal characteristics, is lost in processing.
 
-``In most existing clinical sound processors, fine structure in the input acoustic signal is discarded, and only envelope information is preserved. ''  %[pitch_ranking_strategy_compare]
+The previously statements don't paint the entire picture though.  Some temporal fine structure information may be transmitted if carrier information leaks into the estimated envelope.  Some strategies take advantage of this and intentionally allow for carrier leakage in the envelope.  ACE is an example of this approach.
 
 % "Most cases with severe hearing loss involve damage to this conversion of a sound to an electric impulse in the cochlea. A cochlear implant bypasses this natural conversion process by directly stimulating the auditory nerve with electric pulses. Hence, the cochlear implant will have to mimic and replace auditory functions from the external ear to the inner ear." [trends inCI]
 
 \subsection{Processing Blocks}
 
-Let's consider the processing blocks of a cochlear implant.  The main stages to processing in cochlear implants are visualized in figure~\ref{fig:CI_signal_flow} below.  While at every stage adjustments can be made, for the purpose of comparing DSP algorithms, all other stages will be assumed constant throughout this work unless otherwise specified.
+The main blocks of cochlear implants processing are visualized in figure~\ref{fig:CI_signal_flow}.  While at every stage adjustments can be made, for the purpose of comparing DSP algorithms, all other stages will be assumed constant throughout this work unless otherwise specified.
 
 \begin{figure}[!ht]
   \centering
@@ -409,48 +416,47 @@ Let's consider the processing blocks of a cochlear implant.  The main stages to 
     \caption{Signal Flow in CI}\label{fig:CI_signal_flow}
 \end{figure}
 
-In this document, the output of the DSP stage will be a strictly positive signal used to amplitude modulate a constant bipolar pulse train.  T/C Level Mapping refers to a logarithmically-compressed mapping from amplitude to current level.
+In this thesis, the output of the DSP stage will be a strictly positive signal used to amplitude modulate a constant bipolar pulse train.  T/C (threshold and comfort) Level Mapping is a logarithmically-compressed mapping from amplitude to current level.
 
 \begin{figure}[!ht]
   \centering
     \includegraphics[width=1.0\textwidth]{output_of_dsp}   
-    \caption{Tranformation from DSP output to Electrical Signal}\label{fig:output_of_dsp}
+    \caption{Tranformation from DSP output to Electrical Signal, the DSP output is compressed, then applied an electric pulse train to generate the final modulated electric pulse train}\label{fig:output_of_dsp}
 \end{figure}
 
-\subsection{Recap}
-
-To conclude up to this point, cochlear implants use an array of tonotopically orgranized electrodes.  On each electrode a electric pulse train is transmitted and that pulse train is modulated by an envelope corresponding to a bandpass signal component
+To summarize up to this point, a cochlear implants has an array of tonotopically organized electrodes.  On each electrode a electric pulse train is transmitted and that pulse train is modulated by a temporal envelope corresponding to a subband of the acoustic input signal.
 
 \section{DSP Algorithms}
 
-To gain insight into how we can encode harmonic signals, in this section we will look inside the "DSP Algorithm" box; we will compare three specific strategies, ACE, F0mod, and HSSE with the goals of evaluating the pros and cons of each and considering how to optimize performance for harmonic encoding.
+In order to gain insight into how to encode harmonic signals, in this section we will look inside the ``DSP Algorithm'' box; three specific strategies, ACE, F0mod, and HSSE will be compared with the goals of evaluating the pros and cons of each and considering how to optimize performance for harmonic encoding.
 
 \subsection{ACE}\label{ss:ACE}
 
-The simplest of the considered strategies is the Advanced Combination Encoder (ACE).  ACE has become a clinical standard for CI processing and is used in a vast number of users.
+The simplest of the considered strategies is the Advanced Combination Encoder (ACE).  ACE is Cochlear Ltd's instance of the auditory community's generalized category of $\mathcal{N}$-of-$\mathcal{M}$ strategies.  In these strategies, $\mathcal{K}$ extracted envelopes are allocated to $\mathcal{M}$ channels corresponding uniquely to electrodes.  During each processing frame a subset, $\mathcal{N}$-of-$\mathcal{M}$, channel envelopes is selected for stimulation on the internal implant.  In the case that more than one envelope is allocated to a channel, the allocation stage must make a decision to select or combine envelopes in some way.
 
-ACE is Cochlear Ltd's instance of the auditory community's generalized category of $N$-of-$M$ strategies.  In these strategies, $K$ envelopes are first extracted then allocated to $M$ channels corresponding uniquely to electrodes.  During each processing frame a subset $N$-of-$M$ channel envelopes is selected for stimulation on the internal implant.  In the case that more than one envelope is allocated to a channel, the allocation stage must make a decision to select or combine envelopes in some way.
+$\mathcal{K}$ - number of envelopes per frame
 
-$K$ - number of envelopes per frame
+$\mathcal{M}$ - number of electrode channels
 
-$M$ - number of electrode channels
+$\mathcal{N}$ - number of electrodes stimulated per frame
 
-$N$ - number of electrodes stimulated per frame
+\begin{align}
+\mathcal{K} \geq \mathcal{M} \geq \mathcal{N} \nonumber
+\end{align}
 
-$$K \geq M \geq N$$
+A block diagram of ACE is visualized in figure~\ref{fig:ace_flow_diagram} and an equivalent condensed notation is shown in figure~\ref{fig:ace_flow_diagram_condensed}.  This condensed notation will be carried through to the other strategies analyzed.
 
+%TODO 1 - change these figs to mathcal
 \begin{figure}[!ht]
   \centering
     \includegraphics[width=0.5\textwidth]{ACE_flow_diagram_explicit}   
-    \caption{ACE Flow Diagram}
+    \caption{ACE Flow Diagram}\label{fig:ace_flow_diagram}
 \end{figure}
-
-The following figure is simply a condensed version of the previous flow diagram.  This condensed notation will be carried through to the other strategies analyzed.
 
 \begin{figure}[!ht]
   \centering
     \includegraphics[width=1\textwidth]{ACE_flow_diagram}   
-    \caption{condensed ACE Flow Diagram}\label{fig:ace_flow_diagram}
+    \caption{condensed ACE Flow Diagram}\label{fig:ace_flow_diagram_condensed}
 \end{figure}
 
 While ACE does a sufficient job for many CI users in speech recognition tasks, a large gap remains between normal hearing and cochlear implants in many tasks such as pitch discrimination.  This is largely attributed to the lack of temporal fine structure information in this envelope encoding strategy.
@@ -461,22 +467,17 @@ While ACE does a sufficient job for many CI users in speech recognition tasks, a
 
 %There is general consensus that place cues are not sufficient for encoding pitch.  Alternatively, temporal cues encoded as time-domain carrier modulations have shown to be promising.
 
-ACE does, however, provide limited temporal modulations via beat frequencies.  Through intentional processing artifacts, beat-frequencies will be induced in the processing of harmonic signals at a rate of the difference between the two harmonic frequencies, i.e. $F_0$.  Typically these modulations are not full depth [ref?] and are usually limited to under ~250Hz [ref?].
+ACE does, however, provide limited temporal modulations via beat frequencies.  Through intentional processing artifacts, beat-frequencies will be induced in the processing of harmonic signals at a rate of the difference between the two harmonic frequencies, i.e. $F_0$.  Typically these modulations are not full depth and are usually limited to under 320Hz.
 
-In this document will will refer to these artifact based modulations as induced modulations.  Looking at the flow diagram of figure~\ref{fig:ace_flow_diagram} it is not apparent that temporal modulations are contained in the processing path, however these modulations are encoded in the envelope itself.  We can think of this as our extracted envelope containing some information about the carriers, $c_k[n]$.
+In this thesis, these artifact based modulations are termed induced modulations.  Looking at the flow diagram of figure~\ref{fig:ace_flow_diagram_condensed} it is not apparent that temporal modulations are contained in the processing path, however these modulations are encoded in the envelope itself.
 
-Induced modulations are complementary to explicit modulation, used in F0mod and HSSE.  Explicit modulations are those extracted from the signal separate from envelopes, and later applied to the final outputs.
+Induced modulations are complementary to explicit modulations, used in F0mod and HSSE.  Explicit modulations are extracted from the signal separate from envelopes, and later applied to the final outputs.
 
 \subsection{F0mod}
 
-To get at the problem of pitch discrimination, (Laneau et al 2006) developed a new research strategy, F0mod.  F0mod provides the same processing as ACE with one important change, explicit carrier modulation.  It achieves this by adding a pitch estimator into the processing.
+To get at the problem of pitch discrimination, Laneau et al. \cite{laneau2006improved} developed a new research strategy, F0mod.  F0mod provides the same processing as ACE with one important change, explicit carrier modulation.  It achieves this by adding a pitch estimator into the processing.
 
-Once a fundamental frequency ($F_0$) is acquired, all output envelopes are modulated by a raised sinusoid at a rate of $F_0$, \ref{eq:raised_sinusoid}.  $F_0$ is used because high modulation rates (typically above 300Hz) are not noticeable with a CI.
-
-\begin{align}
-\label{eq:raised_sinusoid}
-c(t) = 0.5 + 0.5cos(2\pi F_0t)
-\end{align}
+Once a fundamental frequency is acquired, all output envelopes are modulated by a raised sinusoid at a rate of $F_0$.  $F_0$ is used because of the limitations on ability to perceive high modulation rates with a CI.
 
 \begin{figure}[!ht]
   \centering
@@ -484,26 +485,28 @@ c(t) = 0.5 + 0.5cos(2\pi F_0t)
     \caption{F0mod Flow Diagram}
 \end{figure}
 
-This raised sinusoid is constant modulation depth, (full dynamic range), and same across channels, (phase aligned).  An example comparing this to induced modulations is shown in figure~\ref{fig:induced_vs_explicit}.
+This raised sinusoid, defined in (\ref{eq:raised_sinusoid}), is constant modulation depth, (full dynamic range), and same across channels, (phase aligned).  An example comparing this to induced modulations is shown in figure~\ref{fig:induced_vs_explicit}.
 
+\begin{align}
+\label{eq:raised_sinusoid}
+c[n] = 0.5 + 0.5cos(2\pi F_0n)
+\end{align}
 
 \begin{figure}[!ht]
   \centering
     \includegraphics[width=1\textwidth]{induced_vs_explicit}   
-    \caption{Induced vs Explicit Temporal Modulations}\label{fig:induced_vs_explicit}
+    \caption{Induced vs Explicit Temporal Modulations Example}\label{fig:induced_vs_explicit}
 \end{figure}
-
-F0mod has shown promising results in acute tests for pitch discrimination.  It has also inspired other processing strategies such as eTone, which uses a more sophisticated harmonic sieve pitch estimator as well as soft decisions to overcome the problem of encoding both harmonic and inharmonic sounds as well as those that fall somewhere in between.
 
 \subsection{HSSE}
 
-Looking for a novel approach to improved pitch perception and more broadly music perception, (Li, Atlas, Nie) came up with Harmonic Single Sideband Encoder (HSSE).
-
-There are two different versions of HSSE.  We will start with the version most similar to F0mod.
+Looking for a novel approach to improved pitch perception and, more broadly, music perception, Li et al. \cite{li2010harmonic} developed Harmonic Single Sideband Encoder (HSSE).  There are two different versions of HSSE.  We will start by describing the version most similar to F0mod.
 
 In this version, coherent demodulation extracts harmonic envelopes.  These harmonic envelopes are then combined into channels based on the harmonic index and $F_0$.  Just as in F0mod a subset is selected for stimulation and then these envelopes are combined with carrier modulators.
 
-$$K, M \geq N$$
+\begin{align}
+\mathcal{K}, \mathcal{M} \geq \mathcal{H} \nonumber
+\end{align}
 
 \begin{figure}[!ht]
   \centering
@@ -513,43 +516,39 @@ $$K, M \geq N$$
 
 The key differences between this and F0mod can be summarized quite simply: every stage of typical ACE processing is now done coherently using $F_0$ information.
 
-It should be noted that it is not necessarily true that $K \geq M$.  In the case that no envelopes are allocated to a channel we may simply rule out that channel during the selection stage.
+It should be noted that it is not necessarily true that $\mathcal{K} \geq \mathcal{M}$.  In the case that no envelopes are allocated to a channel that channel is  ruled out during the selection stage.
 
-In the second version, more information about the carriers is retained.  This put's some restrictions on the type of carrier than can be used, however it encodes time varying phase information which is unique to each envelope.
+In the second version, more information about the carriers is retained than just the fundamental frequency.  This puts some restrictions on the type of carrier than can be used, however it encodes time varying phase information which is unique to each envelope.
 
-Because of the unique characteristics of each carrier, the carrier synthesis stage must be moved to an earlier point in the processing stage.  First, complex envelopes containing phase information are extracted.  These envelopes are then combined with a common carrier at a rate of $F_0$ however each output, which we will call a modulator, will be unique and time-varying in both magnitude and phase.
+Because of the unique characteristics of each carrier, the carrier synthesis block must be moved to an earlier point in the processing.  First, complex envelopes containing phase information are extracted.  These envelopes are then combined with a common carrier at a rate of $F_0$, however, each output, which we will call a modulator, will be unique and time-varying in both magnitude and phase.  This version, which will be termed HSSE with coherent phase encoding, is visualized in figure~\ref{fig:HSSE_flow_2}
 
 \begin{figure}[!ht]
   \centering
     \includegraphics[width=1\textwidth]{HSSE_flow_diagram_Phase}   
-    \caption{HSSE (with phase) Flow Diagram}
+    \caption{HSSE (with coherent phase encoding) Flow Diagram}\label{fig:HSSE_flow_2}
 \end{figure}
 
 \subsection{Summary}
 
 Comparing these strategies, the differences may be summarized as:
 
-1) Envelope Extraction Method
+%TODO 3 - make this pretty
 
-- not discussed yet
+1) Envelope Extraction Method (not discussed yet)
 
 2) Temporal Encoding Method
 
 a) induced vs explicit
 
-b) phase preservation (explicit only)
+b) phase encoding (explicit only)
 
 c) modulation waveform (explicit only)
 
 3) Envelope-to-Channel Allocation and Channel Selection
 
-We will start by investigating 1 and 2(a,b).  Some considerations for 2(c) and 3 will be brought up upon concluding this document, however the primary focus will be on 1 and 2(a,b).
+We will start by investigating 1 and 2(a,b).  Some considerations for 2(c) and 3 will be brought up upon concluding this thesis, however, the primary focus will be on 1 and 2(a,b).
 
-The chapter~\ref{ch:envelope_extraction} we will discuss mathematical methods to envelope extraction as well as phase preservation since phase is extracted at the same time.  As a result we will generalize 1 and we will answer 2(b).
-
-In chapter~\ref{ch:harmonic_envelopes} we will evaluate design considerations for 1 and in doing so we will answer 2(a).
-
-When we conclude we will briefly discuss 2(c) and 3.
+Chapter~\ref{ch:envelope_extraction} will discuss mathematical methods to envelope extraction as well as phase preservation since phase is extracted at the same time.  As a result we will generalize 1 and we will answer 2(b).  Chapter~\ref{ch:harmonic_envelopes} will evaluate design considerations for 1 and in doing so, answer 2(a).  Chapter~\ref{ch:conclusion} will briefly discuss 2(c) and 3.
 
 % ========== Chapter 3
 
@@ -711,7 +710,7 @@ Our second, complex envelope is the same as the first but without the final magn
 m^{(2)}_{k,harmonic}[n] =& x[n] e^{-jk\phi_0 [n]} * h\big[n, F_0[n] \big]
 \end{align}
 
-\section{Coherent Angle Encoding}
+\section{Coherent Phase Encoding}
 
 As mentioned earlier, the final DSP output is a set of real non-negative signals.  We take a short aside to compare the two coherent harmonic methods, one of which, due to it's complex output, cannot be considered in a envelope-only sense.
 
@@ -745,24 +744,26 @@ H(e^{j2\pi f}) =& 1, \quad |f| < \frac{F_0}{2} \\
 
 Our coherent harmonic envelopes for each method will be
 
+%TODO
+% can't assume this from (3.17) and (3.19)
 % maybe derive this? appendix?
 \begin{align}
 \label{eq:realVSmag1}
-m^1_{k,harmonic}[n] =& A_k[n] \\
-m^2_{k,harmonic}[n] =& A_k[n]e^{j\phi_k[n]}
+m^{(1)}_{k,harmonic}[n] =& A_k[n] \\
+m^{(2)}_{k,harmonic}[n] =& A_k[n]e^{j\phi_k[n]}
 \end{align}
 
 Let us define $Rect\{y_k[n]\}$ as the half-wave rectified carrier-modulator signal which is our end goal.  Using our first harmonic method
 
 \begin{align}
-y_k^1[n] =& m^1_{k,harmonic}[n] cos(2\pi F_0 n) \\
+y_k^{(1)}[n] =& m^{(1)}_{k,harmonic}[n] cos(2\pi F_0 n) \\
 =& A_k[n] cos(2\pi F_0 n) \nonumber
 \end{align}
 
 Alternatively, with our second method we get
 
 \begin{align}
-y_k^2[n] =& Re\{ 2m^2_{k,harmonic}[n] e^{j2\pi F_0 n} \}  \\
+y_k^2[n] =& Re\{ 2m^{(2)}_{k,harmonic}[n] e^{j2\pi F_0 n} \}  \\
 =& Re\{ 2A_k[n]e^{j(2\pi F_0 n + \phi_k[n])} \} \nonumber \\
 =& A_k[n]cos(2\pi F_0 n + \phi_k[n]) \nonumber
 \end{align}
@@ -784,8 +785,8 @@ Despite better representing the signal, there is still an issue with $y_k^2[n]$.
 
 \begin{align}
 \label{eq:realVSmag3}
-m^3_{k,harmonic}[n] =& A_k[n]e^{j\frac{1}{k} unwrap(\phi_k[n])} \\
-y_k^3[n] =& Re\{ 2 m^3_{k,harmonic}[n] e^{j2\pi F_0 n} \}  \\
+m^{(3)}_{k,harmonic}[n] =& A_k[n]e^{j\frac{1}{k} unwrap(\phi_k[n])} \\
+y_k^3[n] =& Re\{ 2 m^{(3)}_{k,harmonic}[n] e^{j2\pi F_0 n} \}  \\
 =& A_k[n]cos\Big(2\pi F_0 n + \frac{1}{k}unwrap(\phi_k[n])\Big) \nonumber
 \end{align}
 
@@ -799,8 +800,8 @@ x_k[n] = A_k[n]cos\Big(2\pi k(F_0 + F_{err})n + \phi_k[n]\Big)
 In this case
 
 \begin{align}
-y_k^2[n] =& A_k[n]cos\Big(2\pi (F_0 + kF_{err})n + \frac{1}{k}unwrap(\phi_k[n])\Big) \\
-y_k^3[n] =& A_k[n]cos\Big(2\pi (F_0 + F_{err})n + \frac{1}{k}unwrap(\phi_k[n])\Big)
+y_k^{(2)}[n] =& A_k[n]cos\Big(2\pi (F_0 + kF_{err})n + \frac{1}{k}unwrap(\phi_k[n])\Big) \\
+y_k^{(3)}[n] =& A_k[n]cos\Big(2\pi (F_0 + F_{err})n + \frac{1}{k}unwrap(\phi_k[n])\Big)
 \end{align}
 
 Essentially the term $\phi_k[n]$ may be thought of as the deviation from $kF_0$.  If we downshift the signal such that $kF_0$ is scaled to $F_0$ then it is appropriate that we scale $\phi_k[n]$ similarly.
@@ -869,7 +870,7 @@ If we assume the sidelobes of $w[n]$ roll-off sufficiently fast in relation to t
 %To verify the previous equation, consider the extremes:
 %1) $w[n] = 1$
 %2) $w[n] = \delta[n]$
-%TODO: verify this approximation claim
+%TODO verify this approximation claim
 
 Plugging our filter \ref{eq:hilbert_constrained_filter} into \ref{eq:x_analytic}
 
