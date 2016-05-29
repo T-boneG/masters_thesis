@@ -1,6 +1,11 @@
 %TODO 1 = why isn't this done?!
 %TODO 2 = not so important but quick
-%TODO 3 = not so important and tedious
+%TODO 3 = not so important and tedious\\
+%TODO 5 = list format
+
+%TODO 1 - finish chapter 4
+%TODO 1 - write chapter 5
+%TODO 1 - write appendix
 
 %TODO 3 - png's to pdfs
 
@@ -197,7 +202,7 @@ Alternatively, coherent feature extraction acquires temporal cues using knowledg
 
 \begin{figure}[!ht]
   \centering
-    \includegraphics[width=.8\textwidth]{explicitVimplicit}   
+    \includegraphics[width=.6\textwidth]{explicitVimplicit}   
     \caption{Classification Scheme for CI Processing Strategies}\label{fig:explicitVimplicit}
 \end{figure}
 
@@ -391,7 +396,6 @@ What's interesting is that this second source can be essentially any arbitrary b
 
 This tells us that speech information is predominantly contained in the bandlimited envelopes, and thanks to the incredible robustness of speech to distortion, an estimated envelope is sufficient for speech comprehension.
 
-%TODO 2 - make this pretty and add math
 \begin{figure}[!ht]
   \centering
     \includegraphics[width=.75\textwidth]{vocoder}   
@@ -425,7 +429,7 @@ The main blocks of cochlear implants processing are visualized in figure~\ref{fi
 
 \begin{figure}[!ht]
   \centering
-    \includegraphics[width=1.0\textwidth]{CI_Signal_Flow}   
+    \includegraphics[width=1\textwidth]{CI_Signal_Flow}   
     \caption{Signal Flow in CI}\label{fig:CI_signal_flow}
 \end{figure}
 
@@ -433,7 +437,7 @@ In this thesis, the output of the DSP stage will be a strictly positive signal u
 
 \begin{figure}[!ht]
   \centering
-    \includegraphics[width=1.0\textwidth]{output_of_dsp}   
+    \includegraphics[width=1.0\textwidth]{matlab/output_of_dsp}   
     \caption{Tranformation from DSP output to Electrical Signal, the DSP output is compressed, then applied an electric pulse train to generate the final modulated electric pulse train}\label{fig:output_of_dsp}
 \end{figure}
 
@@ -506,7 +510,7 @@ c[n] = 0.5 + 0.5cos(2\pi F_0n)
 
 \begin{figure}[!ht]
   \centering
-    \includegraphics[width=1\textwidth]{induced_vs_explicit}   
+    \includegraphics[width=1\textwidth]{matlab/induced_vs_explicit}   
     \caption{Induced vs Explicit Temporal Modulations Example}\label{fig:induced_vs_explicit}
 \end{figure}
 
@@ -544,7 +548,7 @@ Because of the unique characteristics of each carrier, the carrier synthesis blo
 
 Comparing these strategies, the differences may be summarized as:
 
-%TODO 3 - make this pretty
+%TODO 5 - list format
 
 1) Envelope Extraction Method (not discussed yet)
 
@@ -698,15 +702,16 @@ Li et al. \cite{li2010harmonic} proposed a harmonic method which uses knowledge 
 c_{k,harmonic}[n] = e^{jk\phi_0 [n]}
 \end{align}
 
-where 
+where
 
 \begin{align}
 \phi_0[n] =& \frac{2\pi}{F_s} \sum_{p=0}^{n} F_0[p] \nonumber \\
+\label{eq:harmonic_phi0}
 =& \phi_0[n - 1] + 2\pi \frac{F_0[n]}{F_s} \\
 \phi_0[-1] =& 0 \nonumber
 \end{align}
 
-As mentioned earlier there are two versions of HSSE. One uses a real non-negative envelope, the other uses a complex envelope.  The envelope of the first method is defined as
+is the instantaneous phase.  As mentioned earlier there are two versions of HSSE. One uses a real non-negative envelope, the other uses a complex envelope.  The envelope of the first method is defined as
 
 \begin{align}
 m^{(1)}_{k,harmonic}[n] =& \Big| x[n] c_{k,harmonic}^*[n] * h\big[n, F_0[n] \big] \Big| \nonumber \\
@@ -791,7 +796,7 @@ Comparing figure~\ref{fig:real_vs_magnitude_example} top left and top right make
 % maybe show the harmonic, then both envelopes and both modulators
 \begin{figure}[!ht]
   \centering
-    \includegraphics[width=1\textwidth]{real_vs_magnitude_example}   
+    \includegraphics[width=1\textwidth]{matlab/real_vs_magnitude_example}   
     \caption{Cello Example, top left: $m^{(2)}_{k,harmonic}[n]$, top right: $m^{(1)}_{k,harmonic}[n]$, bottom left: $y^{(2)}_k[n]$, bottom right: $55$}\label{fig:real_vs_magnitude_example}
 \end{figure}
 
@@ -863,7 +868,7 @@ All envelope extraction methods are summarized in table~\ref{table:envelope_extr
 \caption{Envelope Extraction Methods}\label{table:envelope_extraction_methods}
 \end{table}
 
-\subsection{Hilbert VS STFT}
+\subsection{Hilbert vs STFT}
 
 Using the property that the Hilbert transform of a convolution is the convolution of the Hilbert transform on either factor:
 
@@ -923,7 +928,7 @@ h_k[n] = w[-n]cos(\frac{2\pi}{N}kn), \qquad 0 \leq k \leq \frac{N}{2}
 
 What this tells us is that the Hilbert decomposition may be viewed as a superset of the STFT method that is not constrained to uniform bandwidth linearly spaced filters.
 
-\subsection{STFT vs Harmonic}
+\subsection{STFT vs Harmonic}\label{ss:stft_vs_harmonic}
 
 Following a similar approach, consider a harmonic coherent filter to be time-invariant and defined as
 
@@ -931,7 +936,6 @@ Following a similar approach, consider a harmonic coherent filter to be time-inv
 h\big[n, F_0[n] \big] = \frac{1}{Nw[0]} w[-n]
 \end{align}
 
-%TODO 2 - wide bracket
 where $w[n]$ is a lowpass filter and 
 \begin{align}
 w[n] \left\{
@@ -946,10 +950,11 @@ In this case,
 
 \begin{align}
 m_{k,harmonic}[n] =& \Big| x[n] e^{-jk\phi_0 [n]} *  \frac{1}{Nw[0]} w[-n] \Big|  \nonumber \\
+\label{eq:m_k_harmonic_with_stft_filter}
 =& \frac{1}{Nw[0]} \Big| x[n] e^{-jk\phi_0 [n]} *  w[-n] \Big|
 \end{align}
 
-This bears striking resemblance to equation \ref{eq:STFT_envelope}.  In the case that $F_0[n] = \frac{F_s}{N}$,
+This bears striking resemblance to (\ref{eq:STFT_envelope}).  In the case that $F_0[n] = \frac{F_s}{N}$,
 
 \begin{align}
 m_{k,harmonic}[n] = m_{k,STFT}[n]
@@ -957,7 +962,6 @@ m_{k,harmonic}[n] = m_{k,STFT}[n]
 
 More generally, for any window of time $n$ to $n + N - 1$ where $F_0[n]$ is constant
 
-%check appendix code 810982374981u23h for derivation
 \begin{align}
 %m_{k,harmonic}[n] =& \frac{1}{Nw[0]} \Bigg| X\Big[n, \frac{N}{1} \frac{F_0[n]}{F_s} k \Big) \Bigg| \nonumber \\
 %
@@ -969,7 +973,7 @@ m_{k,harmonic}[n] =& \frac{1}{Nw[0]} \Big| X[n, N F_0[n] k) \Big| \nonumber \\
 =& \frac{1}{Nw[0]} \Big| X[n, \lambda[n]k) \Big|
 \end{align}
 
-where $\lambda[n] = N F_0[n] $.  The ``$)$'' denotes that (\ref{eq:harmonic-to-stft_relate}) is a DTFT.
+where $\lambda[n] = N F_0[n] $.  The ``$)$'' denotes that (\ref{eq:harmonic-to-stft_relate}) is a DTFT.  For derivation of (\ref{eq:harmonic-to-stft_relate}) refer to appendix~\ref{section:stft_vs_harmonic_derivation}.
 
 It is important to note that in practice $\lambda[n]$ is not a continuous variable.  It is constrained by the quantization of the implemented pitch tracker.  Provided this quantization it is possible to compute any term $X[n, \lambda[n]k)$ by zero-padding the DFT.
 
@@ -979,12 +983,12 @@ This implies that in practice, $m_{k,harmonic}[n]$ can be approximated using $F_
 
 2) $F_0[n]$ is roughly constant withing a time window of $\frac{N}{Fs}$ seconds
 
-%TODO 4 - maybe make this prettier
+%TODO 4 - list format
 and the restriction:
 
 3) $h\Big[n, F_0[n] \Big]$ is time-invariant, i.e. $h\Big[n, F_0[n] \Big] = h[n]$
 
-\subsection{CIS VS Hilbert}
+\subsection{CIS vs Hilbert}
 
 Stemming from the CIS and Hilbert envelope equations, consider the following two functions.
 
@@ -1065,7 +1069,6 @@ Now the relationship between $m_{k,CIS}[n]$ and $m_{k,Hilbert}[n]$ is muddled by
 
 One of the easier ways to interpret the methods is through a frequency domain analysis.  Figure~\ref{fig:all_the_same} shows an abstract view for a simple two harmonic example.  For mathematical convenience the output (orange) is actually the squared envelope.  At each step a new operation is applied.  This abstract analysis ignores scale factors that can always be modified by scaling filter coefficients.
 
-%TODO 3 - add axis labels
 \begin{figure}[!ht]
   \centering
     \includegraphics[width=1.0\textwidth]{STFTvsHILBERTvsCIS}   
@@ -1130,7 +1133,7 @@ Provided our envelope extraction equation, \ref{eq:envelope_extraction}, the goa
 
 The design can be summarized by two things:
 
-%TODO 3 - pretty
+%TODO 5 - list format
 \begin{itemize}
 \item downshift frequency, $\omega_k\big[F_0[n]\big]$
 \item lowpass filter, $h_k\big[n,F_0[n]\big]$
@@ -1287,7 +1290,6 @@ Figure~\ref{fig:harmonic_envelope}$(d)$ is equivalent to the green component of 
 
 The other components come from interactions with the unwanted harmonics that were not completely filtered out.  For clarity the convolution is visualized in figures \ref{fig:harmonic_envelope_2F0}, \ref{fig:harmonic_envelope_F0}, \ref{fig:harmonic_envelope_0}.  Positive and negative components of figure~\ref{fig:harmonic_envelope_estimate}~$(f)$ are mirror images, so the positive components are not explicitly visualized.
 
-%TODO 3 - move translucent triangles in front
 \begin{figure}[!ht]
    \centering
     \includegraphics[width=.62\textwidth]{harmonic_envelope_2F0}   
@@ -1300,8 +1302,7 @@ The other components come from interactions with the unwanted harmonics that wer
 
 \clearpage
 
-%TODO 1 - replace this figure...and rewrite this section
-\subsection{3 Harmonic Example: Estimated Envelope with downshift error}
+\subsection{3 Harmonic Example: Estimated Envelope with Downshift Error}
 
 The 3 harmonic example has demonstrated how a non-ideal filter causes distortions in the estimate.  Now consider the effects of downshift frequency: $F_{ds,k} = kF_0 + F_{err}$.
 
@@ -1318,12 +1319,12 @@ x^+[n]e^{-j2\pi \frac{2F_0 + F_{err}}{F_s}n} * h_2[n] \Longleftrightarrow& X^+[n
 \tilde{m}_1^2[n] \Longleftrightarrow& X^+[n,f - 2F_0 - F_{err}) H_1(f) * X^{*+}[n,-f + 2F_0 + F_{err}) H_1^*(-f)
 \end{align}
 
-In figure~\ref{fig:downshift_effects} the non-ideal downshift affects the relative amplitudes of the desired harmonic and interference harmonics when filtering.  %As a result the baseband term will be lower amplitude and the terms at multiples of $F_0$ will be higher amplitude.
+In figure~\ref{fig:downshift_effects} the non-ideal downshift affects the relative amplitudes of the desired harmonic and interference harmonics when filtering.  In this example the baseband term is a lower amplitude and a larger percentage is from the 2nd (red) harmonic.
 
 \begin{figure}[!ht]
   \centering
     \includegraphics[width=.62\textwidth]{downshift_effects} 
-    \caption{$(a)-(c)$: magnitude of spectrum for equations (\ref{eq:harmonic_estimate_ERR_fig_a}) - (\ref{eq:harmonic_estimate_ERR_fig_c}), $(d)$: time-reversal of $(c)$, $(e)$: magnitude of spectrum for (\ref{eq:harmonic_estimate_ERR_fig_e}), $(f)$: contributions of separate components of $(e)$}\label{fig:downshift_effects}
+    \caption{$(a)-(c)$: magnitude of spectrum for equations (\ref{eq:harmonic_estimate_ERR_fig_a}) - (\ref{eq:harmonic_estimate_ERR_fig_c}), $(d)$: frequency-reversal of $(c)$, $(e)$: magnitude of spectrum for (\ref{eq:harmonic_estimate_ERR_fig_e}), $(f)$: contributions of separate components of $(e)$}\label{fig:downshift_effects}
 \end{figure}
 
 \clearpage
@@ -1406,7 +1407,7 @@ We attempt to estimate the 2nd harmonic, $m_2[n]$.  We first downshift by $-3F_0
 %TODO 2 - change this and next fig to 2nd harmonic
 \begin{figure}[!ht]
   \centering
-    \includegraphics[width=1\textwidth]{clarinetVSsax_F}
+    \includegraphics[width=1\textwidth]{matlab/clarinetVSsax_F}
     \caption{Clarinet vs Saxophone Harmonic Components}\label{fig:clarinetVSsax_F}
 \end{figure}
 
@@ -1414,7 +1415,7 @@ Figure~\ref{fig:clarinetVSsax_T} shows the time-domain envelopes resulting from 
 
 \begin{figure}[!ht]
   \centering
-    \includegraphics[width=1\textwidth]{clarinetVSsax_T}   
+    \includegraphics[width=1\textwidth]{matlab/clarinetVSsax_T}   
     \caption{Clarinet vs Saxophone Envelope Estimates}\label{fig:clarinetVSsax_T}
 \end{figure}
 
@@ -1467,7 +1468,7 @@ The filters can be different as a function of $k$.  This is a natural path to pu
 
 The designs considered are:
 
-%TODO 3 - make this pretty
+%TODO 5 - list format
 
 downshift quantization, $F_q$ - 1, 31, 63, 125Hz
 
@@ -1624,7 +1625,7 @@ Psychophysical studies have found that for reliable pitch discrimination amplitu
 40\% \rightarrow D_{k,1} = -8 \mathrm{dB} \nonumber
 \end{align}
 
-%TODO 4 - pretty
+%TODO 5 - list format
 This implies that depending on the user:
 
 - order 128 breaks down at $F_0\approx 240$ to $400$Hz
@@ -1708,8 +1709,6 @@ There is clearly an envelope bandwidth tradeoff where the wider a filter is the 
 The sharp-cutoff order 512 filters smear the fast transients a significant amount, however the adaptive bandwidth filters seem to do well at smearing as little as possible while still achieving good performance on the other metrics.  This could be the best compromise to the posed bandwidth tradeoff.
 
 %harmonic bandwidth: what is it?  look at some waveforms and read some stuff.  maybe do this at the same time as transient times of instruments
-
-%TODO <CONTINUE HERE>
 
 \section{Non-ideal Pitch Estimators}
 
@@ -1977,11 +1976,17 @@ mention transients can't be reliably represented with a pitch tracker
  
 % ========== Appendix A
 
-%TODO 1 - write this!!!
-
 \chapter{Derivations}
 
-%check appendix code 810982374981u23h
+\section{STFT vs Harmonic Derivation}\label{section:stft_vs_harmonic_derivation}
+
+For any window of time $n$ to $n + N - 1$ where $F_0[n]$ is constant, the instantaneous phase, (\ref{eq:harmonic_phi0}), simplifies to
+
+\begin{align}
+\phi_0[n + r] =& \phi_0[n] + 2\pi \frac{F_0[n]}{F_s}r, \quad 0 \leq r < N
+\end{align}
+
+Starting with the constrained harmonic envelope from (\ref{eq:m_k_harmonic_with_stft_filter}), 
 
 \begin{align}
 \phi_0[n + r] =& \phi_0[n] + 2\pi \frac{F_0[n]}{F_s}r, \quad 0 \leq r < N \\
@@ -1991,12 +1996,11 @@ m_{k,harmonic}[n] =& \Bigg| x[n] e^{-jk\phi_0 [n]} *  \frac{1}{Nw[0]} w[-n] \Big
 =& \frac{1}{Nw[0]} \Bigg| \sum_{r' = 0}^{N-1} x[n + r'] e^{-jk\phi_0 [n + r']} w[r'] \Bigg|  \nonumber \\
 =& \frac{1}{Nw[0]} \Bigg| e^{-jk \phi_0[n]} \sum_{r' = 0}^{N-1} x[n + r'] e^{-j \frac{2\pi F_0[n]}{F_s}kr'} w[r'] \Bigg| \nonumber \\
 =& \frac{1}{Nw[0]} \Bigg| e^{-jk \Big(\phi_0[n] - \frac{2\pi F_0[n]}{F_s}n \Big)} \Bigg[ e^{-j \frac{2\pi F_0[n]}{F_s}kn} \sum_{r' = 0}^{N-1} x[n + r'] w[r'] e^{-j \frac{2\pi F_0[n]}{F_s}kr'} \Bigg] \Bigg| \nonumber \\
-=& \frac{1}{Nw[0]} \Bigg| X\Big[n, \frac{N}{1} \frac{F_0[n]}{F_s} k \Big) \Bigg| \nonumber \\
-\label{eq:harmonic-to-stft}
-=& \frac{1}{Nw[0]} \Bigg| X\Big[n, \lambda[n]k\Big) \Bigg|
+=& \frac{1}{Nw[0]} \Bigg| X\Big[n, N F_0[n] k \Big) \Bigg| \nonumber
 \end{align}
 
-\subsection{CIS VS Hilbert}
+%TODO 1 - write this!!!
+\section{CIS vs Hilbert}
 
 Provided the envelope definitions
 
