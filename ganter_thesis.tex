@@ -1,9 +1,10 @@
-%TODO 1 - why isn't this done?!
-%TODO 2 - not so important but quick
-%TODO 3 - not so important and tedious
+%TODO 1 = why isn't this done?!
+%TODO 2 = not so important but quick
+%TODO 3 = not so important and tedious
 
 %TODO 3 - png's to pdfs
-%TODO 1/3 - analytic VS real signals...(maybe different per chapter?)
+
+%IDEA - what about putting zeros at multiples of F0 during filter design?
 
 % 		replace .lof file ========================================================================
 %  Copyright (c) 1985-2014 The University of Washington
@@ -70,6 +71,15 @@
 
 \usepackage{caption}
 %\captionsetup{justification=justified}
+
+\newcommand*{\mathcolor}{}
+\def\mathcolor#1#{\mathcoloraux{#1}}
+\newcommand*{\mathcoloraux}[3]{%
+  \protect\leavevmode
+  \begingroup
+    \color#1{#2}#3%
+  \endgroup
+}
 
 \begin{document}
 
@@ -293,7 +303,7 @@ $\mathcal{N}$ - number of electrodes stimulated per frame
 
 $x[n]$ - a time series, (digitally sampled signal)
 
-$x_k[n]$ - $k$th analytic subband of $x[n]$
+$x_k[n]$ - $k$th subband of $x[n]$
 
 $m_k[n]$ - envelope of $x_k[n]$
 
@@ -305,11 +315,13 @@ $\mathcal{F}\{\cdot\}$ - Fourier Transform
 
 $\widehat{x}[n]$ - the Hilbert Transform of $x[n]$
 
-$X(w)$ - discrete-time Fourier transform (DTFT) of $x[n]$
+$x^+[n] = x[n] + j\widehat{x}[n]$ - the analytic signal of $x[n]$
+
+$X(f)$ - discrete-time Fourier transform (DTFT) of $x[n]$
 
 $X[k]$ - discrete Fourier transform (DFT) of $x[n]$
 
-$X[n,w)$ - continuous-frequency short time Fourier transform (STFT) of $x[n]$
+$X[n,f)$ - continuous-frequency short time Fourier transform (STFT) of $x[n]$
 
 $X[n,k]$ - short time Fourier transform (STFT) of $x[n]$
 
@@ -392,7 +404,7 @@ It should be noted that the second source is typically chosen to be a broadband 
 \label{eq:sum-of-products}
 x^{(1)}[n] =& \sum\limits_k x_k^{(1)}[n] = \sum\limits_k m^{(1)}_k[n] c^{(1)}_k[n] \\
 x^{(2)}[n] =& \sum\limits_k x_k^{(2)}[n] \\
-y[n] =& \sum\limits_k m_k^{(1)}[n] x_k^{(2)}[n] 
+y[n] =& \sum\limits_k m_k^{(1)}[n] x_k^{(2)}[n]
 \end{align}
 
 Linking back, cochlear implant envelope extraction strategies do the same thing as vocoder signal analysis, as seen in figure~\ref{fig:vocoder}, however rather than using a second source to synthesize a new sound, the envelopes directly modulate electrical pulse trains.
@@ -447,16 +459,15 @@ $\mathcal{N}$ - number of electrodes stimulated per frame
 
 A block diagram of ACE is visualized in figure~\ref{fig:ace_flow_diagram} and an equivalent condensed notation is shown in figure~\ref{fig:ace_flow_diagram_condensed}.  This condensed notation will be carried through to the other strategies analyzed.
 
-%TODO 1 - change these figs to mathcal
 \begin{figure}[!ht]
   \centering
-    \includegraphics[width=0.5\textwidth]{ACE_flow_diagram_explicit}   
+    \includegraphics[width=.5\textwidth]{ACE_flow_diagram_explicit}   
     \caption{ACE Flow Diagram}\label{fig:ace_flow_diagram}
 \end{figure}
 
 \begin{figure}[!ht]
   \centering
-    \includegraphics[width=1\textwidth]{ACE_flow_diagram}   
+    \includegraphics[width=.7\textwidth]{ACE_flow_diagram}   
     \caption{condensed ACE Flow Diagram}\label{fig:ace_flow_diagram_condensed}
 \end{figure}
 
@@ -588,14 +599,15 @@ In this method the number of filters is usually the same as the number of electr
 
 \subsection{Hilbert Envelope}
 
-The Hilbert envelope is a method of decomposition applied far more broadly than the field of cochlear implants.  Despite only retaining the envelope, we look at the carrier to gain insight as to how the signal $x[n]$ is represented in the decomposition.  The analytic bandpass signal, $x_k[n]$ is computed as \ref{eq:hilbert_transform}.  The envelope is defined as the magnitude, (\ref{eq:hilbert_envelope}).
+The Hilbert envelope is a method of decomposition applied far more broadly than the field of cochlear implants.  Despite only retaining the envelope, we look at the carrier to gain insight as to how the signal $x[n]$ is represented in the decomposition.  The analytic bandpass signal, $x^+_k[n]$ is computed as (\ref{eq:hilbert_transform}).  The envelope is defined as the magnitude, (\ref{eq:hilbert_envelope}).
 
 \begin{align}
 \label{eq:hilbert_transform}
-x_k[n] =& x[n] * h_k[n] + j\mathcal{H}\{x[n] * h_k[n]\} \\
+x_k^+[n] =& x[n] * h_k[n] + j\mathcal{H}\{x[n] * h_k[n]\} \nonumber \\
+=& x_k[n] + j\mathcal{H}\{x_k[n]\} \\
 \label{eq:hilbert_envelope}
-m_{k,hilbert}[n] =& \Big| \widehat{x}_k[n] \Big| \\
-c_{k,hilbert}[n] =& cos(\angle\widehat{x}_k[n])
+m_{k,hilbert}[n] =& \Big| x^+_k[n] \Big| \\
+c_{k,hilbert}[n] =& cos(\angle x^+_k[n])
 \end{align}
 
 Intuitively, if the filterbank $\Big[h_1[n], h_2[n], ...,h_\mathcal{K}[n]\Big]$ has a flat total response, all of the information of the original signal is contained in the envelopes and carriers, and thus it is possible to reconstruct the input.
@@ -665,9 +677,7 @@ Also note that, due to symmetry of the Fourier transform, envelopes are only val
 
 \section{Coherent Methods}
 
-%TODO 1 - <CONTINUE HERE>
-
-Due to their LTI nature, incoherent methods fail to explicitly represent time varying characteristics like fundamental frequency or formant structure. \cite{wilson1993design}  Alternatively, coherent methods will adapt to represent some specific characteristic.
+Due to their LTI nature, incoherent methods fail to explicitly represent time varying characteristics like fundamental frequency or formant structure \cite{wilson1993design}.  Alternatively, coherent methods will adapt to represent specific characteristics.
 
 %Before going further we must be more explicit in the definition of our sum-of-products model, equation \ref{eq:sum-of-products}.  In incoherent methods it is assumed that the envelope is strictly real non-negative.  Coherent methods do not make this assumption and therefore we must add a $Re\{\cdot\}$ operation to our subband signals.
 
@@ -677,13 +687,13 @@ Due to their LTI nature, incoherent methods fail to explicitly represent time va
 
 \subsection{Spectral Center-of-Gravity}
 
-One coherent method is the spectral center-of-gravity (COG).  Similar to the previously described incoherent methods, spectral COG uses a fixed number of filters.  The key difference lies in the center frequency of each of these filters which adapt over time as a function of the spectral distribution within predefined band limits.
+One coherent method is the spectral center-of-gravity (COG) \cite{clark2009time}.  Similar to the previously described incoherent methods, spectral COG uses a fixed number of filters.  The key difference lies in the center frequencies of each of these filters, which adapt over time as a function of the spectral distribution within predefined band limits.
 
-Spectral COG certainly has some advantages of better representation of the signal in comparison to incoherent methods, however it still doesn't escape the limitation of fixed and pre-determined band limits that each filter operates within.  We won't be investigating this method further.
+Spectral COG certainly has some advantages of better representation of the signal in comparison to incoherent methods, however it still does not escape the limitation of fixed and pre-determined band limits that each filter operates within.  Spectral COG will not be investigated further.
 
 \subsection{Harmonic}
 
-To escape this, [Atlas and Others] proposed a harmonic method which uses knowledge of the structure of common audio signals to decompose the signal in a less arbitrary way.  The first step is to get a pitch estimate $F_0[n]$ of the signal.  We then define $k$ complex carriers where there is a hard limit as a function of Nyquist sampling rate, $k \leq  \lfloor \frac{F_s}{2F_0} \rfloor$
+Li et al. \cite{li2010harmonic} proposed a harmonic method which uses knowledge of the structure of common audio signals to decompose the signal in a less arbitrary way.  The first step is to compute a pitch estimate, $F_0[n]$, of the signal.  $\mathcal{K}$ complex carriers are defined.  There is a hard limit as a function of Nyquist sampling rate, $\mathcal{K} \leq  \lfloor \frac{F_s}{2F_0} \rfloor$ \cite{clark2010modulation}.
 
 \begin{align}
 c_{k,harmonic}[n] = e^{jk\phi_0 [n]}
@@ -697,20 +707,16 @@ where
 \phi_0[-1] =& 0 \nonumber
 \end{align}
 
-[modulation toolbox]
-
-As mentioned earlier there are two versions of HSSE, the first uses a real non-negative envelope, the other uses a complex envelope.
-
-we then define our first envelope
+As mentioned earlier there are two versions of HSSE. One uses a real non-negative envelope, the other uses a complex envelope.  The envelope of the first method is defined as
 
 \begin{align}
 m^{(1)}_{k,harmonic}[n] =& \Big| x[n] c_{k,harmonic}^*[n] * h\big[n, F_0[n] \big] \Big| \nonumber \\
 =& \Big| x[n] e^{-jk\phi_0 [n]} * h\big[n, F_0[n] \big] \Big|
 \end{align}
 
-where $h\big[n, F_0[n] \big]$ is a lowpass filter that may vary as a function of $F_0[n]$.  Note that we could have a different LPF for each $k$ however since our carriers are linearly spaced it is natural to keep $h\big[n, F_0[n] \big]$ consistent over $k$.
+where $h\big[n, F_0[n] \big]$ is a lowpass filter that may vary as a function of $F_0[n]$.  Note that it is possible to have a different LPF for each $k$ however since the carriers of a harmonic signal are linearly spaced it is natural to keep $h\big[n, F_0[n] \big]$ consistent over $k$.
 
-Our second, complex envelope is the same as the first but without the final magnitude operation.
+The second, complex envelope is the same as the first but without the final magnitude operation.
 
 \begin{align}
 m^{(2)}_{k,harmonic}[n] =& x[n] e^{-jk\phi_0 [n]} * h\big[n, F_0[n] \big]
@@ -718,39 +724,43 @@ m^{(2)}_{k,harmonic}[n] =& x[n] e^{-jk\phi_0 [n]} * h\big[n, F_0[n] \big]
 
 \section{Coherent Phase Encoding}
 
-As mentioned earlier, the final DSP output is a set of real non-negative signals.  We take a short aside to compare the two coherent harmonic methods, one of which, due to it's complex output, cannot be considered in a envelope-only sense.
+As mentioned earlier, the final DSP output is a set of real non-negative signals.  We take a short aside to compare the two coherent harmonic methods, one of which, due to it's complex output, cannot be evaluated as an envelope extraction method independent of temporal fine structure encoding.
 
-The two alternative versions are visualized in figure~\ref{fig:coherent_angle}.  For the case of magnitude only, we can think of this as a restriction on our carrier.  Since the envelope is already real non-negative the $Re{\cdot}$ and half-wave rectification stages don't change anything.  We could pass complex exponential through these two operations before multiplying the envelope.  This is equivalent to saying our carrier is a half-wave rectified sinusoid and thus we have the same general processing blocks as a single envelope of \ref{fig:HSSE_flow_1}
+The two approaches are visualized in figure~\ref{fig:coherent_angle}.  For the magnitude-only case, this can be thought of as a restriction on what the carrier can be.  Since the envelope is already real non-negative the $Re\{\cdot\}$ and half-wave rectification stages don't change anything.  Passing a complex exponential through these two operations before multiplying the envelope is equivalent to defining the carrier as a half-wave rectified sinusoid and thus we have equivalent processing blocks as a single envelope of \ref{fig:HSSE_flow_1}
 
+
+%TODO 1 - fix this complex exponential, change name to coherent phase
+%TODO 3 - make this pretty
 \begin{figure}[!ht]
   \centering
-    \includegraphics[width=1\textwidth]{coherent_angle}   
-    \caption{Magnitude Only VS Coherent Angle Encoding Block Diagrams}
+    \includegraphics[width=1\textwidth]{coherent_phase}   
+    \caption{Magnitude Only VS Coherent Phase Encoding Block Diagrams}
     \label{fig:coherent_angle}
 \end{figure}
 
-Let's consider a signal where our $k$th bandpass component represents the $k$th harmonic and is of the form
+Consider a signal where the $k$th subband is of the form
 
 \begin{align}
 x_k[n] =& A_k[n]cos(2\pi kF_0n + \phi_k[n]) \\
 BW \leq& F_0 \nonumber
 \end{align}
 
-where $A_k[n]$ represents a real nonnegative amplitude.  And $BW$ is the bandpass signal's bandwidth.  We may assume $F_0[n] = F_0$ is constant without loss of generality so long as $F_0[n]$ is roughly constant within each processing frame.
+where $A_k[n]$ represents a real nonnegative amplitude and $BW$ is the signal's bandwidth.  We may assume $F_0[n] = F_0$ is constant, without loss of generality, so long as $F_0[n]$ is roughly constant within each processing frame.
 
-Let's assume our filter is an ideal brick-wall filter.
-
-%TODO should be 2pif / Fs
+For this example, the filter is an ideal brick-wall filter:
 
 \begin{align}
-h[n] \Longleftrightarrow& H(e^{j2\pi f}) \\
-H(e^{j2\pi f}) =& 1, \quad |f| < \frac{F_0}{2} \\
-=& 0, \quad else \nonumber
+H(f) =& \left\{
+                \begin{array}{ll}
+                1, \quad |f| < \frac{F_0}{2} \\
+			   0, \quad else \nonumber
+                \end{array}
+              \right.
 \end{align}
 
-Our coherent harmonic envelopes for each method will be
+The coherent harmonic envelopes for each method will be
 
-%TODO
+%TODO 1/3
 % can't assume this from (3.17) and (3.19)
 % maybe derive this? appendix?
 \begin{align}
@@ -759,35 +769,41 @@ m^{(1)}_{k,harmonic}[n] =& A_k[n] \\
 m^{(2)}_{k,harmonic}[n] =& A_k[n]e^{j\phi_k[n]}
 \end{align}
 
-Let us define $Rect\{y_k[n]\}$ as the half-wave rectified carrier-modulator signal which is our end goal.  Using our first harmonic method
+Let $Rect\{y_k[n]\}$ be the half-wave rectified carrier-modulator signal which is the final output.  Using the first harmonic method
 
 \begin{align}
-y_k^{(1)}[n] =& m^{(1)}_{k,harmonic}[n] cos(2\pi F_0 n) \\
-=& A_k[n] cos(2\pi F_0 n) \nonumber
+y_k^{(1)}[n] =& m^{(1)}_{k,harmonic}[n] cos(2\pi F_0 n) \nonumber \\
+\label{eq:phase_encode_1}
+=& A_k[n] cos(2\pi F_0 n)
 \end{align}
 
-Alternatively, with our second method we get
+Alternatively, the second method results in
 
 \begin{align}
-y_k^2[n] =& Re\{ 2m^{(2)}_{k,harmonic}[n] e^{j2\pi F_0 n} \}  \\
+y_k^{(2)}[n] =& Re\{ 2m^{(2)}_{k,harmonic}[n] e^{j2\pi F_0 n} \}  \\ \nonumber
 =& Re\{ 2A_k[n]e^{j(2\pi F_0 n + \phi_k[n])} \} \nonumber \\
-=& A_k[n]cos(2\pi F_0 n + \phi_k[n]) \nonumber
+\label{eq:phase_encode_2}
+=& A_k[n]cos(2\pi F_0 n + \phi_k[n])
 \end{align}
 
-It is clear that the difference between $y_k^1[n]$ and $y_k^2[n]$ is simply the extra term, $\phi_k[n]$.  What this means may be best shown by example.
+It is clear from (\ref{eq:phase_encode_1}) and (\ref{eq:phase_encode_2}) that the difference between $y_k^{(1)}[n]$ and $y_k^{(2)}[n]$ is simply the extra term, $\phi_k[n]$.  What this means in terms of information delivered to the user may be best shown by example.
 
-In figure \ref{fig:real_vs_magnitude_example} we see that when taking the magnitude, we force symmetry about $0$.  We see that the green much better represents the blue than the red does by preserving the spectral asymmetries that manifest themselves in the angle, not magnitude.  It is unnatural and certainly won't happen in real world scenarios that a subband signal will be symmetric about the downshift frequency, however magnitude only methods force this to be true.
+%TODO 1 changes these to (a), (b), etc
+Comparing figure~\ref{fig:real_vs_magnitude_example} top left and top right makes it clear that taking the magnitude forces symmetry about $0$Hz.  The bottom left, $y_k^{(2)}[n]$, better represents the blue than does the bottom right, $y_k^{(1)}[n]$, because the spectral asymmetries manifest themselves in the phase, not magnitude.  It is unnatural and certainly won't happen in real world scenarios that a subband signal will be symmetric about the downshift frequency, however magnitude only methods force this symmetry.
 
+%TODO 1 - mark these (a) (b) etc.
+% maybe show the harmonic, then both envelopes and both modulators
 \begin{figure}[!ht]
   \centering
     \includegraphics[width=1\textwidth]{real_vs_magnitude_example}   
-    \caption{Cello Example}
-    \label{fig:real_vs_magnitude_example}
+    \caption{Cello Example, top left: $m^{(2)}_{k,harmonic}[n]$, top right: $m^{(1)}_{k,harmonic}[n]$, bottom left: $y^{(2)}_k[n]$, bottom right: $55$}\label{fig:real_vs_magnitude_example}
 \end{figure}
+
+%ight: $m^{(2)}_{k,harmonic}[n]}$, bottom left: $y_k^{(2)}[n]$, bottom right: $y_k^{(1)}[n]$
 
 \subsection{Appropriate Scaling}
 
-Despite better representing the signal, there is still an issue with $y_k^2[n]$.  A more correct method is actually
+Despite better representing the signal, there is still an issue with $y_k^{(2)}[n]$.  A more correct method is actually
 
 \begin{align}
 \label{eq:realVSmag3}
@@ -797,80 +813,85 @@ y_k^3[n] =& Re\{ 2 m^{(3)}_{k,harmonic}[n] e^{j2\pi F_0 n} \}  \\
 \end{align}
 
 
-Why do we need the $\frac{1}{k}$ term?  Let's consider an example where our true pitch estimate is actually $F_{0,ground truth} = F_0 + F_{err}$.  So,
+Why is the $\frac{1}{k}$ term necessary?  Consider an example where our true pitch estimate is actually $F_{0,ground truth} = F_0 + F_{err}$.  So,
 
 \begin{align}
 x_k[n] = A_k[n]cos\Big(2\pi k(F_0 + F_{err})n + \phi_k[n]\Big)
 \end{align}
 
-In this case
+In this case,
 
 \begin{align}
-y_k^{(2)}[n] =& A_k[n]cos\Big(2\pi (F_0 + kF_{err})n + \frac{1}{k}unwrap(\phi_k[n])\Big) \\
+\label{eq:wrong_scaling}
+y_k^{(2)}[n] =& A_k[n]cos\Big(2\pi (F_0 + \mathcolor{red}{k}F_{err})n + \frac{1}{k}unwrap(\phi_k[n])\Big) \\
 y_k^{(3)}[n] =& A_k[n]cos\Big(2\pi (F_0 + F_{err})n + \frac{1}{k}unwrap(\phi_k[n])\Big)
 \end{align}
 
-Essentially the term $\phi_k[n]$ may be thought of as the deviation from $kF_0$.  If we downshift the signal such that $kF_0$ is scaled to $F_0$ then it is appropriate that we scale $\phi_k[n]$ similarly.
+Essentially the term $\phi_k[n]$ may be thought of as the deviation from $kF_0$.  If the signal is downshifted such that $kF_0 \longrightarrow F_0$ then it is appropriate that $\phi_k[n]$ is scaled similarly.  This is not the case for (\ref{eq:wrong_scaling}).
 
 \subsection{Efficacy}
 
-Let us now consider the efficacy of \ref{eq:realVSmag1} versus  \ref{eq:realVSmag3}.
+%TODO 3 - this is a rough degree of proof...
 
-One hypothesis is that $\phi_k[n]$ may encode the noise-like characteristics of a signal, in which case it would remain constant for a pure sinusoid and fluctuate randomly for noise.  Put to test, the harmonic phase preservation did little to affect the signal and this was confirmed by testing varying filter bandwidths as well.  In comparison of a toy experiment, the choice of filter bandwidth dominated noise-like qualities, with wider bandwidth capturing more of the variations.
+So what is the efficacy of \ref{eq:realVSmag1} versus \ref{eq:realVSmag3}?  One hypothesis is that $\phi_k[n]$ may encode the noise-like characteristics of a signal, in which case it would remain constant for a pure sinusoid and fluctuate randomly for noise.  Put to test, the harmonic phase preservation did little to affect the signal and this was confirmed by testing varying filter bandwidths as well.  In comparison of a toy experiment, the choice of filter bandwidth dominated noise-like qualities, with wider bandwidth capturing more of the variations.
 
-Since the term $\phi_k[n]$ does not distinguish noise-like signals from narrowband sinusoidal signals, it is only really preserving phase alignment.  But this begs the question, what does it mean to preserve the phase of a harmonic when downshifted to $F_0$?  It is questionable as to whether this even has any logical meaning.
+Since the term $\phi_k[n]$ does not distinguish noise-like signals from narrowband sinusoidal signals, it is only preserving phase alignment.  But this begs the question, what does it mean to preserve the phase of a harmonic when downshifted to $F_0$?  It is questionable as to whether this even has any logical meaning.
 
 % It means every k'th peak will be lined up with the downshifted peak, that being said that probably doesn't mean a whole lot in terms of important information
 % perhaps show a figure of this?
 
-Furthermore, it has been suggested in [REF F0mod and kaibao??] that phase alignment is important for pitch perception in CIs.  By using a magnitude-only method we guarantee alignment across channels.
+Furthermore, it has been suggested \cite{laneau2006improved} that phase alignment is important for pitch perception in CIs.  By using a magnitude-only method we guarantee alignment across channels.
 
 %Is an example necessary? Noise vs Saw example...used "shh" vs "saw" test.  at least when listening to the simulations, the processing essentially sounds like narrowband resonant filters.  The noise-like sounds are completely dominated by the filter bandwidth and the phase-information is not noticeable at all.
 
-Having considered this option as not a path worth further investigating, for the rest of this document we will consider envelope and carrier separately with each being a real nonnegative signal at the final output.
+These preliminary tests suggest that phase encoding is not a path worth further investigating, and thus for the rest of this thesis explicit temporal modulation will be evaluated as two independent blocks: envelope extraction and carrier synthesis, each being a strictly real nonnegative signal.
 
 \section{The Relationships}
 
-All of our methods are summarized in table~\ref{table:envelope_extraction_methods}.  We will now consider the relationships between each of these.
+All envelope extraction methods are summarized in table~\ref{table:envelope_extraction_methods}.  We now consider the relationships between each of these.
 
 \begin{table}
 \begin{center}
+\bgroup
+\def\arraystretch{1.7}
 \begin{tabular}{| r | c |}
   \hline
   \textbf{Method} & $m_k[n] = $ \\ \hline
   CIS & $\Big| x[n] * h_k[n] \Big| * h_{lp}[n]$ \\ \hline
-  Hilbert & $\Big| \widehat{x}_k[n] \Big| = \Big| x[n] * h_k[n] + j\mathcal{H}\{x[n] * h_k[n]\} \Big|$ \\ \hline
+  Hilbert & $\Big| x^+_k[n] \Big| = \Big| x[n] * h_k[n] + j\mathcal{H}\{x[n] * h_k[n]\} \Big|$ \\ \hline
   STFT & $\frac{1}{Nw[0]}  \Big\vert x[n] e^{-j\frac{2\pi}{N}kn} * w[-n] \Big\vert$ \\ \hline
   Harmonic Coherent & $\Big| x[n] e^{-jk\phi_0 [n]} * h\big[n, F_0[n] \big] \Big|, \qquad \phi_0[n] = \frac{2\pi}{F_s} \sum_{p=0}^{n} F_0[p]$ \\ \hline
 \end{tabular}
+\egroup
 \end{center}
 \caption{Envelope Extraction Methods}\label{table:envelope_extraction_methods}
 \end{table}
 
 \subsection{Hilbert VS STFT}
 
-Let us start by comparing the Hilbert and STFT methods.  Since "the Hilbert transform of a convolution is the convolution of the Hilbert transform on either factor" [wikipedia] we have 
+Using the property that the Hilbert transform of a convolution is the convolution of the Hilbert transform on either factor:
 
 \begin{align}
 \label{eq:x_analytic}
-\widehat{x}_k[n] =& x_k[n] + jH\{x_k[n]\} \nonumber \\
-=& x[n] * h_k[n] + jH\{x[n] * h_k[n]\} \nonumber \\
+x^+_k[n] =& x[n] * h_k[n] + jH\{x[n] * h_k[n]\} \nonumber \\
 =& x[n] * h_k[n] + x[n] * jH\{h_k[n]\} \nonumber \\
-=& x[n] * [h_k[n]+  jH\{h_k[n]\}]
+=& x[n] * h^+_k[n]
 \end{align}
 
-Now let us define our filter specifically as
+Defining the filter specifically as
 
 \begin{align}
-\label{eq:hilbert_constrained_filter}
 h_k[n] = \frac{1}{Nw[0]}w[-n]cos(\frac{2\pi}{N}kn)
 \end{align}
 
-If we assume the sidelobes of $w[n]$ roll-off sufficiently fast in relation to the center-frequency $\frac{2\pi k}{N}$, we may approximate
+%TODO 1/3 - prove this or describe it better
+if the sidelobes of $w[n]$ roll-off sufficiently fast in relation to the center-frequency $\frac{2\pi k}{N}$, the Hilbert transform of the filter may be approximated as
 
 \begin{align}
 \mathcal{H}\{h_k[n]\} \approx& \frac{1}{Nw[0]}w[-n] H\{cos(\frac{2\pi}{N}kn)\} \nonumber \\
-=& \frac{1}{Nw[0]}w[-n]sin(\frac{2\pi}{N}kn)
+=& \frac{1}{Nw[0]}w[-n]sin(\frac{2\pi}{N}kn) \\
+\label{eq:hilbert_constrained_filter}
+h^+_k[n] \approx& \frac{1}{Nw[0]}w[-n]e^{j\frac{2\pi}{N}kn)}
 \end{align}
 
 %To verify the previous equation, consider the extremes:
@@ -878,44 +899,51 @@ If we assume the sidelobes of $w[n]$ roll-off sufficiently fast in relation to t
 %2) $w[n] = \delta[n]$
 %TODO verify this approximation claim
 
-Plugging our filter \ref{eq:hilbert_constrained_filter} into \ref{eq:x_analytic}
+Plugging (\ref{eq:hilbert_constrained_filter}) into (\ref{eq:x_analytic}) results in
 
 \begin{align}
-\widehat{x}_k[n] \approx& x[n] * \frac{1}{Nw[0]}w[-n]e^{j\frac{2\pi}{N}kn} \nonumber \\
+x^+_k[n] \approx& x[n] * \frac{1}{Nw[0]}w[-n]e^{j\frac{2\pi}{N}kn} \nonumber \\
 =& \frac{1}{Nw[0]}\sum\limits_{r=-\infty}^{\infty}x[n - r] w[-r] e^{j\frac{2\pi}{N}kr} \nonumber \\
 \textrm{Let} \quad r' = -r \nonumber \\
 =& \frac{1}{Nw[0]}\sum\limits_{r'=0}^{N-1} x[n + r'] w[r'] e^{-j\frac{2\pi}{N}kr'} \nonumber \\
 =& \frac{1}{Nw[0]}\bigg[e^{-j\frac{2\pi}{N}kn} \sum\limits_{r'=0}^{N-1} x[n + r'] w[r'] e^{-j\frac{2\pi}{N}kr'}\bigg]e^{j\frac{2\pi}{N}kn} \nonumber \\
 =& \frac{1}{Nw[0]}X[n,i]e^{j\frac{2\pi}{N}kn} \nonumber \\
-=& \Bigg( \frac{1}{Nw[0]}  x[n] e^{-j\frac{2\pi}{N}kn} * w[-n] \Bigg) e^{j\frac{2\pi}{N}kn} \\
+=& \Bigg( \frac{1}{Nw[0]}  x[n] e^{-j\frac{2\pi}{N}kn} * w[-n] \Bigg) e^{j\frac{2\pi}{N}kn}
 \end{align}
 
-When we take the magnitude the complex exponential term goes to 1 and we are left with the STFT envelope.  We come to the conclusion that under the assumption of fast sidelobe rolloff we may define a filter bank of $\frac{N}{2} + 1$ filters
+This relates the envelopes as 
 
 \begin{align}
+m_{k,hilbert}[n] \approx& m_{k,STFT}[n] \Big| e^{j\frac{2\pi}{N}kn} \Big| \nonumber \\
+=& m_{k,STFT}[n]
+\end{align}
+
+We come to the conclusion that a filter bank with $\frac{N}{2} + 1$ filters may designed, (\ref{eq:hilbert_to_stft_filterbank}), such that these two methods are equivalent.
+
+\begin{align}
+\label{eq:hilbert_to_stft_filterbank}
 h_k[n] = w[-n]cos(\frac{2\pi}{N}kn), \qquad 0 \leq k \leq \frac{N}{2}
-\end{align}
-
-such that
-
-\begin{align}
-m_{k,hilbert}[n] \approx& m_{k,STFT}[n]
 \end{align}
 
 What this tells us is that the Hilbert decomposition may be viewed as a superset of the STFT method that is not constrained to uniform bandwidth linearly spaced filters.
 
 \subsection{STFT vs Harmonic}
 
-Let us now consider the relationship between STFT and harmonic coherent.  We may choose our filter to be time-invariant and define it as
+Following a similar approach, consider a harmonic coherent filter to be time-invariant and defined as
 
 \begin{align}
 h\big[n, F_0[n] \big] = \frac{1}{Nw[0]} w[-n]
 \end{align}
 
+%TODO 2 - wide bracket
 where $w[n]$ is a lowpass filter and 
 \begin{align}
-w[n] \neq& 0, \qquad 0 \leq n < N \nonumber \\
-=& 0, \qquad else
+w[n] \left\{
+                \begin{array}{ll}
+                \neq& 0, \qquad 0 \leq n < N \nonumber \\
+			   =& 0, \qquad else \\
+                \end{array}
+              \right.
 \end{align}
 
 In this case,
@@ -925,7 +953,7 @@ m_{k,harmonic}[n] =& \Big| x[n] e^{-jk\phi_0 [n]} *  \frac{1}{Nw[0]} w[-n] \Big|
 =& \frac{1}{Nw[0]} \Big| x[n] e^{-jk\phi_0 [n]} *  w[-n] \Big|
 \end{align}
 
-This bears striking resemblance to equation \ref{eq:STFT_envelope}.  We can see that in the case that $F_0[n] = \frac{F_s}{N}$,
+This bears striking resemblance to equation \ref{eq:STFT_envelope}.  In the case that $F_0[n] = \frac{F_s}{N}$,
 
 \begin{align}
 m_{k,harmonic}[n] = m_{k,STFT}[n]
@@ -935,180 +963,139 @@ More generally, for any window of time $n$ to $n + N - 1$ where $F_0[n]$ is cons
 
 %check appendix code 810982374981u23h for derivation
 \begin{align}
-m_{k,harmonic}[n] =& \frac{1}{Nw[0]} \Bigg| X\Big[n, \frac{N}{1} \frac{F_0[n]}{F_s} k \Big) \Bigg| \nonumber \\
-\label{eq:harmonic-to-stft}
-=& \frac{1}{Nw[0]} \Bigg| X\Big[n, \lambda[n]k\Big) \Bigg|
+%m_{k,harmonic}[n] =& \frac{1}{Nw[0]} \Bigg| X\Big[n, \frac{N}{1} \frac{F_0[n]}{F_s} k \Big) \Bigg| \nonumber \\
+%
+%
+%
+m_{k,harmonic}[n] =& \frac{1}{Nw[0]} \Big| X[n, N F_0[n] k) \Big| \nonumber \\
+%
+\label{eq:harmonic-to-stft_relate}
+=& \frac{1}{Nw[0]} \Big| X[n, \lambda[n]k) \Big|
 \end{align}
 
-where $\lambda[n] = \frac{N}{1} \frac{F_0[n]}{F_s}$.  The ``$)$'' is to denote that the frequency term is not necessarily an integer.
+where $\lambda[n] = N F_0[n] $.  The ``$)$'' denotes that (\ref{eq:harmonic-to-stft_relate}) is a DTFT.
 
-It is important to note that in practice $\lambda[n]$ is not a continuous variable.  It is constrained by the quantization of the implemented pitch tracker.  Provided this quantization we may compute any term $X[n, \lambda[n]k)$ by, leaving all else the same, zero-padding our FFT.
+It is important to note that in practice $\lambda[n]$ is not a continuous variable.  It is constrained by the quantization of the implemented pitch tracker.  Provided this quantization it is possible to compute any term $X[n, \lambda[n]k)$ by zero-padding the DFT.
 
-What this tells us is that in practice, we may approximate $m_{k,harmonic}[n]$ using $F_0[n]$ and a zero-padded STFT under the assumptions:
+This implies that in practice, $m_{k,harmonic}[n]$ can be approximated using $F_0[n]$ and a zero-padded STFT under the assumptions:
 
 1) $F_0[n]$ is quantized
 
 2) $F_0[n]$ is roughly constant withing a time window of $\frac{N}{Fs}$ seconds
 
+%TODO 4 - maybe make this prettier
 and the restriction:
 
 3) $h\Big[n, F_0[n] \Big]$ is time-invariant, i.e. $h\Big[n, F_0[n] \Big] = h[n]$
 
 \subsection{CIS VS Hilbert}
 
-Provided our envelope definitions
+Stemming from the CIS and Hilbert envelope equations, consider the following two functions.
 
 \begin{align}
-m_{k,CIS}[n] =& \Big| x_k[n] \Big| * h_{lp}[n] \nonumber \\
-m_{k,Hilbert}[n] =& \Big| \widehat{x}_k[n] \Big| \nonumber
+%\label{eq:dft_x_k}
+%X_{k}(f) =& \mathcal{F}\Big\{ x_k[n] \Big\} \\
+%\label{eq:dft_x^+_k}
+%X^+_{k}(f) =& \mathcal{F}\Big\{ x^+_k[n]  \Big\} \\
+\label{eq:hilbert_squared}
+Y_{k,Hilbert}(f) =& \mathcal{F}\Big\{ \Big| x^+_k[n] \Big|^2  \Big\} \\
+\label{eq:cis_squared_prefilter}
+Y_{k,CIS}(f) =& \mathcal{F}\Big\{ \Big| x_k[n] \Big|^2  \Big\}
 \end{align}
 
-We define an ideal brick-wall filter as
+$Y_{k,Hilbert}(f)$ is the DFT of the squared Hilbert envelope.  $Y_{k,CIS}(f)$ is equivalent to the DFT of the squared CIS envelope if the final lowpass filter is not applied.
+
+Provided an ideal brick-wall filter defined as
 
 \begin{align}
-H_k(f) =& \mathcal{F}\Big\{ h_k[n]  \Big\} \\
-H_k(f) =& 1, \quad f_k - \frac{1}{2} f_{bw} < |f| < f_k + \frac{1}{2} f_{bw} \\
-=& 0, \quad \mathrm{else}
+H_k(f) =& \left\{
+                \begin{array}{ll}
+                1, \quad f_k - \frac{1}{2} f_{bw} < |f| < f_k + \frac{1}{2} f_{bw} \\
+                0, \quad \mathrm{else}
+                \end{array}
+              \right.
 \end{align}
 
+(\ref{eq:hilbert_squared}) and (\ref{eq:cis_squared_prefilter}) are only nonzero within subbands:
+
 \begin{align}
-X(f) =& \mathcal{F}\Big\{ x[n] \Big\} \\
-X_{k}(f) =& \mathcal{F}\Big\{ x_k[n] \Big\} \\
-\widehat{X}_{k}(f) =& \mathcal{F}\Big\{ \widehat{x}_k[n]  \Big\}
+Y_{k,Hilbert}(f) =& \left\{
+			 \begin{array}{ll}
+X^+_{k}(f) * X^{*+}_{k}(-f), \quad |f| < f_{bw} \\
+0, \qquad \qquad \qquad \qquad |f| \geq f_{bw} \\
+                \end{array}
+               \right. \\
+\label{eq:y_k_cis}
+Y_{k,CIS}(f) =& \left\{
+			 \begin{array}{ll}
+2Y_{k,Hilbert}(f), \quad \qquad \qquad \qquad \quad |f| < f_{bw} \\
+0, \qquad \qquad \qquad \qquad \qquad  f_{bw} \leq |f| \leq 2f_k - f_{bw}  \\
+X_{k}(f) * X^*_{k}(-f), \quad 2f_k - f_{bw} < |f| < 2f_k + f_{bw} \\
+0, \qquad \qquad \qquad \qquad \qquad \quad \qquad |f| \geq 2f_k + f_{bw}  \\
+                \end{array}
+               \right.
 \end{align}
 
-\begin{align}
-X_{k}(f) =& X(f), \quad f_k - \frac{1}{2} f_{bw} < |f| < f_k + \frac{1}{2} f_{bw} \\
-=& 0, \quad \mathrm{else} \\
-\widehat{X}_{k}(f) =& X(f), \quad f_k - \frac{1}{2} f_{bw} < f < f_k + \frac{1}{2} f_{bw} \\
-=& 0, \quad \mathrm{else}
-\end{align}
+Lowpass filtering $Y_{k,CIS}(f)$ by a filter defined
 
 \begin{align}
-Y_{k}^1(f) =& \mathcal{F}\Big\{ \Big| \widehat{x}_k[n] \Big|^2  \Big\} \\
-Y_{k}^2(f) =& \mathcal{F}\Big\{ \Big| x_k[n] \Big|^2  \Big\}
-\end{align}
-
-\begin{align}
-Y_{k}^1(f) =& \widehat{X}_{k}(f) * \widehat{X}_{k}^*(-f) \\
-=& \int\limits_{-\infty}^{\infty} \widehat{X}_{k}(f - r) \widehat{X}_{k}^*(-r)dr \\
-=& \int\limits_{-\infty}^{\infty} \widehat{X}_{k}(r + f) \widehat{X}_{k}^*(r)dr
-\end{align}
-
-We can narrow the integration bounds provided the restrictions
-
-\begin{align}
-\widehat{X}_{k}^*(r) \neq& 0 \Rightarrow  f_k - \frac{1}{2} f_{bw} < r < f_k + \frac{1}{2} f_{bw} \\
-\widehat{X}_{k}(r + f) \neq& 0 \Rightarrow  f_k - \frac{1}{2} f_{bw} - f < r < f_k + \frac{1}{2} f_{bw} - f \\
-a =& max\Big( f_k - \frac{1}{2} f_{bw},  f_k - \frac{1}{2} f_{bw} - f\Big) \\
-b =& min\Big( f_k + \frac{1}{2} f_{bw},  f_k + \frac{1}{2} f_{bw} - f\Big) \\
-Y_{k}^1(f) =& \int\limits_{a}^{b} \widehat{X}_{k}(r + f) \widehat{X}_{k}^*(r)dr, \quad -f_{bw} < f < f_{bw} \\
-=& 0, \quad \mathrm{else}
-\end{align}
-
-For $Y_k^2(f)$ there are actually three non-zero bands.
-
-\begin{align}
-Y_{k}^2(f) =& X_{k}(f) * X_{k}^*(-f) \\
-=& \int\limits_{-\infty}^{\infty} X_{k}(r + f) X_{k}^*(r)dr
-\end{align}
-
-Case 1: $-2f_k - f_{bw} < f < -2f_k + f_{bw}$
-
-\begin{align}
-Y_{k}^2(f) =& \int\limits_{a}^{b} X_{k}(r + f) X_{k}^*(r)dr \\
-a =& max\Big( f_k - \frac{1}{2} f_{bw},  f_k - \frac{1}{2} f_{bw} - f\Big) \\
-b =& min\Big( f_k + \frac{1}{2} f_{bw},  f_k + \frac{1}{2} f_{bw} - f\Big)
-\end{align}
-
-Case 2: $2f_k - f_{bw} < f < 2f_k + f_{bw}$
-
-\begin{align}
-Y_{k}^2(f) =& \int\limits_{a}^{b} X_{k}(r + f) X_{k}^*(r)dr \\
-a =& max\Big( -f_k - \frac{1}{2} f_{bw},  -f_k - \frac{1}{2} f_{bw} - f\Big) \\
-b =& min\Big( -f_k + \frac{1}{2} f_{bw},  -f_k + \frac{1}{2} f_{bw} - f\Big)
-\end{align}
-
-Case 3: $- f_{bw} < f < f_{bw}$
-
-This case is unique because there are two points of intersection.  We can break up the integral into a sum.  The first integral is exactly the same as in $Y^1_k(f)$.
-
-\begin{align}
-Y_{k}^2(f) =& \int\limits_{a_1}^{b_1} X_{k}(r + f) X_{k}^*(r)dr + \int\limits_{a_2}^{b_2} X_{k}(r + f) X_{k}^*(r)dr \\
-a_1 =& max\Big( f_k - \frac{1}{2} f_{bw},  f_k - \frac{1}{2} f_{bw} - f\Big) \\
-b_1 =& min\Big( f_k + \frac{1}{2} f_{bw},  f_k + \frac{1}{2} f_{bw} - f\Big) \\
-a_2 =& max\Big( -f_k - \frac{1}{2} f_{bw},  -f_k - \frac{1}{2} f_{bw} - f\Big) \\
-b_2 =& min\Big( -f_k + \frac{1}{2} f_{bw},  -f_k + \frac{1}{2} f_{bw} - f\Big)
-\end{align}
-
-Using the Hermitian symmetry of the real-valued $x[n]$,
-
-\begin{align}
-Y_{k}^2(f) =& \int\limits_{a_1}^{b_1} X_{k}(r + f) X_{k}^*(r)dr + \int\limits_{a_2}^{b_2} X_{k}^*(-r - f) X_{k}(-r)dr \\
-r' = -r - f \nonumber \\
-Y_{k}^2(f) =& \int\limits_{a_1}^{b_1} X_{k}(r + f) X_{k}^*(r)dr + \int\limits_{a_1}^{b_1} X_{k}^*(r') X_{k}(r' + f)dr' \\
-=& 2 \int\limits_{a_1}^{b_1} X_{k}(r + f) X_{k}^*(r)dr \\
-=& 2 Y_k^1(f)
-\end{align}
-
-If we lowpass filter $Y_k^2(f)$ with a filter defined
-
-\begin{align}
-H_{lp}(f) =& \frac{1}{2}, \quad |f| < f_{bw} \\
-=& 0, \quad 2f_k - f_{bw} < |f| < 2f_k + f_{bw}
+H_{lp}(f) =& \left\{
+                \begin{array}{ll}
+                \frac{1}{2}, \quad |f| < f_{bw} \\
+                 0, \quad 2f_k - f_{bw} < |f| < 2f_k + f_{bw}
+                \end{array}
+              \right.
 \end{align}
 
 then
 
 \begin{align}
-Y_{k}^2(f) =& Y_k^1(f) \quad \forall f
+Y_{k,CIS}(f) =& Y_{k,Hilbert}(f) \quad \forall f
 \end{align}
 
-We conclude that 
+Thus provided the proper filter designs
 
 \begin{align}
 \label{eq:squared_cis_hilbert}
-\Big| x_k[n] \Big|^2 * h_{lp}[n] \approx \Big| \widehat{x}_k[n] \Big|^2
+\Big| x_k[n] \Big|^2 * h_{lp}[n] \approx \Big| x^+_k[n] \Big|^2
 \end{align}
 
-Things to consider are delay and non-deal filters, however provided the distance between baseband and the $\pm2f_k$ terms a sufficient filter is practical in practice.
+Things to consider are delay and non-ideal filters, however provided the distance between baseband and the $\pm2f_k$ terms in (\ref{eq:y_k_cis}) a sufficient filter is feasible in practice.
 
-Now the relationship between $m_{k,CIS}[n]$ and $m_{k,Hilbert}[n]$ is muddled by the nonlinear square root operation, however the nonlinearities induced won't be noticeably distorted by $h_{lp}[n]$.  In practice, there only noticeable difference will be the added delay from the final lowpass filter in the CIS method.
+%TODO 1 - justify this better
+Now the relationship between $m_{k,CIS}[n]$ and $m_{k,Hilbert}[n]$ is muddled by the nonlinear square root operation, however the nonlinearities induced won't be noticeably distorted by $h_{lp}[n]$.  In practice, the only significant difference will be the added delay from the final lowpass filter in the CIS method.
 
 \subsection{Abstract Interpretation}
 
-One of the easier ways to interpret these methods is through a frequency domain analysis.  Figure~\ref{fig:all_the_same} shows an abstract view of the methods.  The input is a magnitude spectrum of a signal with two harmonics. For mathematical convenience the output is actually the squared envelope.  At each step a new operation is applied.  This abstract analysis ignores scale factors that can always be modified by scaling filter coefficients.
+One of the easier ways to interpret the methods is through a frequency domain analysis.  Figure~\ref{fig:all_the_same} shows an abstract view for a simple two harmonic example.  For mathematical convenience the output (orange) is actually the squared envelope.  At each step a new operation is applied.  This abstract analysis ignores scale factors that can always be modified by scaling filter coefficients.
 
+%TODO 3 - add axis labels
 \begin{figure}[!ht]
   \centering
     \includegraphics[width=1.0\textwidth]{STFTvsHILBERTvsCIS}   
     \caption{Method Comparison: magnitude spectrum at each step}\label{fig:all_the_same}
 \end{figure}
 
-First note that there are two paths for STFT.  This is because there is an ambiguity in the order of operations.  This can be seen mathematically in \ref{eq:stft_2_intepretations}.
+First note that there are two paths for STFT.  This is because there is an ambiguity in the order of operations.  This can be seen mathematically in (\ref{eq:stft_2_intepretations}).
 
 \begin{align}
 \label{eq:stft_2_intepretations}
 e^{-j\frac{2\pi}{N}kn} \Bigg( x[n] * \Big( w[-n]e^{j\frac{2\pi}{N}kn} \Big) \Bigg) = \Big( x[n] e^{-j\frac{2\pi}{N}kn} \Big) * w[-n]
 \end{align}
 
-The left side of \ref{eq:stft_2_intepretations} corresponds to the STFT 1 path.  First an analytic bandpass filter centered at radian frequency $\frac{2\pi k}{N}$ is applied.  The output of that is then downshifted to baseband.
+The left side of (\ref{eq:stft_2_intepretations}) corresponds to the STFT 1 path.  First an analytic bandpass filter centered at radian frequency $\frac{2\pi k}{N}$ is applied.  The output of that is then downshifted to baseband.  The right side of (\ref{eq:stft_2_intepretations}) corresponds to the STFT 2 path.  The signal is first downshifted by radian frequency $\frac{2\pi k}{N}$, then lowpass filtered.  For both STFT 1 and STFT 2 the final operation is a magnitude squared.
 
-The right side of \ref{eq:stft_2_intepretations} corresponds to the STFT 2 path.  We first downshift by radian frequency $\frac{2\pi k}{N}$, then lowpass filter.
+The harmonic coherent method is missing from figure~\ref{fig:all_the_same}.  This is because, ignoring exact details of downshift frequency and filter coefficients, it is actually the same as the STFT method: downshift followed by lowpass filter.
 
-For both STFT 1 and STFT 2 the final operation is a magnitude.
+Moving on the the Hilbert envelope, in figure~\ref{fig:all_the_same} the signal is first bandpass filtered, the analytic signal is acquired, which is equivalent to setting the negative frequencies to zero.  The final operation is to take the magnitude squared, which is invariant to frequency shifts.  Because the magnitude is invariant to frequency shifts, this result should be the same as the STFT method.
 
-The harmonic coherent method is missing from figure~\ref{fig:all_the_same}.  This is because ignoring exact details of downshift frequency and filter coefficients, it is actually the same as the STFT method: downshift followed by lowpass filter.
-
-Let's move on the the Hilbert envelope.  In figure~\ref{fig:all_the_same} we first bandpass filter, then acquire the analytic signal, which is equivalent to setting the negative frequencies to zero.  The final operation is to take the magnitude squared, which is invariant to frequency shifts.  From this abstract view, we should expect the same result as the STFT method.
-
-In CIS, we see that taking the magnitude squared of the real bandpass signal causes double frequency terms, and the baseband term is scaled by a factor of 2.  The final filter operation rescales the baseband term and eliminates the double frequency terms.
+For CIS, taking the magnitude squared of the real bandpass signal causes double frequency terms, and the baseband term is scaled by a factor of 2.  The final filter operation (yellow) rescales the baseband term and eliminates the double frequency terms.
 
 \section{Summary}
 
-So what are the differences?  To come to the conclusions made, some assumptions had to be made.  We found that the Hilbert and CIS methods are approximately the same.  STFT decomposition is a subset of the Hilbert method where the filterbank is comprised of uniform-bandwidth linearly spaced filters.  Coherent harmonic is a expansion of STFT decomposition using the fundamental frequency of a signal to adaptively change downshift frequency and filter bandwidth.
+So what are the differences?  To come to the conclusions made, some assumptions had to be made.  We found that the Hilbert and CIS methods are approximately the same.  STFT decomposition is a subset of the Hilbert method where the filterbank is comprised of uniform-bandwidth linearly spaced filters.  Coherent harmonic is an expansion of STFT decomposition using the fundamental frequency of a signal to adaptively change downshift frequency and filter bandwidth.
 
-In \ref{eq:envelope_extraction_general} we generalize the considered methods.  $h_k\Big[n,F_0[n]\Big]$ is a function of $k$ allowing for non-uniform bandwidths and a function of $F_0[n]$, allowing for coherent filter adaptation.  Similarly, $\omega_k\big[F_0[n]\big]$ is a function of $F_0[n]$, allowing for coherent downshift frequencies.
+Excluding CIS, the other three methods can all be derived from the generalized equation (\ref{eq:envelope_extraction_general}).  $h_k\Big[n,F_0[n]\Big]$ is a function of $k$ allowing for non-uniform bandwidths and a function of $F_0[n]$, allowing for coherent filter adaptation.  Similarly, $\omega_k\big[F_0[n]\big]$ is a function of $F_0[n]$, allowing for coherent downshift frequencies.
 
 \begin{align}
 \label{eq:envelope_extraction_general}
@@ -1116,22 +1103,26 @@ m_k[n] =& \Big| x[n]e^{-j \omega_k\big[F_0[n]\big]n} * h_k\big[n,F_0[n]\big]  \B
 %m_k[n] =& \Big| \widehat{x}[n]e^{-j \omega_k[x]n} * h_k[n,x]  \Big|
 \end{align}
 
-In the next chapter we will investigate encoding harmonics in cochlear implants using our generalized envelope extraction equation.
+In the next chapter we will investigate encoding harmonics in cochlear implants using this generalized envelope extraction equation.
+
+
+
 
 % ========== Chapter 4
 
 \chapter{Harmonic Envelope Extraction}\label{ch:harmonic_envelopes}
 
-We want to come up with an envelope extraction system that best represents harmonic signals.  Since harmonic signals have a specific structure, we model our harmonic signal as a restricted sum-of-products model.  We can define our carriers from equation~\ref{eq:sum_of_products} as centered at multiples of $F_0$. In this representation $x_0[n]$ is the fundamental centered at $F_0$, $x_1[n]$ is the 1st harmonic centered at $2F_0$, etc.  Without loss of generality, we will consider the analytic signal, $\widehat{x}[n]$.
+The objective of this chapter is to design an envelope extraction system that best represents harmonic signals.  To do this there must be an ideal envelope to aim for.  A harmonic signal is modeled as  a restricted sum-of-products model.  The carriers are sinusoids centered at multiples of $F_0$. In this representation $x_0[n]$ is the fundamental centered at $F_0$, $x_1[n]$ is the 1st harmonic centered at $2F_0$, etc.  Without loss of generality, the analytic signal will be considered, $x^+[n]$.
 
+%TODO 3 - does this need to be the first version of theta that sums over F0?
 \begin{align}
 \theta_k[n] =& 2\pi(k+1)\frac{F_0[n]}{F_s}n + \phi_k[n] \\
 %\theta_k[n] =& \sum_{p=0}^{n} 2\pi(k+1)\frac{F_0[p]}{F_s} + \phi_k[p] \\
-x[n] =& \sum\limits_{k=0}^K m_k[n] cos(\theta_k[n]) \\
-\widehat{x}[n] =& \sum\limits_{k=0}^K m_k[n] e^{j\theta_k[n]}
+\label{eq:harmonic_SOP}
+x^+[n] =& \sum\limits_{k=0}^K x_k^+[n] = \sum\limits_{k=0}^K m_k[n] e^{j\theta_k[n]}
 \end{align}
 
-We change our notation slightly from chapter~\ref{ch:envelope_extraction_chapter}.  In this chapter $m_k[n]$ is the unknown desired envelope, and $\tilde{m}_k[n]$ is our extracted envelope estimate.
+We change our notation slightly from chapter~\ref{ch:envelope_extraction}.  In this chapter $m_k[n]$ is the unknown desired envelope, and $\tilde{m}_k[n]$ is our extracted envelope estimate.
 
 \begin{align}
 \label{eq:envelope_extraction}
@@ -1139,153 +1130,168 @@ We change our notation slightly from chapter~\ref{ch:envelope_extraction_chapter
 %\tilde{m}_k[n] =& \Big| \widehat{x}[n]e^{-j \omega_k[x]n} * h_k[n,x]  \Big|
 \end{align}
 
-Provided our envelope extraction equation, \ref{eq:envelope_extraction}, our goal is to best represent the desired $m_k[n]$.
+Provided our envelope extraction equation, \ref{eq:envelope_extraction}, the goal is to best represent the desired $m_k[n]$.
 
 The design can be summarized by two things:
 
+%TODO 3 - pretty
 \begin{itemize}
 \item downshift frequency, $\omega_k\big[F_0[n]\big]$
 \item lowpass filter, $h_k\big[n,F_0[n]\big]$
 \end{itemize}
 
-If $w_k[\cdot]$ and $h_k[\cdot]$ are functions of $\widehat{x}[n]$ we have coherent envelope extraction.  If they are time-invariant, we have incoherent extraction.
+If $w_k[\cdot]$ and $h_k[\cdot]$ are functions of $x^+[n]$ this is coherent envelope extraction.  If they are time-invariant, its incoherent extraction.  $\omega_k[n]$ is defined in (\ref{eq:omega_k}) such that it is equivalently represented by $F_{ds,k}[n]$, the downshift frequency in Hz.
+
+\begin{align}
+\label{eq:omega_k}
+\omega_k[n] = 2\pi \frac{F_{ds,k}[n]}{F_s}
+\end{align}
 
 \section{Steady-State Analysis}
 
-We start with the simplest scenario, where $\widehat{x}[n]$ is a steady-state signal.  The conditions we require for this are:
+The simplest scenario is when $x^+[n]$ is a steady-state signal.  The conditions required for this are:
 
 \begin{itemize}
 \item constant pitch: $F_0[n] = F_0$
-\item narrowband modulator: $m_k[n] \approx constant$ over short periods of time
-\item constant phase term: $\phi_k[n] = \phi_k$, we choose $\phi_k[n] = 0$ for cleaner equations however this is not necessary
+\item narrowband modulator: $m_k[n]$ is slow-time-varying, i.e. $m_k[n] \approx$ constant over very short periods of time
+\item constant phase term: $\phi_k[n] = \phi_k$, it is assumed $\phi_k[n] = 0$ for simplicity however this is not necessary
 \end{itemize}
 
 \subsection{3 Harmonic Example: Desired Envelope}
 
-We visualize the frequency domain for a signal with three harmonics ($K = 2$) in figure~\ref{fig:harmonic_envelope}.  For this example we consider the 1st harmonic ($k = 1$), centered at $2F_0$.
+The frequency domain for a signal with three harmonics ($K = 2$) is visualized in figure~\ref{fig:harmonic_envelope}.  For this example, the considered envelope is for the 1st harmonic ($k = 1$), centered at $2F_0$.
 
-Figure~\ref{fig:harmonic_envelope}$(d)$ is the spectrum of the squared envelope, $| \mathcal{F} \{m_1^2[n] \}|$.  We see this relationship in equation~\ref{eq:harmonic_envelope_spectrum_d}
+Figure~\ref{fig:harmonic_envelope}$(d)$ is the spectrum of the squared envelope, $\mathcal{F}\Big\{ m^2_1[n] \Big\}$.  This relationship is shown in (\ref{eq:harmonic_envelope_spectrum_d})
 
 \begin{align}
 \label{eq:harmonic_envelope_spectrum_a}
-(a)& \quad \widehat{x}[n] \Longleftrightarrow \widehat{X}[n,f)  \\
-(b)& \quad \widehat{x}_1[n] \Longleftrightarrow \widehat{X}_1[n,f) \\
-(c)& \quad \widehat{x}_1^*[n] \Longleftrightarrow \widehat{X}_1^*[n,-f) \\
+(a)& \quad x^+[n] \Longleftrightarrow X^+[n,f)  \\
+(b)& \quad x^+_1[n] \Longleftrightarrow X^+_1[n,f) \\
+(c)& \quad x^{*+}_1[n] \Longleftrightarrow X^{*+}_1[n,-f) \\
 \label{eq:harmonic_envelope_spectrum_d}
-(d)& \quad m_1^2[n] = \widehat{x}_1[n] \widehat{x}_1^*[n] \Longleftrightarrow \widehat{X}_1[n,f) * \widehat{X}_1^*[n,-f)
+(d)& \quad m_1^2[n] = x^+_1[n] x^{*+}_1[n] \Longleftrightarrow X^+_1[n,f) * X^{*+}_1[n,-f)
 \end{align}
 
 \begin{figure}[!ht]
   \centering
     \includegraphics[width=.62\textwidth]{harmonic_envelope}
-        \caption{Magnitude of spectrum for equations \ref{eq:harmonic_envelope_spectrum_a} - \ref{eq:harmonic_envelope_spectrum_d}}\label{fig:harmonic_envelope}
+        \caption{Magnitude of spectrum for equations (\ref{eq:harmonic_envelope_spectrum_a}) - (\ref{eq:harmonic_envelope_spectrum_d})}\label{fig:harmonic_envelope}
 %        \caption{$(a) | \widehat{X}[n,f) |$
 %    				$(b) | \widehat{X}_1[n,f) |$
 %				$(c) | \widehat{X}_1^*[n,-f) |$
 %				$(d) | \widehat{X}_1[n,f) * \widehat{X}_1^*[n,-f) |$}
 \end{figure}
 
-The envelope can always be acquired from the squared envelope by a final square root operation.  This operation introduces nonlinearities at multiples of $F_0$ that are difficult to analyze.  For mathematical convenience, during our analysis we can consider the squared envelope.  This final square root operation will remain constant across all examples which allows us to not consider it.
+The envelope can always be acquired from the squared envelope by a final square root operation.  This operation introduces nonlinearities at multiples of $F_0$ that are difficult to analyze.  For mathematical convenience, during analysis only the squared envelope will be considered.  This final square root operation will remain constant across all examples.
 
 \begin{align}
 \label{eq:square_root_relationship}
-m_1[n] = \Big|\widehat{x}_1[n]\Big| = \Big[ \widehat{x}_1[n] \widehat{x}_1^*[n] \Big]^\frac{1}{2}
+m_1[n] = \Big|x^+_1[n]\Big| = \Big[ x^+_1[n] x^{*+}_1[n] \Big]^\frac{1}{2}
 \end{align}
 
 \subsection{Estimated Envelope}
 
-Let's now evaluate our estimate, using equation~\ref{eq:envelope_extraction}.  As stated above, we consider the squared envelope.
+The estimated envelope is acquired using (\ref{eq:envelope_extraction}).  As stated above, we consider the squared envelope.  (\ref{eq:harmonic_SOP}) is substituted into (\ref{eq:steady_state_estimated_envelope}).  The approximation in (\ref{eq:steady_state_estimated_envelope_approx}) comes from the assumption that $m_k[n] \approx$ constant over short time windows.  $f_{k,l}$ is defined as the downshifted center frequency of the $l$th harmonic for the estimate of the $k$th envelope.
 
 \begin{align}
-\tilde{m}_k^2[n] =& \Big| \widehat{x}[n]e^{-j \omega_kn} * h_k[n]]  \Big|^2 \nonumber \\
+\label{eq:steady_state_estimated_envelope}
+\tilde{m}_k^2[n] =& \Big| x^+[n]e^{-j \omega_kn} * h_k[n]]  \Big|^2 \\
 %
-=& \Bigg|  \sum\limits_{l=0}^K m_l[n]e^{j(\theta_l[n] - \omega_k[n])}*h_k[n] \Bigg|^2 \nonumber \\
+=& \Bigg|  \sum\limits_{l=0}^K m_l[n]e^{j(\theta_l[n] - \omega_k[n])}*h_k[n] \Bigg|^2 \\
 %
-\approx& \Bigg|  \sum\limits_{l=0}^K m_l[n] \Big(e^{j(\theta_l[n] - \omega_k[n])}*h_k[n] \Big) \Bigg|^2 \nonumber \\
+\label{eq:steady_state_estimated_envelope_approx}
+\approx& \Bigg|  \sum\limits_{l=0}^K m_l[n] \Big(e^{j(\theta_l[n] - \omega_k[n])}*h_k[n] \Big) \Bigg|^2  \\
 %
 \label{eq:estimated_envelope_squared}
-=& \Bigg|  \sum\limits_{l=0}^K m_l[n] e^{j\omega_{k,l}n} H_k\big(e^{j\omega_{k,l}}\big) \Bigg|^2 \\
+=& \Bigg|  \sum\limits_{l=0}^K m_l[n] e^{j2\pi\frac{f_{k,l}}{F_s}n} H_k(f_{k,l}) \Bigg|^2 \\
 %
 \label{eq:downshift_radian_frequency}
-\omega_{k,l} =& 2\pi\frac{(l+1)F_0 - F_{ds,k}}{F_s} \\
-%
-h_k[n] \Longleftrightarrow& H_k\big(e^{j\omega}\big)
+f_{k,l} =& \frac{F_s}{2\pi}\Big(\theta_l[n] - \omega_k[n]\Big) \nonumber \\
+=& (l+1)F_0 - F_{ds,k}
 \end{align}
 
-$\omega_{k,l}$ is the downshifted center frequency of the $l$'th harmonic for the estimate of the $k$'th envelope.  $H_k\big(e^{j\omega}\big)$ is the discrete Fourier transform (DFT) of $h_k[n]$.
-
-Expanding equation~\ref{eq:estimated_envelope_squared} we get:
+Expanding (\ref{eq:estimated_envelope_squared}) results in
 
 \begin{align}
-\tilde{m}_k^2[n] =& \sum\limits_{l=0}^K \sum\limits_{i=0}^K m_l[n] m_i^*[n] e^{j(l-i)F_0} H_k\big(e^{j\omega_{k,l}}\big)H_k^*\big(e^{j\omega_{k,i}}\big) \\
+\tilde{m}_k^2[n] =& \sum\limits_{l=0}^K \sum\limits_{i=0}^K m_l[n] m_i^*[n] e^{j2\pi\frac{(l-i)F_0}{F_s}n} H_k(f_{k,l})H_k^*(f_{k,i}) \\
 %
 %
 %
-=& \sum\limits_{l=0}^K \Big|m_l[n]\Big|^2 \Big|H_k\big(e^{j\omega_{k,l}}\big)\Big|^2 \nonumber \\
+\label{eq:estimate_expanded}
+=& \sum\limits_{l=0}^K \Big|m_l[n]\Big|^2 \Big|H_k(f_{k,l})\Big|^2 \nonumber \\
 %
 %
-+& e^{-j2\pi \frac{F_0}{Fs}n} \sum\limits_{l=0}^{K-1} m_l[n] m_{l+1}^*[n] H_k\big(e^{j\omega_{k,l}}\big)H_k^*\big(e^{j\omega_{k,l+1}}\big) \nonumber \\
++& e^{-j2\pi \frac{\mathcolor{blue}{F_0}}{Fs}n} \sum\limits_{l=0}^{K-1} m_l[n] m_{l+1}^*[n] H_k(f_{k,l})H_k^*(f_{k,l+1}) \nonumber \\
 %
-+&  e^{j2\pi \frac{F_0}{Fs}n} \sum\limits_{l=1}^{K} m_l[n] m_{l-1}^*[n] H_k\big(e^{j\omega_{k,l}}\big)H_k^*\big(e^{j\omega_{k,l-1}}\big) \nonumber \\
++&  e^{j2\pi \frac{\mathcolor{blue}{F_0}}{Fs}n} \sum\limits_{l=1}^{K} m_l[n] m_{l-1}^*[n] H_k(f_{k,l})H_k^*(f_{k,l-1}) \nonumber \\
 %
 %
-+& e^{-j2\pi \frac{2F_0}{Fs}n} \sum\limits_{l=0}^{K-2} m_l[n] m_{l+2}^*[n] H_k\big(e^{j\omega_{k,l}}\big)H_k^*\big(e^{j\omega_{k,l+2}}\big) \nonumber \\
++& e^{-j2\pi \frac{\mathcolor{blue}{2F_0}}{Fs}n} \sum\limits_{l=0}^{K-2} m_l[n] m_{l+2}^*[n] H_k(f_{k,l})H_k^*(f_{k,l+2}) \nonumber \\
 %
-+& e^{j2\pi \frac{2F_0}{Fs}n}  \sum\limits_{l=2}^{K} m_l[n] m_{l-2}^*[n] H_k\big(e^{j\omega_{k,l}}\big)H_k^*\big(e^{j\omega_{k,l-2}}\big) \nonumber \\
++& e^{j2\pi \frac{\mathcolor{blue}{2F_0}}{Fs}n}  \sum\limits_{l=2}^{K} m_l[n] m_{l-2}^*[n] H_k(f_{k,l})H_k^*(f_{k,l-2}) \nonumber \\
 %
 %
 +& ... \nonumber \\
 %
 %
-+& e^{-j2\pi \frac{KF_0}{Fs}n} m_0[n] m_K^*[n] H_k\big(e^{j\omega_{k,0}}\big)H_k^*\big(e^{j\omega_{k,K}}\big) \nonumber \\
++& e^{-j2\pi \frac{\mathcolor{blue}{KF_0}}{Fs}n} m_0[n] m_K^*[n] H_k(f_{k,0})H_k^*(f_{k,K}) \nonumber \\
 %
-+& e^{j2\pi \frac{KF_0}{Fs}n}  m_K[n] m_0^*[n] H_k\big(e^{j\omega_{k,K}}\big)H_k^*\big(e^{j\omega_{k,0}}\big)
++& e^{j2\pi \frac{\mathcolor{blue}{KF_0}}{Fs}n}  m_K[n] m_0^*[n] H_k(f_{k,K})H_k^*(f_{k,0})
 \end{align}
 
-We can now think of $\tilde{m}_k[n]$ as a combination of terms each centered at $iF_0$ where the magnitude of each term is:
+From (\ref{eq:estimate_expanded}), $\tilde{m}_k[n]$ can be thought of as a sum of terms each centered at $\mathcolor{blue}{iF_0}$ where the magnitude of each term is
 
+%TODO 1 -this is not true...
 \begin{align}
-\Big| \tilde{m}_{k,iF_0}[n] \Big| =& \Bigg[ \sum\limits_{l=0}^{K-|i|} \Big| m_l[n]\Big| \Big|m_{l+i}[n]\Big| \Big|H_k\big(e^{j\omega_{k,i}}\big)\Big| \Big|H_k\big(e^{j\omega_{k,l+i}}\big)\Big|\Bigg]^\frac{1}{2}, \quad -K \leq i \leq K
+\label{eq:m_k_ith_term}
+\Big| \tilde{m}_{k,i}[n] \Big| =& \Bigg[ \sum\limits_{l=0}^{K-|i|} \Big| m_l[n]\Big| \Big|m_{l+i}[n]\Big| \Big|H_k(f_{k,i})\Big| \Big|H_k(f_{k,l+i})\Big|\Bigg]^\frac{1}{2}, \quad -K \leq i \leq K
 \end{align}
 
 Evaluated at DC:
 
 \begin{align}
-\Big| \tilde{m}_{k,0F_0}[n] \Big| =& \Bigg[  \sum\limits_{l=0}^K \Big|m_l[n]\Big|^2 \Big|H_k\big(e^{j\omega_{k,l}}\big)\Big|^2 \Bigg]^\frac{1}{2}
+\label{eq:m_k_DC_term}
+\Big| \tilde{m}_{k,0}[n] \Big| =& \Bigg[  \sum\limits_{l=0}^K \Big|m_l[n]\Big|^2 \Big|H_k(f_{k,l})\Big|^2 \Bigg]^\frac{1}{2}
 \end{align}
 
 \subsection{3 Harmonic Example: Estimated Envelope}
 
-Let's go back to our three harmonic example.  We are again trying to acquire the 1st harmonic, $m_1[n]$ (green).  We define $\omega_1 = 2F_0$.
+Returning to the three harmonic example, the goal is to acquire the 1st harmonic, $m_1[n]$ (green).
 
 \begin{figure}[!ht]
   \centering
     \includegraphics[width=.62\textwidth]{harmonic_envelope_estimate} 
-    \caption{$(a) | \widehat{X}[n,f) |$   
-    				$(b) | \widehat{X}[n,f - 2F_0) |$  
-				$(c) | \widehat{X}[n,f - 2F_0) | | H_1(f) |$
-				$(d) | \widehat{X}^*[n,-f + 2F_0) | | H_1(-f) |$
-				$(e) | \mathcal{F} \{ \tilde{m}_1^2[n] \} |$
-				$(f)$ contributions of separate components of $(e)$}\label{fig:harmonic_envelope_estimate}
+%    \caption{$(a) | \widehat{X}[n,f) |$   
+%    				$(b) | \widehat{X}[n,f - 2F_0) |$  
+%				$(c) | \widehat{X}[n,f - 2F_0) | | H_1(f) |$
+%				$(d) | \widehat{X}^*[n,-f + 2F_0) | | H_1(-f) |$
+%				$(e) | \mathcal{F} \{ \tilde{m}_1^2[n] \} |$
+%				$(f)$ contributions of separate components of $(e)$}\label{fig:harmonic_envelope_estimate}
+        \caption{$(a)-(c)$: magnitude of spectrum for equations (\ref{eq:harmonic_estimate_fig_a}) - (\ref{eq:harmonic_estimate_fig_c}), $(d)$: time-reversal of $(c)$, $(e)$: magnitude of spectrum for (\ref{eq:harmonic_estimate_fig_e}), $(f)$: contributions of separate components of $(e)$}\label{fig:harmonic_envelope_estimate}
 \end{figure}
 
-We can see the relationships
+Spectra of (\ref{eq:harmonic_estimate_fig_a}) -(\ref{eq:harmonic_estimate_fig_e}) are visualized in figure~\ref{fig:harmonic_envelope_estimate}.  In this example $F_{ds,k} = 2F_0$.
 
 \begin{align}
 \label{eq:harmonic_estimate_fig_a}
-\widehat{x}[n] \Longleftrightarrow& \widehat{X}[n,f) \\
-\widehat{x}[n]e^{-j2\pi \frac{2F_0}{F_s}n} \Longleftrightarrow& \widehat{X}[n,f - 2F_0) \\
-\widehat{x}[n]e^{-j2\pi \frac{2F_0}{F_s}n} * h_2[n] \Longleftrightarrow& \widehat{X}[n,f - 2F_0) H_1(f) \\
+x^+[n] \Longleftrightarrow& X^+[n,f) \\
+%
+x^+[n]e^{-j2\pi \frac{2F_0}{F_s}n} \Longleftrightarrow& X^+[n,f - 2F_0) \\
+%
+\label{eq:harmonic_estimate_fig_c}
+x^+[n]e^{-j2\pi \frac{2F_0}{F_s}n} * h_2[n] \Longleftrightarrow& X^+[n,f - 2F_0) H_1(f) \\
+%
 \label{eq:harmonic_estimate_fig_e}
-\tilde{m}_1^2[n] \Longleftrightarrow& \widehat{X}[n,f - 2F_0) H_1(f) * \widehat{X}^*[n,-f + 2F_0) H_1^*(-f)
+\tilde{m}_1^2[n] \Longleftrightarrow& X^+[n,f - 2F_0) H_1(f) * X^{*+}[n,-f + 2F_0) H_1^*(-f)
 \end{align}
 
-Equations \ref{eq:harmonic_estimate_fig_a}  -\ref{eq:harmonic_estimate_fig_e} are visualized in figure~\ref{fig:harmonic_envelope_estimate}. The interesting part of figure~\ref{fig:harmonic_envelope_estimate} is $(f)$.  We see our green component that we were looking for, however there are a whole lot of other things that we didn't want.
+The interesting part of figure~\ref{fig:harmonic_envelope_estimate} is $(f)$.  The desired green component is present, however there are a whole lot of other things present.
 
-Figure~\ref{fig:harmonic_envelope}$(d)$ is equivalent to the green component of  figure~\ref{fig:harmonic_envelope_estimate}$(f)$ if our filter $|H_1(f)| = 1$ when $f \approx 0$.
+Figure~\ref{fig:harmonic_envelope}$(d)$ is equivalent to the green component of  figure~\ref{fig:harmonic_envelope_estimate}$(f)$ if the filter $|H_1(f)| = 1$ when $f \approx 0$.
 
-The other components come from interactions with the unwanted harmonics that we failed to completely filter out.  For clarity the convolution is visualized in figures \ref{fig:harmonic_envelope_2F0}, \ref{fig:harmonic_envelope_F0}, \ref{fig:harmonic_envelope_0}.  Positive and negative components are mirror images so the positive components are not explicitly visualized.
+The other components come from interactions with the unwanted harmonics that were not completely filtered out.  For clarity the convolution is visualized in figures \ref{fig:harmonic_envelope_2F0}, \ref{fig:harmonic_envelope_F0}, \ref{fig:harmonic_envelope_0}.  Positive and negative components of figure~\ref{fig:harmonic_envelope_estimate}~$(f)$ are mirror images, so the positive components are not explicitly visualized.
 
+%TODO 3 - move translucent triangles in front
 \begin{figure}[!ht]
    \centering
     \includegraphics[width=.62\textwidth]{harmonic_envelope_2F0}   
@@ -1298,45 +1304,55 @@ The other components come from interactions with the unwanted harmonics that we 
 
 \clearpage
 
-\subsection{2 Harmonic Example: Effects of Downshift Frequency}
+%TODO 1 - replace this figure...and rewrite this section
+\subsection{3 Harmonic Example: Estimated Envelope with downshift error}
 
-We saw clearly in our 3 harmonic example how a non-ideal filter causes distortions in the estimate.  We now visualize the effects of downshift frequency by comparing $F_{DS} = F_0$ to $F_{DS} = F_0 + F_{err}$.
+The 3 harmonic example has demonstrated how a non-ideal filter causes distortions in the estimate.  Now consider the effects of downshift frequency: $F_{ds,k} = kF_0 + F_{err}$.
 
-We can see from figure~\ref{fig:downshift_effects} that the non-ideal downshift affects the relative amplitudes of the desired harmonic to interference harmonics when filtering.  As a result the baseband term will be lower amplitude and the terms at multiples of $F_0$ will be higher amplitude.
+\begin{align}
+\label{eq:harmonic_estimate_ERR_fig_a}
+x^+[n] \Longleftrightarrow& X^+[n,f) \\
+%
+x^+[n]e^{-j2\pi \frac{2F_0 + F_{err}}{F_s}n} \Longleftrightarrow& X^+[n,f - 2F_0 - F_{err}) \\
+%
+\label{eq:harmonic_estimate_ERR_fig_c}
+x^+[n]e^{-j2\pi \frac{2F_0 + F_{err}}{F_s}n} * h_2[n] \Longleftrightarrow& X^+[n,f - 2F_0 - F_{err}) H_1(f) \\
+%
+\label{eq:harmonic_estimate_ERR_fig_e}
+\tilde{m}_1^2[n] \Longleftrightarrow& X^+[n,f - 2F_0 - F_{err}) H_1(f) * X^{*+}[n,-f + 2F_0 + F_{err}) H_1^*(-f)
+\end{align}
+
+In figure~\ref{fig:downshift_effects} the non-ideal downshift affects the relative amplitudes of the desired harmonic and interference harmonics when filtering.  %As a result the baseband term will be lower amplitude and the terms at multiples of $F_0$ will be higher amplitude.
 
 \begin{figure}[!ht]
   \centering
     \includegraphics[width=1\textwidth]{downshift_effects} 
-    \caption{Comparison of ideal and non-ideal downshift frequencies, faded lines represent ideal
-			    $(a) | \widehat{X}[n,f) |$   
-    				$(b) | \widehat{X}[n,f - F_{DS}) |$  
-				$(c) | H(f) |$
-    				$(d) | \widehat{X}[n,f - F_{DS}) | | H(f) |$  
-				$(d) | \widehat{X}^*[n,-f + F_{DS}) | | H(-f) |$
-				$(e) | \mathcal{F} \{ \tilde{m}_0^2[n] \} |$ }\label{fig:downshift_effects}
+    \caption{$(a)-(c)$: magnitude of spectrum for equations (\ref{eq:harmonic_estimate_ERR_fig_a}) - (\ref{eq:harmonic_estimate_ERR_fig_c}), $(d)$: time-reversal of $(c)$, $(e)$: magnitude of spectrum for (\ref{eq:harmonic_estimate_ERR_fig_e}), $(f)$: contributions of separate components of $(e)$}\label{fig:downshift_effects}
 \end{figure}
+
+\clearpage
 
 \section{Steady-State Metrics}
 
-In considering how well our envelope $\tilde{m}_k[n]$ estimates $m_k[n]$ there are three important metrics.  We will now discuss each in detail.
+In considering how well our envelope $\tilde{m}_k[n]$ estimates $m_k[n]$ there are three important metrics.  Each will now be discussed in detail.
 
 \subsection{Coherent Gain}
 
 Coherent gain is defined as the gain of the harmonic of interest, $k$.
 
 \begin{align}
-G_k = \Big| H_k\big(e^{j\omega_{k,k}}\big) \Big|
+G_k = \Big| H_k(f_{k,k}) \Big|
 \end{align}
 
-Recalling equation~\ref{eq:downshift_radian_frequency}, if $F_{ds,k} = (k+1)F_0$ then, $w_{k,k} = 0$ and the coherent gain is simply the DC gain of the filter.
+Recalling (\ref{eq:downshift_radian_frequency}), if $F_{ds,k} = (k+1)F_0$ then, $w_{k,k} = 0$ and the coherent gain is simply the DC gain of the filter.
 
 \begin{align}
 G_k = \Big| H_k(0) \Big| = \sum_n h_k[n]
 \end{align}
 
-We may further simplify this by normalizing our filter such that $\Big| H_k(0) \Big| = 1$.  Of course, our downshift frequency won't be ideal in real systems.  Factors to consider include the quantization of $F_{ds,k}$ and the accuracy of $F_0$ estimation.
+This may be further simplified by normalizing the filter such that $\Big| H_k(0) \Big| = 1$.  Of course, the downshift frequency won't be ideal in real systems.  Factors to consider include the quantization of $F_{ds,k}$ and the accuracy of $F_0$ estimation.
 
-A similar metric, brought up in [windows for harmonic analysis] is termed scalloping loss, or picket-fence effect.  This is the effect of the harmonic falling in between filter centers.  
+A similar metric, discussed \cite{harris1978use} is termed scalloping loss, or picket-fence effect.  This is the effect of the harmonic falling in between filter centers, where the gain reduction is greatest.
 
 %scalloping loss or picket-fence effect, ratio of coherent gain for tone located half a bin from DFT sample point to coherent gain for tone located exactly at sample point
 
@@ -1352,50 +1368,53 @@ A similar metric, brought up in [windows for harmonic analysis] is termed scallo
 
 \subsection{Harmonic SIR}
 
-Continuing our focus on the baseband, another question is: what is the contribution of the target harmonic versus the others?  The baseband component is contributed to by spectral leakage due to non-ideal filters.  This is visualized as the red and blue in figure~\ref{fig:harmonic_envelope_0}$(f)$.  The harmonic signal-to-interference-ratio (SIR) quantifies the ratio of target harmonic to spectral leakage.
+Continuing a focus on the baseband, another question is: what is the contribution of the target harmonic relative to the others?  The baseband component is contributed to by spectral leakage due to non-ideal filters.  This is visualized as the red and blue in figure~\ref{fig:harmonic_envelope_0}$(f)$.  The harmonic signal-to-interference-ratio (SIR) quantifies the ratio of target harmonic to spectral leakage.
 
+%TODO 3 - technically this should be from -K to K, excluding 0 for real signals
 \begin{align}
-SIR_k =& \frac{\Big| H_k\big(e^{j\omega_{k,k}}\big) \Big|} {\Bigg[ \sum\limits_{l=0}^K \Big|H_k\big(e^{j\omega_{k,l}}\big)\Big|^2 \Bigg] ^ \frac{1}{2}}
+\label{eq:harmonic_sir}
+SIR_k =& \frac{\Big| H_k(f_{k,k}) \Big|} {\Bigg[ \sum\limits_{l=0}^K \Big|H_k(f_{k,l})\Big|^2 \Bigg] ^ \frac{1}{2}}
 \end{align}
 
-The terms will roll off as the harmonic center frequencies get further away from $F_{ds,k}$, so typically $SIR_k$ is sufficiently described by only one or two harmonics on either side of the $k$'th, i.e. $k-2 \leq l \leq k+2$.
+(\ref{eq:harmonic_sir}) is derived from (\ref{eq:m_k_DC_term}) by setting $\Big|m_k[n]\Big|^2 = 1, \quad \forall k$.  Harmonic SIR does not describe the true signal-dependent SIR, as varying envelope magnitudes across harmonics will change this, however it does provide an objective measure of the quality of a system to arbitrary harmonic inputs.
 
-Harmonic SIR does not describe the true signal-dependent SIR, as varying envelope magnitudes across harmonics will change this, however it does provide an objective measure of the quality of our system to arbitrary harmonic inputs.
+The terms will roll off as the harmonic center frequencies get further away from $F_{ds,k}$, so typically $SIR_k$ is sufficiently described by only one or two harmonics on either side of the $k$th, i.e. $k-2 \leq l \leq k+2$.
+
 
 % one measure of spectral leakage is asymptotic falloff (db/octave) of sidelobes [windows for harmonic analysis]
 
 \subsection{Modulation Depth}
 
-Finally, we consider the magnitude of each bandpass component relative to baseband.  These terms appear in our envelope estimate as modulations at rates that are multiples of $F_0$.  Because of the forced symmetry of the real envelope we only need to consider positive frequencies, $iF_0$.
+The final metric quantifies the magnitude of each bandpass component relative to baseband.  These terms appear in the envelope estimate as modulations at rates that are multiples of $F_0$.  Because of the forced symmetry of the real envelope, this metric is sufficiently described by only positive frequencies, $iF_0$.
 
 \begin{align}
-D_{k,i} =& \frac{\Bigg[ \sum\limits_{l=0}^{K-i} \Big|H_k\big(e^{j\omega_{k,l}}\big)\Big| \Big|H_k\big(e^{j\omega_{k,l+i}}\big)\Big|\Bigg]^\frac{1}{2}}
-{\Bigg[ \sum\limits_{l=0}^K \Big|H_k\big(e^{j\omega_{k,l}}\big)\Big|^2 \Bigg] ^ \frac{1}{2}}, \quad 1 \leq i \leq K
+\label{eq:modulation_depth}
+D_{k,i} =& \frac{\Bigg[ \sum\limits_{l=0}^{K-i} \Big|H_k(f_{k,l})\Big| \Big|H_k(f_{k,l+i})\Big|\Bigg]^\frac{1}{2}}
+{\Bigg[ \sum\limits_{l=0}^K \Big|H_k(f_{k,l})\Big|^2 \Bigg] ^ \frac{1}{2}}, \quad 1 \leq i \leq K
 \end{align}
 
-The largest value and, for that reason, most important value is $D_{k,1}$, the modulation depth at $F_0$.
+(\ref{eq:modulation_depth}) is derived from (\ref{eq:m_k_ith_term}).  Typically, the largest value and for that reason most important value is $D_{k,1}$, the modulation depth at $F_0$.  However, depending on filter design $F_0$ could be near a filter zero, resulting in $D_{k,1} < D_{k,2}$.
 
-\section{Induced VS Explicit Temporal Modulation}
+\section{Induced VS Explicit Temporal Modulation}\label{section:inducedVexplicit}
 
-So our three metrics are coherent gain, harmonic SIR and modulation depth.  We aim for a coherent gain of $G_k = 1$ and maximized harmonic SIR.
+The three metrics are coherent gain, harmonic SIR and modulation depth.  We aim for a coherent gain of $G_k = 1$ and maximized harmonic SIR.
 
-We have mentioned in section~\ref{ss:ACE} that we can have either induced or explicit temporal modulations.  For explicit modulation systems our goal is minimum modulation depth.  For induced that is not as clear.
+In section~\ref{ss:ACE} it was mentioned that temporal modulations are either induced or explicit.  For explicit modulation systems the goal is to minimize envelope modulation depth.  For induced that is not as clear.
 
 In this document we argue that the latter, explicit modulation option is better.  The reasoning is best shown by a motivational example.
 
-Let's consider a single note played by two different instruments: clarinet and saxophone.  In this example $F_0 = 261Hz$.  The clarinet is interesting in that it only has energy at odd harmonics.
+Consider a single note played by two different instruments: clarinet and saxophone.  In this example $F_0 = 261Hz$.  The clarinet is an interesting instrument in that it only has energy at even harmonics, $k = 0, 2, 4...$
 
-We attempt to estimate the 3rd harmonic, $m_3[n]$.  We first downshift by $-3F_0$, then lowpass filter.  The spectrum of each signal at this stage is visualized in figure~\ref{fig:clarinetVSsax_F}.  The top panel shows the output of a sufficiently narrow filter where the 3rd harmonic is isolated.  The bottom panel shows a different filter design that intentionally allows the two adjacent harmonics to pass through.  Here we start to see the problem, that despite the wide bandwidth filter, there is (almost) no energy around $\pm F_0$ for the clarinet because of the harmonic structure.  (There is something present however it's down 30dB.)
+We attempt to estimate the 2nd harmonic, $m_2[n]$.  We first downshift by $-3F_0$, then lowpass filter.  The spectrum of each signal at this stage is visualized in figure~\ref{fig:clarinetVSsax_F}.  The top panel shows the output of a sufficiently narrow filter where the 3rd harmonic is isolated.  The bottom panel shows a different filter design that intentionally allows the two adjacent harmonics to pass through.  The problem starts to become apparent here.  Despite the wide filter bandwidth, there is (almost) no energy around $\pm F_0$ for the clarinet because of the harmonic structure.  (There is something present however it's down 30dB.)
 
+%TODO 2 - change this and next fig to 2nd harmonic
 \begin{figure}[!ht]
   \centering
     \includegraphics[width=1\textwidth]{clarinetVSsax_F}
     \caption{Clarinet vs Saxophone Harmonic Components}\label{fig:clarinetVSsax_F}
 \end{figure}
 
-Figure~\ref{fig:clarinetVSsax_T} shows the time-domain envelopes resulting from this processing.  The input signals were normalized such that the top panel shows the same signal power for both instruments.
-
-The problem is clearly represented in the bottom panel, were we have a very large $F_0$ modulation in the saxophone envelope but little to no change in the clarinet.  The result is that we have a much stronger temporal pitch cue as well as louder overall volume to the saxophone.
+Figure~\ref{fig:clarinetVSsax_T} shows the time-domain envelopes resulting from this processing.  The input signals were normalized such that the top panel shows the same signal power for both instruments.  The problem is clearly represented in the bottom panel, were there is a very large $F_0$ modulation in the saxophone envelope but little to no change in the clarinet.  The result is that there is a much stronger temporal pitch cue as well as louder overall volume to the saxophone.
 
 \begin{figure}[!ht]
   \centering
@@ -1403,21 +1422,18 @@ The problem is clearly represented in the bottom panel, were we have a very larg
     \caption{Clarinet vs Saxophone Envelope Estimates}\label{fig:clarinetVSsax_T}
 \end{figure}
 
-Spectral leakage into other harmonic envelopes is not natural.  It forces the envelope to modulate as a function of the adjacent harmonics which, as we just saw, is signal dependent.  Furthermore, if we have uniform bandwidth filters, (as ACE does), the harmonic resolution will not behave as it does in the cochlea.
+Spectral leakage into other harmonic envelopes is not natural.  It forces the envelope to modulate as a function of the adjacent harmonics which, as we just saw, is signal dependent.
 
-Beyond this example, explicit modulation decouples $F_0$ and modulation depth.  This way we have much more control over modulation depth while still making optimal design decisions for envelope extraction.  We can decide modulation depth as a function of how harmonic the signal is.  eTone [REF] uses a harmonic probability metric to do just that.
+Beyond this example, explicit modulation decouples $F_0$ and modulation depth.  This way, during system design there is much more control over modulation depth while still making optimal design decisions for envelope extraction.  For example, modulation depth can be determined as a function of how harmonic the signal is.  The eTone strategy \cite{vandali2011development} uses a harmonic probability metric to do just that.
 
 \subsection{Followup Filter}
 
-Another thing to note is that regardless of downshift frequency, our harmonic envelope will always have it's energy centered at baseband and multiples of $F_0$.  An alternative way of eliminating induced modulations is to add a lowpass filter to the end of the processing chain.
+Another thing to note is that regardless of downshift frequency, the harmonic envelope will always have it's energy centered at baseband and integer multiples of $F_0$.  An alternative way of eliminating induced modulations is to add a lowpass filter to the end of the processing chain.  There are a handful of research strategies that have used this additional filter.  eTone's envelope follower is an example of this.
+%TODO 3 - add references here?
 
-There are a handful of research strategies [REF?] that have used this additional filter.  eTone's envelope follower is an example of this.
+The main improvement to a followup filter is that the system can guarantee to eliminate temporal modulations.  This could also be achieved by designing a sufficiently narrow filter, $h_k[n]$ however this brings about a tradeoff, where the narrower the filter is the more susceptible the system is to error in downshift frequency.
 
-The main improvement to a followup filter is that we can guarantee to eliminate temporal modulations.  This could also be achieved by designing a sufficiently narrow filter, $h_k[n]$ however this brings about a tradeoff, where the narrower our filter is the more susceptible we are to error in downshift frequency.
-
-In terms of our three metrics, the followup filter will provide us with a robust coherent gain and guaranteed low modulation depth at the cost of lower harmonic SIR.
-
-Another point to consider is the cost of adding an extra processing stage.  The additional stage means more memory, clock cycles and processing delay.
+In terms of the three metrics, the followup filter will provide a robust coherent gain and guaranteed low modulation depth at the cost of lower harmonic SIR.  Another point to consider is the cost of adding an extra processing stage.  The additional stage means more memory, clock cycles and processing delay.
 
 %On processing delay: The standard ACE strategy has a processing delay equal to half the FFT window duration (i.e., 4 ms). The F0 estimator and envelope tracker stages in eTone introduce an additional delay of 13.75 ms. Previous studies (e.g., Vandali, 2001; Vandali et al., 2005) have shown that delays on this order are not noticed by the majority of CI users. Some how- ever do notice this delay but they quickly become accus- tomed to it. Stone and Moore (2002) observed that for speech production, delays between 25 and 30 ms were dis- turbing. Furthermore for speech perception where lip syn- chronisation is used, delays of around 15–20 ms can become disturbing. The total delay of 17.75 ms is thus just on the border of being unacceptable. [eTone]
 
@@ -1425,21 +1441,21 @@ Another point to consider is the cost of adding an extra processing stage.  The 
 
 \section{Time-Varying F0}
 
-We are only concerned with continuous changes in $F_0[n]$.  Jumps would imply different harmonic envelopes.
+We shift focus to time-varying dynamics.  Only continuous changes in $F_0[n]$ are important to system design.  Jumps would imply different harmonic envelopes.
 
-$\tilde{m}_k[n]$ uses a window of samples of $\widehat{x}[n]$, equal to the length of $h_k\big[n,F_0[n]\big]$.  If $F_0[n]$ changes significantly within this window we will have problems with our estimate.  That being said, the longest windows considered in the document are 32ms long.  In terms of music, 32ms is equivalent to a sixty-forth note at 120BPM (beats per minute), i.e. very fast.  We will consider this sufficient for typical rates of change of $F_0[n]$.
+$\tilde{m}_k[n]$ uses a window of samples of $x^+[n]$, equal to the length of $h_k\big[n,F_0[n]\big]$.  If $F_0[n]$ changes significantly within this window there will be problems with the estimate.  That being said, the longest windows considered in this document are 32ms long.  In terms of music, 32ms is equivalent to a sixty-forth note at 120BPM (beats per minute), i.e. very very fast.  We will consider this sufficient for typical rates of change of $F_0[n]$.
 
-The other problem that can arise is as $F_0[n]$, our steady-state metrics may change.  This can be evaluated by simply looking at the continuous metrics as a function of $F_0$.
+Even though the window is sufficiently short, the steady-state metrics are a function of $F_0$ and thus if $F_0$ changes with time, the metrics may change as well.  The effects this has on system performance can be evaluated by simply looking at the continuous metrics as a function of $F_0$.
 
 \section{Transients}\label{section:transients}
 
-Nearly everything we have considered so far has suggested the narrower the filter the better.  The problem with this is the time-domain response of filters with fast rolloffs.  There is a tradeoff where the sharper a filter rolls off, the more transient smearing will incur.
+Nearly everything considered so far has suggested the narrower the filter, the better.  The problem with this is the time-domain response of filters with fast rolloffs.  There is a tradeoff where the sharper a filter rolls off is, the more transient smearing will incur.
 
-Studies on timbre perception [REF?] have suggested that humans hear changes in rise time in the log domain, i.e. the shorter a transient is, the more sensitive our perception is to smearing distortion.
+Studies on timbre perception \cite{kong2011temporal} have suggested that for both acoustic and electric hearing humans hear changes in rise time in the log domain, i.e. the shorter a transient is, the more sensitive our perception is to smearing distortion.
 
-Of course if the pre-processing smears the transients, we can only do as well as that.  Most cochlear implants nowadays use pre-processor dynamic range compression.  We get some insight from a study performed on hearing aids, which would use a similar system.  ``Almost all of the hearing aids tested have attack times less than or equal to 10 ms. A little more than half of the hearing aids had release times of 50 ms or less.  The range of the attack times varied from 1 to 23 ms'' [attack and release times of AGC hearing aids]  1ms is faster than most typical sounds, so we should try to smear transients as little as possible in our processing.
+Of course if the pre-processing smears the transients, a system is limited in how well it can perform.  Most cochlear implants nowadays use pre-processor dynamic range compression.  Some insight is gained from a study performed on hearing aids, which would use a similar compression system.  ``Almost all of the hearing aids tested have attack times less than or equal to 10 ms.'' \cite{burnett1977attack}.  1ms is faster than most classic instrument attack times, so transient smearing should be as little as possible in the envelope extraction processing.
 
-All of this suggests filter bandwidth be as wide as possible without encompassing the other harmonics, which results in a cutoff of $\frac{F_0}{2}$.
+All of this suggests filter bandwidth be as wide as possible without encompassing the other harmonics, which is a lowpass cutoff of $\frac{F_0}{2}$.
 
 % $\frac{1}{5ms} = 200Hz$  Could this plus carrier bandwidth be equivalent to maximum harmonic bandwidth?
 
@@ -1449,38 +1465,36 @@ All of this suggests filter bandwidth be as wide as possible without encompassin
 
 \section{Evaluation of Strategies}
 
-As stated above the design can be summarized by downshift frequency and lowpass filter.
+As stated above the design can be summarized by downshift frequency and lowpass filter.  The ideal downshift frequency is simply $(k+1)F_0[n]$.  The question is what degree of quantization is sufficient to estimate the harmonic signal.  For filter design we need to consider bandwidth as a function of filter order and filter/window type.  Ideally, the cutoff is somewhere below $F_0$ but high enough to incorporate the bandwidth of $m_k[n]$.
 
-The ideal downshift frequency is simply $(k+1)F_0[n]$.  The question is what degree of quantization is sufficient to estimate our signal.
-
-For filter design we need to consider bandwidth as a function of filter order and filter/window type.  Ideally our cutoff is somewhere below $F_0$ but high enough to incorporate the bandwidth of $m_k[n]$.
-
-The filters can be different as a function of $k$.  This is a natural path to pursue if we consider the critical bands of the cochlea.  This will be discussed in more detail later in this document however for now we will assume $h_k[n] = h[n]$.  This is natural for harmonic envelopes as harmonics are linearly spaced.
+The filters can be different as a function of $k$.  This is a natural path to pursue, considering the critical bands of the cochlea.  This will be discussed later in this thesis however for now, $h_k[n] = h[n]$.  This is natural for harmonic envelopes as harmonics are linearly spaced.
 
 The designs considered are:
 
-downshift quantization - 1, 31, 63, 125Hz
+%TODO 3 - make this pretty
 
-filter order - 128, 256, 512
+downshift quantization, $F_q$ - 1, 31, 63, 125Hz
 
-filter - rectangular, hanning, adaptive hamming
+filter order, $N$ - 128, 256, 512
 
-k - which harmonic, how do they relate to each other
+filter design - rectangular, hanning, adaptive hamming
 
-Adaptive hamming is an adaptive bandwidth filter with a lowpass cutoff (-6dB point) of $\frac{F_0[n]}{2}$.
+$k$ - which harmonic, (is performance different for different $k$?)
 
-For practical considerations, we will set a maximum quantization as $F_s$ /  filter order.
+Adaptive hamming is an adaptive bandwidth filter with a lowpass cutoff (-6dB point) of $\frac{F_0[n]}{2}$.  For practical considerations, maximum quantization $= \frac{F_s}{N}$ which is the quantization of a order-$N$ DFT.
 
-$order = 256 \longleftrightarrow$ $f_q \leq 63Hz$
+$$N = 256 \longleftrightarrow F_q \leq 63Hz$$
+$$N = 512 \longleftrightarrow F_q \leq 31Hz$$
 
-$order = 512 \longleftrightarrow$ $f_q \leq 31Hz$
+Only fundamental frequencies in the range of 50-550Hz are considered. This range encompasses the adults and children which are predominantly within 80-300Hz \cite{vandali2005pitch} and it provides some extra range for musical instruments.
 
-We consider only fundamental frequencies in the range of 50-550Hz. This range encompasses the adults and children which are predominantly within 80-300Hz [REF] and it provides some extra range for musical instruments.% [pitch_ranking_strategy_compare]
+The following subsections will evaluate each of the three steady-state metrics as well as transient response as functions of system design.
 
 \subsection{Coherent Gain}
 
-We first look at different downshift quantizations, all else constant.  This is visualized in figure~\ref{fig:g_k_1}.  When $F_0$ is exactly at a quantized value, $G_k = 0dB$, however the gain decreases as $F_0$ drifts away until the worse case where it is exactly in between quantization values.  Decreasing the quantization increases the number of dips and in turn improves the worst case $G_k$.
+We first look at different downshift quantizations, all else constant.  This is visualized in figure~\ref{fig:g_k_1}.  When $F_0$ is exactly at a quantized value, $G_k = 0$dB, however the gain decreases as $F_0$ drifts away until the worst case where it is exactly in between quantization values.  Decreasing the quantization increases the number of dips and in turn improves the worst case $G_k$.
 
+%TODO 3 - make these subscripts actually subscripts
 \begin{figure}[!ht]
   \centering
     \includegraphics[width=1\textwidth]{g_k_1}   
@@ -1503,7 +1517,7 @@ Figure~\ref{fig:g_k_3} compares the different filter designs.  The wider bandwid
     \caption{$G_k$ filter design}\label{fig:g_k_3}
 \end{figure}
 
-So lower quantization and wider bandwidth both improve $G_k$, but that's pretty intuitive.  The interesting part here is the relationship between harmonics.  If we consider the first three harmonics, figure~\ref{fig:g_k_4} shows that the number of dips is proportional to $k$.  As a result we get interactions at certain values of $F_0$.  For example, if $F_0 = 1.5f_q = 188$Hz, odd harmonics will be at a minimum and even harmonics will be at a maximum.  This results in a distortion between harmonics where some are attenuated more than others.
+So lower quantization and wider bandwidth both improve $G_k$, but that's pretty intuitive.  The interesting part here is the relationship between harmonics.  Consider the first three harmonics;  figure~\ref{fig:g_k_4} shows that the number of dips is proportional to $k$.  As a result, $G_k$ varies more across $k$ at certain values of $F_0$.  For example, if $F_0 = 1.5F_q = 188$Hz, even harmonics will be at a minimum and odd harmonics will be at a maximum.  This results in a distortion between harmonics where some are attenuated more than others.
 
 It should be noted that pre-processing compression or automatic gain control (AGC) will cause harmonic distortions.  This could arguably be used to either make the case that it is important to minimize further distortions, or alternatively that these further distortions are minimal in comparison and thus shouldn't be over engineered.
 
@@ -1513,7 +1527,7 @@ It should be noted that pre-processing compression or automatic gain control (AG
     \caption{$G_k$ variation across harmonics}\label{fig:g_k_4}
 \end{figure}
 
-Considering maximum quatization is $F_s$ / order and hanning filter as our baseline, worst case: $G_k \approx -1.5dB$.  Increasing the filter order and decreasing quantization proportionally increases the number of dips while keeping depth the same.  The relationship between harmonics and the case of $F_0[n]$ continuously changing over time put emphasis on minimizing the dynamic range of $G_k$.
+Considering maximum quatization is $\frac{F_s}{N}$ and hanning filter as a baseline, worst case: $G_k \approx -1.5dB$.  Proportionally increasing the filter order and decreasing quantization increases the number of dips while keeping depth the same.  The relationship between harmonics and the case of $F_0[n]$ continuously changing over time put emphasis on minimizing the dynamic range of $G_k$.
 
 %scalloping loss or picket-fence effect, ratio of coherent gain for tone located half a bin from DFT sample point to coherent gain for tone located exactly at sample point
 
@@ -1531,11 +1545,9 @@ Considering maximum quatization is $F_s$ / order and hanning filter as our basel
 
 \subsection{Harmonic SIR}
 
-We first consider filter order and quantization.  In figure~\ref{fig:sir_k_1} we consider all filter orders with and without quantization.
+Moving along to harmonic SIR, figure~\ref{fig:sir_k_1} compares all filter orders with and without quantization.  The downshift quantization doesn't actually affect performance significantly.  This can be seen in figure~\ref{fig:sir_k_1} by looking at the two lines corresponding to order = 128.  Above $F_0 = 250$Hz the harmonics are spaced far enough apart that the quantization doesn't matter.  Below $F_0 = 130$Hz the filter cutoff is not sharp enough to isolate the harmonic, in which case downshift quantization is irrelevant.
 
-The downshift quandization doesn't actually affect performance significantly.  This can be seen in figure~\ref{fig:sir_k_1} by looking at the two lines corresponding to order = 128.  Above a $F_0 = 250$Hz the harmonics are spaced far enough apart that the quantization doesn't matter.  Below $F_0 = 130$Hz the filter cutoff is not sharp enough to isolate the harmonic, in which case downshift quantization is irrelevant.
-
-Also note that for order = 512 the cutoff is narrow enough that we get ideal harmonic SIR over all $F_0$.
+Also note that for order = 512 the cutoff is narrow enough that harmonic SIR is  ideal over all $F_0$.
 
 \begin{figure}[!ht]
   \centering
@@ -1551,31 +1563,31 @@ Figure~\ref{fig:sir_k_2} compares filter design methods.  Hanning and adaptive a
     \caption{$SIR_k$ filter design}\label{fig:sir_k_2}
 \end{figure}
 
-The higher order harmonics are compared in figures~\ref{fig:sir_k_3} and ~\ref{fig:sir_k_4}.  We see patterns similar to figure~\ref{fig:g_k_4} where the number of dips is proportional to $k$.  These figures reinforce that improvement from decreasing quantization, $f_q$, is bounded.
+The higher order harmonics are compared in figures~\ref{fig:sir_k_3} and ~\ref{fig:sir_k_4}.  A pattern emerges, similar to figure~\ref{fig:g_k_4} where the number of dips is proportional to $k$.  These figures reinforce that improvement from decreasing quantization, $F_q$, is bounded.
 
-For hanning the incremental 1dB of improvement is arguably not important.  For rectangular we actually see a significant improvement in the 80-130Hz region for $k > 3$.
+For hanning the incremental 1dB of improvement is arguably not important.  For rectangular there is a significant improvement in the 80-130Hz region for $k > 3$.
 
 \begin{figure}[!ht]
   \centering
-    \includegraphics[width=.8\textwidth]{sir_k_3}
+    \includegraphics[width=.7\textwidth]{sir_k_3}
     \caption{$SIR_k$ variation across harmonics with hanning filter}\label{fig:sir_k_3}
 \end{figure}
 
 \begin{figure}[!ht]
   \centering
-    \includegraphics[width=.8\textwidth]{sir_k_4}   
+    \includegraphics[width=.7\textwidth]{sir_k_4}   
     \caption{$SIR_k$ variation across harmonics with rectangular filter}\label{fig:sir_k_4}
 \end{figure}
 
-Filter order is certainly the dominant factor for harmonic SIR.  For order = 128, it starts to break down for $F_0 \approx 220$ Hz and degrades as $F_0$ decreases.  For order = 256, it starts to break down for $F_0 \approx 110$ Hz.  For order = 512 the harmonic SIR performs is essentially optimal across all values of $F_0$.
+Filter order is certainly the dominant factor for harmonic SIR.  For $N = 128$, it starts to break down for $F_0 \approx 220$ Hz and degrades as $F_0$ decreases.  For $N = 256$, it starts to break down for $F_0 \approx 110$ Hz.  For $N = 512$ the harmonic SIR performance is essentially optimal across all values of $F_0$.
 
 \clearpage
 
 \subsection{Modulation Depth}
 
-We discussed earlier that our goal is to provide explicit modulations, in which case we need minimal modulation in the extracted envelope.
+It was decided in section \ref{section:inducedVexplicit} that explicit modulations are less artifact prone than induced, in which case the design should have minimal modulation in the extracted envelope.
 
-We first compare each filter design method at the different filter orders, as seen in figure~\ref{fig:d_ki_1}.  For all orders rectangular windows do a poor job of suppressing modulations due to high sidelobe amplitude.  Hanning and adaptive show similar responses with the dominant variation being the response to low $F_0$ as a function of filter order.
+Figure~\ref{fig:d_ki_1} compares each filter design method at the different filter orders.  For all orders rectangular windows do a poor job of suppressing modulations due to high sidelobe amplitude.  Hanning and adaptive show similar responses.  For these two filter designs, the dominant variation is the depth at low $F_0$ as a function of filter order.
 
 \begin{figure}[!ht]
   \centering
@@ -1583,7 +1595,7 @@ We first compare each filter design method at the different filter orders, as se
     \caption{$D_{k,i}$ filter design and order}\label{fig:d_ki_1}
 \end{figure}
 
-Downshift quantization shows little affect on modulation depth.  This is shown for both hanning and adaptive filter designs in figure`\ref{fig:d_ki_2}.
+Downshift quantization shows little affect on modulation depth.  This is shown for both hanning and adaptive filter designs in figure~\ref{fig:d_ki_2}.
 
 \begin{figure}[!ht]
   \centering
@@ -1591,32 +1603,32 @@ Downshift quantization shows little affect on modulation depth.  This is shown f
     \caption{$D_{k,i}$ downshift quantization}\label{fig:d_ki_2}
 \end{figure}
 
-Provided no downshift quantization, ,odulation depth won't change as a function of $k$.  Figure~\ref{fig:d_ki_4} shows this variation, however it has minimal impact.
+Provided no downshift quantization, modulation depth won't change as a function of $k$.  Figure~\ref{fig:d_ki_4} shows this variation, when $F_q = 125$Hz however it has minimal impact.
 
 \begin{figure}[!ht]
   \centering
     \includegraphics[width=1\textwidth]{d_ki_4}
-    \caption{$D_{k,i}$ at rate of $iF_0$}\label{fig:d_ki_4}
+    \caption{$D_{k,1}$ across harmonics}\label{fig:d_ki_4}
 \end{figure}
 
-Recall $D_{k,i}$ is the modulation depth of the estimate of the $k$th harmonic at a rate of $iF_0$.  We should expect that as $i$ increases we move further away from baseband and our filter does a better job of eliminating modulations.  This is verified in figure~\ref{fig:d_ki_3}.
+Recall $D_{k,i}$ is the modulation depth of the estimate of the $k$th harmonic at a rate of $iF_0$.  As $i$ increases, $iF_0$ moves further away from baseband and the filter does a better job of eliminating modulations.  This is verified in figure~\ref{fig:d_ki_3}.
 
 \begin{figure}[!ht]
   \centering
     \includegraphics[width=1\textwidth]{d_ki_3}
-    \caption{$D_{k,1}$ across harmonics}\label{fig:d_ki_3}
+    \caption{$D_{k,i}$ at rate of $iF_0$}\label{fig:d_ki_3}
 \end{figure}
 
-This results suggest that $D_{k,1}$ is the most important measure, and that hanning and adaptive filter designs achieve approximately the same performance.  At low $F_0$ filter order plays a large roll in modulation depth.
+These results suggest that $D_{k,1}$ is the most important measurement, and that hanning and adaptive filter designs achieve approximately the same performance.  At low $F_0$'s filter order plays a large roll in modulation depth.
 
-Psychophysical studies have found that for reliable pitch discrimination amplitude-modulations of approximately 10\% to 40\% are required on average. [REF] %[pitch_ranking_strategy_compare].
+Psychophysical studies have found that for reliable pitch discrimination amplitude-modulations of approximately 10\% to 40\% are required on average \cite{vandali2005pitch}.
 
 \begin{align}
 10\% \rightarrow D_{k,1} = -20 \mathrm{dB} \nonumber \\
 40\% \rightarrow D_{k,1} = -8 \mathrm{dB} \nonumber
 \end{align}
 
-
+%TODO 4 - pretty
 This implies that depending on the user:
 
 - order 128 breaks down at $F_0\approx 240$ to $400$Hz
@@ -1632,9 +1644,9 @@ In the best case, order 512 is sufficient for all $F_0$.  In the worst case, ord
 
 \subsection{Transients}
 
-Time-responses are a bit more difficult to analyze, as we cannot use the standard dB measurements we are familiar with.  We will consider transient responses of the different filter designs and filter orders.
+Time-responses are a bit more difficult to analyze, since there is no standard measurement like decibels that we are familiar with.  We will consider transient responses of the different filter designs and filter orders with three different analyses.
 
-We start with the unit step response, shown in figure~\ref{fig:transient_1}.  Latency on the order of 15ms isn't of much concern.  The more important difference in the rise time.  The 10-90\% rise times are displayed in table~\ref{table:rise_times}.
+The first is the unit step response, shown in figure~\ref{fig:transient_1}.  Latency on the order of 15ms isn't of much concern.  The more important difference is the rise time.  The 10-90\% rise times are displayed in table~\ref{table:rise_times}.
 
 The adaptive filters all have the same rise time at high enough $F_0$ however the lower order filters are fundamentally constrained on how slow the rise time can be.  The rectangular window is the worst of them all.
 
@@ -1658,11 +1670,13 @@ The adaptive filters all have the same rise time at high enough $F_0$ however th
 \caption{filter rise times}\label{table:rise_times}
 \end{table}
 
-An alternative view is shown in figure~\ref{fig:transient_2}.  For typical attack times in the range of 5-200ms and input to output change in attack time is plotted.
+An alternative view is shown in figure~\ref{fig:transient_2}.  For typical attack times in the range of 5-200ms an input-to-output change in attack time is plotted.  As mentioned in section~\ref{section:transients} humans hear transient changes in the log domain, and thus the axes are log scaled.  The output rise time is computed as
 
-As mentioned in section~\ref{section:transients} humans hear transient changes in the log domain, and thus the axes are log scaled.
+\begin{align}
+risetime_{out} = risetime_{in} + risetime_{system}
+\end{align}
 
-For the worse case, rectangular order 512, more than half the dynamic range is lost due to smearing.
+For the worst case, rectangular order 512, more than half the dynamic range is lost due to smearing.
 
 \begin{figure}[!ht]
   \centering
@@ -1672,8 +1686,9 @@ For the worse case, rectangular order 512, more than half the dynamic range is l
 
 As a final perspective on transients, we consider typical instrument attack times.  Figure~\ref{fig:transient_3} shows the shifted attack times of twelve instruments typical attack times.  The vertical scale has no meaning, it is simply for visual clarity.
 
-What's interesting is that on a log scale, the instruments generally bunch into two groups.  The slow attack-time group seems robust to the distortions of any of these filters.  On the other hand the fast-attack time instruments change dramatically.  For the narrow bandwidth 512 order filters, the smeared guitar output is closer in attack-time to an English horn than itself!
+What's interesting is that on a log scale, the instruments appear to bunch into two groups.  The slow attack-time group is robust to the distortions of any of these filters.  On the other hand the fast-attack time instruments change dramatically.  For the narrow bandwidth 512 order filters, the smeared guitar output is closer in attack-time to an English horn than itself!
 
+%TODO 4 - add connecting lines per instrument
 \begin{figure}[!ht]
   \centering
     \includegraphics[width=1.2\textwidth]{transient_3}
@@ -1686,23 +1701,25 @@ What's interesting is that on a log scale, the instruments generally bunch into 
 
 For the most part the hanning and adaptive filters outperformed rectangular.  The rectangular window's performance on modulation depth makes it essentially unusable.
 
-For coherent gain we get a worst case of roughly -1.5dB.  It doesn't appear from our results to be an overly critical design consideration.
+For coherent gain the worst case us roughly $G_k \leq -1.5$dB.  From this result it doesn't appear to be an overly critical design consideration.
 
 For harmonic SIR and modulation depth the critical performance variable was filter order.  To very loosely summarize, order 128 fails for $F_0 < 240$Hz, order 256 fails for $F_0 < 120$Hz and 512 does sufficiently well for the full range considered.
 
-Downshift quantization also did not seem to play a prominent role.  This is in part affected by the restriction that quantization can't be worse than $F_s$ / filter order.
+Downshift quantization also did not seem to play a prominent role.  This is in part affected by the restriction that quantization can't be worse than $\frac{F_s}{N}$.
 
-There is clearly an envelope bandwidth tradeoff, where the wider a filter is the less transients are smeared but the more the other harmonics interfere in the estimated envelope.
+There is clearly an envelope bandwidth tradeoff where the wider a filter is the less transients are smeared but the more the other harmonics interfere in the estimated envelope.
 
-The sharp-cutoff order 512 filters smear the fast transients a significant amount, however the adaptive bandwidth filters seem to do well at smearing as little as possible while still achieving good performance on the other metrics.  This could be the best solution to the posed bandwidth tradeoff.
+The sharp-cutoff order 512 filters smear the fast transients a significant amount, however the adaptive bandwidth filters seem to do well at smearing as little as possible while still achieving good performance on the other metrics.  This could be the best compromise to the posed bandwidth tradeoff.
 
 %harmonic bandwidth: what is it?  look at some waveforms and read some stuff.  maybe do this at the same time as transient times of instruments
 
+%TODO <CONTINUE HERE>
+
 \section{Non-ideal Pitch Estimators}
 
-The critical assumption thus far has been accurate pitch estimates.  One problem to consider is error in the pitch estimator.  The other that we will consider is pitch estimator quantization.
+The critical assumption thus far has been accurate pitch estimates.  One problem to consider is error in the pitch estimator.  The other analyzed in this thesis is pitch estimator quantization.
 
-We consider a specific pitch estimator that uses autocorrelation.  To summarize this method, an autocorrelation is performed on the windowed input.  A maxima is selected from this autocorrelation and the fundamental frequency is computed from the index of the maxima.
+We consider a specific pitch estimator that uses autocorrelation.  To summarize this method, first an autocorrelation is performed on the windowed input.  A maxima is selected from this autocorrelation and the fundamental frequency is computed from the index of the maxima.
 
 \begin{align}
 R_{xx}[n,\tau] =& x_{windowed}[r] * x_{windowed}[-r] \\
@@ -1721,7 +1738,7 @@ Defining the FFT order as $N$, for this method the possible values of $F_0$ are
 F_0 = \frac{F_s}{\tau}, \quad 1 \leq \tau \leq \frac{N}{2}
 \end{align}
 
-By then bounding the considered $F_0$ values to roughly 50-550Hz we can get better resolution by resampling the signal such that more values of $F_0$ fall within these bounds.
+Since the considered $F_0$ range is bounded to 50-550Hz we better resolution can be achieved by resampling the signal such that more values of $F_0$ fall within these bounds:
 
 \begin{align}
 max\Big(\frac{2Fs}{N}, 50\Big) \leq F_0 \leq min\Big(\frac{Fs}{2}, 550\Big)
@@ -1729,7 +1746,7 @@ max\Big(\frac{2Fs}{N}, 50\Big) \leq F_0 \leq min\Big(\frac{Fs}{2}, 550\Big)
 
 Choosing $F_s$ is important, since the quantization of $F_0$ is not linearly spaced and becomes worse at higher values of $F_0$.
 
-To be clear that this different sampling rate is only relevant to pitch estimation and not any of the other envelope extraction process, we define a new pitch estimator sampling rate, $F_{s,p}$.  Having $N$ as the filter orders we have previously considered we choose $F_{s,p}$ for maximal possibilities for $F_0$ within our region of interest.  The results are shown in table~\ref{table:f0_quantization}.
+To be clear that this different sampling rate is only relevant to pitch estimation and not any of the other envelope extraction process, the pitch estimator sampling rate is defined: $F_{s,p}$.  Having $N$ as the filter orders previously considered, $F_{s,p}$ is selected for maximal number of values of $F_0$ within the region of interest.  The designs are shown in table~\ref{table:f0_quantization}.
 
 \begin{table}
 \begin{center}
@@ -1746,7 +1763,7 @@ To be clear that this different sampling rate is only relevant to pitch estimati
 
 With this design each $N$ covers approximately the same range, however the high orders have 2 or 4 times as many samples as $N = 128$.  This is especially important at high values of $F_0$ where the quantization is the worst.
 
-We revisit harmonic SIR and modulation depth with non-deal pitch estimates.  Downshift quantization is assumed: $f_q = \frac{F_s}{N}$.
+The next subsections revisit harmonic SIR and modulation depth with non-deal pitch estimates.  Downshift quantization is assumed: $F_q = \frac{F_s}{N}$.
 
 \subsection{Harmonic SIR}
 
@@ -1766,11 +1783,9 @@ The hanning filter performs slightly at high $F_0$s bettter due to narrower filt
     \caption{$SIR_k$, adaptive filter and pitch estimate quantization}\label{fig:pitch_sir_k_2}
 \end{figure}
 
-We now consider the same designs but with $\pm5$Hz pitch estimation error.  The worse case $SIR_k$ is shown for hanning filter in figure~\ref{fig:pitch_sir_k_1_error5} and for adaptive filter in figure~\ref{fig:pitch_sir_k_2_error5}.
+Provided the same designs but with $\pm5$Hz pitch estimation error, the worst case $SIR_k$ is shown for hanning filter in figure~\ref{fig:pitch_sir_k_1_error5} and for adaptive filter in figure~\ref{fig:pitch_sir_k_2_error5}.
 
-The error degrades performance in two dimensions.  Similar to quantization error, the perfomance degrades proportional to $k$.  The other problem is at low values of $F_0$, where harmonics are more closely spaced.
-
-We can take the right plot in figure~\ref{fig:pitch_sir_k_1_error5} as an example.  For the first 3 harmonics we get good harmonic SIRs for $F_0 > 80$Hz, however for $k = 3,4$ this increases to roughly $F_0 > 180$Hz and for even higher harmonics we never achieve satisfactory SIR.
+The error degrades performance in two dimensions.  Similar to quantization error, the perfomance degrades proportional to $k$.  The other problem is at low values of $F_0$, where harmonics are more closely spaced.  Take the right plot in figure~\ref{fig:pitch_sir_k_1_error5} as an example.  For the first 3 harmonics good harmonic SIRs are good for $F_0 > 80$Hz, however for $k = 3,4$ this increases to roughly $F_0 > 180$Hz and the even higher harmonics never achieve satisfactory SIR.
 
 \begin{figure}[!ht]
   \centering
@@ -1788,9 +1803,9 @@ We can take the right plot in figure~\ref{fig:pitch_sir_k_1_error5} as an exampl
 
 \subsection{Modulation Depth}
 
-We repeat these same comparisons for modulation depth.  Looking at figure~\ref{fig:pitch_d_ki_1}, with hanning filter and pitch estimate quantization, high harmonics have very high modulations.  Around the 6th harmonic ($k = 5$) we start to see big spikes in modulation depth at high $F_0$.  Interestingly the same harmonics have poor performance regardless of $N$, however there is a far broader region of failure for lower $N$.
+The same analysis now repeated for modulation depth.  Looking at figure~\ref{fig:pitch_d_ki_1}, with hanning filter and pitch estimate quantization, high harmonics have very high modulations.  Around the 6th harmonic, ($k = 5$), we start to see big spikes in modulation depth at high $F_0$'s.  Interestingly the same harmonics have poor performance regardless of $N$, however there is a far broader region of failure for lower $N$.
 
-In  figure~\ref{fig:pitch_d_ki_2} we see much better performance for $N = 512$ in comparison to the hanning filer.  This is because despite having wider bandwidth at high $F_0$, the sidelobes are much lower than the hanning filter.  The first hanning sidelobe has a gain of -31dB, whereas for $F_0 = 500$Hz the adaptive filter has a first sidelobe gain of -56dB.
+In  figure~\ref{fig:pitch_d_ki_2} there is much better performance for $N = 512$ in comparison to the hanning filer.  This is because despite having wider bandwidth at high $F_0$'s, the sidelobes are much lower than the hanning filter.  The first hanning sidelobe has a gain of -31dB, whereas for $F_0 = 500$Hz the adaptive filter has a first sidelobe gain of -56dB.
 
 \begin{figure}[!ht]
   \centering
@@ -1804,7 +1819,7 @@ In  figure~\ref{fig:pitch_d_ki_2} we see much better performance for $N = 512$ i
     \caption{$D_{k,1}$, hanning filter and pitch estimate quantizationr}\label{fig:pitch_d_ki_2}
 \end{figure}
 
-Now considering $\pm5$Hz estimation error, we see from figures~\ref{fig:pitch_d_ki_1_error5} and \ref{fig:pitch_d_ki_2_error5} the same shift right where higher harmonics at low $F_0$ perform worse.  The adaptive order 512 filter performs the best, being very robust error.
+Now considering $\pm5$Hz estimation error, figures~\ref{fig:pitch_d_ki_1_error5} and \ref{fig:pitch_d_ki_2_error5} show the same shift right where higher harmonics at low $F_0$'s perform worse.  The adaptive order 512 filter performs the best, being very robust error.
 
 \begin{figure}[!ht]
   \centering
@@ -1818,7 +1833,9 @@ Now considering $\pm5$Hz estimation error, we see from figures~\ref{fig:pitch_d_
     \caption{$D_{k,1}$, hanning filter, pitch estimate quantization and $\pm5$Hz estimation error}\label{fig:pitch_d_ki_2_error5}
 \end{figure}
 
-Regardless of extraction method there will be a fundamental limit on performance as the pitch estimate becomes worse.  We see from all of the above example that performance degrades proportional to $k \times \mathrm{error} / F_0$.
+Regardless of extraction method there is a fundamental limit on performance with poor pitch estimates.  From all of the above examples, performance degrades proportional to $k \times \mathrm{error} / F_0$.
+
+%TODO 1 - write this!!!
 
 \section{Mapping and Selection}
 
@@ -1935,9 +1952,11 @@ soft decisions (e-Tone)
 
 ``bowed string tones are inharmonic during both their attack and decay (Beauchamp, 1974)''
 
+mention transients can't be reliably represented with a pitch tracker
+
 \section{Summary}
 
-
+%TODO 1 - write this!!!
 
 % ========== Chapter 5
 
@@ -1962,6 +1981,8 @@ soft decisions (e-Tone)
  
 % ========== Appendix A
 
+%TODO 1 - write this!!!
+
 \chapter{Derivations}
 
 %check appendix code 810982374981u23h
@@ -1978,6 +1999,188 @@ m_{k,harmonic}[n] =& \Bigg| x[n] e^{-jk\phi_0 [n]} *  \frac{1}{Nw[0]} w[-n] \Big
 \label{eq:harmonic-to-stft}
 =& \frac{1}{Nw[0]} \Bigg| X\Big[n, \lambda[n]k\Big) \Bigg|
 \end{align}
+
+\subsection{CIS VS Hilbert}
+
+Provided the envelope definitions
+
+\begin{align}
+m_{k,CIS}[n] =& \Big| x_k[n] \Big| * h_{lp}[n] = \Big| x[n] * h_k[n] \Big| * h_{lp}[n] \nonumber \\
+m_{k,Hilbert}[n] =& \Big| x^+_k[n] \Big| = \Big| x[n] * h_k[n] + j\mathcal{H}\{x[n] * h_k[n]\} \Big| \nonumber
+\end{align}
+
+and an ideal brick-wall filter defined as
+
+% bracket reference
+\begin{align}
+H_k(f) =& \mathcal{F}\Big\{ h_k[n]  \Big\} \\
+H_k(f) =& \left\{
+                \begin{array}{ll}
+                1, \quad f_k - \frac{1}{2} f_{bw} < |f| < f_k + \frac{1}{2} f_{bw} \\
+                0, \quad \mathrm{else}
+                \end{array}
+              \right.
+\end{align}
+
+let:
+
+\begin{align}
+\label{eq:hilbert_squared}
+Y_{k,Hilbert}(f) =& \mathcal{F}\Big\{ \Big| x^+_k[n] \Big|^2  \Big\} \\
+\label{eq:cis_squared_prefilter}
+Y_{k,CIS}(f) =& \mathcal{F}\Big\{ \Big| x_k[n] \Big|^2  \Big\} \\
+\end{align}
+
+\begin{align}
+Y_{k,Hilbert}(f) =& \left\{
+			 \begin{array}{ll}
+X^+_{k}(f) * X^{*+}_{k}(-f), \quad |f| < f_{bw} \\
+0, \qquad \qquad \qquad \qquad |f| \geq f_{bw} \\
+                \end{array}
+               \right. \\
+Y_{k,CIS}(f) =& \left\{
+			 \begin{array}{ll}
+2Y_{k,Hilbert}(f), \quad \qquad \qquad \qquad \quad |f| < f_{bw} \\
+0, \qquad \qquad \qquad \qquad \qquad  f_{bw} \leq |f| \leq 2f_k - f_{bw}  \\
+X_{k}(f) * X^*_{k}(-f), \quad 2f_k - f_{bw} < |f| < 2f_k + f_{bw} \\
+0, \qquad \qquad \qquad \qquad \qquad \quad \qquad |f| \geq 2f_k + f_{bw}  \\
+                \end{array}
+               \right.
+\end{align}
+
+
+
+
+
+
+\begin{align}
+X(f) =& \mathcal{F}\Big\{ x[n] \Big\} \\
+X_{k}(f) =& \mathcal{F}\Big\{ x_k[n] \Big\} \\
+X^+_{k}(f) =& \mathcal{F}\Big\{ x^+_k[n]  \Big\}
+\end{align}
+
+The ideal brickwall filter sets (\ref{eq:dft_x_k}) and (\ref{eq:dft_x^+_k}) to zero outside of its bandwidth:
+
+\begin{align}
+X_{k}(f) =& \left\{
+                \begin{array}{ll}
+X(f), \quad f_k - \frac{1}{2} f_{bw} < |f| < f_k + \frac{1}{2} f_{bw} \\
+0, \quad \mathrm{else} \\
+                \end{array}
+              \right. \\
+X^+_{k}(f) =& \left\{
+                \begin{array}{ll}
+X(f), \quad f_k - \frac{1}{2} f_{bw} < f < f_k + \frac{1}{2} \\
+0, \quad \mathrm{else}
+                \end{array}
+              \right.
+\end{align}
+
+Stemming from the CIS and Hilbert envelope equations, consider the following two functions.  
+
+\begin{align}
+\label{eq:hilbert_squared}
+Y_{k,Hilbert}(f) =& \mathcal{F}\Big\{ \Big| x^+_k[n] \Big|^2  \Big\} \\
+\label{eq:cis_squared_prefilter}
+Y_{k,CIS}(f) =& \mathcal{F}\Big\{ \Big| x_k[n] \Big|^2  \Big\} \\
+\end{align}
+
+$Y_{k,CIS}(f)$ is equivalent to the squared CIS envelope if the final lowpass filter is not applied.  $Y_{k,Hilbert}(f)$ is the squared Hilbert envelope.
+
+%TODO <CONTINUE HERE>
+%TODO 1 - reference appendix!
+
+\begin{align}
+Y_{k,CIS}(f) = 2Y_{k,Hilbert}(f)
+\end{align}
+
+These functions can be computed by convolution in the frequency domain.  For the Hilbert function:
+
+\begin{align}
+Y_{k,Hilbert}(f) =& \widehat{X}_{k}(f) * \widehat{X}_{k}^*(-f) \\
+=& \int\limits_{-\infty}^{\infty} \widehat{X}_{k}(f - r) \widehat{X}_{k}^*(-r)dr \\
+=& \int\limits_{-\infty}^{\infty} \widehat{X}_{k}(r + f) \widehat{X}_{k}^*(r)dr
+\end{align}
+
+We can narrow the integration bounds provided the restrictions
+
+\begin{align}
+\widehat{X}_{k}^*(r) \neq& 0 \Rightarrow  f_k - \frac{1}{2} f_{bw} < r < f_k + \frac{1}{2} f_{bw} \\
+\widehat{X}_{k}(r + f) \neq& 0 \Rightarrow  f_k - \frac{1}{2} f_{bw} - f < r < f_k + \frac{1}{2} f_{bw} - f \\
+a =& max\Big( f_k - \frac{1}{2} f_{bw},  f_k - \frac{1}{2} f_{bw} - f\Big) \\
+b =& min\Big( f_k + \frac{1}{2} f_{bw},  f_k + \frac{1}{2} f_{bw} - f\Big) \\
+Y_{k}^1(f) =& \int\limits_{a}^{b} \widehat{X}_{k}(r + f) \widehat{X}_{k}^*(r)dr, \quad -f_{bw} < f < f_{bw} \\
+=& 0, \quad \mathrm{else}
+\end{align}
+
+For $Y_k^2(f)$ there are actually three non-zero bands.
+
+\begin{align}
+Y_{k}^2(f) =& X_{k}(f) * X_{k}^*(-f) \\
+=& \int\limits_{-\infty}^{\infty} X_{k}(r + f) X_{k}^*(r)dr
+\end{align}
+
+Case 1: $-2f_k - f_{bw} < f < -2f_k + f_{bw}$
+
+\begin{align}
+Y_{k}^2(f) =& \int\limits_{a}^{b} X_{k}(r + f) X_{k}^*(r)dr \\
+a =& max\Big( f_k - \frac{1}{2} f_{bw},  f_k - \frac{1}{2} f_{bw} - f\Big) \\
+b =& min\Big( f_k + \frac{1}{2} f_{bw},  f_k + \frac{1}{2} f_{bw} - f\Big)
+\end{align}
+
+Case 2: $2f_k - f_{bw} < f < 2f_k + f_{bw}$
+
+\begin{align}
+Y_{k}^2(f) =& \int\limits_{a}^{b} X_{k}(r + f) X_{k}^*(r)dr \\
+a =& max\Big( -f_k - \frac{1}{2} f_{bw},  -f_k - \frac{1}{2} f_{bw} - f\Big) \\
+b =& min\Big( -f_k + \frac{1}{2} f_{bw},  -f_k + \frac{1}{2} f_{bw} - f\Big)
+\end{align}
+
+Case 3: $- f_{bw} < f < f_{bw}$
+
+This case is unique because there are two points of intersection.  We can break up the integral into a sum.  The first integral is exactly the same as in $Y^1_k(f)$.
+
+\begin{align}
+Y_{k}^2(f) =& \int\limits_{a_1}^{b_1} X_{k}(r + f) X_{k}^*(r)dr + \int\limits_{a_2}^{b_2} X_{k}(r + f) X_{k}^*(r)dr \\
+a_1 =& max\Big( f_k - \frac{1}{2} f_{bw},  f_k - \frac{1}{2} f_{bw} - f\Big) \\
+b_1 =& min\Big( f_k + \frac{1}{2} f_{bw},  f_k + \frac{1}{2} f_{bw} - f\Big) \\
+a_2 =& max\Big( -f_k - \frac{1}{2} f_{bw},  -f_k - \frac{1}{2} f_{bw} - f\Big) \\
+b_2 =& min\Big( -f_k + \frac{1}{2} f_{bw},  -f_k + \frac{1}{2} f_{bw} - f\Big)
+\end{align}
+
+Using the Hermitian symmetry of the real-valued $x[n]$,
+
+\begin{align}
+Y_{k}^2(f) =& \int\limits_{a_1}^{b_1} X_{k}(r + f) X_{k}^*(r)dr + \int\limits_{a_2}^{b_2} X_{k}^*(-r - f) X_{k}(-r)dr \\
+r' = -r - f \nonumber \\
+Y_{k}^2(f) =& \int\limits_{a_1}^{b_1} X_{k}(r + f) X_{k}^*(r)dr + \int\limits_{a_1}^{b_1} X_{k}^*(r') X_{k}(r' + f)dr' \\
+=& 2 \int\limits_{a_1}^{b_1} X_{k}(r + f) X_{k}^*(r)dr \\
+=& 2 Y_k^1(f)
+\end{align}
+
+If we lowpass filter $Y_k^2(f)$ with a filter defined
+
+\begin{align}
+H_{lp}(f) =& \frac{1}{2}, \quad |f| < f_{bw} \\
+=& 0, \quad 2f_k - f_{bw} < |f| < 2f_k + f_{bw}
+\end{align}
+
+then
+
+\begin{align}
+Y_{k}^2(f) =& Y_k^1(f) \quad \forall f
+\end{align}
+
+We conclude that 
+
+\begin{align}
+\label{eq:squared_cis_hilbert}
+\Big| x_k[n] \Big|^2 * h_{lp}[n] \approx \Big| \widehat{x}_k[n] \Big|^2
+\end{align}
+
+Things to consider are delay and non-deal filters, however provided the distance between baseband and the $\pm2f_k$ terms a sufficient filter is practical in practice.
+
+Now the relationship between $m_{k,CIS}[n]$ and $m_{k,Hilbert}[n]$ is muddled by the nonlinear square root operation, however the nonlinearities induced won't be noticeably distorted by $h_{lp}[n]$.  In practice, there only noticeable difference will be the added delay from the final lowpass filter in the CIS method.
 
 \vita{Tyler Ganter grew up in upstate New York, where the long cold winters inspired him to pick up guitar. While pursuing a BSEE at the University at Buffalo he took an interest computer programming, which he decided to minor in.  Through a continued interest in mathematics, software and music he found himself at home in the field of audio digital signal processing.  The desire to delve deeper into this field has led him to study at the University of Washington.}
 
