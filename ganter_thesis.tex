@@ -3,11 +3,37 @@
 %TODO 3 = not so important and tedious\\
 %TODO 5 = list format
 
-%TODO 1 - finish chapter 4
-%TODO 1 - write chapter 5
-%TODO 1 - write appendix
 
-%TODO 3 - png's to pdfs
+%TODO 1 - write chapter 5
+
+
+
+
+
+% SQUARE ROOTS AUGHH!!!
+
+%TODO 1 -this is not true...
+% the magnitude operation cannot go inside the sum
+% AND the square-root makes the terms no longer
+% centered at iF0
+
+%TODO 1 - justify this better
+% cis vs hilbert square-root
+
+
+
+
+
+
+%TODO 1/3 - prove this or describe it better
+% hilbert narrow filter issue
+
+
+
+
+
+
+%TODO 3 - matlab figs, try without latex interpreter!!!
 
 %IDEA - what about putting zeros at multiples of F0 during filter design?
 
@@ -194,7 +220,7 @@ Cochlear implant technology has come a long way.  From a rudimentary system wher
 
 Fundamental to cochlear implant signal processing is acoustic feature extraction.  Early methods extracted explicit features characteristic to speech signals such as formants, (resonant peaks that differentiate vowels)\cite{tye1990comparison} \cite{skinner1991performance}.  This was later phased in out in favor of implicit methods based on the channel vocoder.
 
-These implicit methods split the audio input into bandpass components and extract temporal envelopes and fine structure for each component.  Since the introduction of the continued interleaved sampling strategy (CIS)\cite{wilson1993design}, implicit encoding was readily adopted over the explicit approach due to dramatic improvement in speech recognition.  Incremental improvements have been made since then; Cochlear Ltd's advance combination encoder (ACE) strategy \cite{zeng2004trends} has become a clinical standard commonly compared against.  However, the foundational signal processing has not changed in over 20 years!
+These implicit methods split the audio input into bandpass components and extract temporal envelopes and fine structure for each component.  Since the introduction of the continued interleaved sampling strategy (CIS) \cite{wilson1993design}, implicit encoding was readily adopted over the explicit approach due to dramatic improvement in speech recognition.  Incremental improvements have been made since then; Cochlear Ltd's advance combination encoder (ACE) strategy \cite{zeng2004trends} has become a clinical standard commonly compared against.  However, the foundational signal processing has not changed in over 20 years!
 
 Strategies such as ACE have achieved high performance on speech recognition in quiet, however performance on more difficult tasks is fundamentally limited.  These strategies use incoherent processing, and as a result subjectively similar signals may produce radically different outputs depending on their interaction with the time-invariant filters.
 
@@ -595,6 +621,7 @@ In all considered methods, the input is a real digitally sampled audio waveform,
 This is method is specifically implemented by the CIS strategy.  The input is first bandpass filtered, where $h_k[n]$ is a bandpass filter and $k$ has arbitrary limits.  The subband is then full-wave rectified, (magnitude operation), and lowpass filtered.  $h_{lp}[n]$ is a lowpass filter, typically with a cutoff around 200-400Hz.
 
 \begin{align}
+\label{eq:cis_envelope}
 m_{k,CIS}[n] =& \Big| x[n] * h_k[n] \Big| * h_{lp}[n]
 \end{align}
 
@@ -761,8 +788,6 @@ H(f) =& \left\{
 
 The coherent harmonic envelopes for each method will be
 
-%TODO 1/3
-% can't assume this from (3.17) and (3.19)
 % maybe derive this? appendix?
 \begin{align}
 \label{eq:realVSmag1}
@@ -789,10 +814,10 @@ y_k^{(2)}[n] =& Re\{ 2m^{(2)}_{k,harmonic}[n] e^{j2\pi F_0 n} \}  \\ \nonumber
 
 It is clear from (\ref{eq:phase_encode_1}) and (\ref{eq:phase_encode_2}) that the difference between $y_k^{(1)}[n]$ and $y_k^{(2)}[n]$ is simply the extra term, $\phi_k[n]$.  What this means in terms of information delivered to the user may be best shown by example.
 
-%TODO 1 changes these to (a), (b), etc
+%TODO 3 changes these to (a), (b), etc
 Comparing figure~\ref{fig:real_vs_magnitude_example} top left and top right makes it clear that taking the magnitude forces symmetry about $0$Hz.  The bottom left, $y_k^{(2)}[n]$, better represents the blue than does the bottom right, $y_k^{(1)}[n]$, because the spectral asymmetries manifest themselves in the phase, not magnitude.  It is unnatural and certainly won't happen in real world scenarios that a subband signal will be symmetric about the downshift frequency, however magnitude only methods force this symmetry.
 
-%TODO 1 - mark these (a) (b) etc.
+%TODO 3 - mark these (a) (b) etc.
 % maybe show the harmonic, then both envelopes and both modulators
 \begin{figure}[!ht]
   \centering
@@ -973,7 +998,7 @@ m_{k,harmonic}[n] =& \frac{1}{Nw[0]} \Big| X[n, N F_0[n] k) \Big| \nonumber \\
 =& \frac{1}{Nw[0]} \Big| X[n, \lambda[n]k) \Big|
 \end{align}
 
-where $\lambda[n] = N F_0[n] $.  The ``$)$'' denotes that (\ref{eq:harmonic-to-stft_relate}) is a DTFT.  For derivation of (\ref{eq:harmonic-to-stft_relate}) refer to appendix~\ref{section:stft_vs_harmonic_derivation}.
+where $\lambda[n] = N F_0[n] $.  The ``$)$'' denotes that (\ref{eq:harmonic-to-stft_relate}) is a DTFT.  For derivation of (\ref{eq:harmonic-to-stft_relate}) refer to section~\ref{section:stft_vs_harmonic_derivation}.
 
 It is important to note that in practice $\lambda[n]$ is not a continuous variable.  It is constrained by the quantization of the implemented pitch tracker.  Provided this quantization it is possible to compute any term $X[n, \lambda[n]k)$ by zero-padding the DFT.
 
@@ -990,7 +1015,7 @@ and the restriction:
 
 \subsection{CIS vs Hilbert}
 
-Stemming from the CIS and Hilbert envelope equations, consider the following two functions.
+Stemming from the CIS and Hilbert envelope equations, (\ref{eq:cis_envelope}) and (\ref{eq:hilbert_envelope}), consider the following two functions.
 
 \begin{align}
 %\label{eq:dft_x_k}
@@ -1008,6 +1033,7 @@ $Y_{k,Hilbert}(f)$ is the DFT of the squared Hilbert envelope.  $Y_{k,CIS}(f)$ i
 Provided an ideal brick-wall filter defined as
 
 \begin{align}
+\label{eq:ideal_brickwall_cis_vs_hilbert}
 H_k(f) =& \left\{
                 \begin{array}{ll}
                 1, \quad f_k - \frac{1}{2} f_{bw} < |f| < f_k + \frac{1}{2} f_{bw} \\
@@ -1019,6 +1045,7 @@ H_k(f) =& \left\{
 (\ref{eq:hilbert_squared}) and (\ref{eq:cis_squared_prefilter}) are only nonzero within subbands:
 
 \begin{align}
+\label{eq:y_k_hilbert}
 Y_{k,Hilbert}(f) =& \left\{
 			 \begin{array}{ll}
 X^+_{k}(f) * X^{*+}_{k}(-f), \quad |f| < f_{bw} \\
@@ -1035,6 +1062,8 @@ X_{k}(f) * X^*_{k}(-f), \quad 2f_k - f_{bw} < |f| < 2f_k + f_{bw} \\
                 \end{array}
                \right.
 \end{align}
+
+For derivation of (\ref{eq:y_k_hilbert}) and (\ref{eq:y_k_cis}) refer to section~\ref{section:cis_vs_hilbert_derivation}.
 
 Lowpass filtering $Y_{k,CIS}(f)$ by a filter defined
 
@@ -1125,7 +1154,7 @@ We change our notation slightly from chapter~\ref{ch:envelope_extraction}.  In t
 
 \begin{align}
 \label{eq:envelope_extraction}
-\tilde{m}_k[n] =& \Big| x[n]e^{-j \omega_k\big[F_0[n]\big]n} * h_k\big[n,F_0[n]\big]  \Big|
+\tilde{m}_k[n] =& \Big| x^+[n]e^{-j \omega_k\big[F_0[n]\big]n} * h_k\big[n,F_0[n]\big]  \Big|
 %\tilde{m}_k[n] =& \Big| \widehat{x}[n]e^{-j \omega_k[x]n} * h_k[n,x]  \Big|
 \end{align}
 
@@ -1241,6 +1270,9 @@ Expanding (\ref{eq:estimated_envelope_squared}) results in
 From (\ref{eq:estimate_expanded}), $\tilde{m}_k[n]$ can be thought of as a sum of terms each centered at $\mathcolor{blue}{iF_0}$ where the magnitude of each term is
 
 %TODO 1 -this is not true...
+% the magnitude operation cannot go inside the sum
+% AND the square-root makes the terms no longer
+% centered at iF0
 \begin{align}
 \label{eq:m_k_ith_term}
 \Big| \tilde{m}_{k,i}[n] \Big| =& \Bigg[ \sum\limits_{l=0}^{K-|i|} \Big| m_l[n]\Big| \Big|m_{l+i}[n]\Big| \Big|H_k(f_{k,i})\Big| \Big|H_k(f_{k,l+i})\Big|\Bigg]^\frac{1}{2}, \quad -K \leq i \leq K
@@ -1331,7 +1363,7 @@ In figure~\ref{fig:downshift_effects} the non-ideal downshift affects the relati
 
 \section{Steady-State Metrics}
 
-In considering how well our envelope $\tilde{m}_k[n]$ estimates $m_k[n]$ there are three important metrics.  Each will now be discussed in detail.
+In considering how well the envelope $\tilde{m}_k[n]$ estimates $m_k[n]$ we define three metrics.  Each will now be discussed in detail.
 
 \subsection{Coherent Gain}
 
@@ -1830,56 +1862,75 @@ Now considering $\pm5$Hz estimation error, figures~\ref{fig:pitch_d_ki_1_error5}
 
 Regardless of extraction method there is a fundamental limit on performance with poor pitch estimates.  From all of the above examples, performance degrades proportional to $k \times \mathrm{error} / F_0$.
 
-%TODO 1 - write this!!!
+\section{Feature Selection with Harmonic Envelopes}
 
-\section{Mapping and Selection}
+Coherent harmonic processing is different from incoherent in two fundamental ways:
 
-coherent harmonic processing is different from incoherent in two fundamental ways:
+1) quality of features extracted
 
-1) envelopes are extracted coherently to minimize distortions
+2) feature selection
 
-2) only envelopes relating to harmonics are calculated, this frees 
+While the the focus of this work has been on feature extraction, specifically harmonic envelope extraction, the full picture is not painted without addressing feature selection.  This section will briefly discuss feature selection considerations in coherent harmonic cochlear implant processing.
 
-Fixed Greenwood bands are determined offline, corresponding each electrode with a bandwidth.  The $N$ envelopes are then mapped to electrodes by finding the greenwood bands each harmonic falls within.
+As mentioned in \ref{ss:ACE}, feature selection is broken in two parts: envelope-to-channel allocation and channel selection.
 
-Two general solutions
+\subsection{Envelope-to-Channel Allocation}
 
-1) Adaptive (select loudest)
+Fixed Greenwood bands \cite{greenwood1961critical}, (tonotopically spaced frequency bands) are determined offline, corresponding each electrode with a bandwidth.  The $\mathcal{K}$ envelopes are then mapped to the $\mathcal{M}$ electrodes by finding the greenwood bands each harmonic falls within.
 
-similar to ACE, we can choose the loudest channels.  This suffers from stability issues.  We can apply another heuristic to stabilize the decision based on consistency of signal energy and fundamental frequency
+A system needs to have a way of handling cases when multiple harmonic envelopes are allocated to the same band.  This can be done by either combination or selection.  Details of a power sum combination can be found in section 5.2 of \cite{laneau2005deaf}.  Alternatively, two potential options for selection are to choose the lowest index harmonic in a band, or the loudest harmonic within a band.
 
-2) Fixed
+Combination has the benefit of representing more of the signal at the cost of individual harmonic representation. This could be beneficial for electrodes mapped to high frequencies since the energy of harmonic signals typically rolls off at higher harmonics.
 
-stable, each option suffers from missing key harmonics to the signal
+Selection allows for better representation of individual harmonics.  This could potentially benefit timbre recognition by more uniquely representing signals.
 
-lowest channels will imply no high frequency energy, which could be bad for unvoiced signals
+Choosing the loudest harmonics would encompass more of the signals energy however this comes at a cost.  In a real-time system, as the relative amplitude of harmonics changes, the selected harmonic could also change, introducing switching distortions to the system.  This is only exacerbated by computational errors.
 
-other relationships such as odd harmonics or prime numbered harmonics could miss harmonics critical to timbre perception.
+%TODO 3 - make a figure: greenwood bands going up and down and harmonics allocated to bands
 
+\subsection{Channel Selection}
+
+Once envelopes are allocated to channels, a subset $\mathcal{N}$-of-$\mathcal{M}$ electrodes is selected.  One potential benefit of coherent harmonic encoding is reduced redundancy in channel selection.  In ACE processing it is very common that energy from a single high-amplitude harmonic leaks into multiple closely spaced filters.  Those filters are often allocated to different channels, in which case multiple channels may be selected to represent the same harmonic!  With coherent harmonic encoding each harmonic is only allocated to a single channel and this frees up channels to represent other information.
+
+There are two general options, adaptive amplitude selection or fixed harmonic selection.  Adaptive amplitude selection is the same method as in ACE: choose the highest amplitude channels.  This method suffers from stability issues.  Channel selection can bounce around the whole electrode array through the duration of a single note and provide inconsistent harmonic cues.
+
+Instead, a fixed selection, such as ``always choose channels corresponding to the lowest $\mathcal{N}$ harmonic indices'' could more consistently represent harmonics of a signal.  This alternative suffers from potentially missing important parts of the signal.  For example, if $\mathcal{N} = 8$ and $F_0 = 120$Hz, the highest frequency represented is $8F_0 = 960$Hz, likely not sufficient for speech comprehension.  Solutions selecting higher index harmonics, such as selecting only even harmonics, still suffer from not representing potentially important harmonics.
+%TODO - 3 ref for needing >1kHz to understand speech?
+
+\section{Summary}
+
+A lot was covered in this chapter, and now some highlights will be reviewed.  The first finding was that explicit modulation is less artifact prone than induced and more consistently represents the true signal.
+
+Of the three steady-state metrics, coherent gain, $G_k$, did not seem to be a critical design consideration in contrast to the other two.  Additionally, continuous time-variations of $F_0[n]$ did not appear to affect performance significantly.
+
+The other two metrics, harmonic SIR, ($SIR_k$), and modulation depth, ($D_{k,i}$), had significant variation over design parameters.  Of these design parameters, filter order, $N$, and filter design proved more important than downshift quantization, $F_q$.
+
+The highest order, $N = 512$ performed best for steady-state, however, transients were smeared the most.
+
+Hanning and adaptive filter designs performed mostly the same except for the transient response.  Adaptive suggested a compromise between transient smearing and harmonic isolation where smearing is minimized provided isolated harmonics.
+%TODO why is adaptive so much better than hanning for mod depth but actually worse for harmonic SIR??
+% if explained, add it to "where adaptive performed better than hanning"
+%"it mitigated modulation depth problems due to pitch estimation at high harmonic indices, allowing for robust harmonic isolation even at high"
+
+The pitch tracker was found to be critical to performance.  It was found that system performance degrades proportional to $k \times \mathrm{error} / F_0$, i.e. the more error in pitch estimate the less reliable high-$k$ harmonics will be and the threshold-$k$ decreases with decreasing $F_0$.
+
+Provided known pitch quantization and an idea of typical estimation error, metrics can be used to determine what harmonic index performance breaks down at.
+
+Feature selection is also important and there appears to be a tradeoff between selection of most important features and consistency of stimuli.
+
+
+% ========== Chapter 5
+
+\chapter{Conclusion}\label{ch:conclusion}
+
+\section{Implementation Considerations}
+
+both stability heuristics
 fixed is more computationally efficient!
-
-
-how to allocate harmonics to channels: combine, select 1st, select largest
-
-hint at hybrid via failure to represent of selection options to represent the high channels well.
-
-how to choose channels, largest vs fixed
-
-heuristics on both!
-
-Because we have isolated individual harmonic envelopes there is no issue of signal energy falling in between channels.
 
 Another bonus to HSSE is that we may add a simple heuristic to maintain channel mapping stability.  For example, if F0 has not varied significantly since the previous frame, we can allocate to the same channels to avoid unnecessary switching between channels induced by vibrato or inaccuracies in pitch estimation.
 
-
-%\section{Subject Tests (maybe)}
-
-%All methods: order 128 hanning, $f_q = 125$Hz
-%ACE, Hybrid, HSSE (1-8, all-even, odd)
-%show oscilloscope figures?
-%or maybe make simulations that compare 128, 256, 512 and adaptive vs hanning
-
-\section{Implementation Considerations}
+pseudocode for this :P
 
 \subsection{Carrier Synthesis}
 
@@ -1951,14 +2002,6 @@ mention transients can't be reliably represented with a pitch tracker
 
 \section{Summary}
 
-%TODO 1 - write this!!!
-
-% ========== Chapter 5
-
-\chapter{Conclusion}\label{ch:conclusion}
-
-\section{Summary}
-
 \section{Future Work}
 
 
@@ -1999,75 +2042,45 @@ m_{k,harmonic}[n] =& \Bigg| x[n] e^{-jk\phi_0 [n]} *  \frac{1}{Nw[0]} w[-n] \Big
 =& \frac{1}{Nw[0]} \Bigg| X\Big[n, N F_0[n] k \Big) \Bigg| \nonumber
 \end{align}
 
-%TODO 1 - write this!!!
-\section{CIS vs Hilbert}
+\section{CIS vs Hilbert Derivation}\label{section:cis_vs_hilbert_derivation}
 
-Provided the envelope definitions
+Provided an ideal-brickwall filter, (\ref{eq:ideal_brickwall_cis_vs_hilbert}), repeated here for convenience:
 
 \begin{align}
-m_{k,CIS}[n] =& \Big| x_k[n] \Big| * h_{lp}[n] = \Big| x[n] * h_k[n] \Big| * h_{lp}[n] \nonumber \\
-m_{k,Hilbert}[n] =& \Big| x^+_k[n] \Big| = \Big| x[n] * h_k[n] + j\mathcal{H}\{x[n] * h_k[n]\} \Big| \nonumber
-\end{align}
-
-and an ideal brick-wall filter defined as
-
-% bracket reference
-\begin{align}
-H_k(f) =& \mathcal{F}\Big\{ h_k[n]  \Big\} \\
-H_k(f) =& \left\{
+H_k(f) =& \mathcal{F}\Big\{ h_k[n]  \Big\} \nonumber \\
+=& \left\{
                 \begin{array}{ll}
                 1, \quad f_k - \frac{1}{2} f_{bw} < |f| < f_k + \frac{1}{2} f_{bw} \\
                 0, \quad \mathrm{else}
                 \end{array}
-              \right.
+              \right. 
+              \nonumber
 \end{align}
 
-let:
+and the following relationships
 
 \begin{align}
-\label{eq:hilbert_squared}
-Y_{k,Hilbert}(f) =& \mathcal{F}\Big\{ \Big| x^+_k[n] \Big|^2  \Big\} \\
-\label{eq:cis_squared_prefilter}
-Y_{k,CIS}(f) =& \mathcal{F}\Big\{ \Big| x_k[n] \Big|^2  \Big\} \\
-\end{align}
-
-\begin{align}
-Y_{k,Hilbert}(f) =& \left\{
-			 \begin{array}{ll}
-X^+_{k}(f) * X^{*+}_{k}(-f), \quad |f| < f_{bw} \\
-0, \qquad \qquad \qquad \qquad |f| \geq f_{bw} \\
-                \end{array}
-               \right. \\
-Y_{k,CIS}(f) =& \left\{
-			 \begin{array}{ll}
-2Y_{k,Hilbert}(f), \quad \qquad \qquad \qquad \quad |f| < f_{bw} \\
-0, \qquad \qquad \qquad \qquad \qquad  f_{bw} \leq |f| \leq 2f_k - f_{bw}  \\
-X_{k}(f) * X^*_{k}(-f), \quad 2f_k - f_{bw} < |f| < 2f_k + f_{bw} \\
-0, \qquad \qquad \qquad \qquad \qquad \quad \qquad |f| \geq 2f_k + f_{bw}  \\
-                \end{array}
-               \right.
-\end{align}
-
-
-
-
-
-
-\begin{align}
+\label{eq:dft_x}
 X(f) =& \mathcal{F}\Big\{ x[n] \Big\} \\
-X_{k}(f) =& \mathcal{F}\Big\{ x_k[n] \Big\} \\
-X^+_{k}(f) =& \mathcal{F}\Big\{ x^+_k[n]  \Big\}
+%
+\label{eq:dft_x_k}
+X_{k}(f) =& \mathcal{F}\Big\{ x_k[n] \Big\} = \mathcal{F}\Big\{ x[n] * h_k[n] \Big\} \\
+%
+\label{eq:dft_x^+_k}
+X^+_{k}(f) =& \mathcal{F}\Big\{ x[n] * h_k[n] + j\mathcal{H} \big\{ x[n] * h_k[n] \big\} \Big\}
 \end{align}
 
-The ideal brickwall filter sets (\ref{eq:dft_x_k}) and (\ref{eq:dft_x^+_k}) to zero outside of its bandwidth:
+(\ref{eq:dft_x_k}) and (\ref{eq:dft_x^+_k}) are equivalent to (\ref{eq:dft_x}) within a restricted bandwidth:
 
 \begin{align}
+\label{eq:X_k_bounds}
 X_{k}(f) =& \left\{
                 \begin{array}{ll}
 X(f), \quad f_k - \frac{1}{2} f_{bw} < |f| < f_k + \frac{1}{2} f_{bw} \\
 0, \quad \mathrm{else} \\
                 \end{array}
               \right. \\
+\label{eq:X^+_k_bounds}
 X^+_{k}(f) =& \left\{
                 \begin{array}{ll}
 X(f), \quad f_k - \frac{1}{2} f_{bw} < f < f_k + \frac{1}{2} \\
@@ -2076,54 +2089,52 @@ X(f), \quad f_k - \frac{1}{2} f_{bw} < f < f_k + \frac{1}{2} \\
               \right.
 \end{align}
 
-Stemming from the CIS and Hilbert envelope equations, consider the following two functions.  
+(\ref{eq:hilbert_squared}) and (\ref{eq:cis_squared_prefilter}) are repeated here for convenience.
 
 \begin{align}
-\label{eq:hilbert_squared}
-Y_{k,Hilbert}(f) =& \mathcal{F}\Big\{ \Big| x^+_k[n] \Big|^2  \Big\} \\
-\label{eq:cis_squared_prefilter}
-Y_{k,CIS}(f) =& \mathcal{F}\Big\{ \Big| x_k[n] \Big|^2  \Big\} \\
+Y_{k,Hilbert}(f) =& \mathcal{F}\Big\{ \Big| x^+_k[n] \Big|^2  \Big\} \nonumber \\
+Y_{k,CIS}(f) =& \mathcal{F}\Big\{ \Big| x_k[n] \Big|^2  \Big\} \nonumber
 \end{align}
 
-$Y_{k,CIS}(f)$ is equivalent to the squared CIS envelope if the final lowpass filter is not applied.  $Y_{k,Hilbert}(f)$ is the squared Hilbert envelope.
-
-%TODO <CONTINUE HERE>
-%TODO 1 - reference appendix!
+These two functions can be computed by convolution in the frequency domain.  For the Hilbert function:
 
 \begin{align}
-Y_{k,CIS}(f) = 2Y_{k,Hilbert}(f)
+Y_{k,Hilbert}(f) =& X^+_{k}(f) * X^{*+}_{k}(-f) \nonumber \\
+=& \int\limits_{-\infty}^{\infty} X^+_{k}(f - r) X^{*+}_{k}(-r)dr \nonumber \\
+=& \int\limits_{-\infty}^{\infty} X^+_{k}(r + f) X^{*+}_{k}(r)dr
 \end{align}
 
-These functions can be computed by convolution in the frequency domain.  For the Hilbert function:
+The integration bounds can be restricted provided the restrictions of (\ref{eq:X^+_k_bounds}).  $\Rightarrow$ denotes ``implies''
 
 \begin{align}
-Y_{k,Hilbert}(f) =& \widehat{X}_{k}(f) * \widehat{X}_{k}^*(-f) \\
-=& \int\limits_{-\infty}^{\infty} \widehat{X}_{k}(f - r) \widehat{X}_{k}^*(-r)dr \\
-=& \int\limits_{-\infty}^{\infty} \widehat{X}_{k}(r + f) \widehat{X}_{k}^*(r)dr
-\end{align}
-
-We can narrow the integration bounds provided the restrictions
-
-\begin{align}
-\widehat{X}_{k}^*(r) \neq& 0 \Rightarrow  f_k - \frac{1}{2} f_{bw} < r < f_k + \frac{1}{2} f_{bw} \\
-\widehat{X}_{k}(r + f) \neq& 0 \Rightarrow  f_k - \frac{1}{2} f_{bw} - f < r < f_k + \frac{1}{2} f_{bw} - f \\
+X^{*+}_{k}(r) \neq& 0 \Rightarrow  f_k - \frac{1}{2} f_{bw} < r < f_k + \frac{1}{2} f_{bw} \\
+%
+X^{+}_{k}(r)(r + f) \neq& 0 \Rightarrow  f_k - \frac{1}{2} f_{bw} - f < r < f_k + \frac{1}{2} f_{bw} - f \\
+%
 a =& max\Big( f_k - \frac{1}{2} f_{bw},  f_k - \frac{1}{2} f_{bw} - f\Big) \\
 b =& min\Big( f_k + \frac{1}{2} f_{bw},  f_k + \frac{1}{2} f_{bw} - f\Big) \\
-Y_{k}^1(f) =& \int\limits_{a}^{b} \widehat{X}_{k}(r + f) \widehat{X}_{k}^*(r)dr, \quad -f_{bw} < f < f_{bw} \\
-=& 0, \quad \mathrm{else}
+%
+\label{eq:cis_vs_hilbert_exactly_the_same}
+Y_{k,Hilbert}(f) =&\left\{
+                \begin{array}{ll}
+                 \int\limits_{a}^{b} X^+_{k}(r + f) X^{*+}_{k}(r)dr, \quad -f_{bw} < f < f_{bw} \\
+				0, \qquad \mathrm{else}
+  \end{array}
+              \right.
 \end{align}
 
-For $Y_k^2(f)$ there are actually three non-zero bands.
+$Y_{k,CIS}(f)$ actually has three non-zero bands.  The three cases are considered individually.
 
 \begin{align}
-Y_{k}^2(f) =& X_{k}(f) * X_{k}^*(-f) \\
+Y_{k,CIS}(f) =& X_{k}(f) * X_{k}^*(-f) \nonumber \\
 =& \int\limits_{-\infty}^{\infty} X_{k}(r + f) X_{k}^*(r)dr
 \end{align}
 
 Case 1: $-2f_k - f_{bw} < f < -2f_k + f_{bw}$
 
 \begin{align}
-Y_{k}^2(f) =& \int\limits_{a}^{b} X_{k}(r + f) X_{k}^*(r)dr \\
+Y_{k,CIS}(f) =& \int\limits_{a}^{b} X_{k}(r + f) X_{k}^*(r)dr \\
+%
 a =& max\Big( f_k - \frac{1}{2} f_{bw},  f_k - \frac{1}{2} f_{bw} - f\Big) \\
 b =& min\Big( f_k + \frac{1}{2} f_{bw},  f_k + \frac{1}{2} f_{bw} - f\Big)
 \end{align}
@@ -2131,17 +2142,18 @@ b =& min\Big( f_k + \frac{1}{2} f_{bw},  f_k + \frac{1}{2} f_{bw} - f\Big)
 Case 2: $2f_k - f_{bw} < f < 2f_k + f_{bw}$
 
 \begin{align}
-Y_{k}^2(f) =& \int\limits_{a}^{b} X_{k}(r + f) X_{k}^*(r)dr \\
+Y_{k,CIS}(f) =& \int\limits_{a}^{b} X_{k}(r + f) X_{k}^*(r)dr \\
+%
 a =& max\Big( -f_k - \frac{1}{2} f_{bw},  -f_k - \frac{1}{2} f_{bw} - f\Big) \\
 b =& min\Big( -f_k + \frac{1}{2} f_{bw},  -f_k + \frac{1}{2} f_{bw} - f\Big)
 \end{align}
 
 Case 3: $- f_{bw} < f < f_{bw}$
 
-This case is unique because there are two points of intersection.  We can break up the integral into a sum.  The first integral is exactly the same as in $Y^1_k(f)$.
+This case is unique because there are two points of intersection.  The integral can be split into a sum of the two intersections of non-zero inputs.  The first integral is exactly the same as (\ref{eq:cis_vs_hilbert_exactly_the_same}).  The second integral is a similar integration over the negative frequencies.  This doesn't appear in $Y_{k,Hilbert}$ because the analytic signal has negative frequencies equal to zero.
 
 \begin{align}
-Y_{k}^2(f) =& \int\limits_{a_1}^{b_1} X_{k}(r + f) X_{k}^*(r)dr + \int\limits_{a_2}^{b_2} X_{k}(r + f) X_{k}^*(r)dr \\
+Y_{k,CIS}(f) =& \int\limits_{a_1}^{b_1} X_{k}(r + f) X_{k}^*(r)dr + \int\limits_{a_2}^{b_2} X_{k}(r + f) X_{k}^*(r)dr \\
 a_1 =& max\Big( f_k - \frac{1}{2} f_{bw},  f_k - \frac{1}{2} f_{bw} - f\Big) \\
 b_1 =& min\Big( f_k + \frac{1}{2} f_{bw},  f_k + \frac{1}{2} f_{bw} - f\Big) \\
 a_2 =& max\Big( -f_k - \frac{1}{2} f_{bw},  -f_k - \frac{1}{2} f_{bw} - f\Big) \\
@@ -2151,36 +2163,37 @@ b_2 =& min\Big( -f_k + \frac{1}{2} f_{bw},  -f_k + \frac{1}{2} f_{bw} - f\Big)
 Using the Hermitian symmetry of the real-valued $x[n]$,
 
 \begin{align}
-Y_{k}^2(f) =& \int\limits_{a_1}^{b_1} X_{k}(r + f) X_{k}^*(r)dr + \int\limits_{a_2}^{b_2} X_{k}^*(-r - f) X_{k}(-r)dr \\
-r' = -r - f \nonumber \\
-Y_{k}^2(f) =& \int\limits_{a_1}^{b_1} X_{k}(r + f) X_{k}^*(r)dr + \int\limits_{a_1}^{b_1} X_{k}^*(r') X_{k}(r' + f)dr' \\
+Y_{k,CIS}(f) =& \int\limits_{a_1}^{b_1} X_{k}(r + f) X_{k}^*(r)dr + \int\limits_{a_2}^{b_2} X_{k}^*(-r - f) X_{k}(-r)dr \\
+%
+\mathrm{Let} r' = -r - f \nonumber \\
+%
+Y_{k,CIS}(f) =& \int\limits_{a_1}^{b_1} X_{k}(r + f) X_{k}^*(r)dr + \int\limits_{a_1}^{b_1} X_{k}^*(r') X_{k}(r' + f)dr' \\
 =& 2 \int\limits_{a_1}^{b_1} X_{k}(r + f) X_{k}^*(r)dr \\
-=& 2 Y_k^1(f)
+=& 2 Y_{k,Hilbert}(f)
 \end{align}
 
-If we lowpass filter $Y_k^2(f)$ with a filter defined
+This may be summarized as (\ref{eq:y_k_hilbert}) and (\ref{eq:y_k_cis}), repeated here:
 
 \begin{align}
-H_{lp}(f) =& \frac{1}{2}, \quad |f| < f_{bw} \\
-=& 0, \quad 2f_k - f_{bw} < |f| < 2f_k + f_{bw}
+Y_{k,Hilbert}(f) =& \left\{
+			 \begin{array}{ll}
+X^+_{k}(f) * X^{*+}_{k}(-f), \quad |f| < f_{bw} \\
+0, \qquad \qquad \qquad \qquad |f| \geq f_{bw} \\
+                \end{array}
+               \right. \nonumber \\
+Y_{k,CIS}(f) =& \left\{
+			 \begin{array}{ll}
+2Y_{k,Hilbert}(f), \quad \qquad \qquad \qquad \quad |f| < f_{bw} \\
+0, \qquad \qquad \qquad \qquad \qquad  f_{bw} \leq |f| \leq 2f_k - f_{bw}  \\
+X_{k}(f) * X^*_{k}(-f), \quad 2f_k - f_{bw} < |f| < 2f_k + f_{bw} \\
+0, \qquad \qquad \qquad \qquad \qquad \quad \qquad |f| \geq 2f_k + f_{bw}  \\
+                \end{array}
+               \right. \nonumber
 \end{align}
 
-then
 
-\begin{align}
-Y_{k}^2(f) =& Y_k^1(f) \quad \forall f
-\end{align}
 
-We conclude that 
-
-\begin{align}
-\label{eq:squared_cis_hilbert}
-\Big| x_k[n] \Big|^2 * h_{lp}[n] \approx \Big| \widehat{x}_k[n] \Big|^2
-\end{align}
-
-Things to consider are delay and non-deal filters, however provided the distance between baseband and the $\pm2f_k$ terms a sufficient filter is practical in practice.
-
-Now the relationship between $m_{k,CIS}[n]$ and $m_{k,Hilbert}[n]$ is muddled by the nonlinear square root operation, however the nonlinearities induced won't be noticeably distorted by $h_{lp}[n]$.  In practice, there only noticeable difference will be the added delay from the final lowpass filter in the CIS method.
+% Vita
 
 \vita{Tyler Ganter grew up in upstate New York, where the long cold winters inspired him to pick up guitar. While pursuing a BSEE at the University at Buffalo he took an interest computer programming, which he decided to minor in.  Through a continued interest in mathematics, software and music he found himself at home in the field of audio digital signal processing.  The desire to delve deeper into this field has led him to study at the University of Washington.}
 
