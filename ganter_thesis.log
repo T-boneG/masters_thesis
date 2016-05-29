@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  28 MAY 2016 21:09
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  28 MAY 2016 21:49
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -535,7 +535,7 @@ e 695.
 File: figures/coherent_phase.pdf Graphic file (type pdf)
 
 <use figures/coherent_phase.pdf>
-Package pdftex.def Info: figures/coherent_phase.pdf used on input line 735.
+Package pdftex.def Info: figures/coherent_phase.pdf used on input line 732.
 (pdftex.def)             Requested size: 470.295pt x 140.47977pt.
  [24 <./figures/coherent_phase.pdf>] [25]
 <figures/real_vs_magnitude_example.png, id=718, 1170.3725pt x 751.80875pt>
@@ -543,210 +543,217 @@ File: figures/real_vs_magnitude_example.png Graphic file (type png)
 
 <use figures/real_vs_magnitude_example.png>
 Package pdftex.def Info: figures/real_vs_magnitude_example.png used on input li
-ne 797.
+ne 794.
 (pdftex.def)             Requested size: 470.295pt x 302.10623pt.
  [26 <./figures/real_vs_magnitude_example.png>] [27]
 
 LaTeX Warning: Citation `laneau2006improved' on page 28 undefined on input line
- 842.
+ 839.
 
 [28] [29] [30] [31] [32]
-<figures/STFTvsHILBERTvsCIS.png, id=742, 748.7975pt x 402.50375pt>
-File: figures/STFTvsHILBERTvsCIS.png Graphic file (type png)
+<figures/STFTvsHILBERTvsCIS.pdf, id=742, 777.9337pt x 429.2277pt>
+File: figures/STFTvsHILBERTvsCIS.pdf Graphic file (type pdf)
 
-<use figures/STFTvsHILBERTvsCIS.png>
-Package pdftex.def Info: figures/STFTvsHILBERTvsCIS.png used on input line 1074
+<use figures/STFTvsHILBERTvsCIS.pdf>
+Package pdftex.def Info: figures/STFTvsHILBERTvsCIS.pdf used on input line 1071
 .
-(pdftex.def)             Requested size: 470.295pt x 252.7987pt.
- [33] [34 <./figures/STFTvsHILBERTvsCIS.png>] [35]
+(pdftex.def)             Requested size: 470.295pt x 259.49036pt.
+ [33] [34 <./figures/STFTvsHILBERTvsCIS.pdf>] [35]
 <<4>>
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 1138
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 1135
 .
 (/usr/local/texlive/2015/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 1138.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 1135.
 
  [36
 
 ]
-<figures/harmonic_envelope.png, id=757, 551.05875pt x 498.86375pt>
-File: figures/harmonic_envelope.png Graphic file (type png)
+<figures/harmonic_envelope.pdf, id=822, 496.266pt x 450.03912pt>
+File: figures/harmonic_envelope.pdf Graphic file (type pdf)
 
-<use figures/harmonic_envelope.png>
-Package pdftex.def Info: figures/harmonic_envelope.png used on input line 1176.
+<use figures/harmonic_envelope.pdf>
+Package pdftex.def Info: figures/harmonic_envelope.pdf used on input line 1173.
 
-(pdftex.def)             Requested size: 291.5806pt x 263.97025pt.
- [37] [38 <./figures/harmonic_envelope.png>] [39]
-<figures/harmonic_envelope_estimate.png, id=768, 446.66875pt x 621.32124pt>
-File: figures/harmonic_envelope_estimate.png Graphic file (type png)
+(pdftex.def)             Requested size: 291.5806pt x 264.42206pt.
+ [37] [38 <./figures/harmonic_envelope.pdf>] [39]
+<figures/harmonic_envelope_estimate.pdf, id=914, 512.64981pt x 716.0926pt>
+File: figures/harmonic_envelope_estimate.pdf Graphic file (type pdf)
 
-<use figures/harmonic_envelope_estimate.png>
-Package pdftex.def Info: figures/harmonic_envelope_estimate.png used on input l
-ine 1262.
-(pdftex.def)             Requested size: 291.5806pt x 405.59845pt.
+<use figures/harmonic_envelope_estimate.pdf>
+Package pdftex.def Info: figures/harmonic_envelope_estimate.pdf used on input l
+ine 1259.
+(pdftex.def)             Requested size: 291.5806pt x 407.3029pt.
 
-<figures/harmonic_envelope_2F0.png, id=769, 436.63126pt x 252.945pt>
-File: figures/harmonic_envelope_2F0.png Graphic file (type png)
+<figures/harmonic_envelope_2F0.pdf, id=915, 504.88727pt x 272.14194pt>
+File: figures/harmonic_envelope_2F0.pdf Graphic file (type pdf)
 
-<use figures/harmonic_envelope_2F0.png>
-Package pdftex.def Info: figures/harmonic_envelope_2F0.png used on input line 1
-296.
-(pdftex.def)             Requested size: 291.5806pt x 168.91647pt.
+<use figures/harmonic_envelope_2F0.pdf>
+Package pdftex.def Info: figures/harmonic_envelope_2F0.pdf used on input line 1
+293.
+(pdftex.def)             Requested size: 291.5806pt x 157.16971pt.
 
-<figures/harmonic_envelope_F0.png, id=770, 435.6275pt x 242.9075pt>
-File: figures/harmonic_envelope_F0.png Graphic file (type png)
+<figures/harmonic_envelope_F0.pdf, id=916, 508.63542pt x 819.31694pt>
+File: figures/harmonic_envelope_F0.pdf Graphic file (type pdf)
 
-<use figures/harmonic_envelope_F0.png>
-Package pdftex.def Info: figures/harmonic_envelope_F0.png used on input line 12
-98.
-(pdftex.def)             Requested size: 291.5806pt x 162.58408pt.
+<use figures/harmonic_envelope_F0.pdf>
+Package pdftex.def Info: figures/harmonic_envelope_F0.pdf used on input line 12
+95.
+(pdftex.def)             Requested size: 291.5806pt x 469.67839pt.
 
-<figures/harmonic_envelope_0.png, id=771, 440.64626pt x 235.88126pt>
-File: figures/harmonic_envelope_0.png Graphic file (type png)
+<figures/harmonic_envelope_0.pdf, id=917, 508.16936pt x 275.9139pt>
+File: figures/harmonic_envelope_0.pdf Graphic file (type pdf)
 
-<use figures/harmonic_envelope_0.png>
-Package pdftex.def Info: figures/harmonic_envelope_0.png used on input line 130
-0.
-(pdftex.def)             Requested size: 291.5806pt x 156.09242pt.
- [40] [41 <./figures/harmonic_envelope_estimate.png>] [42 <./figures/harmonic_e
-nvelope_2F0.png> <./figures/harmonic_envelope_F0.png> <./figures/harmonic_envel
-ope_0.png>]
-Overfull \hbox (7.99033pt too wide) in paragraph at lines 1322--1322
+<use figures/harmonic_envelope_0.pdf>
+Package pdftex.def Info: figures/harmonic_envelope_0.pdf used on input line 129
+7.
+(pdftex.def)             Requested size: 291.5806pt x 158.31665pt.
+
+
+LaTeX Warning: Float too large for page by 287.69472pt on input line 1299.
+
+[40] [41 <./figures/harmonic_envelope_estimate.pdf>] [42 <./figures/harmonic_en
+velope_2F0.pdf> <./figures/harmonic_envelope_F0.pdf> <./figures/harmonic_envelo
+pe_0.pdf>]
+Overfull \hbox (7.99033pt too wide) in paragraph at lines 1319--1319
 [] 
  []
 
-<figures/downshift_effects.png, id=786, 963.6pt x 695.59875pt>
-File: figures/downshift_effects.png Graphic file (type png)
+<figures/downshift_effects.pdf, id=1297, 504.58002pt x 714.28778pt>
+File: figures/downshift_effects.pdf Graphic file (type pdf)
 
-<use figures/downshift_effects.png>
-Package pdftex.def Info: figures/downshift_effects.png used on input line 1328.
+<use figures/downshift_effects.pdf>
+Package pdftex.def Info: figures/downshift_effects.pdf used on input line 1325.
 
-(pdftex.def)             Requested size: 470.295pt x 339.4878pt.
+(pdftex.def)             Requested size: 291.5806pt x 412.77222pt.
  [43
 
-] [44 <./figures/downshift_effects.png>]
+] [44 <./figures/downshift_effects.pdf>]
 
-LaTeX Warning: Citation `harris1978use' on page 45 undefined on input line 1354
+LaTeX Warning: Citation `harris1978use' on page 45 undefined on input line 1351
 .
 
 [45
 
-] [46] <figures/clarinetVSsax_F.png, id=800, 503.8825pt x 402.50375pt>
+] [46] <figures/clarinetVSsax_F.png, id=1399, 503.8825pt x 402.50375pt>
 File: figures/clarinetVSsax_F.png Graphic file (type png)
 
 <use figures/clarinetVSsax_F.png>
-Package pdftex.def Info: figures/clarinetVSsax_F.png used on input line 1412.
+Package pdftex.def Info: figures/clarinetVSsax_F.png used on input line 1409.
 (pdftex.def)             Requested size: 470.295pt x 375.67578pt.
 
-<figures/clarinetVSsax_T.png, id=801, 627.34375pt x 342.27875pt>
+<figures/clarinetVSsax_T.png, id=1400, 627.34375pt x 342.27875pt>
 File: figures/clarinetVSsax_T.png Graphic file (type png)
 
 <use figures/clarinetVSsax_T.png>
-Package pdftex.def Info: figures/clarinetVSsax_T.png used on input line 1420.
+Package pdftex.def Info: figures/clarinetVSsax_T.png used on input line 1417.
 (pdftex.def)             Requested size: 470.295pt x 256.60396pt.
 
 
 LaTeX Warning: Citation `vandali2011development' on page 47 undefined on input 
-line 1426.
+line 1423.
 
 [47] [48 <./figures/clarinetVSsax_F.png>] [49 <./figures/clarinetVSsax_T.png>]
 
 LaTeX Warning: Citation `kong2011temporal' on page 50 undefined on input line 1
-453.
+450.
 
 
 LaTeX Warning: Citation `burnett1977attack' on page 50 undefined on input line 
-1455.
+1452.
 
 [50]
 
 LaTeX Warning: Citation `vandali2005pitch' on page 51 undefined on input line 1
-488.
+485.
 
-[51] <figures/g_k_1.pdf, id=820, 687.56876pt x 406.51875pt>
+[51] <figures/g_k_1.pdf, id=1420, 687.56876pt x 406.51875pt>
 File: figures/g_k_1.pdf Graphic file (type pdf)
 
 <use figures/g_k_1.pdf>
-Package pdftex.def Info: figures/g_k_1.pdf used on input line 1499.
+Package pdftex.def Info: figures/g_k_1.pdf used on input line 1496.
 (pdftex.def)             Requested size: 470.295pt x 278.05426pt.
- <figures/g_k_2.pdf, id=821, 687.56876pt x 406.51875pt>
+
+<figures/g_k_2.pdf, id=1421, 687.56876pt x 406.51875pt>
 File: figures/g_k_2.pdf Graphic file (type pdf)
 
 <use figures/g_k_2.pdf>
-Package pdftex.def Info: figures/g_k_2.pdf used on input line 1507.
+Package pdftex.def Info: figures/g_k_2.pdf used on input line 1504.
 (pdftex.def)             Requested size: 376.23743pt x 222.44464pt.
  [52 <./figures/g_k_1.pdf>]
-<figures/g_k_3.pdf, id=833, 687.56876pt x 406.51875pt>
+<figures/g_k_3.pdf, id=1433, 687.56876pt x 406.51875pt>
 File: figures/g_k_3.pdf Graphic file (type pdf)
- <use figures/g_k_3.pdf>
-Package pdftex.def Info: figures/g_k_3.pdf used on input line 1515.
+
+<use figures/g_k_3.pdf>
+Package pdftex.def Info: figures/g_k_3.pdf used on input line 1512.
 (pdftex.def)             Requested size: 376.23743pt x 222.44464pt.
 
-<figures/g_k_4.pdf, id=834, 687.56876pt x 406.51875pt>
+<figures/g_k_4.pdf, id=1434, 687.56876pt x 406.51875pt>
 File: figures/g_k_4.pdf Graphic file (type pdf)
- <use figures/g_k_4.pdf>
-Package pdftex.def Info: figures/g_k_4.pdf used on input line 1525.
-(pdftex.def)             Requested size: 470.295pt x 278.05426pt.
 
-[53 <./figures/g_k_2.pdf>] [54 <./figures/g_k_3.pdf>] [55 <./figures/g_k_4.pdf>
-] <figures/sir_k_1.pdf, id=872, 687.56876pt x 406.51875pt>
+<use figures/g_k_4.pdf>
+Package pdftex.def Info: figures/g_k_4.pdf used on input line 1522.
+(pdftex.def)             Requested size: 470.295pt x 278.05426pt.
+ [53 <./figures/g_k_2.pdf>] [54 <./figures/g_k_3.pdf>]
+[55 <./figures/g_k_4.pdf>]
+<figures/sir_k_1.pdf, id=1472, 687.56876pt x 406.51875pt>
 File: figures/sir_k_1.pdf Graphic file (type pdf)
 
 <use figures/sir_k_1.pdf>
-Package pdftex.def Info: figures/sir_k_1.pdf used on input line 1553.
+Package pdftex.def Info: figures/sir_k_1.pdf used on input line 1550.
 (pdftex.def)             Requested size: 470.295pt x 278.05426pt.
  [56
 
  <./figures/sir_k_1.pdf>]
-<figures/sir_k_2.pdf, id=885, 687.56876pt x 406.51875pt>
+<figures/sir_k_2.pdf, id=1484, 687.56876pt x 406.51875pt>
 File: figures/sir_k_2.pdf Graphic file (type pdf)
 
 <use figures/sir_k_2.pdf>
-Package pdftex.def Info: figures/sir_k_2.pdf used on input line 1561.
+Package pdftex.def Info: figures/sir_k_2.pdf used on input line 1558.
 (pdftex.def)             Requested size: 470.295pt x 278.05426pt.
 
-<figures/sir_k_3.pdf, id=886, 687.56876pt x 492.84125pt>
+<figures/sir_k_3.pdf, id=1485, 687.56876pt x 492.84125pt>
 File: figures/sir_k_3.pdf Graphic file (type pdf)
 
 <use figures/sir_k_3.pdf>
-Package pdftex.def Info: figures/sir_k_3.pdf used on input line 1571.
+Package pdftex.def Info: figures/sir_k_3.pdf used on input line 1568.
 (pdftex.def)             Requested size: 329.20506pt x 235.96701pt.
 
-<figures/sir_k_4.pdf, id=887, 687.56876pt x 492.84125pt>
+<figures/sir_k_4.pdf, id=1486, 687.56876pt x 492.84125pt>
 File: figures/sir_k_4.pdf Graphic file (type pdf)
 
 <use figures/sir_k_4.pdf>
-Package pdftex.def Info: figures/sir_k_4.pdf used on input line 1577.
+Package pdftex.def Info: figures/sir_k_4.pdf used on input line 1574.
 (pdftex.def)             Requested size: 329.20506pt x 235.96701pt.
  [57 <./figures/sir_k_2.pdf>]
 
 LaTeX Warning: Text page 58 contains only floats.
 
 [58 <./figures/sir_k_3.pdf> <./figures/sir_k_4.pdf>]
-<figures/d_ki_1.pdf, id=918, 883.3pt x 400.49625pt>
+<figures/d_ki_1.pdf, id=1517, 883.3pt x 400.49625pt>
 File: figures/d_ki_1.pdf Graphic file (type pdf)
  <use figures/d_ki_1.pdf>
-Package pdftex.def Info: figures/d_ki_1.pdf used on input line 1593.
+Package pdftex.def Info: figures/d_ki_1.pdf used on input line 1590.
 (pdftex.def)             Requested size: 470.295pt x 213.23976pt.
 
-<figures/d_ki_2.pdf, id=919, 883.3pt x 400.49625pt>
+<figures/d_ki_2.pdf, id=1518, 883.3pt x 400.49625pt>
 File: figures/d_ki_2.pdf Graphic file (type pdf)
  <use figures/d_ki_2.pdf>
-Package pdftex.def Info: figures/d_ki_2.pdf used on input line 1601.
+Package pdftex.def Info: figures/d_ki_2.pdf used on input line 1598.
 (pdftex.def)             Requested size: 470.295pt x 213.23976pt.
 
-<figures/d_ki_4.pdf, id=920, 883.3pt x 400.49625pt>
+<figures/d_ki_4.pdf, id=1519, 883.3pt x 400.49625pt>
 File: figures/d_ki_4.pdf Graphic file (type pdf)
  <use figures/d_ki_4.pdf>
-Package pdftex.def Info: figures/d_ki_4.pdf used on input line 1609.
+Package pdftex.def Info: figures/d_ki_4.pdf used on input line 1606.
 (pdftex.def)             Requested size: 470.295pt x 213.23976pt.
 
-<figures/d_ki_3.pdf, id=921, 883.3pt x 400.49625pt>
+<figures/d_ki_3.pdf, id=1520, 883.3pt x 400.49625pt>
 File: figures/d_ki_3.pdf Graphic file (type pdf)
  <use figures/d_ki_3.pdf>
-Package pdftex.def Info: figures/d_ki_3.pdf used on input line 1617.
+Package pdftex.def Info: figures/d_ki_3.pdf used on input line 1614.
 (pdftex.def)             Requested size: 470.295pt x 213.23976pt.
 
 [59
@@ -754,102 +761,102 @@ Package pdftex.def Info: figures/d_ki_3.pdf used on input line 1617.
  <./figures/d_ki_1.pdf>]
 
 LaTeX Warning: Citation `vandali2005pitch' on page 60 undefined on input line 1
-623.
+620.
 
 
-Overfull \hbox (26.03735pt too wide) in paragraph at lines 1623--1624
+Overfull \hbox (26.03735pt too wide) in paragraph at lines 1620--1621
 []\OT1/cmr/m/n/12 Psychophysical stud-ies have found that for re-li-able pitch 
 dis-crim-i-na-tion amplitude-modulations
  []
 
 [60 <./figures/d_ki_2.pdf> <./figures/d_ki_4.pdf>] [61 <./figures/d_ki_3.pdf>]
-<figures/transient_1.pdf, id=964, 883.3pt x 400.49625pt>
+<figures/transient_1.pdf, id=1563, 883.3pt x 400.49625pt>
 File: figures/transient_1.pdf Graphic file (type pdf)
 
 <use figures/transient_1.pdf>
-Package pdftex.def Info: figures/transient_1.pdf used on input line 1654.
+Package pdftex.def Info: figures/transient_1.pdf used on input line 1651.
 (pdftex.def)             Requested size: 470.295pt x 213.23976pt.
  [62 <./figures/transient_1.pdf>]
-<figures/transient_2.pdf, id=976, 984.67876pt x 400.49625pt>
+<figures/transient_2.pdf, id=1576, 984.67876pt x 400.49625pt>
 File: figures/transient_2.pdf Graphic file (type pdf)
 
 <use figures/transient_2.pdf>
-Package pdftex.def Info: figures/transient_2.pdf used on input line 1682.
+Package pdftex.def Info: figures/transient_2.pdf used on input line 1679.
 (pdftex.def)             Requested size: 470.295pt x 191.28268pt.
  [63 <./figures/transient_2.pdf>]
-<figures/transient_3.pdf, id=988, 1392.20125pt x 507.8975pt>
+<figures/transient_3.pdf, id=1588, 1392.20125pt x 507.8975pt>
 File: figures/transient_3.pdf Graphic file (type pdf)
 
 <use figures/transient_3.pdf>
-Package pdftex.def Info: figures/transient_3.pdf used on input line 1693.
+Package pdftex.def Info: figures/transient_3.pdf used on input line 1690.
 (pdftex.def)             Requested size: 564.35255pt x 205.88336pt.
 
-Overfull \hbox (94.05756pt too wide) in paragraph at lines 1693--1694
+Overfull \hbox (94.05756pt too wide) in paragraph at lines 1690--1691
  [][] 
  []
 
 [64 <./figures/transient_3.pdf>] [65
 
 ] [66]
-<figures/pitch_sir_k_1.pdf, id=1007, 794.97pt x 414.54875pt>
+<figures/pitch_sir_k_1.pdf, id=1607, 794.97pt x 414.54875pt>
 File: figures/pitch_sir_k_1.pdf Graphic file (type pdf)
 
 <use figures/pitch_sir_k_1.pdf>
-Package pdftex.def Info: figures/pitch_sir_k_1.pdf used on input line 1775.
+Package pdftex.def Info: figures/pitch_sir_k_1.pdf used on input line 1772.
 (pdftex.def)             Requested size: 470.295pt x 245.24582pt.
 
-<figures/pitch_sir_k_2.pdf, id=1008, 794.97pt x 414.54875pt>
+<figures/pitch_sir_k_2.pdf, id=1608, 794.97pt x 414.54875pt>
 File: figures/pitch_sir_k_2.pdf Graphic file (type pdf)
 
 <use figures/pitch_sir_k_2.pdf>
-Package pdftex.def Info: figures/pitch_sir_k_2.pdf used on input line 1781.
+Package pdftex.def Info: figures/pitch_sir_k_2.pdf used on input line 1778.
 (pdftex.def)             Requested size: 470.295pt x 245.24582pt.
 
-<figures/pitch_sir_k_1_error5.pdf, id=1009, 794.97pt x 414.54875pt>
+<figures/pitch_sir_k_1_error5.pdf, id=1609, 794.97pt x 414.54875pt>
 File: figures/pitch_sir_k_1_error5.pdf Graphic file (type pdf)
 
 <use figures/pitch_sir_k_1_error5.pdf>
 Package pdftex.def Info: figures/pitch_sir_k_1_error5.pdf used on input line 17
-91.
+88.
 (pdftex.def)             Requested size: 470.295pt x 245.24582pt.
 
-<figures/pitch_sir_k_2_error5.pdf, id=1010, 794.97pt x 414.54875pt>
+<figures/pitch_sir_k_2_error5.pdf, id=1610, 794.97pt x 414.54875pt>
 File: figures/pitch_sir_k_2_error5.pdf Graphic file (type pdf)
 
 <use figures/pitch_sir_k_2_error5.pdf>
 Package pdftex.def Info: figures/pitch_sir_k_2_error5.pdf used on input line 17
-97.
+94.
 (pdftex.def)             Requested size: 470.295pt x 245.24582pt.
  [67] [68 <./figures/pitch_sir_k_1.pdf> <./figures/pitch_sir_k_2.pdf>] [69 <./f
 igures/pitch_sir_k_1_error5.pdf> <./figures/pitch_sir_k_2_error5.pdf>]
-<figures/pitch_d_ki_1.pdf, id=1065, 794.97pt x 414.54875pt>
+<figures/pitch_d_ki_1.pdf, id=1664, 794.97pt x 414.54875pt>
 File: figures/pitch_d_ki_1.pdf Graphic file (type pdf)
 
 <use figures/pitch_d_ki_1.pdf>
-Package pdftex.def Info: figures/pitch_d_ki_1.pdf used on input line 1811.
+Package pdftex.def Info: figures/pitch_d_ki_1.pdf used on input line 1808.
 (pdftex.def)             Requested size: 470.295pt x 245.24582pt.
 
-<figures/pitch_d_ki_2.pdf, id=1066, 794.97pt x 414.54875pt>
+<figures/pitch_d_ki_2.pdf, id=1665, 794.97pt x 414.54875pt>
 File: figures/pitch_d_ki_2.pdf Graphic file (type pdf)
 
 <use figures/pitch_d_ki_2.pdf>
-Package pdftex.def Info: figures/pitch_d_ki_2.pdf used on input line 1817.
+Package pdftex.def Info: figures/pitch_d_ki_2.pdf used on input line 1814.
 (pdftex.def)             Requested size: 470.295pt x 245.24582pt.
 
-<figures/pitch_d_ki_1_error5.pdf, id=1067, 794.97pt x 305.14pt>
+<figures/pitch_d_ki_1_error5.pdf, id=1666, 794.97pt x 305.14pt>
 File: figures/pitch_d_ki_1_error5.pdf Graphic file (type pdf)
 
 <use figures/pitch_d_ki_1_error5.pdf>
 Package pdftex.def Info: figures/pitch_d_ki_1_error5.pdf used on input line 182
-5.
+2.
 (pdftex.def)             Requested size: 470.295pt x 180.51991pt.
 
-<figures/pitch_d_ki_2_error5.pdf, id=1068, 794.97pt x 305.14pt>
+<figures/pitch_d_ki_2_error5.pdf, id=1667, 794.97pt x 305.14pt>
 File: figures/pitch_d_ki_2_error5.pdf Graphic file (type pdf)
 
 <use figures/pitch_d_ki_2_error5.pdf>
-Package pdftex.def Info: figures/pitch_d_ki_2_error5.pdf used on input line 183
-1.
+Package pdftex.def Info: figures/pitch_d_ki_2_error5.pdf used on input line 182
+8.
 (pdftex.def)             Requested size: 470.295pt x 180.51991pt.
  [70
 
@@ -866,10 +873,10 @@ No file ganter_thesis.bbl.
 
 ]
 
-LaTeX Warning: Reference `eq:dft_x_k' on page 78 undefined on input line 2061.
+LaTeX Warning: Reference `eq:dft_x_k' on page 78 undefined on input line 2058.
 
 
-LaTeX Warning: Reference `eq:dft_x^+_k' on page 78 undefined on input line 2061
+LaTeX Warning: Reference `eq:dft_x^+_k' on page 78 undefined on input line 2058
 .
 
 [78] [79] [80] [81] [82] [83
@@ -898,20 +905,22 @@ b></usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb
 /usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></u
 sr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr
 /local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/l
-ocal/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/loc
-al/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/local
-/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/te
-xlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texli
-ve/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texliv
-e/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/local/texlive/
-2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/20
-15/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2015
-/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/local/texlive/2015/
-texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb>
-Output written on ganter_thesis.pdf (91 pages, 3102039 bytes).
+ocal/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/loc
+al/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local
+/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/local/t
+exlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/texl
+ive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive
+/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/20
+15/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/201
+5/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/local/texlive/2015/
+texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2015/te
+xmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2015/texm
+f-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/local/texlive/2015/texmf
+-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb>
+Output written on ganter_thesis.pdf (91 pages, 2986527 bytes).
 PDF statistics:
- 1200 PDF objects out of 1200 (max. 8388607)
- 750 compressed objects within 8 object streams
+ 1800 PDF objects out of 2073 (max. 8388607)
+ 1293 compressed objects within 13 object streams
  0 named destinations out of 1000 (max. 500000)
  231 words of extra memory for PDF output out of 10000 (max. 10000000)
 
