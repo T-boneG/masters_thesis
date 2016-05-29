@@ -1,0 +1,72 @@
+\contentsline {chapter}{\@textofLoF }{iii}
+\contentsline {chapter}{\numberline {\@textofChapter \ 1:}Introduction}{1}
+\contentsline {section}{\numberline {1.1}Overview}{1}
+\contentsline {section}{\numberline {1.2}Survey of Literature}{3}
+\contentsline {section}{\numberline {1.3}Contents of Thesis}{4}
+\contentsline {section}{\numberline {1.4}Notational Conventions}{4}
+\contentsline {chapter}{\numberline {\@textofChapter \ 2:}Cochlea Implant Processing}{6}
+\contentsline {subsection}{\numberline {2.0.1}Sum-of-Products Model}{7}
+\contentsline {subsection}{\numberline {2.0.2}Why Envelopes?}{8}
+\contentsline {subsection}{\numberline {2.0.3}The Channel Vocoder}{8}
+\contentsline {subsection}{\numberline {2.0.4}Temporal Fine Structure}{10}
+\contentsline {subsection}{\numberline {2.0.5}Processing Blocks}{10}
+\contentsline {section}{\numberline {2.1}DSP Algorithms}{12}
+\contentsline {subsection}{\numberline {2.1.1}ACE}{12}
+\contentsline {subsection}{\numberline {2.1.2}F0mod}{14}
+\contentsline {subsection}{\numberline {2.1.3}HSSE}{14}
+\contentsline {subsection}{\numberline {2.1.4}Summary}{16}
+\contentsline {chapter}{\numberline {\@textofChapter \ 3:}Envelope Extraction Methods}{18}
+\contentsline {section}{\numberline {3.1}Incoherent Methods}{18}
+\contentsline {subsection}{\numberline {3.1.1}Continuous Interleaved Sampling (CIS)}{19}
+\contentsline {subsection}{\numberline {3.1.2}Hilbert Envelope}{20}
+\contentsline {subsection}{\numberline {3.1.3}Short Time Fourier Transform (STFT)}{20}
+\contentsline {section}{\numberline {3.2}Coherent Methods}{22}
+\contentsline {subsection}{\numberline {3.2.1}Spectral Center-of-Gravity}{22}
+\contentsline {subsection}{\numberline {3.2.2}Harmonic}{23}
+\contentsline {section}{\numberline {3.3}Coherent Phase Encoding}{24}
+\contentsline {subsection}{\numberline {3.3.1}Appropriate Scaling}{27}
+\contentsline {subsection}{\numberline {3.3.2}Efficacy}{27}
+\contentsline {section}{\numberline {3.4}The Relationships}{28}
+\contentsline {subsection}{\numberline {3.4.1}Hilbert VS STFT}{28}
+\contentsline {subsection}{\numberline {3.4.2}STFT vs Harmonic}{30}
+\contentsline {subsection}{\numberline {3.4.3}CIS VS Hilbert}{32}
+\contentsline {subsection}{\numberline {3.4.4}Abstract Interpretation}{33}
+\contentsline {section}{\numberline {3.5}Summary}{35}
+\contentsline {chapter}{\numberline {\@textofChapter \ 4:}Harmonic Envelope Extraction}{36}
+\contentsline {section}{\numberline {4.1}Steady-State Analysis}{37}
+\contentsline {subsection}{\numberline {4.1.1}3 Harmonic Example: Desired Envelope}{37}
+\contentsline {subsection}{\numberline {4.1.2}Estimated Envelope}{38}
+\contentsline {subsection}{\numberline {4.1.3}3 Harmonic Example: Estimated Envelope}{40}
+\contentsline {subsection}{\numberline {4.1.4}3 Harmonic Example: Estimated Envelope with downshift error}{43}
+\contentsline {section}{\numberline {4.2}Steady-State Metrics}{45}
+\contentsline {subsection}{\numberline {4.2.1}Coherent Gain}{45}
+\contentsline {subsection}{\numberline {4.2.2}Harmonic SIR}{45}
+\contentsline {subsection}{\numberline {4.2.3}Modulation Depth}{46}
+\contentsline {section}{\numberline {4.3}Induced VS Explicit Temporal Modulation}{47}
+\contentsline {subsection}{\numberline {4.3.1}Followup Filter}{49}
+\contentsline {section}{\numberline {4.4}Time-Varying F0}{50}
+\contentsline {section}{\numberline {4.5}Transients}{50}
+\contentsline {section}{\numberline {4.6}Evaluation of Strategies}{51}
+\contentsline {subsection}{\numberline {4.6.1}Coherent Gain}{52}
+\contentsline {subsection}{\numberline {4.6.2}Harmonic SIR}{56}
+\contentsline {subsection}{\numberline {4.6.3}Modulation Depth}{59}
+\contentsline {subsection}{\numberline {4.6.4}Transients}{62}
+\contentsline {subsection}{\numberline {4.6.5}Summary}{65}
+\contentsline {section}{\numberline {4.7}Non-ideal Pitch Estimators}{65}
+\contentsline {subsection}{\numberline {4.7.1}Harmonic SIR}{67}
+\contentsline {subsection}{\numberline {4.7.2}Modulation Depth}{70}
+\contentsline {section}{\numberline {4.8}Mapping and Selection}{72}
+\contentsline {section}{\numberline {4.9}Implementation Considerations}{73}
+\contentsline {subsection}{\numberline {4.9.1}Carrier Synthesis}{73}
+\contentsline {subsection}{\numberline {4.9.2}Pitch Estimator}{73}
+\contentsline {subsection}{\numberline {4.9.3}Adaptive Filters using FFT}{74}
+\contentsline {subsection}{\numberline {4.9.4}Efficient FFT Interpolation Algorithm}{74}
+\contentsline {subsection}{\numberline {4.9.5}Stimulation Rate}{74}
+\contentsline {subsection}{\numberline {4.9.6}encoding transients}{74}
+\contentsline {subsection}{\numberline {4.9.7}Hybrid Methods}{75}
+\contentsline {section}{\numberline {4.10}Summary}{75}
+\contentsline {chapter}{\numberline {\@textofChapter \ 5:}Conclusion}{76}
+\contentsline {section}{\numberline {5.1}Summary}{76}
+\contentsline {section}{\numberline {5.2}Future Work}{76}
+\contentsline {chapter}{\numberline {\@textofAppendix \ A:}Derivations}{77}
+\contentsline {subsection}{\numberline {A.0.1}CIS VS Hilbert}{77}

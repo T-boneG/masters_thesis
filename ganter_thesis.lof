@@ -1,0 +1,52 @@
+\addvspace {5\p@ }
+\contentsline {figure}{\numberline {1.1}{\ignorespaces Classification Scheme for CI Processing Strategies}}{2}
+\addvspace {5\p@ }
+\contentsline {figure}{\numberline {2.1}{\ignorespaces CA vs CIS}}{7}
+\contentsline {figure}{\numberline {2.2}{\ignorespaces Channel Vocoder Processing}}{9}
+\contentsline {figure}{\numberline {2.3}{\ignorespaces Signal Flow in CI}}{11}
+\contentsline {figure}{\numberline {2.4}{\ignorespaces Tranformation from DSP output to Electrical Signal, the DSP output is compressed, then applied an electric pulse train to generate the final modulated electric pulse train}}{11}
+\contentsline {figure}{\numberline {2.5}{\ignorespaces ACE Flow Diagram}}{13}
+\contentsline {figure}{\numberline {2.6}{\ignorespaces condensed ACE Flow Diagram}}{13}
+\contentsline {figure}{\numberline {2.7}{\ignorespaces F0mod Flow Diagram}}{14}
+\contentsline {figure}{\numberline {2.8}{\ignorespaces Induced vs Explicit Temporal Modulations Example}}{15}
+\contentsline {figure}{\numberline {2.9}{\ignorespaces HSSE Flow Diagram}}{15}
+\contentsline {figure}{\numberline {2.10}{\ignorespaces HSSE (with coherent phase encoding) Flow Diagram}}{16}
+\addvspace {5\p@ }
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Incoherent vs Coherent Envelope Extraction}}{19}
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Magnitude Only VS Coherent Phase Encoding Block Diagrams}}{24}
+\contentsline {figure}{\numberline {3.3}{\ignorespaces Cello Example, top left: $m^{(2)}_{k,harmonic}[n]$, top right: $m^{(1)}_{k,harmonic}[n]$, bottom left: $y^{(2)}_k[n]$, bottom right: $55$}}{26}
+\contentsline {figure}{\numberline {3.4}{\ignorespaces Method Comparison: magnitude spectrum at each step}}{34}
+\addvspace {5\p@ }
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Magnitude of spectrum for equations (4.5\hbox {}) - (4.8\hbox {})}}{38}
+\contentsline {figure}{\numberline {4.2}{\ignorespaces $(a)-(c)$: magnitude of spectrum for equations (4.19\hbox {}) - (4.21\hbox {}), $(d)$: time-reversal of $(c)$, $(e)$: magnitude of spectrum for (4.22\hbox {}), $(f)$: contributions of separate components of $(e)$}}{41}
+\contentsline {figure}{\numberline {4.3}{\ignorespaces Envelope Estimate $-2F_0$ Component}}{42}
+\contentsline {figure}{\numberline {4.4}{\ignorespaces Envelope Estimate $-F_0$ Component}}{42}
+\contentsline {figure}{\numberline {4.5}{\ignorespaces Envelope Estimate Baseband Component}}{42}
+\contentsline {figure}{\numberline {4.6}{\ignorespaces $(a)-(c)$: magnitude of spectrum for equations (4.23\hbox {}) - (4.25\hbox {}), $(d)$: time-reversal of $(c)$, $(e)$: magnitude of spectrum for (4.26\hbox {}), $(f)$: contributions of separate components of $(e)$}}{44}
+\contentsline {figure}{\numberline {4.7}{\ignorespaces Clarinet vs Saxophone Harmonic Components}}{48}
+\contentsline {figure}{\numberline {4.8}{\ignorespaces Clarinet vs Saxophone Envelope Estimates}}{49}
+\contentsline {figure}{\numberline {4.9}{\ignorespaces $G_k$ Downshift Quatization}}{52}
+\contentsline {figure}{\numberline {4.10}{\ignorespaces $G_k$ filter order}}{53}
+\contentsline {figure}{\numberline {4.11}{\ignorespaces $G_k$ filter design}}{54}
+\contentsline {figure}{\numberline {4.12}{\ignorespaces $G_k$ variation across harmonics}}{55}
+\contentsline {figure}{\numberline {4.13}{\ignorespaces $SIR_k$ filter order and quantization}}{56}
+\contentsline {figure}{\numberline {4.14}{\ignorespaces $SIR_k$ filter design}}{57}
+\contentsline {figure}{\numberline {4.15}{\ignorespaces $SIR_k$ variation across harmonics with hanning filter}}{58}
+\contentsline {figure}{\numberline {4.16}{\ignorespaces $SIR_k$ variation across harmonics with rectangular filter}}{58}
+\contentsline {figure}{\numberline {4.17}{\ignorespaces $D_{k,i}$ filter design and order}}{59}
+\contentsline {figure}{\numberline {4.18}{\ignorespaces $D_{k,i}$ downshift quantization}}{60}
+\contentsline {figure}{\numberline {4.19}{\ignorespaces $D_{k,1}$ across harmonics}}{60}
+\contentsline {figure}{\numberline {4.20}{\ignorespaces $D_{k,i}$ at rate of $iF_0$}}{61}
+\contentsline {figure}{\numberline {4.21}{\ignorespaces Transient Step Response, order = 128, 256, 512 (increasing order corresponds to longer reponse time)}}{62}
+\contentsline {figure}{\numberline {4.22}{\ignorespaces Transient Input/Output Change}}{63}
+\contentsline {figure}{\numberline {4.23}{\ignorespaces Transient Distortion for Common Instruments}}{64}
+\contentsline {figure}{\numberline {4.24}{\ignorespaces $SIR_k$, hanning filter and pitch estimate quantization}}{68}
+\contentsline {figure}{\numberline {4.25}{\ignorespaces $SIR_k$, adaptive filter and pitch estimate quantization}}{68}
+\contentsline {figure}{\numberline {4.26}{\ignorespaces $SIR_k$, hanning filter, pitch estimate quantization and $\pm 5$Hz estimation error}}{69}
+\contentsline {figure}{\numberline {4.27}{\ignorespaces $SIR_k$, adaptive filter, pitch estimate quantization and $\pm 5$Hz estimation error}}{69}
+\contentsline {figure}{\numberline {4.28}{\ignorespaces $D_{k,1}$, hanning filter and pitch estimate quantization}}{70}
+\contentsline {figure}{\numberline {4.29}{\ignorespaces $D_{k,1}$, hanning filter and pitch estimate quantizationr}}{71}
+\contentsline {figure}{\numberline {4.30}{\ignorespaces $D_{k,1}$, hanning filter, pitch estimate quantization and $\pm 5$Hz estimation error}}{71}
+\contentsline {figure}{\numberline {4.31}{\ignorespaces $D_{k,1}$, hanning filter, pitch estimate quantization and $\pm 5$Hz estimation error}}{72}
+\addvspace {5\p@ }
+\addvspace {5\p@ }
