@@ -1,8 +1,5 @@
 % BEFORE SUBMITTING --------------------------------------------------------
 
-%TODO Kaibao's refs
-
-
 % SQUARE ROOTS AUGHH!!!
 
 %TODO 1 -this is not true...
@@ -748,7 +745,7 @@ The second, complex envelope is the same as the first but without the final magn
 m^{(2)}_{k,harmonic}[n] =& x[n] e^{-jk\phi_0 [n]} * h\big[n, F_0[n] \big]
 \end{align}
 
-\section{Coherent Phase Encoding}
+\section{Coherent Phase Encoding}\label{section:coherent_phase}
 
 As mentioned earlier, the final DSP output is a set of real non-negative signals.  We take a short aside to compare the two coherent harmonic methods, one of which, due to it's complex output, cannot be evaluated as an envelope extraction method independent of temporal fine structure encoding.
 
@@ -860,6 +857,8 @@ So what is the efficacy of (\ref{eq:realVSmag1}) versus (\ref{eq:realVSmag3})?  
 
 Since the term $\phi_k[n]$ does not distinguish noise-like signals from narrowband sinusoidal signals, it is only preserving phase alignment.  But this begs the question, what does it mean to preserve the phase of a harmonic when downshifted to $F_0$?  It is questionable as to whether this even has any logical meaning.  Furthermore, it has been suggested \cite{laneau2006improved} that phase alignment is important for pitch perception in CIs.  By using a magnitude-only method we guarantee alignment across channels.
 %TODO add phase alignment refs
+
+Galvin tested how well users can notice changes in modulation rate between channels, found users are very sensitive to changes of as little as 2-4Hz in AM frequency
 
 % It means every k'th peak will be lined up with the downshifted peak, that being said that probably doesn't mean a whole lot in terms of important information
 % perhaps show a figure of this?
@@ -2008,6 +2007,8 @@ In chapter~\ref{ch:envelope_extraction} we investigated different envelope extra
 We found that steady-state and transient responses of harmonics can vary greatly over designs, and that it is important to design a harmonic envelope extraction system such that it satisfies desired performance within the relevant ranges of $F_0$ and $k$.  Along that same line, it is critical that pitch estimation is accurate and stable.  Small errors can propagate to big errors for high harmonics and issues such as octave errors could cause severe artifacts.
 
 Feature selection is certainly a big component to harmonic encoding and warrants further research.  This points in the direction of hybrid methods, where harmonic features are selected in some cases and (potentially inharmonic) spectral peaks are selected in others.
+
+Another direction could be to investigate the effects of phase alignment.  Although we decided not to further investigate coherent phase encoding after section~\ref{section:coherent_phase}, there is still the possibility that this method improves performance.  In a study by Galvin et al. \cite{galvin2015envelope} CI subjects were found to be extremely sensitive to multi-channel amplitude modulation frequency discrimination (AMFD).  One test case had a small enough frequency increment that the change over the duration of stimulation essentially amounted to a $180^\circ$ change in phase.  Even in this case subjects were able to reliably identify the change.
 
 There are certainly many different directions this work could continue in.  F0mod and HSSE are different in both feature extraction and feature selection, representing both incoherent and coherent methods.  A critical question that remains unanswered is which, if either, of these aspects can be improved by coherent processing.  This motivates investigation in separate trials where coherent envelopes are selected incoherently or incoherent envelopes are selected coherently.  Thorough testing with cochlear implant subjects could shine some light on this question.
 
