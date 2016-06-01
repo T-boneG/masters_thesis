@@ -12,6 +12,10 @@
 %TODO 1 - justify this better
 % cis vs hilbert square-root
 
+%TODO <DELETE THIS START>
+%DON'T FORGET!!!
+%TODO <DELETE THIS END>
+
 % ----------------------------------------------------------------------------------------
 
 
@@ -1267,6 +1271,32 @@ Expanding (\ref{eq:estimated_envelope_squared}) results in
 %
 +& e^{j2\pi \frac{\mathcolor{blue}{KF_0}}{Fs}n}  m_K[n] m_0^*[n] H_k(f_{k,K})H_k^*(f_{k,0})
 \end{align}
+
+%TODO <DELETE THIS START>
+----------------------------------------------------------------------------------------------------------------------
+\begin{align}
+\Big( \tilde{m}^2_k[n]\Big)_0 =& \sum\limits_{l=0}^K \Big|m_l[n]\Big|^2 \Big|H_k(f_{k,l})\Big|^2 \nonumber \\
+%
+%
+\Big| \Big( \tilde{m}^2_k[n]\Big)_i \Big| =& \Bigg| \sum\limits_{l=0}^{K-|i|} m_l[n] m^*_{l+i}[n] H_k(f_{k,i}) H^*_k(f_{k,l+i})\Bigg|, \quad -K \leq i \leq K \\
+%
+\leq& \sum\limits_{l=0}^{K-|i|} \Big| m_l[n]\Big| \Big|m_{l+i}[n]\Big| \Big|H_k(f_{k,i})\Big| \Big|H_k(f_{k,l+i})\Big|, \quad -K \leq i \leq K \\
+%
+%
+%
+%
+%
+%
+G_k =& \Big| H_k(f_{k,k}) \Big| \\
+%
+SIR_k =& \frac{\Big| H_k(f_{k,k}) \Big|} {\Bigg[ \sum\limits_{l=0}^K \Big|H_k(f_{k,l})\Big|^2 \Bigg] ^ \frac{1}{2}} \\
+%
+%
+D_{k,i} =& \frac{\Bigg[ \sum\limits_{l=0}^{K-i} \Big|H_k(f_{k,l})\Big| \Big|H_k(f_{k,l+i})\Big|\Bigg]^\frac{1}{2}}
+{\Bigg[ \sum\limits_{l=0}^K \Big|H_k(f_{k,l})\Big|^2 \Bigg] ^ \frac{1}{2}}, \quad 1 \leq i \leq K
+\end{align}
+----------------------------------------------------------------------------------------------------------------------
+%TODO <DELETE THIS END>
 
 From (\ref{eq:estimate_expanded}), $\tilde{m}_k[n]$ can be thought of as a sum of terms each centered at $\mathcolor{blue}{iF_0}$ where the magnitude of each term is
 
