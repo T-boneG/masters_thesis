@@ -1,8 +1,3 @@
-%TODO 1 = why isn't this done?!
-%TODO 2 = not so important but quick
-%TODO 3 = not so important and tedious\\
-%TODO 5 = list format
-
 % BEFORE SUBMITTING --------------------------------------------------------
 
 %TODO Kaibao's refs
@@ -26,8 +21,6 @@
 
 %TODO 1/3 - prove this or describe it better
 % hilbert narrow filter issue
-
-
 
 
 
@@ -369,6 +362,10 @@ $F_s$ - sampling rate in Hz
 
 $*$ - the convolution operation
 
+$\tilde{m}_k[n]$ - estimate of $m_k[n]$
+
+$\tilde{F}_0[n]$ - estimate of $F_0[n]$
+
 %$(\cdot)^*$
 
 % ========== Chapter 2
@@ -423,7 +420,7 @@ Modulation rates are also limited by pulse rate.  Although there isn't a quantit
 
 \subsection{The Channel Vocoder}
 
-To gain some intuition as to how and why CIS processing works, consider a closely related system, the channel vocoder.  Vocoding is a method of signal analysis and synthesis initially designed for audio data compression in telecommunication.  As of the mid 70's the vocoder has gained widespread familiarity via the music industry as a funky voice effect.  It is most well known for the signature robot voice heard in hits such as Kraftwerk's song ``The Robots'' or Styx's ``Mr. Roboto''.  In its application to music, the vocoder extracts the bandlimited envelopes of one source, (typically vocal), and applies them to each subband component of a second source.
+To gain some intuition as to how and why CIS processing works, consider a closely related system, the channel vocoder.  Vocoding is a method of signal analysis and synthesis initially designed for audio data compression in telecommunication.  As of the mid 70's the vocoder has gained widespread familiarity via the music industry as a funky voice effect.  It is most well known for the signature robot voice heard in hits such as Kraftwerk's song ``The Robots'' or the Beastie Boys' ``Intergalactic''.  In its application to music, the vocoder extracts the bandlimited envelopes of one source, (typically vocal), and applies them to each subband component of a second source.
 
 What's interesting is that this second source can be essentially any arbitrary broadband signal and yet we still understand speech from the first source.  In this way the vocoder acts as a form of lossy data compression; the low data-rate envelopes are extracted and they may be later applied to, for example, white-noise.
 
@@ -570,27 +567,24 @@ Because of the unique characteristics of each carrier, the carrier synthesis blo
     \caption{HSSE (with coherent phase encoding) Flow Diagram}\label{fig:HSSE_flow_2}
 \end{figure}
 
-\subsection{Summary}
+\section{Summary}
 
-Comparing these strategies, the differences may be summarized as:
+Comparing ACE, F0mod and HSSE, the differences may be summarized by envelope extraction, temporal fine structure (TFS) encoding and feature selection.  These aspects will each be investigated in the following chapters.  Figure~\ref{fig:document_layout} visualizes the layout of the following chapters.
 
-%TODO 5 - list format
+\begin{figure}[!ht]
+  \centering
+    \includegraphics[width=.7\textwidth]{document_layout}   
+    \caption{Document Layout}\label{fig:document_layout}
+\end{figure}
 
-1) Envelope Extraction Method (not discussed yet)
+The primary focus is on envelope extraction, but because TFS encoding is tied to envelope extraction in a few ways, relevant questions will be brought up along the way.
 
-2) Temporal Fine Structure Encoding Method
+Chapter~\ref{ch:envelope_extraction} will discuss mathematical methods of envelope extraction as well as phase preservation since phase is extracted at the same time.  As a result we will generalize the envelope extraction method and address the efficacy of coherent phase encoding.
 
-a) induced vs explicit
+Chapter~\ref{ch:harmonic_envelopes} will evaluate designs for envelope extraction.  The desired envelope is different depending on whether induced or explicit temporal modulations are desired.  Both methods will be investigated in this chapter.
 
-b) phase encoding (explicit only)
+Finally, in chapter~\ref{ch:conclusion} the other aspects to strategy design will be briefly discussed before concluding this thesis.
 
-c) modulation waveform (explicit only)
-
-3) Envelope-to-Channel Allocation and Channel Selection
-
-We will start by investigating 1 and 2(a,b).  Some considerations for 2(c) and 3 will be brought up upon concluding this thesis, however, the primary focus will be on 1 and 2(a,b).
-
-Chapter~\ref{ch:envelope_extraction} will discuss mathematical methods to envelope extraction as well as phase preservation since phase is extracted at the same time.  As a result we will generalize 1 and we will answer 2(b).  Chapter~\ref{ch:harmonic_envelopes} will evaluate design considerations for 1 and in doing so, answer 2(a).  Chapter~\ref{ch:conclusion} will briefly discuss 2(c) and 3.
 
 % ========== Chapter 3
 
@@ -1675,7 +1669,7 @@ In the best case, order 512 is sufficient for all $F_0$.  In the worst case, ord
 
 Time-responses are a bit more difficult to analyze, since there is no standard measurement like decibels that we are familiar with.  We will consider transient responses of the different filter designs and filter orders with three different analyses.
 
-The first is the unit step response, shown in figure~\ref{fig:transient_1}.  Latency on the order of 15ms isn't of much concern.  The more important difference is the rise time.  The 10-90\% rise times are displayed in table~\ref{table:rise_times}.  The adaptive filter is evaluated at three values of $F_0$: 80, 260 and 500Hz.  The adaptive filters all have the same rise time at high enough $F_0$ however the lower order filters are fundamentally constrained on how slow the rise time can be.  The rectangular window has the worst performance.
+The first is the unit step response, shown in figure~\ref{fig:transient_1}.  Latency on the order of 15ms isn't of too much concern.  The more important difference is the rise time.  The 10-90\% rise times are displayed in table~\ref{table:rise_times}.  The adaptive filter is evaluated at three values of $F_0$: 80, 260 and 500Hz.  The adaptive filters all have the same rise time at high enough $F_0$ however the lower order filters are fundamentally constrained on how slow the rise time can be.  The rectangular window has the worst performance.
 
 \begin{figure}[!ht]
   \centering
@@ -1744,7 +1738,8 @@ The sharp-cutoff order 512 filters smear the fast transients a significant amoun
 
 The critical assumption thus far has been accurate pitch estimates.  One problem to consider is error in the pitch estimator.  The other analyzed in this thesis is pitch estimator quantization.
 
-We consider a specific pitch estimator that uses autocorrelation.  To summarize this method, first an autocorrelation is performed on the windowed input.  A maxima is selected from this autocorrelation and the fundamental frequency is computed from the index of the maxima.
+%TODO - add pitch estimator ref
+We consider a specific pitch estimator that uses autocorrelation.  First an autocorrelation is performed on the windowed input.  A maxima is selected from this autocorrelation and the fundamental frequency is computed from the index of the maxima.
 
 \begin{align}
 R_{xx}[n,\tau] =& x_{windowed}[r] * x_{windowed}[-r] \\
@@ -1757,40 +1752,38 @@ This can be implemented efficiently using the fast-autocorrelation method
 R_{xx}[n,\tau] = \mathcal{F}^{-1}\Big\{X[n,k]X^*[n,k]\Big\}
 \end{align}
 
-Defining the FFT order as $N$, for this method the possible values of $F_0$ are 
+Defining the FFT order as $N$, for this method the possible values of $\tilde{F}_0$ are 
 
 \begin{align}
-F_0 = \frac{F_s}{\tau}, \quad 1 \leq \tau \leq \frac{N}{2}
+\tilde{F}_0 = \frac{F_s}{\tau}, \quad 2 \leq \tau \leq \frac{N}{2}
 \end{align}
 
-Since the considered $F_0$ range is bounded to 50-550Hz better resolution can be achieved by resampling the signal such that more values of $F_0$ fall within these bounds:
+Since the considered $F_0$ range is bounded to 50-550Hz better resolution can be achieved by resampling the signal such that more values of $\tilde{F}_0$ fall within these bounds:
 
 \begin{align}
-max\Big(\frac{2Fs}{N}, 50\Big) \leq F_0 \leq min\Big(\frac{Fs}{2}, 550\Big)
+max\Big(\frac{2Fs}{N}, 50\Big) \leq \tilde{F}_0 \leq min\Big(\frac{Fs}{2}, 550\Big)
 \end{align}
 
-Choosing $F_s$ is important, since the quantization of $F_0$ is not linearly spaced and becomes worse at higher values of $F_0$.
+Choosing $F_s$ is important, since the quantization of $\tilde{F}_0$ is not linearly spaced and becomes worse at higher values of $F_0$.
 
-To be clear that this different sampling rate is only relevant to pitch estimation and not any of the other envelope extraction process, the pitch estimator sampling rate is defined: $F_{s,pitch}$.  Having $N$ as the filter orders previously considered, $F_{s,pitch}$ is selected for a maximal number of values of $F_0$ within the region of interest.  The designs are shown in table~\ref{table:f0_quantization}.
+To be clear that this different sampling rate is only relevant to pitch estimation and not the rest of the envelope extraction process, the pitch estimator sampling rate is defined: $F_{s,pitch}$.  Having $N$ as the filter orders previously considered, $F_{s,pitch}$ is selected for a maximal number of values of $\tilde{F}_0$ within the region of interest.  The designs are shown in table~\ref{table:f0_quantization}.
 
 \begin{table}
 \begin{center}
 \begin{tabular}{| r | r | r | r | r | r |}
   \hline
-  \textbf{Order ($N$)} & \textbf{$F_{s,pitch}$} &  \textbf{min $F_0$} & \textbf{max $F_0$} &  \textbf{best quantization} &  \textbf{worst quantization} \\ \hline
+  \textbf{Order ($N$)} & \textbf{$F_{s,pitch}$} &  \textbf{min $\tilde{F}_0$} & \textbf{max $\tilde{F}_0$} &  \textbf{best quantization} &  \textbf{worst quantization} \\ \hline
   128 & 4kHz & 63Hz & 500Hz & 1Hz & 56Hz \\ \hline
   256 & 8kHz & 63Hz & 533Hz & 1Hz & 33Hz \\ \hline
   512 & 16kHz & 63Hz & 533Hz & 1Hz & 17Hz \\ \hline
 \end{tabular}
 \end{center}
-\caption{$F_0$ estimate quantization}\label{table:f0_quantization}
+\caption{$F_0$ estimate, ($\tilde{F}_0$), quantization}\label{table:f0_quantization}
 \end{table}
 
 With this design each $N$ covers approximately the same range, however the high orders have 2 or 4 times as many samples as $N = 128$.  This is especially important at high values of $F_0$ where the quantization is the worst.
 
 The next subsections revisit harmonic SIR and modulation depth with non-deal pitch estimates.  Downshift quantization is assumed: $F_q = \frac{F_s}{N}$.
-
-%TODO <CONTINUE READING HERE>
 
 \subsection{Harmonic SIR}
 
@@ -1810,9 +1803,7 @@ The hanning filter performs slightly better at high $F_0$'s due to narrower filt
     \caption{$SIR_k$, adaptive filter and pitch estimate quantization}\label{fig:pitch_sir_k_2}
 \end{figure}
 
-Provided the same designs but with $\pm5$Hz pitch estimation error, the worst case $SIR_k$ is shown for hanning filter in figure~\ref{fig:pitch_sir_k_1_error5} and for adaptive filter in figure~\ref{fig:pitch_sir_k_2_error5}.
-
-The error degrades performance in two dimensions.  Similar to quantization error, the perfomance degrades proportional to $k$.  The other problem is at low values of $F_0$, where harmonics are more closely spaced.  Take the right plot in figure~\ref{fig:pitch_sir_k_1_error5} as an example.  For the first 3 harmonics good harmonic SIRs are good for $F_0 > 80$Hz, however for $k = 3,4$ this increases to roughly $F_0 > 180$Hz and the even higher harmonics never achieve satisfactory SIR.
+Provided the same designs but with $\pm5$Hz pitch estimation error, the worst case $SIR_k$ is shown for hanning filter in figure~\ref{fig:pitch_sir_k_1_error5} and for adaptive filter in figure~\ref{fig:pitch_sir_k_2_error5}.  The error degrades performance in two dimensions.  Similar to quantization error, the performance degrades proportional to $k$.  The other problem is at low values of $F_0$, where harmonics are more closely spaced.  Take the right plot in figure~\ref{fig:pitch_sir_k_1_error5} as an example.  For the first 3 harmonics harmonic SIRs are good for $F_0 > 80$Hz, however for $k = 3,4$ this increases to roughly $F_0 > 180$Hz and the even higher harmonics never achieve satisfactory SIR.
 
 \begin{figure}[!ht]
   \centering
@@ -1830,9 +1821,9 @@ The error degrades performance in two dimensions.  Similar to quantization error
 
 \subsection{Modulation Depth}
 
-The same analysis now repeated for modulation depth.  Looking at figure~\ref{fig:pitch_d_ki_1}, with hanning filter and pitch estimate quantization, high harmonics have very high modulations.  Around the 6th harmonic, ($k = 5$), we start to see big spikes in modulation depth at high $F_0$'s.  Interestingly the same harmonics have poor performance regardless of $N$, however there is a far broader region of failure for lower $N$.
+The same analysis is now repeated for modulation depth.  Looking at figure~\ref{fig:pitch_d_ki_1}, with hanning filter and pitch estimate quantization, high harmonics have very high modulations.  Around the 6th harmonic, ($k = 5$), we start to see big spikes in modulation depth at high $F_0$'s.  Interestingly the same harmonics have poor performance regardless of $N$, however there is a far broader region of failure for lower $N$.
 
-In  figure~\ref{fig:pitch_d_ki_2} there is much better performance for $N = 512$ in comparison to the hanning filer.  This is because despite having wider bandwidth at high $F_0$'s, the sidelobes are much lower than the hanning filter.  The first hanning sidelobe has a gain of -31dB, whereas for $F_0 = 500$Hz the adaptive filter has a first sidelobe gain of -56dB.
+In  figure~\ref{fig:pitch_d_ki_2} there is much better performance for $N = 512$ in comparison to the hanning filter.  This is because despite having wider bandwidth at high $F_0$'s, the sidelobes are much lower than the hanning filter.  The first hanning sidelobe has a gain of -31dB, whereas for $F_0 = 500$Hz the adaptive filter has a first sidelobe gain of -56dB.
 
 \begin{figure}[!ht]
   \centering
@@ -1846,7 +1837,7 @@ In  figure~\ref{fig:pitch_d_ki_2} there is much better performance for $N = 512$
     \caption{$D_{k,1}$, hanning filter and pitch estimate quantizationr}\label{fig:pitch_d_ki_2}
 \end{figure}
 
-Now considering $\pm5$Hz estimation error, figures~\ref{fig:pitch_d_ki_1_error5} and \ref{fig:pitch_d_ki_2_error5} show the same shift right where higher harmonics at low $F_0$'s perform worse.  The adaptive order 512 filter performs the best, being very robust error.
+Now considering $\pm5$Hz estimation error, figures~\ref{fig:pitch_d_ki_1_error5} and \ref{fig:pitch_d_ki_2_error5} show the same shift right where higher harmonics at low $F_0$'s perform worse.  The adaptive order 512 filter performs the best, being very robust to error.
 
 \begin{figure}[!ht]
   \centering
@@ -1860,7 +1851,7 @@ Now considering $\pm5$Hz estimation error, figures~\ref{fig:pitch_d_ki_1_error5}
     \caption{$D_{k,1}$, hanning filter, pitch estimate quantization and $\pm5$Hz estimation error}\label{fig:pitch_d_ki_2_error5}
 \end{figure}
 
-Regardless of extraction method there is a fundamental limit on performance with poor pitch estimates.  From all of the above examples, performance degrades proportional to $k \times \mathrm{error} / F_0$.
+Regardless of extraction method there is a fundamental limit on performance with poor pitch estimates.  From all of the above examples, we conclude that performance generally degrades proportional to $k \times \mathrm{error} / F_0$.
 
 \section{Summary}
 
@@ -1868,7 +1859,7 @@ A lot was covered in this chapter, and now some highlights will be reviewed.  Th
 
 Of the three steady-state metrics, coherent gain, $G_k$, did not seem to be a critical design consideration in contrast to the other two.  Additionally, continuous time-variations of $F_0[n]$ did not appear to affect performance significantly.
 
-The other two metrics, harmonic SIR, ($SIR_k$), and modulation depth, ($D_{k,i}$), had significant variation over design parameters.  Of these design parameters, filter order, $N$, and filter design proved more important than downshift quantization, $F_q$.
+The other two metrics, harmonic SIR, $SIR_k$, and modulation depth, $D_{k,i}$, had significant variation over design parameters.  Of these design parameters, filter order, $N$, and filter design proved more important than downshift quantization, $F_q$.
 
 The highest order, $N = 512$ performed best for steady-state, however, transients were smeared the most.
 
@@ -1877,7 +1868,7 @@ Hanning and adaptive filter designs performed mostly the same except for the tra
 % if explained, add it to "where adaptive performed better than hanning"
 %"it mitigated modulation depth problems due to pitch estimation at high harmonic indices, allowing for robust harmonic isolation even at high"
 
-The pitch tracker was found to be critical to performance.  It was found that system performance degrades proportional to $k \times \mathrm{error} / F_0$, i.e. the more error in pitch estimate the less reliable high-$k$ harmonics will be and the threshold-$k$ decreases with decreasing $F_0$.
+The pitch tracker was found to be critical to performance.  We concluded that system performance degrades proportional to $k \times \mathrm{error} / F_0$, i.e. the more error in pitch estimate the less reliable high-$k$ harmonics will be and the threshold-$k$ decreases with decreasing $F_0$.
 
 Provided known pitch quantization and an idea of typical estimation error, metrics can be used to determine what harmonic index performance breaks down at.
 
@@ -1885,6 +1876,8 @@ Provided known pitch quantization and an idea of typical estimation error, metri
 % ========== Chapter 5
 
 \chapter{Conclusion}\label{ch:conclusion}
+
+The two focuses of this thesis have been covered in chapters~\ref{ch:envelope_extraction} and \ref{ch:harmonic_envelopes}.  We still have not discussed modulation waveforms or feature selection.  In order to tell a complete story of cochlear implant processing, this chapter will briefly discuss these two topics before discussing implementation considerations and concluding.
 
 \section{Feature Selection with Harmonic Envelopes}
 
@@ -1900,11 +1893,11 @@ As mentioned in \ref{ss:ACE}, feature selection is broken in two parts: envelope
 
 \subsection{Envelope-to-Channel Allocation}
 
-Fixed Greenwood bands \cite{greenwood1961critical}, (tonotopically spaced frequency bands) are determined offline, corresponding each electrode with a bandwidth.  The $\mathcal{K}$ envelopes are then mapped to the $\mathcal{M}$ electrodes by finding the greenwood bands each harmonic falls within.
+Fixed Greenwood bands \cite{greenwood1961critical}, (tonotopically spaced frequency bands) are determined offline, corresponding each electrode with a bandwidth.  The $\mathcal{K}$ envelopes are then mapped to the $\mathcal{M}$ electrodes by finding the Greenwood bands each harmonic falls within.
 
-A system needs to have a way of handling cases when multiple harmonic envelopes are allocated to the same band.  This can be done by either combination or selection.  Details of a power sum combination can be found in section 5.2 of \cite{laneau2005deaf}.  Alternatively, two potential options for selection are to choose the lowest index harmonic in a band, or the loudest harmonic within a band.
+A system needs to have a way of handling cases when multiple harmonic envelopes are allocated to the same band.  This can be done by either combination or selection.  Details of a power sum combination can be found in section 5.2 of \cite{laneau2005deaf}.  Alternatively, two potential options for selection are to choose the lowest index harmonic in a band or the loudest harmonic within a band.
 
-Combination has the benefit of representing more of the signal at the cost of individual harmonic representation. This could be beneficial for electrodes mapped to high frequencies since the energy of harmonic signals typically rolls off at higher harmonics.
+Combination has the benefit of representing more of the signal at the cost of individual harmonic representation. This could be beneficial for electrodes mapped to high frequencies since the energy of harmonic signals rolls off at higher harmonics.
 
 Selection allows for better representation of individual harmonics.  This could potentially benefit timbre recognition by more uniquely representing signals.
 
@@ -1934,27 +1927,25 @@ Landsberger \cite{landsberger2008effects} investigated the effects of wave shape
 
 \section{Implementation Considerations}
 
-One of the major design constraints in cochlear implants is the fact that it is a low power embedded system.  Overly complicated DSP drains battery life adds computational load that may be more than the real-time processor can handle.  
-
-real-time causal systems
+One of the major design constraints in a cochlear implant is the fact that it is a low power embedded system.  Overly complicated DSP drains battery life and adds computational load that may be more than the real-time processor can handle.  Furthermore, these systems must be causal.  When combined with lip reading, latency of more than 20ms can be perceived as ``disturbing'' \cite{stone2002tolerable}.
 
 \subsection{Feature Selection Heuristics}
 
 Feature selection is an important aspect of processing and there appears to be a trade-off between selection of most important features and consistency of stimuli.  In coherent processing there is additional knowledge about the signal from the pitch estimator.  This could be used to improve consistency of feature selection.
 
-For example, $F_0$ can vary rapidly by small amounts due to vibrato or estimation error.  In the case that a harmonic is close to a Greenwood band boundary, (which channel it is mapped to), it could switch back and forth between channels.  For clarity, imagine a system where $190\mathrm{Hz} < kF_0 \leq 315\mathrm{Hz}$ maps to channel 1 and $315\mathrm{Hz} < kF_0 \leq 440\mathrm{Hz}$ maps to channel 2, but $F_0[n]$ happens to be rapidly switching between 314Hz and 316Hz.  The fundamental will be mapped to a different channel each time this small change in estimate occurs.  Figure~\ref{fig:heuristic_pseudocode} shows pseudocode of a regularizer heuristic that would eliminate this rapid switching at edge cases.
+For example, $\tilde{F}_0$ can vary rapidly by small amounts due to vibrato or estimation error.  In the case that a harmonic is close to a Greenwood band boundary, (which channel it is mapped to), it could switch back and forth between channels.  For clarity, imagine a system where $190\mathrm{Hz} < k\tilde{F}_0 \leq 315\mathrm{Hz}$ maps to channel 1 and $315\mathrm{Hz} < k\tilde{F}_0 \leq 440\mathrm{Hz}$ maps to channel 2, but $\tilde{F}_0[n]$ happens to be rapidly switching between 314Hz and 316Hz.  The fundamental will be mapped to a different channel each time this small change in estimate occurs.  Figure~\ref{fig:heuristic_pseudocode} shows pseudocode of a regularizer heuristic that would eliminate this rapid switching at edge cases.
 
 \begin{figure}[!ht]
   \centering
     \includegraphics[width=.6\textwidth]{pseudocode}
-    \caption{Pseudocode of Harmonic-to-Channel Mapping Heurisitc}\label{fig:heuristic_pseudocode}
+    \caption{Pseudocode of Harmonic-to-Channel Mapping Regularizer Heurisitc}\label{fig:heuristic_pseudocode}
 \end{figure}
 
-Similarly, other selection decisions can be regularized by considering continuity of input.  $\mathcal{N}$-of-$\mathcal{M}$ maxima selection could reselect channels only when $F_0$ changes by more than a threshold.
+Similarly, other selection decisions can be regularized by considering continuity of input.  $\mathcal{N}$-of-$\mathcal{M}$ maxima selection could reselect channels only when $\tilde{F}_0$ changes by more than a threshold.
 
 \subsection{Efficient FFT Interpolation Algorithm}
 
-The fast Fourier transform (FFT) is a powerful processing tool that efficiently computes all filters of a filterbank in parallel.  It was mentioned in section~\ref{ss:stft_vs_harmonic} that arbitrary downshift resolution can be achieved by zero-padding an FFT.  However, only for harmonic envelope extraction only a subset of those filters is needed.
+The fast Fourier transform (FFT) is a powerful processing tool that efficiently computes all filters of a filterbank in parallel.  It was mentioned in section~\ref{ss:stft_vs_harmonic} that arbitrary downshift resolution can be achieved by zero-padding an FFT; however, for harmonic envelope extraction only a subset of those filters is needed.
 
 Necessary and sufficient conditions for $x[n]$ to be reconstructed from $X[n,k]$ \cite{portnoff1976implementation} are:
 
@@ -1983,20 +1974,18 @@ where $((*))_N$ denotes circular convolution.  This can then by computed efficie
 
 \subsection{Adaptive Filters using FFT}
 
-Adaptive filter design performed better than rectangular or hanning in most cases.  Provided sufficient memory, a bank of windows (lowpass filters) could be stored, and provided $F_0$, an appropriate window is selected for FFT computation.
-
-If these windows satisfy the constraints mentioned in the previous section, better frequency resolution can also be achieved.
+Adaptive filter design performed better than rectangular or hanning in most cases, but implementing an adaptive filterbank requires new filter designs at each $F_0$.  Rather than computing new coefficients each processing frame, a bank of windows (lowpass filters) could be stored, and provided $F_0$, an appropriate window is selected for FFT computation.  Depending on memory constraints, a sufficient number of filters could be stored such that a good approximation is available for any value of $F_0$.  The memory demand is not that significant if uniform filters are used, i.e. one window per $F_0$ value.  If these windows satisfy the constraints mentioned in the previous section, better frequency resolution can also be achieved.
 
 \subsection{Transient Encoding}
 
-There is a large body of research on transient detection and explicit encoding \cite{bonada2000automatic} \cite{levine1998sines} \cite{masri1996improved} \cite{masri1996computer}.  This approach could be used to circumvent the trade-off between steady-state envelope extraction and transient smearing.
+There is a large body of research on transient detection and explicit encoding \cite{bonada2000automatic}\cite{levine1998sines}\cite{masri1996computer}\cite{masri1996improved} .  This approach could be used to circumvent the trade-off between steady-state envelope extraction and transient smearing.
 %TODO thoroughly read these!
 
 \subsection{Hybrid Methods}
 
 %What if it is well outside the boundaries of $F_0$?  What about polyphonic music?  What about SNRs below what is needed for accurate $F_0$ estimation.
 
-This thesis has focused on harmonic signals, and while they make up a large portion of sounds we are exposed to many inharmonic sounds daily.  Even for harmonic sounds transients can't necessarily by represented with the proposed harmonic encoding strategy.  A pitch tracker requires a long enough signal duration to get a good estimate to make things harder, it won't be possible to estimate pitch during the transient of some sound sources. For example, bowed string tones are inharmonic during both their attack and decay \cite{beauchamp1974time}.  All this motivates a hybrid harmonic/inharmonic method as a direction worth investigating.
+This thesis has focused on harmonic signals, and while they make up a large portion of sounds we are exposed to many inharmonic sounds daily.  Even for harmonic sounds transients can't necessarily by represented with the proposed harmonic encoding strategy.  A pitch tracker requires a long enough signal duration to get a good estimate and to make things harder, it won't be possible to estimate pitch during the transient of some sound sources. For example, bowed string tones are inharmonic during both their attack and decay \cite{beauchamp1974time}.  All this motivates a hybrid harmonic/inharmonic method as a direction worth investigating.
 
 The eTone strategy \cite{vandali2011development} is an example that computes harmonic probabilities per channel and handles them differently based on this quantity.  This is a way of using soft decisions to generalize to a broader range of signals.
 
@@ -2012,47 +2001,15 @@ One solution is to encode harmonic envelopes only for harmonics that would be re
 
 \section{Summary and Future Work}
 
-In this thesis we have...
+In this thesis we have investigated both feature extraction and feature selection with respect to cochlear implant processing.  In chapter~\ref{ch:ci_processing} we investigated three strategies, ACE, F0mod and HSSE and found that the key aspects were envelope extraction, temporal fine structure encoding and feature selection.
 
-%===================================================
+In chapter~\ref{ch:envelope_extraction} we investigated different envelope extraction methods and, in doing so, suggested that coherent phase encoding was not worth pursuing.  After comparing envelope extraction methods, a generalized extraction method was defined, such that it encompasses all of the other methods.  Envelope extraction designs were evaluated in chapter \ref{ch:harmonic_envelopes}.  We concluded that explicit temporal modulation is a more robust and less artifact prone method than induced modulation.  In comparison of designs, incoherent STFT processing performed quite well on many metrics; however, some benefits were found for time-varying coherent design.  Chapter~\ref{ch:conclusion} briefly considered feature selection and modulation waveform design.
 
-Quality of feature extraction
-feature selection
+We found that steady-state and transient responses of harmonics can vary greatly over designs, and that it is important to design a harmonic envelope extraction system such that it satisfies desired performance within the relevant ranges of $F_0$ and $k$.  Along that same line, it is critical that pitch estimation is accurate and stable.  Small errors can propagate to big errors for high harmonics and issues such as octave errors could cause severe artifacts.
 
-%===================================================
+Feature selection is certainly a big component to harmonic encoding and warrants further research.  This points in the direction of hybrid methods, where harmonic features are selected in some cases and (potentially inharmonic) spectral peaks are selected in others.
 
-Comparing these strategies, the differences may be summarized as:
-
-1) Envelope Extraction Method (not discussed yet)
-
-2) Temporal Fine Structure Encoding Method
-
-a) induced vs explicit
-
-b) phase encoding (explicit only)
-
-c) modulation waveform (explicit only)
-
-3) Envelope-to-Channel Allocation and Channel Selection
-
-We will start by investigating 1 and 2(a,b).  Some considerations for 2(c) and 3 will be brought up upon concluding this thesis, however, the primary focus will be on 1 and 2(a,b).
-
-Chapter~\ref{ch:envelope_extraction} will discuss mathematical methods to envelope extraction as well as phase preservation since phase is extracted at the same time.  As a result we will generalize 1 and we will answer 2(b).  Chapter~\ref{ch:harmonic_envelopes} will evaluate design considerations for 1 and in doing so, answer 2(a).  Chapter~\ref{ch:conclusion} will briefly discuss 2(c) and 3.
-
-%===================================================
-
-
-covered algorithms, ACE, HSSE, F0mod
-
-
-
-
-wrap incoherent vs coherent back to feature selection, FFT ACE is equivaled to coherent with different selection and suboptimal envelope extraction
-
-
-
-
-Certainly an important aspect to investigate is the quality of pitch estimation.  Quantization, octave errors and instability over time can all cause the strategy to break down if not appropriately handled.
+There are certainly many different directions this work could continue in.  F0mod and HSSE are different in both feature extraction and feature selection, representing both incoherent and coherent methods.  A critical question that remains unanswered is which, if either, of these aspects can be improved by coherent processing.  This motivates investigation in separate trials where coherent envelopes are selected incoherently or incoherent envelopes are selected coherently.  Thorough testing with cochlear implant subjects could shine some light on this question.
 
 
 %
