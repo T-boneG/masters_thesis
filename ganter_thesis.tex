@@ -5,7 +5,21 @@
 %TODO 1/3 - prove this or describe it better
 % hilbert narrow filter issue
 
+%TODO fix k to (k+1) notation in envelope extraction chaper...or not?
+
 %IDEA - what about putting zeros at multiples of F0 during filter design?
+
+%TODO change triangles to lowercase f0
+%TODO change "order" to "N" in evaluation figs
+
+
+%TODO from Jay:
+% "not feature extraction", "implicit"
+
+%TODO check figure labels
+
+%TODO acknowledgements and stuff
+
 
 % 		replace .lof file ========================================================================
 %  Copyright (c) 1985-2014 The University of Washington
@@ -108,6 +122,7 @@
 \Chair{Les Atlas}{Professor}{Electrical Engineering}
 \Signature{Jay Rubinstein}
 \Signature{Kaibao Nie}
+\Signature{Tai-Chang Chen}
 
 % \copyrightpage
 
@@ -140,11 +155,11 @@
 \abstract{
 %This document is about extracting harmonic envelopes, what matters, what doesn't and how to design your system accordingly.
 
-Today's standard in cochlear implant (CI) signal processing is based on incoherent feature extraction to acquire temporal envelopes and fine structure.  Incoherent envelopes are sufficient for the baseline task of speech recognition in quiet; however, current efforts to improve secondary tasks such as speech recognition in noise, lexical tone discrimination and music appreciation are fundamentally limited by this processing.
+Today's standard in cochlear implant (CI) signal processing is based on incoherent temporal envelope and temporal fine structure (TFS) extraction.  Incoherent envelopes are sufficient for the baseline task of speech recognition in quiet; however, current efforts to improve secondary tasks such as speech recognition in noise, lexical tone discrimination and music perception are fundamentally limited by this processing.
 
-Harmonic signals are ubiquitous in speech and music.  This thesis argues for the benefits of coherent extraction of harmonic envelopes and temporal fine structure.  By taking harmonic structure into account when designing a feature extraction system, processing artifacts can be minimized and signals can be represented more efficiently with the limited data rate of cochlear implants.  Furthermore, the proposed method will open up more possibilities for improved cochlear implant encoding.
+Harmonic signals are ubiquitous in speech and music.  This thesis argues for the benefits of coherent extraction of harmonic envelopes and temporal fine structure.  By taking harmonic structure into account when designing an envelope and TFS extraction system, processing artifacts can be minimized and signals can be represented more efficiently with the limited data rate of cochlear implants.  Furthermore, the proposed method will open up more possibilities for improved cochlear implant encoding.
 
-This thesis is a guide to developing a coherent feature extraction strategy.  Incoherent and coherent extraction systems are evaluated and a generalized method is defined.  This method is then applied to harmonic signal encoding.  Performance metrics are defined and evaluated and best designs are suggested.
+This thesis is a guide to developing a coherent extraction strategy.  Incoherent and coherent extraction systems are evaluated and a generalized method is defined.  This method is then applied to harmonic signal encoding.  Performance metrics are defined and evaluated and best designs are suggested.
 }
  
 %
@@ -189,13 +204,13 @@ This thesis is a guide to developing a coherent feature extraction strategy.  In
 
 Cochlear implant technology has come a long way.  From a rudimentary system where communication was little more than sound means ``yes'', no sound means ``no'', cochlear implant patients can now hold conversations over the phone.  That being said, there is still a large gap between cochlear implant (CI) and normal hearing individuals on a diverse set of auditory tasks.
 
-Fundamental to cochlear implant signal processing is acoustic feature extraction.  Early methods extracted explicit features characteristic of speech signals such as formants, (resonant peaks that differentiate vowels) \cite{tye1990comparison}\cite{skinner1991performance}.  This was later phased in out in favor of implicit methods based on the channel vocoder.
+Fundamental to cochlear implant signal processing is acoustic signal decomposition.  Early methods extracted explicit features characteristic of speech signals such as formants, (resonant peaks that differentiate vowels) \cite{tye1990comparison}\cite{skinner1991performance}.  This was later phased out in favor of implicit methods based on the channel vocoder.
 
-These implicit methods split the audio input into bandpass components and extract temporal envelopes and fine structure for each component.  Since the introduction of the continued interleaved sampling strategy (CIS) \cite{wilson1993design}, implicit encoding was readily adopted over the explicit approach due to dramatic improvement in speech recognition.  Incremental improvements have been made since then; Cochlear Ltd's advance combination encoder (ACE) strategy \cite{zeng2004trends} has become a clinical standard commonly compared against; however, the foundational signal processing has not changed in over 20 years!
+These implicit methods split the audio input into bandpass components and extract temporal envelopes and fine structure for each component.  Since the introduction of the continued interleaved sampling strategy (CIS) \cite{wilson1993design}, implicit encoding was readily adopted over the explicit approach due to dramatic improvement in speech recognition.  Incremental improvements have been made since then; Cochlear Ltd's advance combination encoder (ACE) strategy \cite{zeng2004trends} has become a clinical standard in its speech processors commonly compared against; however, the foundational signal processing has not changed in over 20 years!
 
 Strategies such as ACE have achieved high performance on speech recognition in quiet, however performance on more difficult tasks is fundamentally limited.  These strategies use incoherent processing, and as a result subjectively similar signals may produce radically different outputs depending on their interaction with the time-invariant filters.
 
-Alternatively, coherent feature extraction acquires temporal cues using knowledge about the signal structure to avoid artifact-driven variations in output.
+Alternatively, coherent extraction acquires temporal cues using knowledge about the signal structure to avoid artifact-driven variations in output.
 
 \begin{figure}[!ht]
   \centering
@@ -205,13 +220,13 @@ Alternatively, coherent feature extraction acquires temporal cues using knowledg
 
 A natural application of coherent processing is harmonic signals.  Harmonic signals are structured such that energy is focused in narrowband components centered around integer multiples of a fundamental frequency, denoted $f_0$.
 
-Coherent processing has two possible advantages.  The first is the quality of features extracted, where quality means the reliability of extracted features with changes in the input.  For example, if the same note is played on two different instruments with the same duration and volume, only the timbre should change.  It could be argued that to some extent this is a subjective measure, (psychoacoustic studies have shown that for $f_0$ differences of over an octave, there is a dependence of timbre perception on pitch \cite{marozeau2003dependency}), nonetheless, within reasonable conditions there is a clear difference between perceptual changes dues to psychoacoustics and changes due to signal processing distortions.
+Coherent processing has two possible advantages.  The first is the quality of envelopes and TFS extracted, where quality means the reliability of extracted components with changes in the input.  For example, if the same note is played on two different instruments with the same duration and volume, only the timbre should change.  It could be argued that to some extent this is a subjective measure, (psychoacoustic studies have shown that for $f_0$ differences of over an octave, there is a dependence of timbre perception on pitch \cite{marozeau2003dependency}), nonetheless, within reasonable conditions there is a clear difference between perceptual changes dues to psychoacoustics and changes due to signal processing distortions.
 
-The second advantage coherent processing may hold is the way in which features are transmitted to the cochlea.  Electric hearing has a much lower data rate than acoustic.  As a naive but simple explanation of this, consider that the cochlea has approximately 1500 hair cells transmitting information to the brain.  In contrast a typical cochlear implant has only 8-22 electrodes!  This clearly demands a data compression scheme.  Coherent processing can be used to intelligently select features in advantageous ways.
+The second advantage coherent processing may hold is the way in which envelopes and TFS are transmitted to the cochlea.  Electric hearing has a much lower data rate than acoustic.  As a naive but simple explanation of this, consider that the cochlea has approximately 1500 hair cells transmitting information to the brain.  In contrast a typical cochlear implant has only 8-22 electrodes!  This clearly demands a data compression scheme.  Coherent processing can be used to intelligently select important envelopes and TFS in advantageous ways.
 
-Quality of feature extraction and feature selection are two potentially independent benefits of coherent processing.  An incoherent method could extract distortion free envelopes, but then select which envelopes to transmit suboptimally.  Alternatively the envelopes selected could be the same as in a coherent method, however distortions are induced in the envelopes.
+Quality of extraction and selection are two potentially independent benefits of coherent processing.  An incoherent method could extract distortion free envelopes, but then select which envelopes to transmit suboptimally.  Alternatively the envelopes selected could be the same as in a coherent method, however distortions are induced in the envelopes.
 
-In this thesis, incoherent and coherent feature extraction methods are evaluated for the application of encoding harmonic signals.  The primary focus is on quality of feature extraction, however, some time is spent considering feature selection as well.
+In this thesis, incoherent and coherent extraction methods are evaluated for the application of encoding harmonic signals.  The primary focus is on quality of extraction, however, some time is spent considering selection as well.
 
 %\subsection{Why Harmonics?}
 
@@ -256,13 +271,13 @@ In this thesis, incoherent and coherent feature extraction methods are evaluated
 
 Separately, there is a great deal of research in cochlear implant processing strategies and harmonic signal processing, but there is limited literature that investigates the two together.
 
-Harris \cite{harris1978use} investigated effects of discrete Fourier transform (DFT) window design on isolating harmonics in the presence of nearby strong harmonic interference.  Liguori et al. \cite{liguori2004intelligent} designed an intelligent fast Fourier transform (FFT)-analyzer that interpolates bins to minimize harmonic interference.  Alternative to DFT analysis, Li and Atlas \cite{li2003time} used an extended least-squares harmonic model to estimate harmonic features of a signal with time-varying $f_0$.
+Nogueira et al. \cite{nogueira2005psychoacoustic} developed the MP3000 CI strategy which uses psycho-acoustic masking to more efficiently represent the same acoustic envelopes.  Lai and Dillier \cite{lai2008investigating} investigated musical instrument discrimination with MP3000 and found no significant improvement over ACE.  This strategy can eliminate the redundant representation of a single harmonic, however the envelopes are extracted incoherently and suffer the same artifacts as ACE.
 
-Nogueira et al. \cite{nogueira2005psychoacoustic} developed the MP3000 CI strategy which uses psycho-acoustic masking to more efficiently represent the same acoustic information.  Lai and Dillier \cite{lai2008investigating} investigated musical instrument discrimination with MP3000 and found no significant improvement over ACE.  This strategy can eliminate the redundant representation of a single harmonic, however the envelopes are extracted incoherently and suffer the same artifacts as ACE.
+Laneau et al. \cite{laneau2006improved} proposed F0mod which explicitly modulates all envelopes at a rate of $f_0$.  Improved pitch discrimination was observed for some conditions.  Vandali and van Hoesel \cite{vandali2011development} developed an enchanced-envelope-encoder (eTone) strategy that temporally modulates envelopes at a depth proportional to the harmonic probability, (probability the incoherent envelope is from a signal harmonic).  Furthermore, eTone attempts to coherently improve signal representation by biasing channel selection toward channels with higher harmonic probabilities.  Neither F0mod nor eTone attempt to modify the incoherent envelope extraction method of ACE.
 
-Laneau et al. \cite{laneau2006improved} proposed F0mod which explicitly modulates envelopes at a rate of $f_0$.  Improved pitch discrimination was observed for some conditions.  Vandali and van Hoesel \cite{vandali2011development} developed an enchanced-envelope-encoder (eTone) strategy that temporally modulates envelopes at a depth proportional to the harmonic probability, (probability the incoherent envelope is from a signal harmonic).  Furthermore, eTone attempts to coherently improve signal representation by biasing channel selection toward channels with higher harmonic probabilities.  Neither F0mod nor eTone attempt to modify the incoherent envelope extraction method of ACE.
+Li et al. \cite{li2010harmonic} developed a harmonic single sideband encoder (HSSE) that uses a pitch estimator to coherently extract harmonic envelopes and TFS.  Tests on music perception \cite{li2013improved} showed significant improvement on timbre recognition for CI users.
 
-Li et al. \cite{li2010harmonic} developed a harmonic single sideband encoder (HSSE) that uses a pitch estimator to coherently extract harmonic features.  Tests on music perception \cite{li2013improved} showed significant improvement on timbre recognition for CI users.
+Outside of the cochlear implant community, Harris \cite{harris1978use} investigated effects of discrete Fourier transform (DFT) window design on isolating harmonics in the presence of nearby strong harmonic interference.  Liguori et al. \cite{liguori2004intelligent} designed an intelligent fast Fourier transform (FFT)-analyzer that interpolates bins to minimize harmonic interference.  Alternative to DFT analysis, Li and Atlas \cite{li2003time} used an extended least-squares harmonic model to estimate harmonic amplitudes and phases of a signal with time-varying $f_0$.
 
 
 %"The HiRes120 strategy, used in the Advanced Bionics implant, is the first commercial stimulating strategy that uses the virtual channel technique. Virtual channels are created by adjusting the current level ratio of two neighboring electrodes."
@@ -287,7 +302,7 @@ Li et al. \cite{li2010harmonic} developed a harmonic single sideband encoder (HS
 
 \section{Contents of Thesis}
 
-This thesis is organized as follows.  In chapter~\ref{ch:ci_processing} background information and three relevant signal processing strategies are reviewed.  In chapter~\ref{ch:envelope_extraction} incoherent and coherent methods of signal analysis are compared with application to feature extraction.  In chapter~\ref{ch:harmonic_envelopes} a generalized coherent analysis method is applied to extraction of harmonic features.  Finally, chapter~\ref{ch:conclusion} takes into account practical implementation considerations and concludes this thesis.
+This thesis is organized as follows.  In chapter~\ref{ch:ci_processing} background information and three relevant signal processing strategies are reviewed.  In chapter~\ref{ch:envelope_extraction} incoherent and coherent methods of signal analysis are compared with application to envelope extraction.  In chapter~\ref{ch:harmonic_envelopes} a generalized coherent analysis method is applied to extraction of harmonic envelopes.  Finally, chapter~\ref{ch:conclusion} takes into account practical implementation considerations and concludes this thesis.
 
 \section{Notational Conventions}
 
@@ -341,13 +356,13 @@ $*$ - the convolution operation
 
 $\tilde{m}_k[n]$ - estimate of $m_k[n]$
 
-$\tilde{F}_0[n]$ - estimate of $f_0[n]$
+$\tilde{f}_0[n]$ - estimate of $f_0[n]$
 
 %$(\cdot)^*$
 
 % ========== Chapter 2
 
-\chapter{Cochlea Implant Processing}\label{ch:ci_processing}
+\chapter{Cochlear Implant Processing}\label{ch:ci_processing}
 
 Human hearing is tonotopic, that is, starting in the cochlea and through the rest of processing in the brain, sounds far apart in frequency are processed separately.  The cochlea is spatially arranged; as a sound propagates through the basilar membrane the different frequencies are amplified or suppressed such that they stimulate locations physically far apart in the cochlea.
 
@@ -357,15 +372,15 @@ In a cochlear implant an array of electrodes is inserted into the cochlea.  This
 
 Early cochlear implant strategies, under the category compressed-analog (CA) delivered band-specific analog signals to each electrode.  By using bandpass filters and an electrode array the implant emulates the tonotopic organization of acoustic hearing.
 
-Current processing strategies use feature extraction to achieve much higher performance on speech recognition.  From each bandlimited signal a slow-time-varying envelope is extracted and the extra information is discarded \cite{vandali2005pitch}.  The envelopes are amplitude compressed and then used to modulate continuous bipolar pulse trains on each electrode channel.
+Current processing strategies use envelope extraction to achieve much higher performance on speech recognition.  From each bandlimited signal a slow-time-varying envelope is extracted and the extra information,  (temporal fine structure), is discarded \cite{vandali2005pitch}.  The envelopes are amplitude compressed and then used to modulate continuous bipolar pulse trains on each electrode channel.
 
-These strategies all stem from an original parent, continuous-interleaved-sampling (CIS).  CIS is a solution to the problem of electric field interaction.  By interleaving pulse-trains there is minimal interaction between electrodes.
+These strategies all stem from an original parent, continuous-interleaved-sampling (CIS) \cite{wilson1993design}.  CIS is a solution to the problem of electric field interaction.  By interleaving pulse-trains there is minimal interaction between electrodes.
 
 
 \begin{figure}[!ht]
   \centering
     \includegraphics[width=.5\textwidth]{caVScis}   
-    \caption{CA vs CIS}
+    \caption{CA vs CIS \cite{wilson1993design}}
 \end{figure}
 
 \subsection{Sum-of-Products Model}
@@ -401,7 +416,7 @@ To gain some intuition as to how and why CIS processing works, consider a closel
 
 What's interesting is that this second source can be essentially any arbitrary broadband signal and yet we still understand speech from the first source.  In this way the vocoder acts as a form of lossy data compression; the low data-rate envelopes are extracted and they may be later applied to, for example, white-noise.
 
-This tells us that speech information is predominantly contained in the bandlimited envelopes, and thanks to the incredible robustness of speech to distortion, an estimated envelope is sufficient for speech comprehension.
+This tells us that speech information is predominantly contained in the bandlimited envelopes, and thanks to the incredible robustness of speech to distortion, an estimated envelope is sufficient for speech comprehension \cite{shannon1995speech}.
 
 \begin{figure}[!ht]
   \centering
@@ -409,10 +424,9 @@ This tells us that speech information is predominantly contained in the bandlimi
     \caption{Channel Vocoder Processing}\label{fig:vocoder}
 \end{figure}
 
-It should be noted that the second source is typically chosen to be a broadband stationary signal.  If the signal is non-stationary it will have time-varying envelopes of its own which will interact with the envelopes of the first source. In terms of the sum-of-products model, the second source, $x^{(2)}[n]$, is a sum of time-invariant subbands and envelopes from the first source, $x^{(1)}[n]$ are applied.
+It should be noted that the second source is typically chosen to be a broadband stationary signal.  If the signal is non-stationary it will have time-varying envelopes of its own which will interact with the envelopes of the first source. In terms of the sum-of-products model, the second source, $x^{(2)}[n]$, is a sum of stationary subbands and time-varying envelopes from the first source, $x^{(1)}[n]$ are applied.
 
 \begin{align}
-\label{eq:sum-of-products}
 x^{(1)}[n] =& \sum\limits_k x_k^{(1)}[n] = \sum\limits_k m^{(1)}_k[n] c^{(1)}_k[n] \\
 x^{(2)}[n] =& \sum\limits_k x_k^{(2)}[n] \\
 y[n] =& \sum\limits_k m_k^{(1)}[n] x_k^{(2)}[n]
@@ -422,7 +436,7 @@ Linking back, cochlear implant envelope extraction strategies do the same thing 
 
 \subsection{Temporal Fine Structure}
 
-A major drawback to this method of encoding is the loss of temporal fine structure.  Recall that the extracted envelopes are transmitted and carrier information is discarded.
+A major drawback to this method of encoding is the loss of temporal fine structure, fast modulations that, in terms of speech, are perceptually associated with voice pitch \cite{li2013temporal}.  Recall that the extracted envelopes are transmitted and carrier information is discarded.
 
 When using a vocoder, vocals sung at different pitches generate roughly the same output, $y[n]$.  Similarly in cochlear implants temporal fine structure that encodes pitch, as well as other signal characteristics, is lost in processing.
 
@@ -534,7 +548,7 @@ In this version, coherent demodulation extracts harmonic envelopes.  These harmo
 
 The key differences between this and F0mod can be summarized quite simply: every stage of typical ACE processing is now done coherently using $f_0$ information.  It should be noted that it is not necessarily true that $\mathcal{K} \geq \mathcal{M}$.  In the case that no envelopes are allocated to a channel that channel is  ruled out during the selection stage.
 
-In the second version, more information about the carriers is retained than just the fundamental frequency.  This puts some restrictions on the type of carrier than can be used, however it encodes time varying phase information which is unique to each envelope.
+In the second version, more information about the carriers is retained than just the fundamental frequency.  This puts some restrictions on the type of carrier that can be used, however it encodes time varying phase information which is unique to each envelope.
 
 Because of the unique characteristics of each carrier, the carrier synthesis block must be moved to an earlier point in the processing.  First, complex envelopes containing phase information are extracted.  These envelopes are then combined with a common carrier at a rate of $f_0$, however, each output, which we will call a modulator, will be unique and time-varying in both magnitude and phase.  This version, which will be termed HSSE with coherent phase encoding, is visualized in figure~\ref{fig:HSSE_flow_2}
 
@@ -546,8 +560,9 @@ Because of the unique characteristics of each carrier, the carrier synthesis blo
 
 \section{Summary}
 
-Comparing ACE, F0mod and HSSE, the differences may be summarized by envelope extraction, temporal fine structure (TFS) encoding and feature selection.  These aspects will each be investigated in the following chapters.  Figure~\ref{fig:document_layout} visualizes the layout of the following chapters.
+Comparing ACE, F0mod and HSSE, the differences may be summarized by envelope extraction, temporal fine structure (TFS) encoding and envelope and channel selection.  These aspects will each be investigated in the following chapters.  Figure~\ref{fig:document_layout} visualizes the layout of the following chapters.
 
+%TODO get rid of "FEATURE"
 \begin{figure}[!ht]
   \centering
     \includegraphics[width=.7\textwidth]{document_layout}   
@@ -630,13 +645,13 @@ where $N$ is the DFT order, not to be confused with the number of electrodes sti
 
 \begin{align}
 X[n,k] =& \sum\limits_{r'=0}^{N-1} x[n + r'] w[r'] e^{-j\frac{2\pi}{N}k(n + r')} \nonumber \\
-=& e^{-j\frac{2\pi}{N}kn} \sum\limits_{r'=0}^{N-1} x[n + r'] w[r'] e^{-j\frac{2\pi}{N}kr'}.
+=& e^{-j\frac{2\pi}{N}kn} \sum\limits_{r'=0}^{N-1} x[n + r'] w[r'] e^{-j\frac{2\pi}{N}kr'}
 \end{align}
 
 Let $X[n,k]$ be represented in polar form as
 
 \begin{equation}
-X[n,k] = \vert X[n,k]\vert e^{j\angle X[n,k]}.
+X[n,k] = \vert X[n,k]\vert e^{j\angle X[n,k]}
 \end{equation}
 
 Assuming the window $w[n] \neq 0$ for $0 \leq n \leq N-1$ the inverse may be solved as
@@ -664,7 +679,7 @@ The STFT can be thought of as a series of $N$ linear time-invariant (LTI) system
 \begin{align}
 X[n,k] =& \sum\limits_{r=-\infty}^{\infty} x[r] e^{-j\frac{2\pi}{N}kr} w[-(n - r)] \nonumber \\
 \label{eq:STFTasFilter}
-=& x[n] e^{-j\frac{2\pi}{N}kn} * w[-n].
+=& x[n] e^{-j\frac{2\pi}{N}kn} * w[-n]
 \end{align}
 
 The STFT envelope has a similar form to the other methods after plugging (\ref{eq:STFTasFilter}) into (\ref{eq:envelope_STFT}).
@@ -730,8 +745,6 @@ As mentioned earlier, the final DSP output is a set of real non-negative signals
 
 The two approaches are visualized in figure~\ref{fig:coherent_angle}.  For the magnitude-only case, this can be thought of as a restriction on what the carrier can be.  Since the envelope is already real non-negative the $Re\{\cdot\}$ and half-wave rectification (HWR) stages don't change anything.  Passing a complex exponential through these two operations before multiplying the envelope is equivalent to defining the carrier as a half-wave rectified sinusoid and thus we have equivalent processing blocks as a single envelope of figure~\ref{fig:HSSE_flow_1}
 
-%TODO - change omegaT to \phi_0[n]
-% also add x[n] and y[n] and Rect{y[n]}
 \begin{figure}[!ht]
   \centering
     \includegraphics[width=1\textwidth]{coherent_phase}   
@@ -787,12 +800,12 @@ y_k^{(2)}[n] =& Re\{ 2m^{(2)}_{k,harmonic}[n] e^{j2\pi f_0 n} \} \nonumber  \\
 
 It is clear from (\ref{eq:phase_encode_1}) and (\ref{eq:phase_encode_2}) that the difference between $y_k^{(1)}[n]$ and $y_k^{(2)}[n]$ is simply the extra term, $\phi_k[n]$.  What this means in terms of information delivered to the user may be best shown by example.
 
-In figure~\ref{fig:real_vs_magnitude_example} a harmonic of a single note on a cello is extracted using each of the two coherent harmonic methods.  Comparing figure~\ref{fig:real_vs_magnitude_example} $(a)$ and $(b)$ makes it clear that taking the magnitude forces symmetry about $0$Hz.  Figure~\ref{fig:real_vs_magnitude_example} $(c)$, $y_k^{(2)}[n]$, better represents the blue than does figure~\ref{fig:real_vs_magnitude_example} $(d)$, $y_k^{(1)}[n]$, because the spectral asymmetries manifest themselves in the phase, not magnitude.  It is unnatural and certainly won't happen in real world scenarios that a subband signal will be symmetric about the downshift frequency, however magnitude only methods force this symmetry.
+In figure~\ref{fig:real_vs_magnitude_example} a harmonic of a single note on a cello is extracted using each of the two coherent harmonic methods.  Comparing figure~\ref{fig:real_vs_magnitude_example} $(a)$ and $(b)$ makes it clear that taking the magnitude forces symmetry about $0$Hz, since $(a)$ is complex but the magnitude, $(b)$ is real non-negative.  Figure~\ref{fig:real_vs_magnitude_example} $(c)$, $y_k^{(2)}[n]$, better represents the blue than does figure~\ref{fig:real_vs_magnitude_example} $(d)$, $y_k^{(1)}[n]$, because the spectral asymmetries manifest themselves in the phase, not magnitude.  It is unnatural and certainly won't happen in real world scenarios that a subband signal will be symmetric about the downshift frequency, however magnitude only methods force this symmetry.
 
 \begin{figure}[!ht]
   \centering
     \includegraphics[width=1\textwidth]{matlab/real_vs_magnitude_example}   
-    \caption{Coherent Phase Encoding - Cello Example, $(a)$ downshifted filtered harmonic of signal, $(b)$ magitude of $(a)$, $(c)$ $(a)$ modulated up to }\label{fig:real_vs_magnitude_example}
+    \caption{Coherent Phase Encoding - Cello Example, $(a)$ downshifted filtered harmonic of signal, $(b)$ magitude of $(a)$, $(c)$ $(a)$ modulated up to $f_0$}\label{fig:real_vs_magnitude_example}
 \end{figure}
 
 %ight: $m^{(2)}_{k,harmonic}[n]}$, bottom left: $y_k^{(2)}[n]$, bottom right: $y_k^{(1)}[n]$
@@ -808,8 +821,8 @@ y_k^{(3)}[n] =& Re\{ 2 m^{(3)}_{k,harmonic}[n] e^{j2\pi f_0 n} \}  \\
 =& A_k[n]cos\Big(2\pi f_0 n + \frac{1}{k}unwrap(\phi_k[n])\Big) \nonumber
 \end{align}
 
-
-Why is the $\frac{1}{k}$ term necessary?  Consider an example where our true pitch estimate is actually $f_{0,ground truth} = \tilde{f}_0 + f_{err}$.  So,
+%TODO \tilde{f}_0 = f_0 + f_{err}
+Where $unwrap(\cdot)$ denotes phase unwrapping. Why is the $\frac{1}{k}$ term necessary?  Consider an example where our true pitch estimate is actually $f_{0,ground truth} = \tilde{f}_0 + f_{err}$.  So,
 
 \begin{align}
 x_k[n] = A_k[n]cos\Big(2\pi k(\tilde{f}_0 + f_{err})n + \phi_k[n]\Big)
@@ -829,18 +842,18 @@ Essentially the term $\phi_k[n]$ may be thought of as the deviation from $kf_0$.
 
 %TODO 3 - this is a rough degree of proof...
 % maybe show shh VS saw plots
-So what is the efficacy of (\ref{eq:realVSmag1}) versus (\ref{eq:realVSmag3})?  One hypothesis is that $\phi_k[n]$ may encode the noise-like characteristics of a signal, in which case it would remain constant for a pure sinusoid and fluctuate randomly for noise.  Put to test, the harmonic phase preservation did little to affect the signal and this was confirmed by testing varying filter bandwidths as well.  In comparison of a toy experiment, the choice of filter bandwidth dominated noise-like qualities, with wider bandwidth capturing more of the variations.
+So what is the efficacy of (\ref{eq:realVSmag1}) versus (\ref{eq:realVSmag3})?  One hypothesis is that $\phi_k[n]$ may encode the noise-like characteristics of a signal, in which case it would remain constant for a pure sinusoid and fluctuate randomly for noise.  Put to test, the harmonic phase preservation did little to affect the signal and this was confirmed by testing varying filter bandwidths as well.  In an experiment comparing noisy and harmonic signals, the choice of filter bandwidth dominated noise-like qualities, with wider bandwidth capturing more of the variations.
 
-Since the term $\phi_k[n]$ does not distinguish noise-like signals from narrowband sinusoidal signals, it is only preserving phase alignment.  But this begs the question, what does it mean to preserve the phase of a harmonic when downshifted to $f_0$?  It is questionable as to whether this even has any logical meaning.  Furthermore, it has been suggested \cite{laneau2006improved} that phase alignment is important for pitch perception in CIs.  By using a magnitude-only method we guarantee alignment across channels.
+Since the term $\phi_k[n]$ does not distinguish noise-like signals from narrowband sinusoidal signals, it is only preserving phase alignment.  But this raises the question, what does it mean to preserve the phase of a harmonic when downshifted to $f_0$?  It is questionable as to whether this even has any logical meaning.  Furthermore, it has been suggested \cite{laneau2006improved} that phase alignment is important for pitch perception in CIs.  By using a magnitude-only method we guarantee alignment across channels.
 
-Galvin tested how well users can notice changes in modulation rate between channels, found users are very sensitive to changes of as little as 2-4Hz in AM frequency
+%Galvin tested how well users can notice changes in modulation rate between channels, found users are very sensitive to changes of as little as 2-4Hz in AM frequency.
 
 % It means every k'th peak will be lined up with the downshifted peak, that being said that probably doesn't mean a whole lot in terms of important information
 % perhaps show a figure of this?
 
 %Is an example necessary? Noise vs Saw example...used "shh" vs "saw" test.  at least when listening to the simulations, the processing essentially sounds like narrowband resonant filters.  The noise-like sounds are completely dominated by the filter bandwidth and the phase-information is not noticeable at all.
 
-These preliminary tests suggest that phase encoding is not a path worth further investigating, and thus for the rest of this thesis explicit temporal modulation will be evaluated as two independent blocks: envelope extraction and carrier synthesis, each being a strictly real nonnegative signal.
+These preliminary tests suggest that phase encoding may not be a path worth further investigating, and thus for the rest of this thesis explicit temporal modulation will be evaluated as two independent blocks: envelope extraction and carrier synthesis, each being a strictly real nonnegative signal.
 
 \section{The Relationships}
 
@@ -913,7 +926,7 @@ m_{k,Hilbert}[n] \approx& m_{k,STFT}[n] \Big| e^{j\frac{2\pi}{N}kn} \Big| \nonum
 =& m_{k,STFT}[n]
 \end{align}
 
-We come to the conclusion that a filter bank with $\frac{N}{2} + 1$ filters may designed, (\ref{eq:hilbert_to_stft_filterbank}), such that these two methods are equivalent.
+We come to the conclusion that a filter bank with $\frac{N}{2} + 1$ filters can be designed, (\ref{eq:hilbert_to_stft_filterbank}), such that these two methods are equivalent.
 
 \begin{align}
 \label{eq:hilbert_to_stft_filterbank}
@@ -971,14 +984,18 @@ It is important to note that in practice $f_0[n]$ is not a continuous variable. 
 
 This implies that in practice, $m_{k,harmonic}[n]$ can be approximated using $f_0[n]$ and a zero-padded STFT under the assumptions:
 
-1) $f_0[n]$ is quantized
+\begin{itemize}
+\setlength\itemsep{-1em}
+	\item $f_0[n]$ is quantized
+	\item $f_0[n]$ is roughly constant within a time window of $\frac{N}{f_s}$ seconds
+\end{itemize}
 
-2) $f_0[n]$ is roughly constant within a time window of $\frac{N}{f_s}$ seconds
-
-%TODO 4 - list format
 and the restriction:
 
-3) $h\Big[n, f_0[n] \Big]$ is time-invariant, i.e. $h\Big[n, f_0[n] \Big] = h[n]$
+\begin{itemize}
+\setlength\itemsep{-1em}
+	\item $h\Big[n, f_0[n] \Big]$ is time-invariant, i.e. $h\Big[n, f_0[n] \Big] = h[n]$
+\end{itemize}
 
 \subsection{CIS vs Hilbert}
 
@@ -1058,7 +1075,7 @@ Thus provided the proper filter designs
 
 Things to consider are delay and non-ideal filters, however provided the distance between baseband and the $\pm2f_k$ terms in (\ref{eq:y_k_cis}) a sufficient filter is feasible in practice.
 
-%TODO 1 - justify this better
+%TODO 1 - justify this better (kaibao noted this)
 Now the relationship between $m_{k,CIS}[n]$ and $m_{k,Hilbert}[n]$ is muddled by the nonlinear square root operation, however the nonlinearities induced won't be noticeably distorted by $h_{lp}[n]$.  In practice, the only significant difference will be the added delay from the final lowpass filter in the CIS method.
 
 \subsection{Abstract Interpretation}
@@ -1082,7 +1099,7 @@ The left side of (\ref{eq:stft_2_intepretations}) corresponds to the STFT 1 path
 
 The harmonic coherent method is missing from figure~\ref{fig:all_the_same}.  This is because, ignoring exact details of downshift frequency and filter coefficients, it is actually the same as the STFT method: downshift followed by lowpass filter.
 
-Moving on the the Hilbert envelope, in figure~\ref{fig:all_the_same} the signal is first bandpass filtered, the analytic signal is acquired, which is equivalent to setting the negative frequencies to zero.  The final operation is to take the magnitude squared, which is invariant to frequency shifts.  Because the magnitude is invariant to frequency shifts, this result should be the same as the STFT method.
+Moving on to the Hilbert envelope, in figure~\ref{fig:all_the_same} the signal is first bandpass filtered, the analytic signal is acquired, which is equivalent to setting the negative frequencies to zero.  The final operation is to take the magnitude squared, which is invariant to frequency shifts.  Because the magnitude is invariant to frequency shifts, this result should be the same as the STFT method.
 
 For CIS, taking the magnitude squared of the real bandpass signal causes double frequency terms, and the baseband term is scaled by a factor of 2.  The final filter operation (yellow) rescales the baseband term and eliminates the double frequency terms.
 
@@ -1094,7 +1111,7 @@ Excluding CIS, the other three methods can all be derived from the generalized e
 
 \begin{align}
 \label{eq:envelope_extraction_general}
-m_k[n] =& \Big| x[n]e^{-j \omega_k\Big[f_0[n]\Big]n} * h_k\big[n,f_0[n]\big]  \Big|
+m_k[n] =& \Big| x[n]e^{-j \omega_k\big[f_0[n]\big]n} * h_k\big[n,f_0[n]\big]  \Big|
 %m_k[n] =& \Big| \widehat{x}[n]e^{-j \omega_k[x]n} * h_k[n,x]  \Big|
 \end{align}
 
@@ -1117,11 +1134,11 @@ The objective of this chapter is to design an envelope extraction system that be
 x^+[n] =& \sum\limits_{k=0}^K x_k^+[n] = \sum\limits_{k=0}^K m_k[n] e^{j\theta_k[n]}
 \end{align}
 
-We change our notation slightly from chapter~\ref{ch:envelope_extraction}.  In this chapter $m_k[n]$ is the unknown desired envelope, and $\tilde{m}_k[n]$ is our extracted envelope estimate.  Similarly, $f_0[n]$ is the true fundamental frequency and $\tilde{F}_0[n]$ is the estimate.
+We change our notation slightly from chapter~\ref{ch:envelope_extraction}.  In this chapter $m_k[n]$ is the unknown desired envelope, and $\tilde{m}_k[n]$ is our extracted envelope estimate.  Similarly, $f_0[n]$ is the true fundamental frequency and $\tilde{f}_0[n]$ is the estimate.
 
 \begin{align}
 \label{eq:envelope_extraction}
-\tilde{m}_k[n] =& \Big| x^+[n]e^{-j \omega_k\big[\tilde{F}_0[n]\big]n} * h_k\big[n,\tilde{F}_0[n]\big]  \Big|
+\tilde{m}_k[n] =& \Big| x^+[n]e^{-j \omega_k\big[\tilde{f}_0[n]\big]n} * h_k\big[n,\tilde{f}_0[n]\big]  \Big|
 %\tilde{m}_k[n] =& \Big| \widehat{x}[n]e^{-j \omega_k[x]n} * h_k[n,x]  \Big|
 \end{align}
 
@@ -1129,17 +1146,17 @@ Provided the envelope extraction equation, (\ref{eq:envelope_extraction}), the g
 
 The design can be summarized by two things:
 
-%TODO 5 - list format
 \begin{itemize}
-\item downshift frequency, $\omega_k\big[\tilde{F}_0[n]\big]$
-\item lowpass filter, $h_k\big[n,\tilde{F}_0[n]\big]$
+\setlength\itemsep{0em}
+\item downshift frequency, $\omega_k\big[\tilde{f}_0[n]\big]$
+\item lowpass filter, $h_k\big[n,\tilde{f}_0[n]\big]$
 \end{itemize}
 
-If $w_k[\cdot]$ and $h_k[\cdot]$ are functions of $x^+[n]$ this is coherent envelope extraction.  If they are time-invariant, it's incoherent extraction.  $\omega_k[n]$ is defined in (\ref{eq:omega_k}) such that it is equivalently represented by $\tilde{F}_0[n]$, the downshift frequency in Hz.
+If $w_k[\cdot]$ and $h_k[\cdot]$ are functions of $x^+[n]$ this is coherent envelope extraction.  If they are time-invariant, it's incoherent extraction.  $\omega_k[n]$ is defined in (\ref{eq:omega_k}) such that it is equivalently represented by $\tilde{f}_0[n]$, the downshift frequency in Hz.
 
 \begin{align}
 \label{eq:omega_k}
-\omega_k[n] = 2\pi \frac{(k+1)\tilde{F}_0[n]}{f_s}
+\omega_k[n] = 2\pi \frac{(k+1)\tilde{f}_0[n]}{f_s}
 \end{align}
 
 \section{Steady-State Analysis}
@@ -1147,6 +1164,7 @@ If $w_k[\cdot]$ and $h_k[\cdot]$ are functions of $x^+[n]$ this is coherent enve
 The simplest scenario is when $x^+[n]$ is a steady-state signal.  The conditions required for this are:
 
 \begin{itemize}
+\setlength\itemsep{0em}
 \item constant pitch: $f_0[n] = f_0$
 \item narrowband modulator: $m_k[n]$ is slow-time-varying, i.e. $m_k[n] \approx$ constant over very short periods of time
 \item constant phase term: $\phi_k[n] = \phi_k$, it is assumed $\phi_k[n] = 0$ for simplicity however this is not necessary
@@ -1207,7 +1225,7 @@ $f_{k,l}$ is defined as the downshifted center frequency of the $l$th harmonic f
 \begin{align}
 \label{eq:downshift_radian_frequency}
 f_{k,l} =& \frac{f_s}{2\pi}\Big(\theta_l[n] - \omega_k[n]\Big) \nonumber \\
-=& (l+1)f_0 - (k+1)\tilde{F}_0
+=& (l+1)f_0 - (k+1)\tilde{f}_0
 \end{align}
 
 Expanding (\ref{eq:estimated_envelope_squared}) results in
@@ -1275,7 +1293,7 @@ Returning to the three harmonic example, the goal is to acquire the 1st harmonic
 %				$(d) | \widehat{X}^*[n,-f + 2F_0) | | H_1(-f) |$
 %				$(e) | \mathcal{F} \{ \tilde{m}_1^2[n] \} |$
 %				$(f)$ contributions of separate components of $(e)$}\label{fig:harmonic_envelope_estimate}
-        \caption{$(a)-(c)$ magnitude of spectrum for equations (\ref{eq:harmonic_estimate_fig_a}) - (\ref{eq:harmonic_estimate_fig_c}), $(d)$ time-reversal of $(c)$, $(e)$ magnitude of spectrum for (\ref{eq:harmonic_estimate_fig_e}), $(f)$ contributions of separate components of $(e)$}\label{fig:harmonic_envelope_estimate}
+        \caption{$(a)-(c)$ magnitude of spectrum for equations (\ref{eq:harmonic_estimate_fig_a}) - (\ref{eq:harmonic_estimate_fig_c}), $(d)$ frequency-reversal of $(c)$, $(e)$ magnitude of spectrum for (\ref{eq:harmonic_estimate_fig_e}), $(f)$ contributions of separate components of $(e)$}\label{fig:harmonic_envelope_estimate}
 \end{figure}
 
 Spectra of (\ref{eq:harmonic_estimate_fig_a}) -(\ref{eq:harmonic_estimate_fig_e}) are visualized in figure~\ref{fig:harmonic_envelope_estimate}.  In this example $\tilde{f}_0 = f_0$.
@@ -1412,7 +1430,7 @@ D_{k,i} =& \frac{\sum\limits_{l=0}^{K-i} \Big|H_k(f_{k,l})\Big| \Big|H_k(f_{k,l+
 
 \section{Induced vs Explicit Temporal Modulation}\label{section:inducedVexplicit}
 
-The three metrics are coherent gain, harmonic SIR and modulation depth.  We aim for a coherent gain of $G_k = 1$ and maximized harmonic SIR.  In section~\ref{ss:ACE} it was mentioned that temporal modulations are either induced or explicit.  For explicit modulation systems the goal is to minimize envelope modulation depth.  For induced that is not as clear.  In this document we argue that the latter, explicit modulation, is better.  The reasoning is best shown by a motivational example.
+The three metrics are coherent gain, harmonic SIR and modulation depth.  We aim for a coherent gain of $G_k = 1$ and maximized harmonic SIR.  In section~\ref{ss:ACE} it was mentioned that temporal modulations are either induced or explicit.  For explicit modulation systems the goal is to minimize envelope modulation depth, as to prevent unpredictable interactions from having both induced and explicit modulations present.  For induced that is not as clear.  In this document we argue that the latter, explicit modulation, is better.  The reasoning is best shown by a motivational example.
 
 Consider a single note played by two different instruments: clarinet and saxophone.  In this example $f_0 = 261Hz$.  The clarinet is an interesting instrument in that it only has energy at even harmonics, $k = 0, 2, 4...$
 
@@ -1424,7 +1442,7 @@ We attempt to estimate the 2nd harmonic, $m_2[n]$.  We first downshift by $-3f_0
     \caption{Clarinet vs Saxophone Harmonic Components after downshifting and lowpass filtering}\label{fig:clarinetVSsax_F}
 \end{figure}
 
-Figure~\ref{fig:clarinetVSsax_T} shows the time-domain envelopes resulting from this processing.  The input signals were normalized such that the top panel shows the same signal power for both instruments.  The problem is clearly represented in the bottom panel, were there is a very large $f_0$ modulation in the saxophone envelope but little to no change in the clarinet.  The result is that there is a much stronger temporal pitch cue as well as louder overall volume to the saxophone.
+Figure~\ref{fig:clarinetVSsax_T} shows the time-domain envelopes resulting from this processing.  The input signals were normalized such that the top panel shows the same signal power for both instruments.  The problem is clearly represented in the bottom panel, where there is a very large $f_0$ modulation in the saxophone envelope but little to no change in the clarinet.  The result is that there is a much stronger temporal pitch cue as well as louder overall volume to the saxophone.
 
 \begin{figure}[!ht]
   \centering
@@ -1441,7 +1459,7 @@ Beyond this example, explicit modulation decouples $f_0$ and modulation depth.  
 Another thing to note is that regardless of downshift frequency, the harmonic envelope will always have it's energy centered at baseband and integer multiples of $f_0$.  An alternative way of eliminating induced modulations is to add a lowpass filter to the end of the processing chain.  There are a handful of research strategies that have used this additional filter.  The eTone strategy's \cite{vandali2011development} envelope follower is an example of this.
 %TODO 3 - add references here?
 
-The main improvement to a followup filter is that the system can guarantee to eliminate temporal modulations.  This could also be achieved by designing a sufficiently narrow filter, $h_k[n]$ however this brings about a trade-off, where the narrower the filter is the more susceptible the system is to error in downshift frequency.
+The main improvement to a followup filter is that the system can guarantee to eliminate temporal modulations above a certain cutoff frequency.  This could also be achieved by designing a sufficiently narrow filter, $h_k[n]$ however this brings about a trade-off, where the narrower the filter is the more susceptible the system is to error in downshift frequency.
 
 In terms of the three metrics, the followup filter will provide a robust coherent gain and guaranteed low modulation depth at the cost of lower harmonic SIR.  Another point to consider is the cost of adding an extra processing stage.  The additional stage means more memory, clock cycles and processing delay.
 
@@ -1483,14 +1501,16 @@ The designs considered are:
 \begin{itemize}
 	\item downshift quantization, $f_q$ - 1, 31, 63, 125Hz
 	\item filter order, $N$ - 128, 256, 512
-	\item filter design - rectangular, hanning, adaptive hamming
+	\item filter design - rectangular, hanning, adaptive Hamming
 	\item $k$ - which harmonic, (is performance different for different $k$?)
 \end{itemize}
 
-Adaptive hamming is an adaptive bandwidth filter with a lowpass cutoff (-6dB point) of $\frac{f_0[n]}{2}$.  For practical considerations, maximum quantization $= \frac{f_s}{N}$ which is the quantization of an order-$N$ DFT.
+Adaptive Hamming is an adaptive bandwidth filter with a lowpass cutoff (-6dB point) of $\frac{f_0[n]}{2}$.  For practical considerations, maximum quantization $= \frac{f_s}{N}$ which is the quantization of an order-$N$ DFT.
 
-$$N = 256 \longleftrightarrow f_q \leq 63Hz$$
-$$N = 512 \longleftrightarrow f_q \leq 31Hz$$
+\begin{align}
+N = 256 \longleftrightarrow f_q \leq 63Hz \nonumber \\
+N = 512 \longleftrightarrow f_q \leq 31Hz \nonumber
+\end{align}
 
 Only fundamental frequencies in the range of 50-550Hz are considered. This range encompasses the adults and children which are predominantly within 80-300Hz \cite{vandali2005pitch} and it provides some extra range for musical instruments.  In this section it is assumed that $\tilde{f}_0 = f_0$.
 
@@ -1506,7 +1526,7 @@ We first look at different downshift quantizations, all else constant.  This is 
     \caption{$G_k$ Downshift Quatization}\label{fig:g_k_1}
 \end{figure}
 
-Figure~\ref{fig:g_k_2} compares the three different filter orders.  Using a hanning window, the lower order filters have slower rolloffs and better worst case $G_k$.  This doesn't necessarily hold true for adaptive filters.  Provided a high enough desired cutoff that the 128-order filter can achieve this reasonably well, the order becomes irrelevant.
+Figure~\ref{fig:g_k_2} compares the three different filter orders.  Using a hanning window, the lower order filters have slower rolloffs and better worst-case $G_k$.  This doesn't necessarily hold true for adaptive filters.  Provided a high enough desired cutoff that the 128-order filter can achieve this reasonably well, the order becomes irrelevant.
 
 \begin{figure}[!ht]
   \centering
@@ -1636,6 +1656,8 @@ These results suggest that $D_{k,1}$ is the most important measurement, and that
 
 %``Previous CI psychophysical studies investigating the pitch of sinusoidal amplitude-modulated pulse trains have shown considerable variation between subjects in terms of the modulation depths required for reliable discrimination of pitch (McKay et al., 1995; Geurts and Wouters, 2001). On average, modulation depths ranging from 10\% to 40\% of the electrical dynamic range were required, although some subjects required depths of almost 100\%. Converting these values to the acoustic dynamic range coded by the sound processor, which for the Nucleus 24 system is typically 30 dB, indicates that modulation depths in the acoustic signal of approximately 3 to 12 dB are required on average.'' %[pitch_ranking_strategy_compare]
 
+\clearpage
+
 \subsection{Transients}
 
 Time-responses are a bit more difficult to analyze, since there is no standard measurement like decibels that we are familiar with.  We will consider transient responses of the different filter designs and filter orders with three different analyses.
@@ -1676,7 +1698,7 @@ For the worst case, rectangular order 512, more than half the dynamic range is l
     \caption{Transient Input/Output Change}\label{fig:transient_2}
 \end{figure}
 
-As a final perspective on transients, we consider typical instrument attack times.  Figure~\ref{fig:transient_3} shows the shifted attack times of twelve instruments typical attack times.  The vertical scale has no meaning, it is simply for visual clarity.
+As a final perspective on transients, we consider typical instrument attack times.  Figure~\ref{fig:transient_3} shows the shifted attack times of twelve instruments.  The vertical scale has no meaning, it is simply for visual clarity.
 
 What's interesting is that on a log scale, the instruments appear to bunch into two groups.  The slow attack-time group is robust to the distortions of any of these filters.  On the other hand the fast-attack time instruments change dramatically.  For the narrow bandwidth 512 order filters, the smeared guitar output is closer in attack-time to an English horn than itself!
 
@@ -1693,7 +1715,7 @@ What's interesting is that on a log scale, the instruments appear to bunch into 
 
 For the most part the hanning and adaptive filters outperformed rectangular.  The rectangular window's performance on modulation depth makes it essentially unusable.
 
-For coherent gain the worst case us roughly $G_k \leq -3$dB.  From this result it doesn't appear to be an overly critical design consideration.
+For coherent gain the worst case is roughly $G_k \leq -3$dB.  From this result it doesn't appear to be an overly critical design consideration.
 
 For harmonic SIR and modulation depth the critical performance variable was filter order.  To very loosely summarize, order-128 did not perform well for $f_0 < 240$Hz, order 256 did not perform well for $f_0 < 120$Hz and 512 does sufficiently well for the full range considered.
 
@@ -1737,7 +1759,7 @@ max\Big(\frac{2Fs}{N}, 50\Big) \leq \tilde{f}_0 \leq min\Big(\frac{Fs}{2}, 550\B
 
 Choosing $f_s$ is important, since the quantization of $\tilde{f}_0$ is not linearly spaced and becomes worse at higher values of $f_0$.
 
-To be clear that this different sampling rate is only relevant to pitch estimation and not the rest of the envelope extraction process, the pitch estimator sampling rate is defined: $f_{s,pitch}$.  Having $N$ as the filter orders previously considered, $f_{s,pitch}$ is selected for a maximal number of values of $\tilde{f}_0$ within the region of interest.  The designs are shown in table~\ref{table:f0_quantization}.
+To be clear that this different sampling rate is only relevant to pitch estimation and not the rest of the envelope extraction process, the pitch estimator's sampling rate is defined: $f_{s,pitch}$.  Having $N$ as the filter orders previously considered, $f_{s,pitch}$ is selected for a maximal number of values of $\tilde{f}_0$ within the region of interest.  The designs are shown in table~\ref{table:f0_quantization}.
 
 \begin{table}
 \begin{center}
@@ -1768,6 +1790,7 @@ The hanning filter performs slightly better at high $f_0$'s due to narrower filt
     \caption{$SIR_k$, hanning filter and pitch estimate quantization}\label{fig:pitch_sir_k_1}
 \end{figure}
 
+%TODO get rid of "Harmonic SIR" on these figs
 \begin{figure}[!ht]
   \centering
     \includegraphics[width=1\textwidth]{pitch_sir_k_2}
@@ -1805,7 +1828,7 @@ In  figure~\ref{fig:pitch_d_ki_2} there is much better performance for $N = 512$
 \begin{figure}[!ht]
   \centering
     \includegraphics[width=1\textwidth]{pitch_d_ki_2}
-    \caption{$D_{k,1}$, hanning filter and pitch estimate quantizationr}\label{fig:pitch_d_ki_2}
+    \caption{$D_{k,1}$, adaptive filter and pitch estimate quantization}\label{fig:pitch_d_ki_2}
 \end{figure}
 
 Now considering $\pm5$Hz estimation error, figures~\ref{fig:pitch_d_ki_1_error5} and \ref{fig:pitch_d_ki_2_error5} show the same shift right where higher harmonics at low $f_0$'s perform worse.  The adaptive order 512 filter performs the best, being very robust to error.
@@ -1819,14 +1842,14 @@ Now considering $\pm5$Hz estimation error, figures~\ref{fig:pitch_d_ki_1_error5}
 \begin{figure}[!ht]
   \centering
     \includegraphics[width=1\textwidth]{pitch_d_ki_2_error5}
-    \caption{$D_{k,1}$, hanning filter, pitch estimate quantization and $\pm5$Hz estimation error}\label{fig:pitch_d_ki_2_error5}
+    \caption{$D_{k,1}$, adaptive filter, pitch estimate quantization and $\pm5$Hz estimation error}\label{fig:pitch_d_ki_2_error5}
 \end{figure}
 
 Regardless of extraction method there is a fundamental limit on performance with poor pitch estimates.  From all of the above examples, we conclude that performance generally degrades proportional to $k \times \mathrm{error} / f_0$.
 
 \section{Summary}
 
-A lot was covered in this chapter, and now some highlights will be reviewed.  The first finding was that explicit modulation is less artifact prone than induced and more consistently represents the true signal.
+The first finding was that explicit modulation is less artifact prone than induced and more consistently represents the true signal.
 
 Of the three steady-state metrics, coherent gain, $G_k$, did not seem to be a critical design consideration in contrast to the other two.  Additionally, continuous time-variations of $f_0[n]$ did not appear to affect performance significantly.
 
@@ -1848,7 +1871,7 @@ Provided known pitch quantization and an idea of typical estimation error, metri
 
 \chapter{Conclusion}\label{ch:conclusion}
 
-The two focuses of this thesis have been covered in chapters~\ref{ch:envelope_extraction} and \ref{ch:harmonic_envelopes}.  We still have not discussed modulation waveforms or feature selection.  In order to tell a complete story of cochlear implant processing, this chapter will briefly discuss these two topics before discussing implementation considerations and concluding.
+The two focuses of this thesis have been covered in chapters~\ref{ch:envelope_extraction} and \ref{ch:harmonic_envelopes}.  We still have not discussed modulation waveforms or envelope-to-channel allocation and channel selection.  In order to tell a complete story of cochlear implant processing, this chapter will briefly discuss these two topics before discussing implementation considerations and concluding.
 
 \section{Modulation Waveforms}
 %TODO FM or AM refs
@@ -1860,17 +1883,17 @@ Landsberger \cite{landsberger2008effects} investigated the effects of wave shape
 
 %Swanson thesis: ``A high-rate pulse train, modulated on and off at frequency F0, had a higher pitch than a train of pulses at the rate of F0. If amplitude modulation of high-rate pulse trains is to be used to convey pitch, then the shape of the modulating waveform is important: a half-wave shape is better than a square-wave (on-off) shape.''
 
-\section{Feature Selection with Harmonic Envelopes}
+\section{Envelope Selection with Harmonic Envelopes}
 
 Coherent harmonic processing is different from incoherent in two fundamental ways:
 
-1) quality of features extracted
+1) quality of envelopes and TFS extracted
 
-2) feature selection
+2) envelope and TFS selection
 
-While the the focus of this work has been on feature extraction, specifically harmonic envelope extraction, the full picture is not painted without addressing feature selection.  This section will briefly discuss feature selection considerations in coherent harmonic cochlear implant processing.
+While the the focus of this work has been on extraction, specifically harmonic envelope extraction, the full picture is not painted without addressing selection.  This section will briefly discuss selection considerations in coherent harmonic cochlear implant processing.
 
-As mentioned in \ref{ss:ACE}, feature selection is broken in two parts: envelope-to-channel allocation and channel selection.
+As mentioned in \ref{ss:ACE}, selection is broken in two parts: envelope-to-channel allocation and channel selection.
 
 \subsection{Envelope-to-Channel Allocation}
 
@@ -1900,9 +1923,9 @@ Instead, a fixed selection, such as ``always choose channels corresponding to th
 
 One of the major design constraints in a cochlear implant is the fact that it is a low power embedded system.  Overly complicated DSP drains battery life and adds computational load that may be more than the real-time processor can handle.  Furthermore, these systems must be causal.  When combined with lip reading, latency of more than 20ms can be perceived as ``disturbing'' \cite{stone2002tolerable}.
 
-\subsection{Feature Selection Heuristics}
+\subsection{Selection Heuristics}
 
-Feature selection is an important aspect of processing and there appears to be a trade-off between selection of most important features and consistency of stimuli.  In coherent processing there is additional knowledge about the signal from the pitch estimator.  This could be used to improve consistency of feature selection.
+Selection is an important aspect of processing and there appears to be a trade-off between selection of most important information and consistency of stimuli.  In coherent processing there is additional knowledge about the signal from the pitch estimator.  This could be used to improve consistency of selection.
 
 For example, $\tilde{f}_0$ can vary rapidly by small amounts due to vibrato or estimation error.  In the case that a harmonic is close to a Greenwood band boundary, (which channel it is mapped to), it could switch back and forth between channels.  For clarity, imagine a system where $190\mathrm{Hz} < k\tilde{f}_0 \leq 315\mathrm{Hz}$ maps to channel 1 and $315\mathrm{Hz} < k\tilde{f}_0 \leq 440\mathrm{Hz}$ maps to channel 2, but $\tilde{f}_0[n]$ happens to be rapidly switching between 314Hz and 316Hz.  The fundamental will be mapped to a different channel each time this small change in estimate occurs.  Figure~\ref{fig:heuristic_pseudocode} shows pseudocode of a regularizer heuristic that would eliminate this rapid switching at edge cases.
 
@@ -1945,7 +1968,7 @@ where $((*))_N$ denotes circular convolution.  This can then by computed efficie
 
 \subsection{Adaptive Filters using FFT}
 
-Adaptive filter design performed better than rectangular or hanning in most cases, but implementing an adaptive filterbank requires new filter designs at each $f_0$.  Rather than computing new coefficients each processing frame, a bank of windows (lowpass filters) could be stored, and provided $f_0$, an appropriate window is selected for FFT computation.  Depending on memory constraints, a sufficient number of filters could be stored such that a good approximation is available for any value of $f_0$.  The memory demand is not that significant if uniform filters are used, i.e. one window per $f_0$ value.  If these windows satisfy the constraints mentioned in the previous section, better frequency resolution can also be achieved.
+Adaptive filter design, (adaptive bandwidth as a function of $f_0[n]$), performed better than rectangular or hanning in most cases, but implementing an adaptive filterbank requires new filter designs at each $f_0$.  Rather than computing new coefficients each processing frame, a bank of windows (lowpass filters) could be stored, and provided $f_0$, an appropriate window is selected for FFT computation.  Depending on memory constraints, a sufficient number of filters could be stored such that a good approximation is available for any value of $f_0$.  The memory demand is not that significant if uniform filters are used, i.e. one window per $f_0$ value.  If these windows satisfy the constraints mentioned in the previous section, better frequency resolution can also be achieved.
 
 \subsection{Transient Encoding}
 
@@ -1972,17 +1995,17 @@ One solution is to encode harmonic envelopes only for harmonics that would be re
 
 \section{Summary and Future Work}
 
-In this thesis we have investigated both feature extraction and feature selection with respect to cochlear implant processing.  In chapter~\ref{ch:ci_processing} we investigated three strategies, ACE, F0mod and HSSE and found that the key aspects were envelope extraction, temporal fine structure encoding and feature selection.
+In this thesis we have investigated both envelope extraction and selection with respect to cochlear implant processing.  In chapter~\ref{ch:ci_processing} we investigated three strategies, ACE, F0mod and HSSE and found that the key aspects were envelope extraction, temporal fine structure encoding and selection.
 
-In chapter~\ref{ch:envelope_extraction} we investigated different envelope extraction methods and, in doing so, suggested that coherent phase encoding was not worth pursuing.  After comparing envelope extraction methods, a generalized extraction method was defined, such that it encompasses all of the other methods.  Envelope extraction designs were evaluated in chapter \ref{ch:harmonic_envelopes}.  We concluded that explicit temporal modulation is a more robust and less artifact prone method than induced modulation.  In comparison of designs, incoherent STFT processing performed quite well on many metrics; however, some benefits were found for time-varying coherent design.  Chapter~\ref{ch:conclusion} briefly considered feature selection and modulation waveform design.
+In chapter~\ref{ch:envelope_extraction} we investigated different envelope extraction methods and, in doing so, saw the effects of coherent phase encoding.  After comparing envelope extraction methods, a generalized extraction method was defined, such that it encompasses all of the other methods.  Envelope extraction designs were evaluated in chapter \ref{ch:harmonic_envelopes}.  We concluded that explicit temporal modulation is a more robust and less artifact prone method than induced modulation.  In comparison of designs, incoherent STFT processing performed quite well on many metrics; however, some benefits were found for time-varying coherent design.  Chapter~\ref{ch:conclusion} briefly considered selection and modulation waveform design.
 
-We found that steady-state and transient responses of harmonics can vary greatly over designs, and that it is important to design a harmonic envelope extraction system such that it satisfies desired performance within the relevant ranges of $f_0$ and $k$.  Along that same line, it is critical that pitch estimation is accurate and stable.  Small errors can propagate to big errors for high harmonics and issues such as octave errors could cause severe artifacts.
+We found that steady-state and transient responses of harmonics can vary greatly over designs, and that it is important to design a harmonic envelope extraction system such that it satisfies desired performance within the relevant ranges of $f_0$ and $k$.  Infinite impulse response (IIR) filters are a potential solution to achieving sharp filter rolloff in a real-time implementable way; distortions from non-linear phase filters may be too drastic, but this warrants further investigation.  Along that same line, it is critical that pitch estimation is accurate and stable.  Small errors can propagate to big errors for high harmonics and issues such as octave errors could cause severe artifacts.
 
-Feature selection is certainly a big component to harmonic encoding and warrants further research.  This points in the direction of hybrid methods, where harmonic features are selected in some cases and (potentially inharmonic) spectral peaks are selected in others.
+Envelope/channel selection is certainly a big component to harmonic encoding and warrants further research.  This points in the direction of hybrid methods, where harmonic envelopes and TFS are selected in some cases and (potentially inharmonic) spectral peaks are selected in others.
 
 Another direction could be to investigate the effects of phase alignment.  Although we decided not to further investigate coherent phase encoding after section~\ref{section:coherent_phase}, there is still the possibility that this method improves performance.  In a study by Galvin et al. \cite{galvin2015envelope} CI subjects were found to be extremely sensitive to multi-channel amplitude modulation frequency discrimination (AMFD).  One test case had a small enough frequency increment that the change over the duration of stimulation essentially amounted to a $180^\circ$ change in phase.  Even in this case subjects were able to reliably identify the change.
 
-There are certainly many different directions this work could continue in.  F0mod and HSSE are different in both feature extraction and feature selection, representing both incoherent and coherent methods.  A critical question that remains unanswered is which, if either, of these aspects can be improved by coherent processing.  This motivates investigation in separate trials where coherent envelopes are selected incoherently or incoherent envelopes are selected coherently.  Thorough testing with cochlear implant subjects could shine some light on this question.
+There are certainly many different directions this work could continue in.  F0mod and HSSE are different in both extraction and selection, representing both incoherent and coherent methods.  A critical question that remains unanswered is which, if either, of these aspects can be improved by coherent processing.  This motivates investigation in separate trials where coherent envelopes are selected incoherently or incoherent envelopes are selected coherently.  Thorough testing with cochlear implant subjects could shine some light on this question.
 
 
 %
