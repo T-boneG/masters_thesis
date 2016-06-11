@@ -6,8 +6,6 @@
 % hilbert narrow filter issue
 
 
-
-
 %TODO change "order" to "N" in evaluation figs
 
 
@@ -114,7 +112,7 @@
 \Signature{Kaibao Nie}
 \Signature{Tai-Chang Chen}
 
-% \copyrightpage
+\copyrightpage
 
 % \titlepage  
 
@@ -200,7 +198,7 @@ These implicit methods split the audio input into bandpass components and extrac
 
 Strategies such as ACE have achieved high performance on speech recognition in quiet, however performance on more difficult tasks is fundamentally limited.  These strategies use incoherent processing, and as a result subjectively similar signals may produce radically different outputs depending on their interaction with the time-invariant filters.
 
-Alternatively, coherent extraction acquires temporal cues using knowledge about the signal structure to avoid artifact-driven variations in output.
+Alternatively, coherent extraction acquires temporal cues using knowledge about the signal structure to avoid signal processing artifacts in the output.
 
 \begin{figure}[!ht]
   \centering
@@ -581,7 +579,7 @@ This chapter is organized as follows.  First, the incoherent and coherent envelo
 
 \section{Incoherent Methods}
 
-The difference between incoherent and coherent is actually quite simple.  Consider a system $T_k\{\cdot\}$.  If the system is time-invariant then it is incoherent.  If it is time-varying and the way in which it varies is a function of the input, it is called a coherent system.  This is visualized in figure~\ref{fig:incoherent_vs_coherent}.  In coherent methods the input not only passes through the system, it changes the system.
+The difference between incoherent and coherent is actually quite simple.  Consider a system $T_k\{\cdot\}$.  An incoherent system is time-invariant.  Alternatively, a coherent system is time-varying and the way in which it varies is a function of the input.  This is visualized in figure~\ref{fig:incoherent_vs_coherent}.  In coherent methods the input not only passes through the system, it changes the system.
 
 \begin{figure}[!ht]
   \centering
@@ -1484,7 +1482,6 @@ As stated above the design can be summarized by downshift frequency and lowpass 
 
 The designs considered are:
 
-%TODO 5 - list format
 \begin{itemize}
 	\item downshift quantization, $f_q$ - 1, 31, 63, 125Hz
 	\item filter order, $N$ - 128, 256, 512
@@ -1775,7 +1772,6 @@ The hanning filter performs slightly better at high $f_0$'s due to narrower filt
     \caption{$SIR_k$, hanning filter and pitch estimate quantization}\label{fig:pitch_sir_k_1}
 \end{figure}
 
-%TODO get rid of "Harmonic SIR" on these figs
 \begin{figure}[!ht]
   \centering
     \includegraphics[width=1\textwidth]{pitch_sir_k_2}
