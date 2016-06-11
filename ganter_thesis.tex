@@ -5,20 +5,10 @@
 %TODO 1/3 - prove this or describe it better
 % hilbert narrow filter issue
 
-%TODO fix k to (k+1) notation in envelope extraction chaper...or not?
 
-%IDEA - what about putting zeros at multiples of F0 during filter design?
 
-%TODO change triangles to lowercase f0
+
 %TODO change "order" to "N" in evaluation figs
-
-
-%TODO from Jay:
-% "not feature extraction", "implicit"
-
-%TODO check figure labels
-
-%TODO acknowledgements and stuff
 
 
 % 		replace .lof file ========================================================================
@@ -562,7 +552,6 @@ Because of the unique characteristics of each carrier, the carrier synthesis blo
 
 Comparing ACE, F0mod and HSSE, the differences may be summarized by envelope extraction, temporal fine structure (TFS) encoding and envelope and channel selection.  These aspects will each be investigated in the following chapters.  Figure~\ref{fig:document_layout} visualizes the layout of the following chapters.
 
-%TODO get rid of "FEATURE"
 \begin{figure}[!ht]
   \centering
     \includegraphics[width=.7\textwidth]{document_layout}   
@@ -805,7 +794,7 @@ In figure~\ref{fig:real_vs_magnitude_example} a harmonic of a single note on a c
 \begin{figure}[!ht]
   \centering
     \includegraphics[width=1\textwidth]{matlab/real_vs_magnitude_example}   
-    \caption{Coherent Phase Encoding - Cello Example, $(a)$ downshifted filtered harmonic of signal, $(b)$ magitude of $(a)$, $(c)$ $(a)$ modulated up to $f_0$}\label{fig:real_vs_magnitude_example}
+    \caption{Coherent Phase Encoding - Cello Example, $(a)$ downshifted filtered harmonic of signal, $(b)$ magitude of $(a)$, $(c)$ $(a)$ modulated up to 100Hz}\label{fig:real_vs_magnitude_example}
 \end{figure}
 
 %ight: $m^{(2)}_{k,harmonic}[n]}$, bottom left: $y_k^{(2)}[n]$, bottom right: $y_k^{(1)}[n]$
@@ -821,8 +810,7 @@ y_k^{(3)}[n] =& Re\{ 2 m^{(3)}_{k,harmonic}[n] e^{j2\pi f_0 n} \}  \\
 =& A_k[n]cos\Big(2\pi f_0 n + \frac{1}{k}unwrap(\phi_k[n])\Big) \nonumber
 \end{align}
 
-%TODO \tilde{f}_0 = f_0 + f_{err}
-Where $unwrap(\cdot)$ denotes phase unwrapping. Why is the $\frac{1}{k}$ term necessary?  Consider an example where our true pitch estimate is actually $f_{0,ground truth} = \tilde{f}_0 + f_{err}$.  So,
+Where $unwrap(\cdot)$ denotes phase unwrapping. Why is the $\frac{1}{k}$ term necessary?  Consider an example where our true pitch estimate is actually $f_{0} = \tilde{f}_0 + f_{err}$.  So,
 
 \begin{align}
 x_k[n] = A_k[n]cos\Big(2\pi k(\tilde{f}_0 + f_{err})n + \phi_k[n]\Big)
@@ -1126,7 +1114,7 @@ In the next chapter we will investigate encoding harmonics in cochlear implants 
 
 The objective of this chapter is to design an envelope extraction system that best represents harmonic signals.  To do this there must be an ideal envelope to aim for.  A harmonic signal is modeled as  a restricted sum-of-products model.  The carriers are sinusoids centered at multiples of $f_0$. In this representation $x_0[n]$ is the fundamental centered at $f_0$, $x_1[n]$ is the 1st harmonic centered at $2f_0$, etc.  Without loss of generality, the analytic signal will be considered, $x^+[n]$.
 
-%TODO 3 - does this need to be the first version of theta that sums over F0?
+%TODO 3 - does this need to be the first version of theta that sums over F0? technically yes..but it doesn't really matter
 \begin{align}
 \theta_k[n] =& 2\pi(k+1)\frac{f_0[n]}{f_s}n + \phi_k[n] \\
 %\theta_k[n] =& \sum_{p=0}^{n} 2\pi(k+1)\frac{f_0[p]}{f_s} + \phi_k[p] \\
@@ -1457,7 +1445,6 @@ Beyond this example, explicit modulation decouples $f_0$ and modulation depth.  
 \subsection{Followup Filter}
 
 Another thing to note is that regardless of downshift frequency, the harmonic envelope will always have it's energy centered at baseband and integer multiples of $f_0$.  An alternative way of eliminating induced modulations is to add a lowpass filter to the end of the processing chain.  There are a handful of research strategies that have used this additional filter.  The eTone strategy's \cite{vandali2011development} envelope follower is an example of this.
-%TODO 3 - add references here?
 
 The main improvement to a followup filter is that the system can guarantee to eliminate temporal modulations above a certain cutoff frequency.  This could also be achieved by designing a sufficiently narrow filter, $h_k[n]$ however this brings about a trade-off, where the narrower the filter is the more susceptible the system is to error in downshift frequency.
 
@@ -1702,7 +1689,6 @@ As a final perspective on transients, we consider typical instrument attack time
 
 What's interesting is that on a log scale, the instruments appear to bunch into two groups.  The slow attack-time group is robust to the distortions of any of these filters.  On the other hand the fast-attack time instruments change dramatically.  For the narrow bandwidth 512 order filters, the smeared guitar output is closer in attack-time to an English horn than itself!
 
-%TODO 4 - add connecting lines per instrument
 \begin{figure}[!ht]
   \centering
     \includegraphics[width=1\textwidth]{transient_3}
@@ -1731,7 +1717,6 @@ The sharp-cutoff order 512 filters smear the fast transients a significant amoun
 
 The critical assumption thus far has been accurate pitch estimates.  One problem to consider is error in the pitch estimator.  The other analyzed in this thesis is pitch estimator quantization.
 
-%TODO - add pitch estimator ref
 We consider a specific pitch estimator that uses autocorrelation.  First an autocorrelation is performed on the windowed input.  A maxima is selected from this autocorrelation and the fundamental frequency is computed from the index of the maxima.
 
 \begin{align}
@@ -1874,7 +1859,6 @@ Provided known pitch quantization and an idea of typical estimation error, metri
 The two focuses of this thesis have been covered in chapters~\ref{ch:envelope_extraction} and \ref{ch:harmonic_envelopes}.  We still have not discussed modulation waveforms or envelope-to-channel allocation and channel selection.  In order to tell a complete story of cochlear implant processing, this chapter will briefly discuss these two topics before discussing implementation considerations and concluding.
 
 \section{Modulation Waveforms}
-%TODO FM or AM refs
 It is clear that we need to synthesize a carrier at a rate of $f_0$ to temporally modulate the envelopes, but what should this waveform be?  In this thesis we have already mentioned half wave rectified sinusoids and raised sinusoids.
 
 Landsberger \cite{landsberger2008effects} investigated the effects of wave shape on frequency discrimination using classic wave shapes and found similar performance for all tested wave shapes.  Despite this modulation waveform could play into effect and is worth investigation.
@@ -1973,7 +1957,6 @@ Adaptive filter design, (adaptive bandwidth as a function of $f_0[n]$), performe
 \subsection{Transient Encoding}
 
 There is a large body of research on transient detection and explicit encoding \cite{bonada2000automatic}\cite{levine1998sines}\cite{masri1996computer}\cite{masri1996improved} .  This approach could be used to circumvent the trade-off between steady-state envelope extraction and transient smearing.
-%TODO thoroughly read these!
 
 \subsection{Hybrid Methods}
 
